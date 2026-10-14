@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="محاكاة مقياس موهبة للصفين الثالث والرابع - Mawhiba Test Practice - إعداد المدرب محمد رجب">
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>محاكاة مقياس موهبة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: ink-blue header band with saffron seal; exam sheet + side console (stacks on phones). RTL throughout. */
+:root{
+  --bg:#eef1f7; --surface:#ffffff; --panel:#e4e9f3; --line:#d3dae8; --line-2:#b9c3d8;
+  --fg:#18213b; --muted:#5a6684; --ink:#1d2b53; --ink-2:#2c3d70;
+  --accent:#e0a01b; --accent-soft:#fbf0d6; --accent-ink:#6b4a00; --on-ink:#ffffff;
+  --good:#1f8a5a; --good-soft:#dcf2e6; --bad:#c2453a; --bad-soft:#fae2df; --flag:#7a5bc7; --flag-soft:#ece6fa;
+  --f-disp:"Readex Pro","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  --f-body:"IBM Plex Sans Arabic",Tahoma,"Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1322; --surface:#151d31; --panel:#1b2540; --line:#273352; --line-2:#36446a;
+  --fg:#e6eaf5; --muted:#9aa6c4; --ink:#c9d4f2; --ink-2:#2b3a68;
+  --accent:#f0b440; --accent-soft:#3a2f12; --accent-ink:#f6cf7c; --on-ink:#ffffff;
+  --good:#5fd197; --good-soft:#143326; --bad:#f08a80; --bad-soft:#3a1d1b; --flag:#a98cf0; --flag-soft:#2a2245; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1322; --surface:#151d31; --panel:#1b2540; --line:#273352; --line-2:#36446a;
+  --fg:#e6eaf5; --muted:#9aa6c4; --ink:#c9d4f2; --ink-2:#2b3a68;
+  --accent:#f0b440; --accent-soft:#3a2f12; --accent-ink:#f6cf7c; --on-ink:#ffffff;
+  --good:#5fd197; --good-soft:#143326; --bad:#f08a80; --bad-soft:#3a1d1b; --flag:#a98cf0; --flag-soft:#2a2245; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.7}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3{margin:0;font-family:var(--f-disp);line-height:1.3;text-wrap:balance}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+.band{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:#1d2b53;color:#fff}
+.band-in{max-width:1160px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}
+.seal{display:flex;align-items:center;gap:12px}
+.seal i{width:40px;height:40px;border-radius:50%;background:#e0a01b;display:grid;place-items:center;font-style:normal;font-family:var(--f-disp);font-weight:700;color:#1d2b53;font-size:18px;flex:none}
+.seal b{display:block;font-family:var(--f-disp);font-size:18px;line-height:1.2}
+.seal small{display:block;font-size:12.5px;opacity:.85}
+.bclock{font-family:var(--f-num);font-size:20px;background:rgba(255,255,255,.1);padding:4px 14px;border-radius:999px}
+.bclock.low{background:#c2453a}
+.seal{background:none;border:0;color:inherit;padding:0;text-align:start;cursor:pointer}
+.bar-end{display:flex;align-items:center;gap:10px}
+.homebtn{display:inline-flex;align-items:center;gap:6px;background:#e0a01b;color:#1d2b53;border:0;border-radius:999px;padding:6px 14px;font-weight:700;font-size:14px}
+.langbtn{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;font-weight:600;font-size:14px}
+.langpick{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.langs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.langs button{background:var(--surface);border:2px solid var(--line-2);border-radius:14px;padding:26px 18px;display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center}
+.langs button:hover{border-color:var(--accent);background:var(--accent-soft)}
+.langs b{font-family:var(--f-disp);font-size:26px;color:var(--ink)}
+.langs span{color:var(--muted);font-size:14.5px}
+@media (max-width:480px){.langs{grid-template-columns:1fr}}
+.tel{color:var(--fg);font-weight:600;font-family:var(--f-num)}
+.contact{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:10px;font-size:14.5px}
+.contact a{color:#fff;font-family:var(--f-num);font-weight:600;background:rgba(255,255,255,.12);padding:3px 12px;border-radius:999px;text-decoration:none}
+.err{color:var(--bad);font-size:14px;font-weight:600}
+.field input.bad{border-color:var(--bad);box-shadow:0 0 0 2px var(--bad-soft)}
+.namebox{background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:14px}
+
+/* login */
+.login{max-width:440px;margin:0 auto}
+.logincard{display:flex;flex-direction:column;gap:14px;text-align:center}
+.logincard h1{font-size:26px}
+.logincard form{display:flex;flex-direction:column;gap:14px;text-align:start}
+.seal-big{width:64px;height:64px;border-radius:50%;background:#1d2b53;color:#e0a01b;display:grid;place-items:center;margin:0 auto;font-family:var(--f-disp);font-size:28px;font-weight:700}
+.pw{display:flex;gap:8px}.pw input{flex:1;min-width:0}
+.pw button{border:1px solid var(--line-2);background:var(--panel);color:var(--fg);border-radius:10px;padding:0 14px;font-size:14px;font-weight:600}
+.small{font-size:13.5px;margin:0}
+.who-box b{font-family:var(--f-disp);font-size:21px;display:block;color:var(--ink)}
+.kids{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.kids button{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:6px 14px;font-weight:600}
+.kids button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#1d2b53}
+.boot{display:flex;flex-direction:column;align-items:center;gap:14px;padding-block:64px;color:var(--muted);text-align:center}
+.spin{width:38px;height:38px;border:4px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+
+/* certificate */
+.cert-wrap{max-width:760px;width:100%;max-height:92vh;overflow:auto;display:flex;flex-direction:column;gap:12px}
+.cert{background:#fffdf7;color:#1d2b53;border:3px solid #1d2b53;outline:6px solid #e0a01b;outline-offset:-14px;border-radius:6px;padding:44px 40px;text-align:center;font-family:var(--f-body);position:relative}
+.cert .ct{font-family:var(--f-disp);font-size:clamp(26px,5vw,40px);font-weight:700;margin:6px 0 4px}
+.cert .sub{font-size:15px;color:#5a6684}
+.cert .nm{font-family:var(--f-disp);font-size:clamp(24px,5vw,34px);font-weight:700;color:#b07b0a;border-bottom:2px dashed #e0a01b;display:inline-block;padding:0 18px 4px;margin:10px 0}
+.cert p{margin:6px 0;font-size:17px;line-height:1.9}
+.cert table{margin:12px auto;border-collapse:collapse;font-size:14.5px}
+.cert td,.cert th{border:1px solid #c9b98a;padding:4px 12px}
+.cert th{background:#f6eccf}
+.cert .sig{display:flex;justify-content:space-between;gap:16px;margin-top:26px;font-size:14.5px;flex-wrap:wrap}
+.cert .sig div{min-width:150px}
+.cert .sig b{display:block;font-family:var(--f-disp);font-size:16px}
+.cert .medal{width:64px;height:64px;margin:0 auto;border-radius:50%;background:#e0a01b;display:grid;place-items:center;font-family:var(--f-disp);font-weight:700;font-size:26px;color:#1d2b53;box-shadow:0 0 0 6px #fbf0d6}
+#printcert{display:none}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  body{background:#fff!important}
+  body>*:not(#printcert){display:none!important}
+  #printcert{display:block!important}
+  .cert{outline-offset:-14px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.wrap{max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:24px 48px}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.btn{border:0;border-radius:10px;padding:12px 22px;font-weight:600;background:var(--ink-2);color:var(--on-ink)}
+:root:not([data-theme="dark"]) .btn:not(.gold):not(.line):not(.bad){background:#1d2b53}
+.btn.gold{background:var(--accent);color:#1d2b53}
+.btn.line{background:transparent;color:var(--fg);border:1px solid var(--line-2)}
+.btn.bad{background:var(--bad);color:#fff}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+
+/* start */
+.start{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.hero{background:#1d2b53;color:#fff;border-radius:14px;padding:28px 24px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset-inline-start:-60px;bottom:-60px;width:200px;height:200px;border-radius:50%;border:28px solid rgba(224,160,27,.35)}
+.hero h1{font-size:clamp(26px,5vw,36px)}
+.hero p{margin:8px 0 0;max-width:52ch;opacity:.9}
+.hero .by{display:inline-block;margin-top:14px;background:#e0a01b;color:#1d2b53;font-weight:700;padding:4px 14px;border-radius:999px;font-size:14px}
+.facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.fact b{display:block;font-family:var(--f-num);font-size:24px;color:var(--ink)}
+.fact span{font-size:13.5px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label,.lab{font-weight:600;font-size:14px;color:var(--muted)}
+.field input{font:inherit;padding:12px 14px;border:1px solid var(--line-2);border-radius:10px;background:var(--surface);color:var(--fg)}
+.parts{display:flex;flex-direction:column;gap:14px}
+.part h3{font-size:14.5px;color:var(--muted);font-weight:600;margin-bottom:6px}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.modes button{border:1px solid var(--line-2);background:var(--surface);border-radius:10px;padding:10px 8px;text-align:center;line-height:1.4}
+.modes button b{display:block;font-size:15px}
+.modes button span{font-size:12.5px;color:var(--muted)}
+.modes button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.rules{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:4px;color:var(--muted)}
+
+/* exam */
+.exam{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.qn{font-family:var(--f-disp);font-weight:700;font-size:18px;color:var(--ink)}
+.sec{font-size:13px;font-weight:600;padding:3px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink)}
+.stem{font-size:19px;font-weight:600;line-height:1.8;display:flex;flex-direction:column;gap:14px;min-width:0}
+.stem p{margin:0}
+.passage{background:var(--panel);border-inline-start:4px solid var(--accent);border-radius:8px;padding:12px 16px;font-weight:400;font-size:16.5px}
+.passage b{display:block;font-size:13px;color:var(--muted)}
+.emo{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:40px;line-height:1.1;display:inline-block}
+.ana{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.ana span{min-width:64px;min-height:64px;border:1px solid #d3dae8;border-radius:10px;display:grid;place-items:center;font-family:var(--f-disp);font-size:28px;padding:4px}
+.ana span .emo{font-size:44px}
+.ana b{font-size:24px;color:#5a6684}
+@media (max-width:480px){.ana{gap:4px;flex-wrap:nowrap}.ana span{min-width:52px;min-height:52px;font-size:22px;padding:2px}.ana span .emo{font-size:32px}.ana b{font-size:18px}}
+.fig{background:#fff;color:#1d2b53;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto}
+.fig svg{display:block;margin:0 auto;max-width:100%;height:auto}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.opts.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:start;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:10px 14px;font-size:18px;min-height:56px}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt .L{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--panel);font-family:var(--f-disp);font-weight:700;color:var(--ink)}
+.opt .c{min-width:0}
+.opt .c svg{display:block;height:74px;width:auto;max-width:100%;background:#fff;border-radius:8px;color:#1d2b53}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-checked="true"] .L{background:var(--accent);color:#1d2b53}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.ok .L{background:var(--good);color:#fff}
+.opt.no{border-color:var(--bad);background:var(--bad-soft)} .opt.no .L{background:var(--bad);color:#fff}
+.opt .tag{margin-inline-start:auto;font-size:13px;font-weight:700;white-space:nowrap}
+.opt[disabled]{cursor:default}
+.nav{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.flagrow{display:inline-flex;gap:8px;align-items:center;margin-top:16px;color:var(--muted);cursor:pointer}
+.flagrow input{width:20px;height:20px;accent-color:var(--flag)}
+
+.console{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px;position:sticky;top:84px}
+.who{display:flex;align-items:center;gap:10px}
+.who i{width:42px;height:42px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-style:normal;font-weight:700;color:var(--ink);flex:none}
+.tally{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;font-size:12.5px;color:var(--muted)}
+.tally b{display:block;font-family:var(--f-num);font-size:20px;color:var(--fg)}
+.pal{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px}
+.pal button{position:relative;border:1px solid var(--line-2);background:var(--surface);border-radius:8px;padding:6px 0;font-family:var(--f-num);font-size:13.5px}
+.pal button.a{background:var(--ink-2);border-color:var(--ink-2);color:#fff}
+:root:not([data-theme="dark"]) .pal button.a{background:#1d2b53;border-color:#1d2b53}
+.pal button.f::after{content:"";position:absolute;top:2px;left:2px;width:7px;height:7px;border-radius:50%;background:var(--flag)}
+.pal button.cur{box-shadow:0 0 0 2px var(--accent)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.legend i{width:11px;height:11px;border-radius:3px;border:1px solid var(--line-2)}
+
+.modal{position:fixed;inset:0;z-index:30;background:rgba(8,12,24,.6);display:grid;place-items:center;padding:16px}
+.modal .sheet{max-width:520px;width:100%}
+.modal h2{font-size:21px;margin-bottom:8px}
+
+/* figure helpers */
+.seq{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;font-family:var(--f-disp);font-size:24px}
+.seq svg{height:78px;width:auto}
+.ntab{border-collapse:collapse;margin:0 auto;font-family:var(--f-num);font-size:18px}
+.ntab td,.ntab th{border:1px solid #9aa6c4;padding:6px 12px;text-align:center;min-width:44px}
+.ntab th{font-family:var(--f-body);font-size:14px;background:#eef1f7}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px}
+.pyr div{display:flex;gap:6px}
+.pyr span{width:46px;height:38px;border:2px solid #1d2b53;border-radius:8px;display:grid;place-items:center;font-family:var(--f-num);font-size:17px}
+.mx{display:grid;grid-template-columns:repeat(3,76px);justify-content:center}
+.mx>div{width:76px;height:76px;border:1px solid #9aa6c4;display:grid;place-items:center;font-family:var(--f-disp);font-size:26px}
+.mx svg{width:58px;height:58px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{background:var(--bad-soft);color:var(--bad);padding:4px 12px;border-radius:999px;font-size:14px;font-weight:600}
+
+/* results */
+.res{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.score{display:grid;grid-template-columns:170px 1fr;gap:24px;align-items:center}
+.ring{width:170px;height:170px}
+.bars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.barc{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface)}
+.barc .t{display:flex;justify-content:space-between;font-weight:600}
+.bar{height:9px;border-radius:9px;background:var(--panel);margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:9px}
+.filt{display:flex;gap:8px;flex-wrap:wrap}
+.filt button{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:7px 16px;font-weight:600;font-size:14px}
+.filt button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#1d2b53}
+.rq{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px;min-width:0}
+.rq .meta{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:10px}
+.rq .stem{font-size:16.5px}
+.rq .opts{gap:8px;margin-top:12px}
+.rq .opt{font-size:16px;min-height:0;padding:8px 12px}
+.rq .opt .L{width:30px;height:30px}
+.why{margin-top:12px;background:var(--panel);border-radius:10px;padding:10px 14px;font-size:15.5px}
+.why b{color:var(--accent-ink)}
+.foot{text-align:center;color:var(--muted);font-size:13.5px;padding:0 16px 28px}
+.foot b{color:var(--fg)}
+
+@media (max-width:860px){
+  .exam{grid-template-columns:1fr}
+  .console{position:static;order:-1}
+  .pal{grid-template-columns:repeat(10,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .modes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opts.grid{grid-template-columns:1fr}
+  .score{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .bars{grid-template-columns:1fr}
+  .pal{grid-template-columns:repeat(8,minmax(0,1fr))}
+  .sheet{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div dir="rtl" lang="ar" id="root">
+<header class="band">
+  <div class="band-in">
+    <button class="seal" id="homeLogo" type="button"><i>م</i><div><b id="brandTitle">محاكاة مقياس موهبة</b><small><span id="brandSub">إعداد المدرب: محمد رجب</span></small></div></button>
+    <div class="bar-end">
+      <div class="bclock" id="bclock" hidden>25:00</div>
+      <button class="langbtn" id="langBtn" type="button" hidden>English</button>
+      <button class="langbtn" id="outBtn" type="button" hidden>خروج</button>
+      <button class="homebtn" id="homeBtn" type="button" hidden><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg><span id="homeLbl">الرئيسية</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+<div id="gmodal"></div>
+
+<footer class="foot" id="foot"></footer>
+</div>
+
+<script>
+// ================= figure helpers =================
+const T = (x,y,t,fs=18)=>`<text x="${x}" y="${y}" text-anchor="middle" font-size="${fs}" fill="currentColor" stroke="none" font-family="IBM Plex Mono,Readex Pro,Tahoma,sans-serif">${t}</text>`;
+const S = (w,h,inner)=>`<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${inner}</svg>`;
+const GOLD='#e0a01b', GOLDF='#e0a01b55', INK='#1d2b53';
+const gridR = (cols,rows,c=46)=>{let s='';for(let i=0;i<=cols;i++)s+=`<line x1="${8+i*c}" y1="8" x2="${8+i*c}" y2="${8+rows*c}"/>`;for(let j=0;j<=rows;j++)s+=`<line x1="8" y1="${8+j*c}" x2="${8+cols*c}" y2="${8+j*c}"/>`;return S(cols*c+16,rows*c+16,s)};
+const arrow = deg=>S(90,90,`<g transform="rotate(${deg} 45 45)"><path d="M45 74 V18 M27 35 L45 16 L63 35" stroke-width="6"/></g>`);
+const poly = (n,fill=GOLD+'33')=>{const p=[];for(let i=0;i<n;i++){const a=-Math.PI/2+i*2*Math.PI/n;p.push((45+33*Math.cos(a)).toFixed(1)+','+(45+33*Math.sin(a)).toFixed(1));}return S(90,90,`<polygon points="${p.join(' ')}" fill="${fill}"/>`)};
+const flag = t=>S(100,100,`<g transform="${t}"><path d="M35 85 V15 H70 M35 47 H60" stroke-width="7"/></g>`);
+const pee  = t=>S(100,100,`<g transform="${t}"><path d="M35 85 V15 H68 V48 H35" stroke-width="7"/></g>`);
+const seq = (items)=>`<div class="seq">${items.join('')}</div>`;
+const sep = t=>`<span>${t}</span>`;
+const net = (cells,labels)=>{const c=40;let mx=0,my=0;cells.forEach(([x,y])=>{mx=Math.max(mx,x);my=Math.max(my,y)});let s='';cells.forEach(([x,y],i)=>{s+=`<rect x="${6+x*c}" y="${6+y*c}" width="${c}" height="${c}" fill="${GOLD}22"/>`;if(labels)s+=T(6+x*c+c/2,6+y*c+c/2+8,labels[i],22);});return S((mx+1)*c+12,(my+1)*c+12,s)};
+// shapes for matrices: kind c/s/t, style o (outline) f (filled) d (outline + dot)
+const shp = (k,st)=>{const f=st==='f'?INK:'none';let g=k==='c'?`<circle cx="30" cy="30" r="22" fill="${f}"/>`:k==='s'?`<rect x="9" y="9" width="42" height="42" fill="${f}"/>`:`<path d="M30 7 L53 50 H7 Z" fill="${f}"/>`;if(st==='d')g+=`<circle cx="30" cy="${k==='t'?36:30}" r="5" fill="${GOLD}" stroke="none"/>`;return S(60,60,g)};
+const dots = (n,k='s')=>{const pos=[[30,30],[18,18,42,42],[16,16,30,30,44,44],[18,18,42,18,18,42,42,42],[16,16,44,16,30,30,16,44,44,44],[18,14,42,14,18,30,42,30,18,46,42,46]];const p=n===1?[30,30]:pos[n-1];let s=k==='s'?`<rect x="5" y="5" width="50" height="50"/>`:`<circle cx="30" cy="30" r="26"/>`;for(let i=0;i<p.length;i+=2)s+=`<circle cx="${p[i]}" cy="${p[i+1]}" r="5" fill="${INK}" stroke="none"/>`;return S(60,60,s)};
+const mx = cells=>`<div class="mx">${cells.map(c=>`<div>${c}</div>`).join('')}</div>`;
+const numTri = (t,l,r,c)=>S(150,140,`<path d="M75 12 L140 128 H10 Z"/>`+T(75,36,t)+T(28,120,l)+T(122,120,r)+T(75,95,c,22));
+const numCirc = (t,l,r)=>S(120,120,`<circle cx="60" cy="60" r="52"/><path d="M8 60 H112 M60 60 V112"/>`+T(60,45,t,20)+T(38,92,l,20)+T(82,92,r,20));
+const tab = (head,rows)=>`<table class="ntab">${head?`<tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr>`:''}${rows.map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join('')}</tr>`).join('')}</table>`;
+const pyr = rows=>`<div class="pyr">${rows.map(r=>`<div>${r.map(v=>`<span>${v}</span>`).join('')}</div>`).join('')}</div>`;
+const pie = (n,miss)=>{let s='';const cx=80,cy=80,r=66;for(let i=0;i<n-miss;i++){const a1=-Math.PI/2+i*2*Math.PI/n,a2=a1+2*Math.PI/n;s+=`<path d="M${cx} ${cy} L${(cx+r*Math.cos(a1)).toFixed(1)} ${(cy+r*Math.sin(a1)).toFixed(1)} A${r} ${r} 0 0 1 ${(cx+r*Math.cos(a2)).toFixed(1)} ${(cy+r*Math.sin(a2)).toFixed(1)} Z" fill="${GOLD}66"/>`;}return S(160,160,s)};
+const moon = k=>{const cx=40,cy=40,r=32;let lit='';if(k==='full')lit=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${GOLD}" stroke="none"/>`;else if(k!=='new'){const rx=k==='half'?0.01:r*0.55,sw=k==='gib'?1:0;lit=`<path d="M${cx} ${cy-r} A${r} ${r} 0 0 1 ${cx} ${cy+r} A${rx} ${r} 0 0 ${sw} ${cx} ${cy-r} Z" fill="${GOLD}" stroke="none"/>`;}return S(80,80,`<circle cx="${cx}" cy="${cy}" r="${r}" fill="#2b3550"/>${lit}<circle cx="${cx}" cy="${cy}" r="${r}" stroke-width="2"/>`)};
+
+// specific figures
+const triA = S(200,170,`<path d="M100 15 L185 155 H15 Z"/><path d="M100 15 L72 155 M100 15 L128 155"/>`);
+const triB = S(200,170,`<path d="M100 15 L185 155 H15 Z"/><path d="M100 15 V155 M57.5 85 H142.5"/>`);
+const triC = S(200,170,`<path d="M100 15 L185 155 H15 Z"/><path d="M57.5 85 H142.5 L100 155 Z"/>`);
+const sqX  = S(160,160,`<rect x="10" y="10" width="140" height="140"/><path d="M10 10 L150 150 M150 10 L10 150"/>`);
+const frac8 = S(170,170,`<rect x="5" y="5" width="160" height="160"/><path d="M85 5 V165 M5 85 H165"/><path d="M85 5 H165 L85 85 Z" fill="${GOLD}88"/><path d="M85 85 L165 5"/>`);
+const area20 = S(170,170,`<path d="M5 85 H85 V165 H5 Z" fill="${GOLD}88" stroke="none"/><path d="M5 5 H45 V45 H5 Z" fill="${GOLD}88" stroke="none"/><rect x="5" y="5" width="160" height="160"/><path d="M85 5 V165 M5 85 H165 M45 5 V85 M5 45 H85"/>`);
+const gears3 = S(330,120,`<circle cx="60" cy="60" r="44" stroke-dasharray="7 4"/><circle cx="165" cy="60" r="30" stroke-dasharray="7 4"/><circle cx="270" cy="60" r="44" stroke-dasharray="7 4"/>`+T(60,67,'أ',22)+T(165,67,'ب',22)+T(270,67,'ج',22)+`<path d="M30 20 A50 50 0 0 1 90 20" stroke="#c2453a"/><path d="M82 12 L90 20 L80 27" stroke="#c2453a"/>`);
+
+// ================= question bank =================
+// correct answer is always written first; options are reordered on display
+const PARTS=[{k:'K',name:'الجزء الكمي'},{k:'R',name:'المرونة العقلية'},{k:'U',name:'جزء العلوم'}];
+const MODELS=[
+ {n:1,p:'K',name:'النموذج الأول'},{n:2,p:'K',name:'النموذج الثاني'},
+ {n:3,p:'R',name:'النموذج الثالث'},{n:4,p:'R',name:'النموذج الرابع'},{n:5,p:'R',name:'النموذج الخامس'},
+ {n:6,p:'U',name:'النموذج السادس'},{n:7,p:'U',name:'النموذج السابع'}
+];
+const B={1:[
+ ['السرعة والزمن','تقرأ هند 9 صفحات في 15 دقيقة. كم صفحة تقرأ في ساعة كاملة بالسرعة نفسها؟',['36','27','45','30'],'الساعة = 60 دقيقة = 4 × 15، إذن 4 × 9 = 36 صفحة.'],
+ ['التناسب','اشترى سالم 4 علب عصير بـ 24 ريالًا، ثم دفع 54 ريالًا ثمن علب من النوع نفسه. كم علبة اشترى في المرة الثانية؟',['9','8','10','12'],'ثمن العلبة 24 ÷ 4 = 6 ريالات، و 54 ÷ 6 = 9 علب.'],
+ ['المحيط','سلك طوله 26 سم صُنع منه مستطيل عرضه 5 سم. كم طول المستطيل؟',['8 سم','16 سم','21 سم','11 سم'],'نصف المحيط = 13 سم، والطول = 13 − 5 = 8 سم.'],
+ ['مسائل الشراء','ثمن حقيبة ومقلمة معًا 85 ريالًا، وثمن حقيبتين 140 ريالًا. كم ثمن المقلمة؟',['15 ريالًا','25 ريالًا','70 ريالًا','55 ريالًا'],'ثمن الحقيبة 140 ÷ 2 = 70، والمقلمة = 85 − 70 = 15 ريالًا.'],
+ ['الموازين','في الميزان الأول كانت الكرة (أ) أثقل من (ب)، وفي الميزان الثاني كانت (ب) أثقل من (ج). أي الكرات أخفها؟',['ج','أ','ب','لا يمكن التحديد'],'أ > ب و ب > ج، إذن ج هي الأخف.'],
+ ['المحيط','مستطيل مكوّن من مربعين متطابقين متجاورين، طول ضلع كل مربع 5 سم. ما محيط المستطيل؟',['30 سم','40 سم','25 سم','20 سم'],'أبعاد المستطيل 10 × 5، ومحيطه 10 + 5 + 10 + 5 = 30 سم.'],
+ ['التناسب','اشترت ريم 6 أقلام بـ 18 ريالًا. كم تدفع ثمن 15 قلمًا من النوع نفسه؟',['45','54','36','30'],'ثمن القلم 3 ريالات، و 15 × 3 = 45.'],
+ ['منزلة الآحاد','ما رقم الآحاد في ناتج: 37 × 52 × 19؟',['6','4','8','2'],'نضرب الآحاد فقط: 7 × 2 = 14 (آحاده 4)، ثم 4 × 9 = 36 (آحاده 6).'],
+ ['عدّ المثلثات','كم مثلثًا في الشكل؟',['6','3','5','4'],'3 مثلثات صغيرة + 2 من مثلثين متجاورين + المثلث الكبير = 6.',{fig:triA}],
+ ['الأيام','إذا كان بعد غدٍ يوم الاثنين، فما اليوم الذي كان قبل أمس؟',['الخميس','الجمعة','الأربعاء','السبت'],'بعد غدٍ الاثنين يعني أن اليوم السبت، وقبل أمس هو الخميس.'],
+ ['الكسور','قُسمت كعكة إلى 8 قطع متساوية كما في الشكل. كم قطعة أُكلت منها؟',['3','5','4','2'],'تظهر في الشكل 5 قطع من 8، فالمأكول 8 − 5 = 3 قطع.',{fig:pie(8,3)}],
+ ['المكعبات الملونة','لُصقت 6 مكعبات صغيرة في صف واحد، ثم لُوّن الشكل كله من الخارج بما فيه قاعدته. كم مكعبًا لُوّن منه 4 أوجه فقط؟',['4','6','2','5'],'المكعبان في الطرفين لُوّن من كل منهما 5 أوجه، والمكعبات الأربعة في الوسط لُوّن من كل منها 4 أوجه.'],
+ ['العروض','ثمن علبة البسكويت ريالان، وفي عرض خاص: كل 4 علب بـ 6 ريالات. كم علبة يمكن شراؤها بـ 20 ريالًا؟',['13','12','10','14'],'3 عروض = 18 ريالًا = 12 علبة، ويبقى ريالان لعلبة واحدة: 13 علبة.'],
+ ['المتتابعات','ما الحد التالي؟  3 ، 4 ، 6 ، 9 ، 13 ، ......',['18','17','19','20'],'الفروق 1، 2، 3، 4 ثم 5، إذن 13 + 5 = 18.'],
+ ['النقاط','في لعبة رمي السهام: الدائرة الداخلية 5 نقاط والخارجية نقطتان. أصاب سامي الداخلية 3 مرات والخارجية مرتين. كم مجموع نقاطه؟',['19','17','21','15'],'3 × 5 + 2 × 2 = 15 + 4 = 19.'],
+ ['الظل والتناسب','عمود طوله 2 م ظله 3 م، وفي الوقت نفسه كان ظل شجرة 12 م. كم طول الشجرة؟',['8 م','18 م','6 م','10 م'],'الظل أطول من الجسم بنسبة 3 إلى 2، و 12 ÷ 3 × 2 = 8 م.'],
+ ['الأيام','لدى قطة 15 قطعة طعام، تأكل منها 3 قطع يوميًا. إذا أكلت آخر قطعة يوم الجمعة، ففي أي يوم بدأت؟',['الاثنين','الأحد','الثلاثاء','السبت'],'15 ÷ 3 = 5 أيام تنتهي الجمعة: الاثنين، الثلاثاء، الأربعاء، الخميس، الجمعة.'],
+ ['الأعمار','عمر سامي 7 سنوات، وأخته أكبر منه بـ 3 سنوات، وأخوه أصغر منه بسنتين. ما مجموع أعمار الثلاثة؟',['22','21','24','19'],'7 + 10 + 5 = 22.'],
+ ['تكوين الأعداد','كم عددًا من رقمين مختلفين يمكن تكوينه من الأرقام 2 و 5 و 7؟',['6','9','3','4'],'25، 27، 52، 57، 72، 75 = 6 أعداد.'],
+ ['معادلات الأشياء','إذا كان ثمن كرتين يساوي ثمن سيارة لعبة، وثمن السيارة والكرة معًا 30 ريالًا، فكم ثمن الكرة؟',['10 ريالات','15 ريالًا','20 ريالًا','5 ريالات'],'السيارة + الكرة = 3 كرات = 30، إذن الكرة = 10 ريالات.']
+],2:[
+ ['شجرة الضرب','إذا كان: س × 4 = 20، و 20 × ص = 100، فما قيمتا س و ص على الترتيب؟',['5 ، 5','4 ، 5','5 ، 4','16 ، 80'],'س = 20 ÷ 4 = 5، و ص = 100 ÷ 20 = 5.'],
+ ['قابلية القسمة','ما أصغر رقم يوضع في الفراغ ليقبل العدد 52□4 القسمة على 3؟',['1','0','2','4'],'مجموع الأرقام 5 + 2 + 4 = 11، وأقرب مضاعف للعدد 3 هو 12، إذن الرقم 1.'],
+ ['العمل والزمن','يُنجز عامل عملًا في 4 أيام بمعدل 6 ساعات يوميًا. كم ساعة يعمل يوميًا ليُنجزه في 3 أيام؟',['8','9','7','6'],'العمل كله 4 × 6 = 24 ساعة، و 24 ÷ 3 = 8 ساعات يوميًا.'],
+ ['تحويل الوحدات','2 م + 50 سم + 300 ملم = ',['280 سم','253 سم','352 سم','350 سم'],'2 م = 200 سم، و 300 ملم = 30 سم، والمجموع 200 + 50 + 30 = 280 سم.'],
+ ['الوحدة المختلفة','القياس المختلف عن الثلاثة الأخرى هو:',['2 لتر','4 كجم','300 جرام','5 طن'],'الكيلوجرام والجرام والطن وحدات كتلة، أما اللتر فوحدة سعة.'],
+ ['الكسور','في فصل 32 طالبًا، نصفهم يحب كرة القدم، وربعهم يحب السباحة، والباقون يحبون الجري. كم طالبًا يحب الجري؟',['8','16','4','12'],'النصف 16 والربع 8، والباقي 32 − 24 = 8.'],
+ ['التفكير المنطقي','صندوق فيه 10 بطاقات. في كل مرة تسحب بطاقتين ثم تُعيد بطاقة واحدة. بعد كم مرة يبقى في الصندوق بطاقة واحدة فقط؟',['9','10','5','8'],'كل مرة يقل العدد بطاقة واحدة، ومن 10 إلى 1 نحتاج 9 مرات.'],
+ ['الكسور','ما الكسر الذي يمثل الجزء المظلل من الشكل كاملًا؟',['1/8','1/4','1/2','1/6'],'المربع مقسوم إلى 4 أرباع، والمظلل نصف ربع، أي 1/8.',{fig:frac8}],
+ ['المسافة','تسقط كرة من ارتفاع 32 م، وكلما لامست الأرض ارتدت إلى نصف ارتفاعها السابق. ما المسافة الكلية التي تقطعها حتى تلامس الأرض للمرة الثالثة؟',['80 م','56 م','64 م','72 م'],'32 نزولًا، ثم 16 صعودًا و 16 نزولًا، ثم 8 و 8: المجموع 80 م.'],
+ ['المضاعف المشترك','يزور علي جدته كل 4 أيام، وتزورها أخته كل 6 أيام. التقيا عندها اليوم، فبعد كم يومًا يلتقيان مرة أخرى؟',['12','24','10','6'],'أصغر عدد يقبل القسمة على 4 و 6 هو 12.'],
+ ['مجموع الأعداد','ما مجموع الأعداد من 1 إلى 20؟',['210','200','220','190'],'نجمع الأزواج: (1 + 20) = 21، وعددها 10 أزواج: 21 × 10 = 210.'],
+ ['الكسور','في مكتبة 24 كتابًا: ثلثها قصص، و 5 كتب علوم، والباقي كتب رياضيات. كم كتاب رياضيات فيها؟',['11','13','8','16'],'القصص 8، إذن 24 − 8 − 5 = 11.'],
+ ['الأختام','لدى ماجد 10 أختام، كل ختم يطبع رقمًا من 0 إلى 9. كم ختمًا مختلفًا يحتاج لطباعة العدد 2025؟',['3','4','2','5'],'العدد يتكون من الأرقام 2 و 0 و 5 فقط.'],
+ ['المساواة','في الحوض الأول 17 سمكة وفي الثاني 5 أسماك. كم سمكة تُنقل من الأول إلى الثاني ليتساوى العددان؟',['6','12','11','8'],'المجموع 22، ولكل حوض 11، إذن ننقل 17 − 11 = 6.'],
+ ['العمليات العكسية','ضربنا عددًا في 3 ثم أضفنا 5 فكان الناتج 32. ما العدد؟',['9','11','8','12'],'نعكس: 32 − 5 = 27، ثم 27 ÷ 3 = 9.'],
+ ['الرؤوس والأرجل','في حظيرة دجاج وأرانب، عدد رؤوسها 12 وعدد أرجلها 34. كم أرنبًا فيها؟',['5','7','6','4'],'لو كانت كلها دجاجًا لكانت الأرجل 24، والزيادة 10 أرجل، ولكل أرنب رجلان زائدتان: 5 أرانب.'],
+ ['المضاعفة','ادخر خالد ريالين يوم الأحد، وفي كل يوم يدخر ضعف ما ادخره في اليوم السابق. في أي يوم يصبح مجموع ما ادخره 62 ريالًا؟',['الخميس','الأربعاء','الجمعة','الثلاثاء'],'2 + 4 + 8 + 16 + 32 = 62، وهي 5 أيام من الأحد إلى الخميس.'],
+ ['مقارنة الكسور','أي الكسور التالية أكبر من 1/2؟',['5/8','3/8','2/6','4/10'],'نصف 8 هو 4، و 5/8 أكبر منه. أما الكسور الأخرى فأصغر من النصف.'],
+ ['عدّ المثلثات','كم مثلثًا في الشكل؟',['6','4','5','8'],'في الجزء العلوي 3 مثلثات (صغيران وثالث يجمعهما)، وفي الشكل كاملًا 3 مثلثات (نصفان والكبير).',{fig:triB}],
+ ['النقود','معك 3 أوراق من فئة 10 ريالات و 4 قطع من فئة الريال. اشتريت لعبة بـ 27 ريالًا. كم بقي معك؟',['7 ريالات','3 ريالات','13 ريالًا','6 ريالات'],'معك 34 ريالًا، و 34 − 27 = 7.']
+],3:[
+ ['العدد المختلف','أي الأعداد التالية مختلف عن البقية؟',['42','16','25','36'],'16 و 25 و 36 أعداد مربعة (4×4، 5×5، 6×6)، أما 42 فليس كذلك.'],
+ ['الشكل المختلف','أي الأشكال التالية مختلف عن البقية؟',[flag('translate(100 0) scale(-1 1)'),flag(''),flag('rotate(90 50 50)'),flag('rotate(180 50 50)')],'ثلاثة أشكال هي الشكل نفسه بعد تدويره، أما المختلف فهو صورته في المرآة.',{figOpts:true}],
+ ['علاقة الأعداد','في كل مثلث علاقة بين الأعداد. ما العدد مكان علامة الاستفهام؟',['30','10','15','25'],'العدد في الوسط = حاصل ضرب الأعداد الثلاثة: 2×3×4 = 24، 1×5×3 = 15، 3×2×5 = 30.',{fig:seq([numTri(2,3,4,24),numTri(1,5,3,15),numTri(3,2,5,'؟')])}],
+ ['مصفوفة الأشكال','ما الشكل الذي يكمل المصفوفة؟',[shp('s','d'),shp('s','f'),shp('c','d'),shp('t','d')],'في كل صف دائرة ومربع ومثلث، وكل عمود له النمط نفسه: الأول مفرغ، والثاني مظلل، والثالث بنقطة.',{figOpts:true,fig:mx([shp('c','o'),shp('s','f'),shp('t','d'),shp('s','o'),shp('t','f'),shp('c','d'),shp('t','o'),shp('c','f'),'؟'])}],
+ ['شبكات المكعب','عند طي الشبكة لتكوين مكعب، ما الرمز المقابل للوجه ▲؟',['◆','●','★','■'],'في الصف المكوّن من أربعة مربعات يتقابل كل وجهين بينهما وجه: ▲ يقابل ◆، و● يقابل ■، و★ يقابل ♥.',{fig:net([[0,0],[0,1],[1,1],[2,1],[3,1],[2,2]],['★','●','▲','■','◆','♥'])}],
+ ['الرقم السري','قفل له رقم سري من 3 أرقام:<br>• 682: رقم واحد صحيح وفي مكانه.<br>• 614: رقم واحد صحيح لكن في المكان الخطأ.<br>• 206: رقمان صحيحان لكن في المكانين الخطأ.<br>• 738: لا يوجد أي رقم صحيح.<br>ما الرقم السري؟',['042','604','024','402'],'نتحقق من الخيار 042: الرقم 2 في مكانه في 682، والرقم 4 في مكان خطأ في 614، والرقمان 2 و 0 في مكانين خطأ في 206. أما 604 فالرقم 6 في مكانه في 614، و402 فيه 0 في مكانه في 206، و024 لا يحقق الشرط الأول.',{html:true}],
+ ['جدول الأعداد','ما قيمة س في الجدول؟',['26','24','20','30'],'العمود الأخير = الأول × الثاني + الثالث: 1×2+3 = 5، 2×3+4 = 10، 3×4+5 = 17، 4×5+6 = 26.',{fig:tab(null,[[1,2,3,5],[2,3,4,10],[3,4,5,17],[4,5,6,'س']])}],
+ ['معادلات الرموز','إذا كان: ▲ + ▲ = 8، و ■ + ▲ = 11، فما قيمة ■ + ■؟',['14','7','11','16'],'▲ = 4، إذن ■ = 7، و ■ + ■ = 14.'],
+ ['المساواة','صندوق فيه 12 كرة وصندوق آخر فارغ. كل يوم نضيف كرة إلى الأول و 3 كرات إلى الثاني. بعد كم يومًا يتساوى العددان؟',['6','4','12','3'],'الفرق 12 ويقل كل يوم بمقدار 2، إذن 12 ÷ 2 = 6 أيام (18 في كل صندوق).'],
+ ['المجموع','خمس بطاقات عليها الأعداد 3، 5، 6، 7، 9. أي بطاقة نسحبها ليصبح مجموع الباقي 25؟',['5','3','6','7'],'المجموع الكلي 30، و 30 − 25 = 5.'],
+ ['علاقة الأعداد','في كل دائرة علاقة بين الأعداد. ما العدد مكان علامة الاستفهام؟',['16','15','8','18'],'العدد العلوي = ضعف مجموع العددين السفليين: (2+3)×2 = 10، (4+2)×2 = 12، (5+3)×2 = 16.',{fig:seq([numCirc(10,2,3),numCirc(12,4,2),numCirc('؟',5,3)])}],
+ ['الموازين','في الميزان الأول: دائرتان تساويان مربعًا واحدًا. وفي الميزان الثاني: مربع واحد يساوي 4 مثلثات. أي الأشكال أخف وزنًا؟',['المثلث','الدائرة','المربع','متساوية'],'المربع = 4 مثلثات، والدائرة = نصف مربع = مثلثان، إذن المثلث الأخف.'],
+ ['التناظر','الشكل الأول بالنسبة للثاني مثل الشكل الثالث بالنسبة إلى:',[shp('t','o'),shp('t','f'),shp('c','f'),shp('c','d')],'الشكل المظلل يتحول إلى شكل مفرغ من النوع نفسه.',{figOpts:true,fig:seq([shp('s','f'),sep('←'),shp('s','o'),sep('::'),shp('t','f'),sep('←'),'<span>؟</span>'])}],
+ ['المتتابعات','ما الحد التالي؟  2 ، 5 ، 11 ، 23 ، ......',['47','46','35','44'],'كل حد = الحد السابق × 2 + 1، إذن 23 × 2 + 1 = 47.'],
+ ['هرم الأعداد','في الهرم كل عدد يساوي مجموع العددين أسفله مباشرة. ما العدد في القمة؟',['40','36','20','48'],'الصف الثاني: 6، 10، 14، ثم 16، 24، والقمة 16 + 24 = 40.',{fig:pyr([['؟'],['',''],['','',''],[2,4,6,8]])}],
+ ['عدّ المربعات','كم مربعًا في الشكل؟',['8','6','7','9'],'6 مربعات صغيرة + مربعان كبيران (2×2) = 8.',{fig:gridR(3,2)}],
+ ['الزوج المختلف','أي الأزواج التالية مختلف عن البقية؟',['(6 ، 30)','(3 ، 9)','(4 ، 16)','(5 ، 25)'],'في كل زوج العدد الثاني مربع الأول، إلا (6 ، 30) فمربع 6 هو 36.'],
+ ['التناظر اللفظي','60 دقيقة : ساعة  ::  7 أيام : ......',['أسبوع','شهر','يوم','سنة'],'60 دقيقة تساوي ساعة، و 7 أيام تساوي أسبوعًا.'],
+ ['الاستدلال المنطقي','يحب كل من فهد ونايف وماجد لونًا مختلفًا من (الأحمر، الأزرق، الأخضر). فهد لا يحب الأحمر ولا الأزرق، ونايف لا يحب الأحمر. ما اللون الذي يحبه ماجد؟',['الأحمر','الأزرق','الأخضر','لا يمكن التحديد'],'فهد يحب الأخضر، ونايف لا يحب الأحمر فيحب الأزرق، ويبقى الأحمر لماجد.'],
+ ['الترتيب','في سباق: وصل علي قبل سعد وبعد ناصر، ووصل فارس آخرًا. ما ترتيب الوصول من الأول؟',['ناصر، علي، سعد، فارس','علي، ناصر، سعد، فارس','ناصر، سعد، علي، فارس','سعد، علي، ناصر، فارس'],'ناصر قبل علي، وعلي قبل سعد، وفارس الأخير.']
+],4:[
+ ['المربع السحري','مجموع الأعداد في كل صف وكل عمود متساوٍ. ما العدد مكان علامة الاستفهام؟',['8','7','5','9'],'مجموع الصف الأول 2 + 7 + 6 = 15، إذن 4 + 3 + ؟ = 15، والناقص 8.',{fig:tab(null,[[2,7,6],[9,5,1],[4,3,'؟']])}],
+ ['تسلسل الأشكال','ما الشكل التالي في النمط؟',[dots(4),dots(5),dots(3),dots(4,'c')],'عدد النقاط داخل المربع يزيد نقطة في كل مرة.',{figOpts:true,fig:seq([dots(1),dots(2),dots(3),sep('؟')])}],
+ ['الشكل المختلف','أي الأشكال التالية مختلف عن البقية؟',[poly(5),poly(6),poly(4),poly(8)],'عدد أضلاع الأشكال 6 و 4 و 8 أعداد زوجية، أما المخمس فعدد أضلاعه فردي.',{figOpts:true}],
+ ['دوران الأشكال','ما الشكل التالي في النمط؟',[arrow(135),arrow(180),arrow(90),arrow(225)],'السهم يدور 45° مع اتجاه عقارب الساعة في كل خطوة.',{figOpts:true,fig:seq([arrow(0),arrow(45),arrow(90),sep('؟')])}],
+ ['علاقة الأعداد','في كل مثلث علاقة بين الأعداد. ما العدد مكان علامة الاستفهام؟',['13','56','11','14'],'العدد في الوسط = مجموع أعداد الرؤوس: 3+4+5 = 12، 6+1+2 = 9، 7+2+4 = 13.',{fig:seq([numTri(3,4,5,12),numTri(6,1,2,9),numTri(7,2,4,'؟')])}],
+ ['جدول الأعداد','ما قيمة س في الجدول؟',['18','8','16','10'],'العمود الثالث = مربع الأول + الثاني: 1+2 = 3، 4+3 = 7، 9+1 = 10، 16+2 = 18.',{fig:tab(null,[[1,2,3],[2,3,7],[3,1,10],[4,2,'س']])}],
+ ['التناظر العددي','4 : 12  ::  7 : ......',['21','15','28','14'],'العدد الثاني ثلاثة أمثال الأول: 7 × 3 = 21.'],
+ ['معادلات الرموز','إذا كان: ○ + ○ + ○ = 18، و ○ + △ = 10، فما قيمة △ × ○؟',['24','10','18','40'],'○ = 6، إذن △ = 4، و 4 × 6 = 24.'],
+ ['المساحة','مساحة المربع الكبير 64 سم². ما مساحة الجزء المظلل؟',['20 سم²','16 سم²','24 سم²','32 سم²'],'كل ربع مساحته 16، والمربع الصغير ربع الربع = 4، والمجموع 16 + 4 = 20 سم².',{fig:area20}],
+ ['عدّ المثلثات','كم مثلثًا في الشكل؟',['5','4','6','8'],'4 مثلثات صغيرة + المثلث الكبير = 5.',{fig:triC}],
+ ['الساعة في المرآة','نظرت إلى ساعة حائط في المرآة فبدت تشير إلى الساعة 3:00. كم الوقت الحقيقي؟',['9:00','3:00','6:00','12:00'],'المرآة تعكس اليمين واليسار، فعقرب الساعات الذي يبدو عند 3 هو فعليًا عند 9.'],
+ ['طي الورق','طُويت ورقة من المنتصف، ثم قُص نصف دائرة عند خط الطي. ماذا يظهر عند فتح الورقة؟',['دائرة كاملة في المنتصف','نصف دائرة','دائرتان منفصلتان','ربع دائرة'],'القص عند خط الطي يتكرر على الجانبين متلاصقين، فيكوّن دائرة كاملة.'],
+ ['حجر النرد','مجموع العددين على كل وجهين متقابلين في حجر النرد يساوي 7. إذا كان الوجه العلوي 2، فما الوجه السفلي؟',['5','2','4','6'],'7 − 2 = 5.'],
+ ['العدد المختلف','أي الأعداد التالية لا يقبل القسمة على 6؟',['27','12','18','30'],'12 و 18 و 30 من مضاعفات 6، أما 27 فليس منها.'],
+ ['الترميز','إذا كانت كلمة «قلم» تُرمّز بالعدد 123، وكلمة «ملك» تُرمّز بالعدد 324، فكيف تُرمّز كلمة «كلم»؟',['423','324','432','243'],'ق = 1، ل = 2، م = 3، ك = 4، إذن «كلم» = 423.'],
+ ['شبكات المكعب','أي الشبكات التالية لا يمكن طيّها لتكوين مكعب؟',[net([[0,0],[0,1],[0,2],[0,3],[1,3],[2,3]]),net([[1,0],[0,1],[1,1],[2,1],[3,1],[1,2]]),net([[0,0],[1,0],[1,1],[2,1],[2,2],[3,2]]),net([[0,0],[1,0],[2,0],[2,1],[3,1],[4,1]])],'في الشبكة الأولى يخرج مربعان متتاليان من طرف الصف، فيتداخل أحدهما مع وجه آخر عند الطي.',{figOpts:true}],
+ ['التناظر','90° : ربع دورة  ::  180° : ......',['نصف دورة','دورة كاملة','ربع دورة','ثلاثة أرباع دورة'],'الدورة الكاملة 360°، و 180° نصفها.'],
+ ['علاقة الأعداد','في كل دائرة علاقة بين الأعداد. ما العدد مكان علامة الاستفهام؟',['7','24','6','8'],'العدد العلوي = حاصل ضرب العددين السفليين: 2×5 = 10، 3×6 = 18، 4×7 = 28.',{fig:seq([numCirc(10,2,5),numCirc(18,3,6),numCirc(28,4,'؟')])}],
+ ['الاستدلال المنطقي','كل الطيور لها ريش. البطريق طائر. إذن:',['للبطريق ريش','البطريق يطير','كل ما له ريش بطريق','لا يمكن الحكم'],'ما ينطبق على كل الطيور ينطبق على البطريق لأنه طائر.'],
+ ['عدّ المربعات','كم مربعًا في الشكل؟',['30','16','25','20'],'16 مربعًا (1×1) + 9 (2×2) + 4 (3×3) + 1 (4×4) = 30.',{fig:gridR(4,4,38)}]
+],5:[
+ ['مصفوفة النقاط','ما الشكل الذي يكمل المصفوفة؟',[dots(5),dots(4),dots(6),dots(3)],'في كل صف يزيد عدد النقاط واحدًا، والصف الثالث: 3، 4، ثم 5.',{figOpts:true,fig:mx([dots(1),dots(2),dots(3),dots(2),dots(3),dots(4),dots(3),dots(4),'؟'])}],
+ ['الشكل المختلف','أي الأشكال التالية مختلف عن البقية؟',[pee('translate(100 0) scale(-1 1)'),pee(''),pee('rotate(90 50 50)'),pee('rotate(270 50 50)')],'ثلاثة أشكال هي الشكل نفسه بعد تدويره، والمختلف صورة معكوسة لا يمكن الوصول إليها بالتدوير.',{figOpts:true}],
+ ['المتتابعات','ما الحد التالي؟  1 ، 1 ، 2 ، 3 ، 5 ، 8 ، ......',['13','11','12','15'],'كل حد = مجموع الحدين السابقين: 5 + 8 = 13.'],
+ ['علاقة الأعداد','في كل مثلث علاقة بين الأعداد. ما العدد مكان علامة الاستفهام؟',['20','10','24','18'],'العدد في الوسط = ضعف مجموع الرؤوس: (1+2+3)×2 = 12، (2+4+1)×2 = 14، (3+3+4)×2 = 20.',{fig:seq([numTri(1,2,3,12),numTri(2,4,1,14),numTri(3,3,4,'؟')])}],
+ ['التناظر','الشكل الأول بالنسبة للثاني مثل الشكل الثالث بالنسبة إلى:',[arrow(270),arrow(90),arrow(0),arrow(180)],'السهم ينقلب إلى الاتجاه المعاكس: الأعلى يصبح للأسفل، واليمين يصبح لليسار.',{figOpts:true,fig:seq([arrow(0),sep('←'),arrow(180),sep('::'),arrow(90),sep('←'),'<span>؟</span>'])}],
+ ['هرم الفروق','في الهرم كل عدد يساوي الفرق بين العددين أسفله مباشرة. ما العدد في القمة؟',['1','7','4','3'],'الصف الأوسط: 9 − 5 = 4، و 5 − 2 = 3، والقمة 4 − 3 = 1.',{fig:pyr([['؟'],['',''],[9,5,2]])}],
+ ['جدول الأعداد','ما قيمة س في الجدول؟',['20','24','10','18'],'العمود الثالث = ضعف مجموع العمودين الأولين: (4 + 6) × 2 = 20.',{fig:tab(null,[[1,2,6],[2,4,12],[3,5,16],[4,6,'س']])}],
+ ['معادلات الرموز','إذا كان: ★ + ★ + ● = 13، و ★ + ● = 8، فما قيمة ★ − ●؟',['2','5','3','8'],'بطرح المعادلتين: ★ = 5، ثم ● = 3، و 5 − 3 = 2.'],
+ ['الزوايا','يشير عقرب الدقائق إلى 12 وعقرب الساعات إلى 6. ما قياس الزاوية بينهما؟',['180°','90°','360°','120°'],'العقربان على خط مستقيم، أي نصف دورة = 180°.'],
+ ['التناظر اللفظي','قدم : حذاء  ::  رأس : ......',['قبعة','شعر','عين','وسادة'],'الحذاء يُلبس على القدم، والقبعة تُلبس على الرأس.'],
+ ['الاستدلال المنطقي','زارت كل من منى وهند وسلمى مدينة مختلفة من (مكة، جدة، أبها). هند زارت جدة، وسلمى لم تزر أبها. أين زارت منى؟',['أبها','مكة','جدة','لا يمكن التحديد'],'جدة لهند، وسلمى لم تزر أبها فزارت مكة، فتبقى أبها لمنى.'],
+ ['الترتيب','خالد أطول من سعد، وسعد أطول من فهد، وماجد أقصر من فهد. من الأقصر بينهم؟',['ماجد','فهد','سعد','خالد'],'الترتيب من الأطول: خالد، سعد، فهد، ماجد.'],
+ ['عدّ المثلثات','كم مثلثًا في الشكل؟',['8','4','6','10'],'4 مثلثات صغيرة + 4 مثلثات كل منها نصف المربع = 8.',{fig:sqX}],
+ ['جدول الأعداد','مجموع الأعداد في كل صف من الجدول يساوي 20. ما العدد الناقص؟',['11','9','10','12'],'20 − 6 − 3 = 11.',{fig:tab(null,[[8,7,5],[9,4,7],[6,'؟',3]])}],
+ ['شبكات المكعب','عند طي الشبكة لتكوين مكعب، ما الحرف المقابل للوجه «ب»؟',['هـ','د','و','أ'],'إذا كان «ج» القاعدة يصبح «و» السقف، و«ب» الجانب الخلفي، و«هـ» الأمامي، فيتقابل ب و هـ، وأ و د، وج و و.',{fig:net([[0,0],[1,0],[1,1],[2,1],[2,2],[3,2]],['أ','ب','ج','د','هـ','و'])}],
+ ['المساواة','لدى سارة 20 ريالًا ولدى نورة 8 ريالات. كم ريالًا تعطي سارة نورة لتتساويا؟',['6','12','4','8'],'المجموع 28، ولكل واحدة 14، إذن تعطيها 20 − 14 = 6.'],
+ ['التناظر العددي','8 : 4  ::  12 : 6  ::  20 : ......',['10','16','5','40'],'العدد الثاني نصف الأول: 20 ÷ 2 = 10.'],
+ ['الشكل المختلف','أي الأشكال التالية مختلف عن البقية؟',['الدائرة','المربع','المستطيل','المعيّن'],'المربع والمستطيل والمعيّن لكل منها 4 أضلاع مستقيمة، أما الدائرة فليس لها أضلاع.'],
+ ['التقويم','إذا كان اليوم الأول من الشهر يوم الأحد، فما يوم الخامس عشر من الشهر نفسه؟',['الأحد','الاثنين','السبت','الثلاثاء'],'الأيام 1 و 8 و 15 كلها في اليوم نفسه من الأسبوع، أي الأحد.'],
+ ['الأعداد المثلثية','ما الحد التالي؟  1 ، 3 ، 6 ، 10 ، ......',['15','14','12','16'],'الفروق 2، 3، 4 ثم 5، إذن 10 + 5 = 15.']
+],6:[
+ ['تضاريس الأرض','لاحظت منى واديًا عميقًا بين جبلين، تجري فيه مياه السيول عند هطول الأمطار. ما السبب الرئيس في تكوّنه؟',['تعرية المياه الجارية للصخور','حرارة الشمس فقط','حركة الحيوانات','نمو النباتات'],'المياه الجارية تنحت الصخور وتحمل فتاتها على مدى سنوات طويلة فتكوّن الأودية.'],
+ ['القوة والحركة','أراد ولد دفع صندوق ثقيل إلى الأمام في خط مستقيم. ما أفضل طريقة؟',['يدفعه من منتصف جانبه الخلفي نحو الأمام','يدفعه من إحدى زواياه','يسحبه من الأعلى إلى الأسفل','يدفعه من الجانب نحو اليمين'],'الدفع من المنتصف وفي اتجاه الحركة يحرك الصندوق في خط مستقيم دون أن يدور.'],
+ ['أطوار القمر','ما الطور التالي للقمر حسب الترتيب؟',[moon('gib'),moon('new'),moon('cres'),moon('half')],'يكبر الجزء المضيء من الهلال إلى التربيع الأول، ثم الأحدب، ثم البدر.',{figOpts:true,fig:seq([moon('cres'),sep('←'),moon('half'),sep('←'),'<span>؟</span>',sep('←'),moon('full')])}],
+ ['التكيّف','للسلحفاة درع صلب يغطي جسمها. ما وظيفته الرئيسة؟',['حمايتها من أعدائها','مساعدتها على التنفس','مساعدتها على السباحة بسرعة','جمع الطعام'],'الدرع الصلب تكيّف للحماية، إذ تختبئ السلحفاة داخله عند الخطر.'],
+ ['السلاسل الغذائية','في السلسلة: عشب ← أرنب ← ثعلب ← نسر. ماذا يحدث غالبًا إذا قلّ عدد الثعالب؟',['يزداد عدد الأرانب','يزداد عدد النسور','يزداد العشب كثيرًا','لا يتغير شيء'],'الثعالب تتغذى على الأرانب، فإذا قلّت الثعالب قلّ افتراس الأرانب فيزداد عددها.'],
+ ['التصنيف','صنّف أحمد أشياء إلى مجموعتين: (مسمار، علبة مشروب، مفتاح) و(ممحاة، كوب زجاجي، قلم خشبي). على أي أساس صنّفها؟',['فلزات ولا فلزات','ثقيلة وخفيفة','حية وغير حية','كبيرة وصغيرة'],'المجموعة الأولى مصنوعة من فلزات، والثانية من مواد غير فلزية.'],
+ ['الصوت','لدى سعد أنابيب معدنية متماثلة لكنها مختلفة الطول. أيها يعطي أعلى نغمة عند الطرق عليه؟',['الأنبوب الأقصر','الأنبوب الأطول','الأنبوب الأوسط','كلها متساوية'],'الأنبوب الأقصر يهتز بسرعة أكبر، فتكون نغمته أعلى.'],
+ ['المستوى المائل','يريد بدر أن تصل سيارته اللعبة إلى أسفل منحدر أملس بسرعة أكبر. ماذا يفعل؟',['يزيد ميل المنحدر (ارتفاعه)','يلوّن المنحدر','يكبّر حجم العجلات فقط','يضع قطعة قماش على المنحدر'],'كلما زاد ميل المنحدر زادت سرعة السيارة عند أسفله، والقماش يزيد الاحتكاك فيبطئها.'],
+ ['المغناطيس','أي الأشياء التالية لا ينجذب إلى المغناطيس؟',['سلك نحاسي','مشبك ورق حديدي','مسمار حديد','برادة حديد'],'المغناطيس يجذب الحديد، أما النحاس فلا ينجذب إليه.'],
+ ['انتقال الحرارة','وُضعت ثلاث ملاعق (معدنية، خشبية، بلاستيكية) في ماء ساخن، وعلى طرف كل منها قطعة زبدة. على أي ملعقة تذوب الزبدة أولًا؟',['المعدنية','الخشبية','البلاستيكية','تذوب كلها معًا'],'المعادن موصلة جيدة للحرارة، أما الخشب والبلاستيك فعازلان.'],
+ ['الظل والشمس','غرس نواف عصا في الأرض وراقب ظلها طوال اليوم. متى يكون ظلها أقصر ما يمكن؟',['وقت الظهيرة','في الصباح الباكر','وقت العصر','قبل الغروب'],'عند الظهيرة تكون الشمس في أعلى السماء، فيكون الظل أقصر.'],
+ ['التصادم','كرة زجاجية تتحرك على سطح أملس واصطدمت بصف من 3 كرات متماثلة متلاصقة وساكنة. ماذا يحدث غالبًا؟',['تتوقف الكرة القادمة وتنطلق الكرة الأخيرة في الصف','تتحرك الكرات الثلاث معًا','ترتد الكرة القادمة وتبقى الكرات ساكنة','تتحرك الكرة الأولى فقط'],'تنتقل الحركة عبر الكرات المتلاصقة إلى الكرة الأخيرة فتنطلق، وتتوقف الكرة القادمة.'],
+ ['التدحرج','أسطوانتان لهما الكتلة نفسها والقطر نفسه، إحداهما مصمتة والأخرى مفرغة من الداخل، تُركتا تتدحرجان على منحدر في الوقت نفسه. أيهما تصل أولًا؟',['المصمتة','المفرغة','تصلان معًا','المعطيات غير كافية'],'الأسطوانة المفرغة تتوزع كتلتها بعيدًا عن المحور فتحتاج طاقة أكبر للدوران وتتدحرج أبطأ.'],
+ ['الطاقة','قُذفت كرة إلى الأعلى. عند أي نقطة تكون طاقة الوضع للكرة أكبر ما يمكن؟',['عند أعلى نقطة تصل إليها','لحظة خروجها من اليد','في منتصف الطريق','لحظة لمسها الأرض'],'طاقة الوضع تزداد بزيادة الارتفاع، فتكون أكبر عند أعلى نقطة.'],
+ ['الارتداد','أُسقطت كرة مطاطية فارتدت عدة مرات. كيف يكون ارتفاع كل ارتداد؟',['أقل من الارتداد السابق','أعلى من الارتداد السابق','مساويًا للارتداد السابق','يزيد ثم يقل'],'تفقد الكرة جزءًا من طاقتها في كل اصطدام، فيقل ارتفاع الارتداد.'],
+ ['التروس','ثلاثة تروس متعشقة. إذا دار الترس (أ) مع اتجاه عقارب الساعة، ففي أي اتجاه يدور الترس (ج)؟',['مع اتجاه عقارب الساعة','عكس اتجاه عقارب الساعة','لا يدور','مرة مع ومرة عكس'],'كل ترسين متعشقين يدوران عكس بعضهما: (أ) مع، (ب) عكس، (ج) مع.',{fig:gears3}],
+ ['الحركة والسرعة','تنزل كرة على منحدر، ثم تسير على أرض مستوية ملساء، ثم تصعد منحدرًا آخر. كيف تتغير سرعتها؟',['تزيد، ثم تثبت، ثم تقل','تقل، ثم تثبت، ثم تزيد','تزيد طوال الوقت','تثبت طوال الوقت'],'النزول يزيد السرعة، والأرض الملساء المستوية تحافظ عليها، والصعود يقللها.'],
+ ['ضغط الهواء','عُلّقت ورقتان متقابلتان بحيث تتحركان بحرية، ثم نفخنا الهواء بسرعة بينهما. ماذا يحدث؟',['تقتربان من بعضهما','تبتعدان عن بعضهما','تبقيان في مكانهما','تسقطان على الأرض'],'الهواء السريع بين الورقتين يقل ضغطه، فيدفعهما الهواء الخارجي نحو بعضهما.'],
+ ['التوصيل الحراري','أُدخلت أربعة قضبان (نحاس، خشب، بلاستيك، زجاج) في ماء ساخن. أي قضيب يكون طرفه العلوي الأسخن بعد دقيقة؟',['النحاس','الخشب','البلاستيك','الزجاج'],'النحاس فلز موصل جيد جدًا للحرارة.'],
+ ['التسخين','ثلاثة أوعية متماثلة فيها كميات مختلفة من الماء البارد، سُخّنت على لهب متماثل مدة 5 دقائق. أي وعاء يكون ماؤه الأعلى حرارة؟',['الوعاء الذي فيه أقل كمية ماء','الوعاء الذي فيه أكبر كمية ماء','الوعاء الأوسط','تتساوى كلها'],'الكمية نفسها من الحرارة ترفع درجة حرارة الكمية الأقل من الماء أكثر.']
+],7:[
+ ['قراءة الجداول','يوضح الجدول درجات الحرارة في مدينة خلال 5 أيام. ما درجة الحرارة المتوقعة في اليوم الرابع؟',['36°','35°','37°','34°'],'درجة الحرارة تزيد درجتين كل يوم: 30، 32، 34، 36، 38.',{fig:tab(['اليوم','الأول','الثاني','الثالث','الرابع','الخامس'],[['الحرارة','30°','32°','34°','؟','38°']])}],
+ ['انتقال الحرارة','تلامس قطعة معدن حرارتها 80° قطعة أخرى حرارتها 20°. في أي اتجاه تنتقل الحرارة؟',['من القطعة الساخنة إلى الباردة','من القطعة الباردة إلى الساخنة','في الاتجاهين بالتساوي','لا تنتقل الحرارة'],'تنتقل الحرارة دائمًا من الجسم الأسخن إلى الأبرد حتى تتساوى درجتاهما.'],
+ ['حاجات النبات','زرع طالبان نبتتين متماثلتين؛ سقى الأول نبتته يوميًا، ولم يسقِ الثاني نبتته، فذبلت. ما الاستنتاج الصحيح؟',['النبات يحتاج إلى الماء لينمو','النبات لا يحتاج إلى الضوء','التربة كانت مختلفة','النبتة الثانية لا تحتاج إلى الماء'],'التجربة غيّرت عاملًا واحدًا هو الماء، فذبول النبتة دليل على حاجتها إليه.'],
+ ['التبخر','وُضعت كمية متساوية من الماء في إناء واسع مكشوف وفي أنبوب ضيق طويل مكشوف، وتُركا يومين. ماذا تتوقع؟',['يقل الماء في الإناء الواسع أكثر','يقل الماء في الأنبوب الضيق أكثر','لا تتغير كمية الماء','يقل الماء فيهما بالمقدار نفسه'],'كلما زادت مساحة سطح الماء المكشوف زاد التبخر.'],
+ ['قوة المغناطيس','جرّب سالم أربعة مغانط: حمل (أ) 3 مشابك، و(ب) 6 مشابك، و(ج) مشبكين، و(د) 4 مشابك. أي المغانط أقوى؟',['ب','أ','ج','د'],'المغناطيس الأقوى يحمل أكبر عدد من المشابك.'],
+ ['امتصاص الحرارة','يريد أحمد طلاء خزان ماء على السطح ليسخن الماء بأشعة الشمس بسرعة. ما اللون الأنسب؟',['الأسود','الأبيض','الفضي','الأصفر الفاتح'],'الألوان الداكنة تمتص أشعة الشمس أكثر، والفاتحة تعكسها.'],
+ ['التبريد','وُضعت كمية متساوية من الماء الساخن في أوعية مختلفة. أي وعاء يبرد ماؤه أولًا؟',['طبق واسع مكشوف','قارورة ضيقة مغلقة','كوب طويل مغلق','ترمس مغلق'],'السطح الواسع المكشوف يفقد الحرارة إلى الهواء أسرع.'],
+ ['الطاقة الهوائية','أي طواحين الهواء التالية تولّد طاقة أكبر عند هبوب الرياح نفسها؟',['ذات الأذرع الأطول','ذات الأذرع الأقصر','ذات الأذرع الأثقل','ذات الأذرع الملونة'],'الأذرع الأطول تلتقط كمية أكبر من الهواء.'],
+ ['الاتزان','أي الطاولات التالية أكثر ثباتًا وأقل عرضة للانقلاب؟',['طاولة قاعدتها عريضة ومنخفضة','طاولة طويلة بقاعدة ضيقة','طاولة على رجل واحدة رفيعة','طاولة عالية وخفيفة'],'كلما اتسعت القاعدة وانخفض الجسم زاد ثباته.'],
+ ['قياس الحجم','في مخبار مدرّج 35 مل من الماء، وعندما وُضع فيه حجر ارتفع الماء إلى 50 مل. ما حجم الحجر؟',['15 سم³','50 سم³','35 سم³','85 سم³'],'حجم الحجر = 50 − 35 = 15 مل = 15 سم³.'],
+ ['فصل المخاليط','لديك خليط من برادة حديد وملح ورمل. ما الترتيب الصحيح لفصله؟',['مغناطيس ← إذابة في الماء ← ترشيح ← تبخير','ترشيح ← مغناطيس ← تبخير ← إذابة','تبخير ← ترشيح ← مغناطيس ← إذابة','إذابة ← تبخير ← مغناطيس ← ترشيح'],'المغناطيس يفصل الحديد، والماء يذيب الملح، والترشيح يفصل الرمل، والتبخير يعيد الملح.'],
+ ['حالات المادة','مادة تنصهر عند −10° وتغلي عند 60°. ما حالتها عند درجة حرارة الغرفة 25°؟',['سائلة','صلبة','غازية','البيانات غير كافية'],'25° أعلى من درجة الانصهار وأقل من درجة الغليان، فتكون المادة سائلة.'],
+ ['الفصول الأربعة','ما سبب تعاقب فصول السنة على الأرض؟',['ميل محور الأرض أثناء دورانها حول الشمس','تغيّر حرارة الشمس نفسها','قرب الأرض من القمر','سرعة الرياح'],'ميل المحور يجعل أشعة الشمس تسقط بزوايا مختلفة على مدار السنة.'],
+ ['صلابة المواد','أي المواد التالية يستطيع خدش المواد الأخرى كلها؟',['الألماس','الزجاج','الحديد','الخشب'],'الألماس أصلب مادة طبيعية معروفة.'],
+ ['السطح المائل','ثلاثة صناديق كتلها 1 و 2 و 3 كجم تُركت تنزلق في الوقت نفسه من قمة سطح مائل أملس. أيها يصل أولًا؟',['تصل جميعها في الوقت نفسه','الصندوق 3 كجم','الصندوق 1 كجم','الصندوق 2 كجم'],'على السطح الأملس تتسارع الأجسام بالمعدل نفسه مهما اختلفت كتلها.'],
+ ['الاحتكاك','لماذا تُركّب عجلات صغيرة تحت الأثاث الثقيل؟',['لتقليل الاحتكاك وتسهيل تحريكه','لزيادة وزنه','لزيادة الاحتكاك','لجعله أكثر ثباتًا'],'العجلات تقلل الاحتكاك بين الأثاث والأرض.'],
+ ['الطفو','تغوص بيضة في الماء العذب، وتطفو في الماء المالح جدًا. ما السبب؟',['كثافة الماء المالح أكبر','الماء المالح أبرد','البيضة تصبح أخف','الماء العذب أثقل'],'الماء المالح أكثر كثافة، فيدفع البيضة إلى الأعلى بقوة أكبر.'],
+ ['انتقال الصوت','في أي الأوساط التالية ينتقل الصوت بسرعة أكبر؟',['الحديد','الهواء','الماء','الفراغ'],'الصوت أسرع في المواد الصلبة، ولا ينتقل في الفراغ.'],
+ ['التمييز بين المواد','لديك كوبان: ماء عذب وماء مالح. كيف تميّز بينهما دون تذوق؟',['نبخّر قليلًا من كل منهما ونلاحظ بقاء الملح','ننظر إلى لونهما','نقيس طولهما','نضع فيهما مغناطيسًا'],'عند التبخير يتبقى الملح في وعاء الماء المالح.'],
+ ['الضوء والصوت','لماذا نرى البرق قبل أن نسمع صوت الرعد؟',['لأن الضوء أسرع من الصوت','لأن البرق يحدث أولًا دائمًا','لأن الصوت لا ينتقل في الهواء','لأن العين أقوى من الأذن'],'يحدث البرق والرعد معًا، لكن الضوء يصل أسرع بكثير من الصوت.']
+]};
+// ================= English bank (same order as the Arabic bank; null options = use the Arabic figure options) =================
+const BE={1:[
+ ['Speed & time','Hind reads 9 pages in 15 minutes. How many pages can she read in one hour at the same speed?',['36','27','45','30'],'One hour = 60 minutes = 4 × 15, so 4 × 9 = 36 pages.'],
+ ['Proportion','Salem bought 4 juice boxes for 24 riyals, then paid 54 riyals for more boxes of the same kind. How many boxes did he buy the second time?',['9','8','10','12'],'One box costs 24 ÷ 4 = 6 riyals, and 54 ÷ 6 = 9 boxes.'],
+ ['Perimeter','A 26 cm wire is bent into a rectangle 5 cm wide. How long is the rectangle?',['8 cm','16 cm','21 cm','11 cm'],'Half the perimeter is 13 cm, so the length is 13 − 5 = 8 cm.'],
+ ['Shopping problems','A bag and a pencil case cost 85 riyals together, and two bags cost 140 riyals. How much is the pencil case?',['15 riyals','25 riyals','70 riyals','55 riyals'],'One bag costs 140 ÷ 2 = 70, so the pencil case costs 85 − 70 = 15 riyals.'],
+ ['Balances','On the first balance, ball A was heavier than ball B. On the second, ball B was heavier than ball C. Which ball is the lightest?',['C','A','B','Cannot be determined'],'A > B and B > C, so C is the lightest.'],
+ ['Perimeter','A rectangle is made of two identical squares side by side. Each square has a side of 5 cm. What is the perimeter of the rectangle?',['30 cm','40 cm','25 cm','20 cm'],'The rectangle is 10 × 5, so its perimeter is 10 + 5 + 10 + 5 = 30 cm.'],
+ ['Proportion','Reem bought 6 pens for 18 riyals. How much will 15 pens of the same kind cost?',['45','54','36','30'],'One pen costs 3 riyals, and 15 × 3 = 45.'],
+ ['Units digit','What is the units digit of 37 × 52 × 19?',['6','4','8','2'],'Multiply the units digits only: 7 × 2 = 14 (units 4), then 4 × 9 = 36 (units 6).'],
+ ['Counting triangles','How many triangles are in the figure?',['6','3','5','4'],'3 small triangles + 2 made of two neighbours + the big triangle = 6.'],
+ ['Days of the week','If the day after tomorrow is Monday, what day was the day before yesterday?',['Thursday','Friday','Wednesday','Saturday'],'If the day after tomorrow is Monday, today is Saturday, so the day before yesterday was Thursday.'],
+ ['Fractions','A cake was cut into 8 equal pieces, as in the picture. How many pieces were eaten?',['3','5','4','2'],'The picture shows 5 of the 8 pieces, so 8 − 5 = 3 were eaten.'],
+ ['Painted cubes','6 small cubes are glued in one row, then the whole shape is painted on the outside, including the bottom. How many cubes have exactly 4 painted faces?',['4','6','2','5'],'Each end cube has 5 painted faces, and each of the 4 middle cubes has 4.'],
+ ['Special offers','A box of biscuits costs 2 riyals, and there is an offer: 4 boxes for 6 riyals. How many boxes can you buy with 20 riyals?',['13','12','10','14'],'3 offers = 18 riyals = 12 boxes, and the 2 riyals left buy one more box: 13 boxes.'],
+ ['Sequences','What comes next?  3, 4, 6, 9, 13, ...',['18','17','19','20'],'The differences are 1, 2, 3, 4, then 5, so 13 + 5 = 18.'],
+ ['Points','In a darts game, the inner circle scores 5 points and the outer circle scores 2. Sami hit the inner circle 3 times and the outer circle twice. What is his total?',['19','17','21','15'],'3 × 5 + 2 × 2 = 15 + 4 = 19.'],
+ ['Shadows & ratio','A 2 m pole casts a 3 m shadow. At the same time, a tree casts a 12 m shadow. How tall is the tree?',['8 m','18 m','6 m','10 m'],'Shadow to height is 3 to 2, so 12 ÷ 3 × 2 = 8 m.'],
+ ['Days of the week','A cat has 15 pieces of food and eats 3 each day. If it ate the last piece on Friday, on which day did it start?',['Monday','Sunday','Tuesday','Saturday'],'15 ÷ 3 = 5 days ending on Friday: Monday, Tuesday, Wednesday, Thursday, Friday.'],
+ ['Ages','Sami is 7 years old. His sister is 3 years older and his brother is 2 years younger. What is the sum of their ages?',['22','21','24','19'],'7 + 10 + 5 = 22.'],
+ ['Forming numbers','How many two-digit numbers with different digits can be made from the digits 2, 5 and 7?',['6','9','3','4'],'25, 27, 52, 57, 72, 75 = 6 numbers.'],
+ ['Object equations','Two balls cost the same as one toy car, and the car and one ball together cost 30 riyals. How much is one ball?',['10 riyals','15 riyals','20 riyals','5 riyals'],'Car + ball = 3 balls = 30, so one ball costs 10 riyals.']
+],2:[
+ ['Multiplication tree','If x × 4 = 20 and 20 × y = 100, what are x and y?',['5 , 5','4 , 5','5 , 4','16 , 80'],'x = 20 ÷ 4 = 5, and y = 100 ÷ 20 = 5.'],
+ ['Divisibility','What is the smallest digit that can go in the box so that 52□4 is divisible by 3?',['1','0','2','4'],'The digit sum is 5 + 2 + 4 = 11; the next multiple of 3 is 12, so the digit is 1.'],
+ ['Work & time','A worker finishes a job in 4 days working 6 hours a day. How many hours a day must he work to finish it in 3 days?',['8','9','7','6'],'The whole job is 4 × 6 = 24 hours, and 24 ÷ 3 = 8 hours a day.'],
+ ['Unit conversion','2 m + 50 cm + 300 mm =',['280 cm','253 cm','352 cm','350 cm'],'2 m = 200 cm and 300 mm = 30 cm, so 200 + 50 + 30 = 280 cm.'],
+ ['Odd unit out','Which measurement is different from the other three?',['2 litres','4 kg','300 grams','5 tonnes'],'Kilograms, grams and tonnes measure mass; litres measure capacity.'],
+ ['Fractions','A class has 32 students. Half like football, a quarter like swimming, and the rest like running. How many like running?',['8','16','4','12'],'Half is 16 and a quarter is 8, so 32 − 24 = 8.'],
+ ['Logical thinking','A box has 10 cards. Each time, you take out 2 cards and put 1 back. After how many turns will only one card be left?',['9','10','5','8'],'Each turn removes one card, and going from 10 to 1 takes 9 turns.'],
+ ['Fractions','What fraction of the whole figure is shaded?',['1/8','1/4','1/2','1/6'],'The square is split into 4 quarters, and the shaded part is half of one quarter: 1/8.'],
+ ['Distance','A ball is dropped from 32 m. Each time it hits the ground, it bounces back to half its previous height. What total distance has it travelled when it touches the ground for the third time?',['80 m','56 m','64 m','72 m'],'32 down, then 16 up and 16 down, then 8 and 8: total 80 m.'],
+ ['Common multiples','Ali visits his grandmother every 4 days and his sister visits her every 6 days. They met there today. After how many days will they meet there again?',['12','24','10','6'],'The smallest number divisible by both 4 and 6 is 12.'],
+ ['Sum of numbers','What is the sum of the numbers from 1 to 20?',['210','200','220','190'],'Pair them up: 1 + 20 = 21, and there are 10 pairs: 21 × 10 = 210.'],
+ ['Fractions','A library has 24 books: a third are stories, 5 are science books, and the rest are maths books. How many maths books are there?',['11','13','8','16'],'Stories = 8, so 24 − 8 − 5 = 11.'],
+ ['Stamps','Majid has 10 stamps, each printing one digit from 0 to 9. How many different stamps does he need to print 2025?',['3','4','2','5'],'The number uses only the digits 2, 0 and 5.'],
+ ['Making equal','The first tank has 17 fish and the second has 5. How many fish should move from the first to the second so they are equal?',['6','12','11','8'],'The total is 22, so each tank needs 11: move 17 − 11 = 6.'],
+ ['Working backwards','A number was multiplied by 3, then 5 was added, giving 32. What was the number?',['9','11','8','12'],'Undo the steps: 32 − 5 = 27, then 27 ÷ 3 = 9.'],
+ ['Heads & legs','A pen has chickens and rabbits with 12 heads and 34 legs in total. How many rabbits are there?',['5','7','6','4'],'If all were chickens there would be 24 legs. The extra 10 legs come from rabbits, 2 extra each: 5 rabbits.'],
+ ['Doubling','Khalid saved 2 riyals on Sunday, and each day he saves double what he saved the day before. On which day does his total reach 62 riyals?',['Thursday','Wednesday','Friday','Tuesday'],'2 + 4 + 8 + 16 + 32 = 62, which is 5 days from Sunday to Thursday.'],
+ ['Comparing fractions','Which fraction is greater than 1/2?',['5/8','3/8','2/6','4/10'],'Half of 8 is 4, and 5/8 is more than that. The others are less than a half.'],
+ ['Counting triangles','How many triangles are in the figure?',['6','4','5','8'],'The top part has 3 triangles (two small ones and one made of both), and the whole figure has 3 more (two halves and the big one).'],
+ ['Money','You have three 10-riyal notes and four 1-riyal coins. You buy a toy for 27 riyals. How much is left?',['7 riyals','3 riyals','13 riyals','6 riyals'],'You have 34 riyals, and 34 − 27 = 7.']
+],3:[
+ ['Odd number out','Which number is different from the others?',['42','16','25','36'],'16, 25 and 36 are square numbers (4×4, 5×5, 6×6); 42 is not.'],
+ ['Odd shape out','Which shape is different from the others?',null,'Three shapes are the same shape rotated; the odd one is its mirror image.'],
+ ['Number relations','Each triangle follows the same rule. What number replaces the question mark?',['30','10','15','25'],'The middle number is the product of the three corners: 2×3×4 = 24, 1×5×3 = 15, 3×2×5 = 30.'],
+ ['Shape grid','Which shape completes the grid?',null,'Each row has a circle, a square and a triangle. Each column has one style: the first is outlined, the second filled, and the third has a dot.'],
+ ['Cube nets','When the net is folded into a cube, which symbol is opposite ▲?',['◆','●','★','■'],'In the row of four squares, faces with one square between them are opposite: ▲ with ◆, ● with ■, and ★ with ♥.'],
+ ['Secret code','A lock has a 3-digit code:<br>• 682: one digit is correct and in the right place.<br>• 614: one digit is correct but in the wrong place.<br>• 206: two digits are correct but both in the wrong place.<br>• 738: nothing is correct.<br>What is the code?',['042','604','024','402'],'Check 042: the 2 is in its place in 682, the 4 is in the wrong place in 614, and the 2 and 0 are in the wrong places in 206. In 604 the 6 would be in its place in 614, 402 has the 0 in its place in 206, and 024 fails the first clue.'],
+ ['Number tables','What is x in the table?',['26','24','20','30'],'Last column = first × second + third: 1×2+3 = 5, 2×3+4 = 10, 3×4+5 = 17, 4×5+6 = 26.'],
+ ['Symbol equations','If ▲ + ▲ = 8 and ■ + ▲ = 11, what is ■ + ■?',['14','7','11','16'],'▲ = 4, so ■ = 7, and ■ + ■ = 14.'],
+ ['Making equal','One box has 12 balls and another is empty. Each day we add 1 ball to the first box and 3 balls to the second. After how many days will they have the same number?',['6','4','12','3'],'The gap is 12 and shrinks by 2 each day: 12 ÷ 2 = 6 days (18 in each box).'],
+ ['Totals','Five cards show 3, 5, 6, 7 and 9. Which card should be removed so the rest add up to 25?',['5','3','6','7'],'The total is 30, and 30 − 25 = 5.'],
+ ['Number relations','Each circle follows the same rule. What number replaces the question mark?',['16','15','8','18'],'Top number = double the sum of the bottom two: (2+3)×2 = 10, (4+2)×2 = 12, (5+3)×2 = 16.'],
+ ['Balances','On the first balance, two circles equal one square. On the second, one square equals 4 triangles. Which shape is the lightest?',['Triangle','Circle','Square','They are equal'],'Square = 4 triangles and circle = half a square = 2 triangles, so the triangle is the lightest.'],
+ ['Analogies','The first shape is to the second as the third shape is to:',null,'A filled shape becomes an outline of the same shape.'],
+ ['Sequences','What comes next?  2, 5, 11, 23, ...',['47','46','35','44'],'Each term = previous × 2 + 1, so 23 × 2 + 1 = 47.'],
+ ['Number pyramid','In the pyramid, each number is the sum of the two numbers directly below it. What is the top number?',['40','36','20','48'],'Second row: 6, 10, 14; then 16, 24; top: 16 + 24 = 40.'],
+ ['Counting squares','How many squares are in the figure?',['8','6','7','9'],'6 small squares + 2 large (2×2) squares = 8.'],
+ ['Odd pair out','Which pair is different from the others?',['(6 , 30)','(3 , 9)','(4 , 16)','(5 , 25)'],'In each pair the second number is the square of the first, except (6 , 30): 6 squared is 36.'],
+ ['Word analogies','60 minutes : hour  ::  7 days : ...',['week','month','day','year'],'60 minutes make an hour, and 7 days make a week.'],
+ ['Logical reasoning','Fahd, Nayef and Majid each like a different colour: red, blue or green. Fahd does not like red or blue, and Nayef does not like red. Which colour does Majid like?',['Red','Blue','Green','Cannot be determined'],'Fahd likes green; Nayef does not like red, so he likes blue; red is left for Majid.'],
+ ['Ordering','In a race, Ali finished before Saad and after Nasser, and Faris finished last. What is the order from first to last?',['Nasser, Ali, Saad, Faris','Ali, Nasser, Saad, Faris','Nasser, Saad, Ali, Faris','Saad, Ali, Nasser, Faris'],'Nasser is before Ali, Ali is before Saad, and Faris is last.']
+],4:[
+ ['Magic square','Every row and column has the same total. What number replaces the question mark?',['8','7','5','9'],'The first row adds up to 2 + 7 + 6 = 15, so 4 + 3 + ? = 15 and the missing number is 8.'],
+ ['Shape sequences','What comes next in the pattern?',null,'The number of dots in the square grows by one each time.'],
+ ['Odd shape out','Which shape is different from the others?',null,'The hexagon, square and octagon have an even number of sides; the pentagon has an odd number.'],
+ ['Rotation','What comes next in the pattern?',null,'The arrow turns 45° clockwise at each step.'],
+ ['Number relations','Each triangle follows the same rule. What number replaces the question mark?',['13','56','11','14'],'The middle number is the sum of the corners: 3+4+5 = 12, 6+1+2 = 9, 7+2+4 = 13.'],
+ ['Number tables','What is x in the table?',['18','8','16','10'],'Third column = first number squared + second: 1+2 = 3, 4+3 = 7, 9+1 = 10, 16+2 = 18.'],
+ ['Number analogies','4 : 12  ::  7 : ...',['21','15','28','14'],'The second number is three times the first: 7 × 3 = 21.'],
+ ['Symbol equations','If ○ + ○ + ○ = 18 and ○ + △ = 10, what is △ × ○?',['24','10','18','40'],'○ = 6, so △ = 4, and 4 × 6 = 24.'],
+ ['Area','The large square has an area of 64 cm². What is the area of the shaded part?',['20 cm²','16 cm²','24 cm²','32 cm²'],'Each quarter is 16, and the small square is a quarter of a quarter = 4: 16 + 4 = 20 cm².'],
+ ['Counting triangles','How many triangles are in the figure?',['5','4','6','8'],'4 small triangles + the big triangle = 5.'],
+ ['Mirror clock','You look at a wall clock in a mirror and it seems to show 3:00. What is the real time?',['9:00','3:00','6:00','12:00'],'A mirror swaps left and right, so the hour hand that looks like it is at 3 is really at 9.'],
+ ['Paper folding','A sheet of paper is folded in half, and a half-circle is cut out at the fold. What do you see when you open it?',['A full circle in the middle','A half-circle','Two separate circles','A quarter circle'],'The cut at the fold is repeated on both sides, touching each other, so it forms a full circle.'],
+ ['Dice','On a dice, opposite faces always add up to 7. If the top face is 2, what is the bottom face?',['5','2','4','6'],'7 − 2 = 5.'],
+ ['Odd number out','Which number is not divisible by 6?',['27','12','18','30'],'12, 18 and 30 are multiples of 6; 27 is not.'],
+ ['Codes','If PEN is written as 123 and NET is written as 324, how is TEN written?',['423','324','432','243'],'P = 1, E = 2, N = 3, T = 4, so TEN = 423.'],
+ ['Cube nets','Which net cannot be folded into a cube?',null,'In the first net, two squares stick out in a row from the end of the strip, so one of them overlaps another face when folded.'],
+ ['Analogies','90° : quarter turn  ::  180° : ...',['half turn','full turn','quarter turn','three-quarter turn'],'A full turn is 360°, and 180° is half of it.'],
+ ['Number relations','Each circle follows the same rule. What number replaces the question mark?',['7','24','6','8'],'Top number = product of the bottom two: 2×5 = 10, 3×6 = 18, 4×7 = 28.'],
+ ['Logical reasoning','All birds have feathers. A penguin is a bird. So:',['A penguin has feathers','A penguin can fly','Everything with feathers is a penguin','We cannot tell'],'What is true for all birds is true for the penguin, because it is a bird.'],
+ ['Counting squares','How many squares are in the figure?',['30','16','25','20'],'16 squares (1×1) + 9 (2×2) + 4 (3×3) + 1 (4×4) = 30.']
+],5:[
+ ['Dot grid','Which shape completes the grid?',null,'In each row the number of dots grows by one; the third row goes 3, 4, then 5.'],
+ ['Odd shape out','Which shape is different from the others?',null,'Three shapes are the same shape rotated; the odd one is a flipped image that no rotation can make.'],
+ ['Sequences','What comes next?  1, 1, 2, 3, 5, 8, ...',['13','11','12','15'],'Each term is the sum of the two before it: 5 + 8 = 13.'],
+ ['Number relations','Each triangle follows the same rule. What number replaces the question mark?',['20','10','24','18'],'The middle number is double the sum of the corners: (1+2+3)×2 = 12, (2+4+1)×2 = 14, (3+3+4)×2 = 20.'],
+ ['Analogies','The first shape is to the second as the third shape is to:',null,'The arrow flips to the opposite direction: up becomes down, and right becomes left.'],
+ ['Difference pyramid','In the pyramid, each number is the difference between the two numbers directly below it. What is the top number?',['1','7','4','3'],'Middle row: 9 − 5 = 4 and 5 − 2 = 3; top: 4 − 3 = 1.'],
+ ['Number tables','What is x in the table?',['20','24','10','18'],'Third column = double the sum of the first two: (4 + 6) × 2 = 20.'],
+ ['Symbol equations','If ★ + ★ + ● = 13 and ★ + ● = 8, what is ★ − ●?',['2','5','3','8'],'Subtracting the equations gives ★ = 5, then ● = 3, and 5 − 3 = 2.'],
+ ['Angles','The minute hand points to 12 and the hour hand points to 6. What is the angle between them?',['180°','90°','360°','120°'],'The hands form a straight line, which is half a turn = 180°.'],
+ ['Word analogies','Foot : shoe  ::  head : ...',['hat','hair','eye','pillow'],'A shoe is worn on the foot, and a hat is worn on the head.'],
+ ['Logical reasoning','Mona, Hind and Salma each visited a different city: Makkah, Jeddah or Abha. Hind visited Jeddah, and Salma did not visit Abha. Which city did Mona visit?',['Abha','Makkah','Jeddah','Cannot be determined'],'Jeddah is Hind’s; Salma did not visit Abha, so she visited Makkah; Abha is left for Mona.'],
+ ['Ordering','Khalid is taller than Saad, Saad is taller than Fahd, and Majid is shorter than Fahd. Who is the shortest?',['Majid','Fahd','Saad','Khalid'],'From tallest: Khalid, Saad, Fahd, Majid.'],
+ ['Counting triangles','How many triangles are in the figure?',['8','4','6','10'],'4 small triangles + 4 triangles that are each half of the square = 8.'],
+ ['Number tables','Each row of the table adds up to 20. What is the missing number?',['11','9','10','12'],'20 − 6 − 3 = 11.'],
+ ['Cube nets','When the net is folded into a cube, which letter is opposite face B?',['E','D','F','A'],'If C is the bottom, F becomes the top, B the back and E the front, so B is opposite E, A is opposite D, and C is opposite F.'],
+ ['Making equal','Sara has 20 riyals and Noura has 8. How many riyals should Sara give Noura so they have the same amount?',['6','12','4','8'],'The total is 28, so each should have 14: Sara gives 20 − 14 = 6.'],
+ ['Number analogies','8 : 4  ::  12 : 6  ::  20 : ...',['10','16','5','40'],'The second number is half the first: 20 ÷ 2 = 10.'],
+ ['Odd shape out','Which shape is different from the others?',['Circle','Square','Rectangle','Rhombus'],'A square, a rectangle and a rhombus each have 4 straight sides; a circle has no sides.'],
+ ['Calendar','If the 1st of the month is a Sunday, what day is the 15th of the same month?',['Sunday','Monday','Saturday','Tuesday'],'The 1st, 8th and 15th all fall on the same day of the week: Sunday.'],
+ ['Triangular numbers','What comes next?  1, 3, 6, 10, ...',['15','14','12','16'],'The differences are 2, 3, 4, then 5, so 10 + 5 = 15.']
+],6:[
+ ['Landforms','Mona saw a deep valley between two mountains, where floodwater flows when it rains. What mainly formed it?',['Erosion by running water','Heat from the sun only','Animals moving','Plants growing'],'Running water carves the rocks and carries their pieces away over many years, forming valleys.'],
+ ['Force & motion','A boy wants to push a heavy box forward in a straight line. What is the best way?',['Push the middle of its back side forward','Push one of its corners','Pull it from the top downwards','Push its side towards the right'],'Pushing at the middle and in the direction of motion moves the box straight without turning it.'],
+ ['Moon phases','Which moon phase comes next in the order?',null,'The lit part grows from crescent to first quarter, then gibbous, then full moon.'],
+ ['Adaptation','A turtle has a hard shell covering its body. What is its main job?',['Protecting it from enemies','Helping it breathe','Helping it swim fast','Collecting food'],'The hard shell is an adaptation for protection; the turtle hides inside it when in danger.'],
+ ['Food chains','In the chain grass → rabbit → fox → eagle, what usually happens if the number of foxes falls?',['Rabbits increase','Eagles increase','Grass increases a lot','Nothing changes'],'Foxes eat rabbits, so with fewer foxes fewer rabbits are eaten and their number grows.'],
+ ['Classification','Ahmed sorted objects into two groups: (nail, drink can, key) and (eraser, glass cup, wooden pencil). What was his rule?',['Metals and non-metals','Heavy and light','Living and non-living','Big and small'],'The first group is made of metals and the second of non-metal materials.'],
+ ['Sound','Saad has identical metal tubes of different lengths. Which tube gives the highest note when struck?',['The shortest tube','The longest tube','The middle tube','They all sound the same'],'The shortest tube vibrates fastest, so its note is the highest.'],
+ ['Inclined planes','Badr wants his toy car to be faster at the bottom of a smooth ramp. What should he do?',['Make the ramp steeper (higher)','Paint the ramp','Only make the wheels bigger','Put a cloth on the ramp'],'The steeper the ramp, the faster the car at the bottom; a cloth adds friction and slows it down.'],
+ ['Magnets','Which of these is NOT attracted to a magnet?',['Copper wire','Iron paper clip','Iron nail','Iron filings'],'Magnets attract iron, but copper is not attracted.'],
+ ['Heat transfer','Three spoons (metal, wooden, plastic) are placed in hot water with a piece of butter on the end of each. On which spoon does the butter melt first?',['Metal','Wooden','Plastic','All at the same time'],'Metals conduct heat well; wood and plastic are insulators.'],
+ ['Shadows & the sun','Nawaf put a stick in the ground and watched its shadow all day. When is the shadow shortest?',['At noon','Early morning','In the afternoon','Before sunset'],'At noon the sun is highest in the sky, so the shadow is shortest.'],
+ ['Collisions','A glass marble rolling on a smooth surface hits a row of 3 identical marbles that are touching and standing still. What usually happens?',['The moving marble stops and the last marble in the row rolls away','All three marbles move together','The moving marble bounces back and the others stay still','Only the first marble in the row moves'],'The motion passes through the touching marbles to the last one, which rolls away, and the incoming marble stops.'],
+ ['Rolling','Two cylinders have the same mass and diameter; one is solid and the other is hollow. They roll down a ramp at the same time. Which arrives first?',['The solid one','The hollow one','They arrive together','Not enough information'],'The hollow cylinder’s mass is far from its centre, so it needs more energy to spin and rolls more slowly.'],
+ ['Energy','A ball is thrown upwards. At which point is its potential energy greatest?',['At its highest point','The moment it leaves the hand','Halfway up','The moment it hits the ground'],'Potential energy grows with height, so it is greatest at the highest point.'],
+ ['Bouncing','A rubber ball is dropped and bounces several times. How high is each bounce?',['Lower than the bounce before','Higher than the bounce before','The same as the bounce before','It rises, then falls'],'The ball loses some energy at each hit, so each bounce is lower.'],
+ ['Gears','Three gears are meshed together. If gear A turns clockwise, which way does gear C turn?',['Clockwise','Anticlockwise','It does not turn','It keeps switching direction'],'Meshed gears turn in opposite directions: A clockwise, B anticlockwise, C clockwise.'],
+ ['Motion & speed','A ball rolls down a ramp, then along a smooth flat floor, then up another ramp. How does its speed change?',['It increases, stays the same, then decreases','It decreases, stays the same, then increases','It increases the whole time','It stays the same the whole time'],'Going down speeds it up, the smooth flat floor keeps the speed, and going up slows it down.'],
+ ['Air pressure','Two sheets of paper hang facing each other and can swing freely. We blow air fast between them. What happens?',['They move closer together','They move apart','They stay where they are','They fall to the ground'],'Fast-moving air between the sheets has lower pressure, so the outside air pushes them together.'],
+ ['Heat conduction','Four rods (copper, wood, plastic, glass) are put in hot water. Which rod has the hottest top after a minute?',['Copper','Wood','Plastic','Glass'],'Copper is a metal and a very good conductor of heat.'],
+ ['Heating','Three identical pots hold different amounts of cold water and are heated on identical flames for 5 minutes. Which pot has the hottest water?',['The pot with the least water','The pot with the most water','The middle pot','They are all the same'],'The same amount of heat raises the temperature of a smaller amount of water more.']
+],7:[
+ ['Reading tables','The table shows the temperature in a city over 5 days. What is the expected temperature on day 4?',['36°','35°','37°','34°'],'The temperature rises by 2 degrees each day: 30, 32, 34, 36, 38.',{fig:tab(['Day','1','2','3','4','5'],[['Temp.','30°','32°','34°','?','38°']])}],
+ ['Heat transfer','A piece of metal at 80° touches another piece at 20°. Which way does the heat flow?',['From the hot piece to the cold piece','From the cold piece to the hot piece','Equally both ways','Heat does not move'],'Heat always flows from the hotter object to the colder one until they reach the same temperature.'],
+ ['Plant needs','Two students planted identical plants. The first watered his every day; the second did not water his, and it wilted. What is the correct conclusion?',['Plants need water to grow','Plants do not need light','The soil was different','The second plant does not need water'],'The experiment changed only one thing, water, so the wilting shows the plant needs it.'],
+ ['Evaporation','Equal amounts of water are left for two days in a wide open dish and in a tall, narrow open tube. What do you expect?',['The wide dish loses more water','The narrow tube loses more water','The amount does not change','Both lose the same amount'],'The larger the open water surface, the more water evaporates.'],
+ ['Magnet strength','Salem tested four magnets: A held 3 clips, B held 6, C held 2 and D held 4. Which magnet is the strongest?',['B','A','C','D'],'The strongest magnet holds the most clips.'],
+ ['Absorbing heat','Ahmed wants to paint a rooftop water tank so the sun heats the water quickly. Which colour is best?',['Black','White','Silver','Light yellow'],'Dark colours absorb sunlight more; light colours reflect it.'],
+ ['Cooling','Equal amounts of hot water are put in different containers. Which one cools first?',['A wide open dish','A narrow closed bottle','A tall closed cup','A closed flask'],'A wide open surface loses heat to the air faster.'],
+ ['Wind energy','Which windmill produces more energy in the same wind?',['The one with longer blades','The one with shorter blades','The one with heavier blades','The one with coloured blades'],'Longer blades catch more air.'],
+ ['Stability','Which table is the most stable and least likely to tip over?',['A table with a wide, low base','A tall table with a narrow base','A table on one thin leg','A tall, light table'],'The wider the base and the lower the object, the more stable it is.'],
+ ['Measuring volume','A measuring cylinder holds 35 mL of water. When a stone is dropped in, the water rises to 50 mL. What is the volume of the stone?',['15 cm³','50 cm³','35 cm³','85 cm³'],'Stone volume = 50 − 35 = 15 mL = 15 cm³.'],
+ ['Separating mixtures','You have a mixture of iron filings, salt and sand. What is the correct order to separate it?',['Magnet → dissolve in water → filter → evaporate','Filter → magnet → evaporate → dissolve','Evaporate → filter → magnet → dissolve','Dissolve → evaporate → magnet → filter'],'A magnet removes the iron, water dissolves the salt, filtering removes the sand, and evaporation gets the salt back.'],
+ ['States of matter','A substance melts at −10° and boils at 60°. What state is it in at room temperature (25°)?',['Liquid','Solid','Gas','Not enough information'],'25° is above the melting point and below the boiling point, so it is a liquid.'],
+ ['The four seasons','What causes the seasons on Earth?',['The tilt of Earth’s axis as it orbits the sun','Changes in the sun’s own heat','Earth being close to the moon','Wind speed'],'The tilt makes sunlight hit the Earth at different angles through the year.'],
+ ['Hardness','Which material can scratch all the others?',['Diamond','Glass','Iron','Wood'],'Diamond is the hardest known natural material.'],
+ ['Smooth slopes','Three boxes of 1, 2 and 3 kg slide at the same time from the top of a smooth slope. Which arrives first?',['They all arrive at the same time','The 3 kg box','The 1 kg box','The 2 kg box'],'On a smooth slope, objects speed up at the same rate whatever their mass.'],
+ ['Friction','Why are small wheels fitted under heavy furniture?',['To reduce friction and make it easier to move','To make it heavier','To increase friction','To make it more stable'],'Wheels reduce friction between the furniture and the floor.'],
+ ['Floating','An egg sinks in fresh water but floats in very salty water. Why?',['Salty water is denser','Salty water is colder','The egg becomes lighter','Fresh water is heavier'],'Salty water is denser, so it pushes the egg up more strongly.'],
+ ['Sound travel','In which of these does sound travel fastest?',['Iron','Air','Water','Empty space (vacuum)'],'Sound is fastest in solids and cannot travel through a vacuum.'],
+ ['Telling materials apart','You have two cups: one of fresh water and one of salty water. How can you tell them apart without tasting?',['Evaporate a little of each and look for leftover salt','Look at their colour','Measure their height','Put a magnet in them'],'When the water evaporates, salt is left behind from the salty water.'],
+ ['Light & sound','Why do we see lightning before we hear thunder?',['Light travels faster than sound','Lightning always happens first','Sound cannot travel through air','Eyes are stronger than ears'],'Lightning and thunder happen together, but light reaches us much faster than sound.']
+]};
+// ================= Verbal part (models 8–12) =================
+const E=e=>`<span class="emo">${e}</span>`;
+const ana=(a,b,c)=>`<div class="ana"><span>${a}</span><b>:</b><span>${b}</span><b>::</b><span>${c}</span><b>:</b><span>؟</span></div>`;
+const PA_AR='اختر الصورة التي تكمل العلاقة.', PA_EN='Choose the picture that completes the relationship.';
+const OD_AR='أي صورة لا تنتمي إلى المجموعة؟', OD_EN='Which picture does not belong to the group?';
+const PS={
+ ant:{ar:'في فصل الصيف كانت نملة صغيرة تجمع حبوب القمح وتحملها إلى بيتها تحت الأرض، بينما كان الجندب يقفز ويغني طوال اليوم. سألها الجندب: لماذا تتعبين نفسك والطعام كثير؟ فقالت النملة: أجمع طعامي للشتاء. وحين جاء الشتاء وغطى الثلج الأرض جاع الجندب، أما النملة فكانت تأكل في بيتها الدافئ.',
+      en:'In summer, a little ant collected grains of wheat and carried them to her home under the ground, while the grasshopper jumped and sang all day. The grasshopper asked her: “Why do you tire yourself when there is plenty of food?” The ant said: “I am saving my food for the winter.” When winter came and snow covered the ground, the grasshopper was hungry, but the ant ate in her warm home.'},
+ palm:{ar:'النخلة شجرة مباركة تنمو في المناطق الحارة، وتحتاج إلى ماء قليل. يأكل الناس ثمرها وهو التمر، ويصنعون من سعفها السلال والحصير، ومن جذوعها كانوا يصنعون سقوف البيوت قديمًا. تعيش النخلة عشرات السنين، وتبدأ في إعطاء الثمر بعد أربع إلى ثماني سنوات من زراعتها.',
+       en:'The palm tree is a blessed tree that grows in hot regions and needs little water. People eat its fruit, dates, and make baskets and mats from its fronds. In the past, they used its trunks to build the roofs of houses. A palm tree lives for decades and starts giving fruit four to eight years after it is planted.'},
+ bike:{ar:'أهدى الأب ابنه سلمان دراجة جديدة يوم نجاحه. فرح سلمان كثيرًا وخرج يركبها بسرعة دون أن يلبس الخوذة، فسقط وجُرحت ركبته. عاد إلى البيت باكيًا، فضمّد أبوه جرحه وقال له: الدراجة متعة، لكن السلامة أولًا. ومنذ ذلك اليوم لم يركب سلمان دراجته إلا وعلى رأسه الخوذة.',
+       en:'On the day Salman passed his exams, his father gave him a new bicycle. Salman was very happy and rode it fast without wearing his helmet. He fell and hurt his knee. He came home crying, and his father bandaged the wound and said: “Cycling is fun, but safety comes first.” Since that day, Salman never rides his bicycle without his helmet.'},
+ water:{ar:'يغطي الماء نحو ثلاثة أرباع سطح الأرض، لكن أكثره ماء مالح في البحار والمحيطات، والقليل منه ماء عذب في الأنهار والبحيرات وتحت الأرض. ولا يستطيع الإنسان أن يعيش أيامًا كثيرة دون شرب الماء، لذلك يجب أن نحافظ عليه ولا نسرف في استعماله.',
+        en:'Water covers about three quarters of the Earth’s surface, but most of it is salty water in the seas and oceans. Only a little is fresh water, in rivers, lakes and under the ground. People cannot live many days without drinking water, so we must protect it and not waste it.'},
+ laila:{ar:'تذهب ليلى كل يوم سبت إلى بيت جدتها بعد المدرسة، وتساعدها في سقي الزرع، ثم تعود قبل المغرب.',en:'Every Saturday after school, Laila goes to her grandmother’s house, helps her water the plants, and comes back before sunset.'},
+ beach:{ar:'سمع ماجد صوت الأمواج، وشعر برمل ناعم تحت قدميه، ورأى طيور النورس تحلّق فوقه.',en:'Majid heard the sound of waves, felt soft sand under his feet, and saw seagulls flying above him.'},
+ ayah:{ar:'قال الله تعالى: ﴿وَجَعَلْنَا مِنَ الْمَاءِ كُلَّ شَيْءٍ حَيٍّ﴾.',en:'Allah says in the Quran: “And We made from water every living thing.” (21:30)'},
+ sina:{ar:'وُلد العالم ابن سينا قرب مدينة بخارى، ثم انتقل إلى مدينة همذان وعاش فيها حتى توفي.',en:'The scholar Ibn Sina was born near the city of Bukhara. He later moved to the city of Hamadan and lived there until he died.'}
+};
+const pa=k=>({pass:PS[k].ar}), pe=k=>({pass:PS[k].en});
+Object.assign(B,{
+8:[
+ ['تناظر الصور',PA_AR,[E('🦶'),E('👂'),E('👁️'),E('👃')],'القفاز يُلبس في اليد، والجورب يُلبس في القدم.',{figOpts:true,fig:ana(E('🧤'),E('✋'),E('🧦'))}],
+ ['تناظر الصور',PA_AR,[E('🍯'),E('🌸'),E('🐻'),E('🌳')],'الدجاجة تعطينا البيض، والنحلة تعطينا العسل.',{figOpts:true,fig:ana(E('🐔'),E('🥚'),E('🐝'))}],
+ ['تناظر الصور',PA_AR,[E('🍞'),E('🥄'),E('🍽️'),E('🧂')],'المقص يقص الورق، والسكين تقطع الخبز.',{figOpts:true,fig:ana(E('✂️'),E('📄'),E('🔪'))}],
+ ['تناظر الصور',PA_AR,[E('🏜️'),E('🌳'),E('❄️'),E('🏠')],'السمكة تعيش في البحر، والجمل يعيش في الصحراء.',{figOpts:true,fig:ana(E('🐟'),E('🌊'),E('🐫'))}],
+ ['تناظر الصور',PA_AR,[E('☂️'),E('🧣'),E('🧤'),E('🎒')],'النظارة الشمسية نستعملها مع الشمس، والمظلة نستعملها مع المطر.',{figOpts:true,fig:ana(E('☀️'),E('🕶️'),E('🌧️'))}],
+ ['تناظر الصور',PA_AR,[E('🌊'),E('✈️'),E('⛽'),E('🏠')],'السيارة تسير على الطريق، والسفينة تسير في البحر.',{figOpts:true,fig:ana(E('🚗'),E('🛣️'),E('🚢'))}],
+ ['تناظر الصور',PA_AR,[E('🥒'),E('🍓'),E('🍐'),E('🍒')],'التفاح والموز من الفواكه، والجزر والخيار من الخضراوات.',{figOpts:true,fig:ana(E('🍎'),E('🍌'),E('🥕'))}],
+ ['تناظر الصور',PA_AR,[E('🦋'),E('🐝'),E('🌿'),E('🐞')],'الكتكوت يكبر فيصبح دجاجة، واليرقة تكبر فتصبح فراشة.',{figOpts:true,fig:ana(E('🐣'),E('🐔'),E('🐛'))}],
+ ['تناظر الصور',PA_AR,[E('💡'),E('🔥'),E('🌙'),E('⭐')],'الهاتف القديم تطوّر إلى الجوال، والشمعة تطورت إلى المصباح الكهربائي.',{figOpts:true,fig:ana(E('☎️'),E('📱'),E('🕯️'))}],
+ ['تناظر الصور',PA_AR,[E('🧑'),E('🍼'),E('🧸'),E('🎈')],'النبتة الصغيرة تكبر فتصبح شجرة، والطفل يكبر فيصبح رجلًا.',{figOpts:true,fig:ana(E('🌱'),E('🌳'),E('👶'))}],
+ ['تناظر الصور',PA_AR,[E('🖼️'),E('🎤'),E('🎧'),E('📚')],'نعزف بالبيانو الموسيقى، ونرسم بالفرشاة اللوحة.',{figOpts:true,fig:ana(E('🎹'),E('🎵'),E('🖌️'))}],
+ ['تناظر الصور',PA_AR,[E('🥅'),E('👟'),E('🏆'),E('🎽')],'السهم يُرمى نحو الهدف، والكرة تُركل نحو المرمى.',{figOpts:true,fig:ana(E('🏹'),E('🎯'),E('⚽'))}],
+ ['الصورة المختلفة',OD_AR,[E('🥕'),E('🍎'),E('🍌'),E('🍇')],'التفاح والموز والعنب فواكه، أما الجزر فمن الخضراوات.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('✈️'),E('🚗'),E('🚌'),E('🚲')],'السيارة والحافلة والدراجة تسير على الأرض، أما الطائرة فتطير في الجو.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('🐪'),E('🐟'),E('🐬'),E('🐙')],'السمكة والدلفين والأخطبوط تعيش في البحر، أما الجمل فيعيش في الصحراء.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('🍴'),E('✏️'),E('🖊️'),E('🖍️')],'القلم الرصاص وقلم الحبر والقلم الملون أدوات للكتابة والرسم، أما الشوكة فأداة للأكل.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('🐇'),E('🐔'),E('🦆'),E('🐧')],'الدجاجة والبطة والبطريق طيور لها ريش وتبيض، أما الأرنب فحيوان ثديي.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('📚'),E('⚽'),E('🏀'),E('🎾')],'كرة القدم والسلة والتنس أدوات رياضية، أما الكتب فأدوات للقراءة.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('🧊'),E('🌞'),E('⭐'),E('💡')],'الشمس والنجم والمصباح مصادر للضوء، أما الثلج فليس مصدرًا للضوء.',{figOpts:true}],
+ ['الصورة المختلفة',OD_AR,[E('🧹'),E('🥄'),E('🍴'),E('🔪')],'الملعقة والشوكة والسكين أدوات للأكل، أما المكنسة فأداة للتنظيف.',{figOpts:true}]
+],
+9:[
+ ['التناظر اللفظي','محرّم : صفر  ::  جمادى الأولى : ......',['جمادى الآخرة','رجب','ربيع الأول','شعبان'],'صفر هو الشهر الهجري الذي يلي محرم، وجمادى الآخرة هو الشهر الذي يلي جمادى الأولى.'],
+ ['التناظر اللفظي','قلم : حبر  ::  سيارة : ......',['وقود','طريق','عجلة','سائق'],'القلم يحتاج إلى الحبر ليكتب، والسيارة تحتاج إلى الوقود لتسير.'],
+ ['التناظر اللفظي','الرياض : السعودية  ::  مسقط : ......',['عُمان','الكويت','قطر','الأردن'],'الرياض عاصمة السعودية، ومسقط عاصمة عُمان.'],
+ ['التناظر اللفظي','كتاب : مكتبة  ::  دواء : ......',['صيدلية','طبيب','مريض','علاج'],'نجد الكتب في المكتبة، ونجد الدواء في الصيدلية.'],
+ ['التضاد','طويل : قصير  ::  سريع : ......',['بطيء','عدّاء','سباق','خفيف'],'العلاقة تضاد: الطويل ضد القصير، والسريع ضد البطيء.'],
+ ['الترادف','شجاع : جريء  ::  سعيد : ......',['مسرور','حزين','غاضب','متعب'],'العلاقة ترادف: الشجاع بمعنى الجريء، والسعيد بمعنى المسرور.'],
+ ['صغار الحيوانات','بقرة : عِجل  ::  قطة : ......',['هُريرة','جرو','مُهر','شِبل'],'العجل صغير البقرة، والهريرة صغيرة القطة.'],
+ ['المذكر والمؤنث','ثور : بقرة  ::  كبش : ......',['نعجة','عنزة','حَمَل','فرس'],'البقرة أنثى الثور، والنعجة أنثى الكبش.'],
+ ['أصوات الحيوانات','حصان : صهيل  ::  كلب : ......',['نباح','مواء','زئير','خوار'],'الصهيل صوت الحصان، والنباح صوت الكلب.'],
+ ['المهنة والأداة','خيّاط : إبرة  ::  رسّام : ......',['فرشاة','مقص','مطرقة','منشار'],'الخياط يستخدم الإبرة، والرسام يستخدم الفرشاة.'],
+ ['المهنة والمكان','مزارع : حقل  ::  بحّار : ......',['سفينة','مدرسة','مخبز','حديقة'],'المزارع يعمل في الحقل، والبحار يعمل في السفينة.'],
+ ['الجزء والكل','غصن : شجرة  ::  صفحة : ......',['كتاب','قلم','حبر','مكتب'],'الغصن جزء من الشجرة، والصفحة جزء من الكتاب.'],
+ ['العضو ووظيفته','عين : رؤية  ::  أنف : ......',['شمّ','سمع','تذوّق','لمس'],'العين للرؤية، والأنف للشم.'],
+ ['الدولة والعملة','اليابان : الين  ::  الكويت : ......',['الدينار','الريال','الدرهم','الجنيه'],'الين عملة اليابان، والدينار عملة الكويت.'],
+ ['الحاجة وما يزيلها','ماء : عطش  ::  نوم : ......',['تعب','سرير','حلم','ليل'],'الماء يزيل العطش، والنوم يزيل التعب.'],
+ ['السبب والنتيجة','مذاكرة : نجاح  ::  إهمال : ......',['رسوب','نجاح','مدرسة','كتاب'],'المذاكرة تؤدي إلى النجاح، والإهمال يؤدي إلى الرسوب.'],
+ ['الأداة ووظيفتها','ثلاجة : تبريد  ::  فرن : ......',['خَبز','تجميد','غسيل','تنظيف'],'الثلاجة للتبريد، والفرن للخَبز.'],
+ ['التناظر اللفظي','7 أيام : أسبوع  ::  12 شهرًا : ......',['سنة','يوم','قرن','فصل'],'سبعة أيام تساوي أسبوعًا، واثنا عشر شهرًا تساوي سنة.'],
+ ['التصنيف','صقر : ......  (اختر الكلمة التي من الفئة نفسها)',['نسر','سمكة','قطة','أرنب'],'الصقر والنسر من الطيور الجارحة.'],
+ ['التصنيف','تفاح : ......  (اختر الكلمة التي من الفئة نفسها)',['مانجو','جزر','بطاطس','خس'],'التفاح والمانجو من الفواكه، أما الباقي فخضراوات.']
+],
+10:[
+ ['المقدمات غير الواقعية','إذا كان القمر مربعًا، وكان للمثلث ثلاثة أضلاع، فإن للقمر ......',['أربعة أضلاع','ثلاثة أضلاع','ضلعين','لا أضلاع'],'بما أن القمر مربع (مقدمة غير واقعية نقبلها كما هي)، فله أربعة أضلاع.'],
+ ['المقدمات غير الواقعية','إذا كانت القطط تسبح في البحر مثل الأسماك، وكان الطائر يبني عشه على الشجرة، فإن القطط تعيش في ......',['البحر','البيت','الغابة','الصحراء'],'بما أن القطط تسبح في البحر مثل الأسماك، فهي تعيش في البحر.'],
+ ['المقدمات غير الواقعية','إذا كان الكرسي يُؤكل، وكان القلم للكتابة، فإن الكرسي يُستخدم ......',['طعامًا','للجلوس','للكتابة','للنوم'],'بما أن الكرسي يُؤكل، فهو يُستخدم طعامًا.'],
+ ['المقدمات غير الواقعية','إذا كان السكر مالحًا، وكان الليمون حامضًا، فإن طعم السكر ......',['مالح','حلو','حامض','مُر'],'بما أن السكر مالح في هذه المقدمة، فطعمه مالح.'],
+ ['المقدمات غير الواقعية','إذا كانت الأرانب تطير، وكانت السلحفاة تمشي ببطء، فإن الأرانب ......',['لها أجنحة','تحفر','تسبح','تزحف'],'بما أن الأرانب تطير، فلها أجنحة.'],
+ ['المقدمات غير الواقعية','إذا كان الطبيب يعمل في المخبز، وكان المعلم يعمل في المدرسة، فإن الطبيب يصنع ......',['الخبز','الدواء','الدروس','الملابس'],'بما أن الطبيب يعمل في المخبز، فهو يصنع الخبز.'],
+ ['المقدمات غير الواقعية','إذا كانت السيارات تسير في السماء، وكانت السفن تسير في البحر، فإن السيارات تحتاج إلى ......',['أجنحة','طرق','أشرعة','سكة حديد'],'ما يسير في السماء يحتاج إلى أجنحة.'],
+ ['المقدمات غير الواقعية','إذا كان الحليب أسود، وكان الثلج أبيض، فإن لون الحليب ......',['أسود','أبيض','أصفر','أحمر'],'بما أن الحليب أسود في هذه المقدمة، فلونه أسود.'],
+ ['المقدمات غير الواقعية','إذا كان الفيل صغيرًا جدًا مثل النملة، وكان الحصان يجري سريعًا، فإن الفيل يستطيع أن يدخل ......',['ثقبًا صغيرًا','البحر','السماء','الجبل'],'بما أن الفيل صغير مثل النملة، فهو يستطيع دخول ثقب صغير.'],
+ ['المقدمات غير الواقعية','إذا كانت الكتب تُشرب، وكان الخبز يُؤكل، فإن الكتب توضع في ......',['كوب','مكتبة','حقيبة','دُرج'],'ما يُشرب يوضع في الكوب.'],
+ ['المقدمات غير الواقعية','إذا كانت البطاطس من الفواكه، وكان الخيار من الخضراوات، فإن البطاطس من ......',['الفواكه','الخضراوات','البقوليات','الحبوب'],'المقدمة تقول إن البطاطس من الفواكه، فنلتزم بها.'],
+ ['المقدمات غير الواقعية','إذا كان القلب للتفكير، وكانت المعدة للهضم، فإن القلب من الجهاز ......',['العصبي','الدوري','الهضمي','التنفسي'],'التفكير وظيفة الجهاز العصبي، فالقلب هنا من الجهاز العصبي.'],
+ ['المقدمات غير الواقعية','إذا كان الأسد يأكل العشب، وكان الصقر يأكل اللحم، فإن الأسد من الحيوانات ......',['العاشبة','المفترسة','المائية','الزاحفة'],'من يأكل العشب من الحيوانات العاشبة.'],
+ ['المقدمات غير الواقعية','إذا كان الطائر يعيش تحت الأرض، وكان السمك يعيش في الماء، فإن عش الطائر يكون في ......',['جُحر تحت الأرض','أعلى الشجرة','الماء','السماء'],'بما أن الطائر يعيش تحت الأرض، فعشه في جحر تحت الأرض.'],
+ ['المقدمات غير الواقعية','إذا كان المربع دائريًا، وكان للمستطيل أربعة أركان، فإن المربع ......',['ليس له أركان','له أربعة أركان','له ثلاثة أركان','له ركنان'],'الشكل الدائري ليس له أركان.'],
+ ['المقدمات غير الواقعية','إذا كانت الأذن للرؤية، وكان الأنف للشم، فإن النظارة توضع على ......',['الأذن','العين','الأنف','اليد'],'النظارة تساعد على الرؤية، والرؤية هنا بالأذن.'],
+ ['المقدمات غير الواقعية','إذا كان الصيف باردًا، وكان الشتاء ممطرًا، فإن الناس في الصيف يلبسون ......',['المعاطف الثقيلة','الملابس الخفيفة','ملابس السباحة','القبعات الصيفية'],'في الجو البارد نلبس المعاطف الثقيلة.'],
+ ['المقدمات غير الواقعية','إذا كان الملح يُستخدم للغسيل، وكان الماء يُستخدم للشرب، فإن الملح يوضع في ......',['الغسالة','الطعام','الثلاجة','الصيدلية'],'ما يُستخدم للغسيل يوضع في الغسالة.'],
+ ['المقدمات غير الواقعية','إذا كانت الساعة تقيس الوزن، وكانت المسطرة تقيس الطول، فإن وزن البطيخة يُقاس بـ ......',['الساعة','الميزان','المسطرة','الشريط'],'الساعة هي التي تقيس الوزن في هذه المقدمة.'],
+ ['المقدمات غير الواقعية','إذا كان الأطفال كلما كبروا صاروا أصغر، وكانت الأشجار تنمو فتطول، فإن الطفل بعد سنوات يصبح ......',['أصغر','أكبر','أطول','أقوى'],'المقدمة تقول إن الأطفال يصغرون كلما كبروا.']
+],
+11:[
+ ['إكمال المعنى','زرعت أمي في الحديقة نباتات عطرية مثل: النعناع والحبق والمرمية؛ وعليه فإن المرمية تُستخدم ......',['في إعداد الطعام والمشروبات','في بناء البيوت','في صناعة الملابس','في إطعام القطط'],'المرمية من النباتات العطرية مثل النعناع، فتُستخدم في الطعام والمشروبات.'],
+ ['إكمال المعنى','تعرّفنا في حصة العلوم على الكواكب، ومنها: عطارد والزهرة والمريخ وزحل؛ وعليه فإن زحل ......',['كوكب','نجم','قمر','مُذنَّب'],'ذُكر زحل مع الكواكب، فهو كوكب.'],
+ ['إكمال المعنى','تحدثت المعلمة عن الآلات الموسيقية مثل: العود والكمان والقانون؛ وعليه فإن القانون يُستخدم في ......',['العزف','الكتابة','الطبخ','الرسم'],'القانون هنا آلة موسيقية، فيُستخدم في العزف.'],
+ ['إكمال المعنى','ذكر لنا المعلم بعض الأنبياء عليهم السلام، ومنهم: هود وصالح وشعيب؛ وعليه فإن شعيبًا من ......',['الأنبياء','الصحابة','الملائكة','الخلفاء'],'ذُكر شعيب مع الأنبياء هود وصالح.'],
+ ['إكمال المعنى','زار علي المتحف فرأى أدوات قديمة للزراعة مثل: المحراث والمنجل والمِذراة؛ وعليه فإن المذراة تُستخدم في ......',['الزراعة','الصيد','الطبخ','البناء'],'المذراة من أدوات الزراعة.'],
+ ['إكمال المعنى','من الطيور الجارحة: الصقر والنسر والعُقاب والباز؛ وعليه فإن الباز ......',['طائر جارح','سمكة','حشرة','طائر مائي'],'ذُكر الباز مع الطيور الجارحة.'],
+ ['إكمال المعنى','قرأت سارة عن الأحجار الكريمة مثل: الياقوت والزمرد والفيروز؛ وعليه فإن الفيروز يُستخدم في ......',['الزينة','البناء','الطعام','الوقود'],'الأحجار الكريمة تُستخدم في صناعة الحُلي والزينة.'],
+ ['إكمال المعنى','تعلمنا من وحدات قياس الطول: المتر والسنتيمتر والكيلومتر والمليمتر؛ وعليه فإن المليمتر يقيس ......',['الطول','الوزن','الزمن','الحرارة'],'المليمتر من وحدات قياس الطول.'],
+ ['إكمال المعنى','ذكرت المعلمة من الحشرات: النمل والجراد والخنفساء وفرس النبي؛ وعليه فإن فرس النبي ......',['حشرة','حصان','طائر','زاحف'],'رغم اسمه، فرس النبي ذُكر مع الحشرات فهو حشرة.'],
+ ['إكمال المعنى','من المدن السعودية الساحلية: جدة وينبع والدمام والجبيل؛ وعليه فإن الجبيل تقع على ......',['ساحل البحر','قمة جبل','وسط الصحراء','ضفة نهر'],'الجبيل من المدن الساحلية، فهي على ساحل البحر.'],
+ ['إكمال المعنى','من أدوات المطبخ: المقلاة والمصفاة والمغرفة؛ وعليه فإن المغرفة تُستخدم في ......',['غَرف الطعام','كتابة الدروس','غسل الملابس','كنس البيت'],'المغرفة من أدوات المطبخ وتُستخدم في غَرف الطعام.'],
+ ['إكمال المعنى','تعلمنا من الأشكال المجسمة: المكعب والكرة والأسطوانة والهرم؛ وعليه فإن الهرم يدخل في مادة ......',['الرياضيات','التاريخ','اللغة الإنجليزية','التربية البدنية'],'الأشكال المجسمة من دروس الرياضيات.'],
+ ['إكمال المعنى','من الحيوانات الثديية: الحوت والخفاش والجمل؛ وعليه فإن الخفاش ......',['يُرضع صغاره','يبيض','يتنفس بالخياشيم','له ريش'],'الثدييات تُرضع صغارها، والخفاش منها.'],
+ ['إكمال المعنى','كادت الشمس تشرق، وأخشى أن تفوتني صلاة ......',['الفجر','الظهر','العصر','المغرب'],'وقت صلاة الفجر ينتهي بشروق الشمس.'],
+ ['إكمال المعنى','دخل أحمد المطعم وجلس إلى الطاولة وطلب الطعام؛ وعليه يمكن أن نقول إن أحمد ......',['موجود في المطعم','يعمل طبّاخًا','في المدرسة','نائم'],'النص يقول إنه دخل المطعم وجلس فيه.'],
+ ['إكمال المعنى','رأت مريم شخصًا سقط ولا يستطيع الوقوف من ألم قدمه، فعليها أن تتصل أولًا بـ ......',['الإسعاف','الدفاع المدني','المرور','البريد'],'الإصابات تحتاج إلى الإسعاف.'],
+ ['إكمال المعنى','جهّز فهد ملابس ثقيلة ومعطفًا وقفازات؛ لأن أسرته ذاهبة إلى ......',['منطقة يتساقط فيها الثلج','شاطئ حار','مسبح','صحراء في الصيف'],'الملابس الثقيلة تناسب الأماكن الباردة.'],
+ ['إكمال المعنى','لعبت هند بعد الظهر، وذاكرت الرياضيات بعد العصر، والعلوم بعد المغرب، وحفظت القرآن بعد العشاء. إذًا هند ذاكرت العلوم بعد صلاة ......',['المغرب','العصر','العشاء','الظهر'],'النص يذكر أن العلوم كانت بعد المغرب.'],
+ ['إكمال المعنى','اشترى الأب سمكًا ودجاجًا ولحمًا؛ وعليه فإن الأب اشترى أطعمة غنية بـ ......',['البروتين','السكر','الفيتامينات فقط','الدهون فقط'],'السمك والدجاج واللحم مصادر غنية بالبروتين.'],
+ ['إكمال المعنى','كل ما يلي من أفراد الأسرة ما عدا ......',['الجار','الأخ','الجد','العم'],'الأخ والجد والعم من الأسرة، أما الجار فليس منها.']
+],
+12:[
+ ['فهم المقروء','أين تعيش النملة؟',['تحت الأرض','على الشجرة','في الماء','فوق الجبل'],'يقول النص إن النملة تحمل الحبوب إلى بيتها تحت الأرض.',pa('ant')],
+ ['فهم المقروء','لماذا كانت النملة تجمع الحبوب؟',['لتأكلها في الشتاء','لتبيعها','لتطعم الجندب','لتلعب بها'],'قالت النملة: أجمع طعامي للشتاء.',pa('ant')],
+ ['فهم المقروء','ما صفة الجندب في القصة؟',['لا يفكر في المستقبل','مجتهد','كريم','حذر'],'كان الجندب يلعب طوال الصيف ولم يستعد للشتاء.',pa('ant')],
+ ['الدرس المستفاد','ما الدرس الذي نتعلمه من القصة؟',['من جدّ وجد','الصديق وقت الضيق','في التأني السلامة','القناعة كنز لا يفنى'],'النملة اجتهدت فوجدت طعامها في الشتاء.',pa('ant')],
+ ['فهم المقروء','تنمو النخلة في المناطق ......',['الحارة','الباردة','الثلجية','الممطرة دائمًا'],'يقول النص: تنمو في المناطق الحارة.',pa('palm')],
+ ['فهم المقروء','يصنع الناس من سعف النخلة ......',['السلال والحصير','التمر','سقوف البيوت','الأدوية'],'يقول النص: يصنعون من سعفها السلال والحصير.',pa('palm')],
+ ['فهم المقروء','تبدأ النخلة في إعطاء الثمر بعد ......',['أربع إلى ثماني سنوات','شهر واحد','عشرات السنين','سنة واحدة'],'يقول النص: بعد أربع إلى ثماني سنوات من زراعتها.',pa('palm')],
+ ['معاني الكلمات','كلمة «جذوعها» في النص تعني ......',['سيقانها الغليظة','أوراقها','ثمارها','جذورها'],'الجذع هو ساق الشجرة الغليظة.',pa('palm')],
+ ['فهم المقروء','متى أهدى الأب سلمان الدراجة؟',['يوم نجاحه','يوم العيد','في الإجازة','يوم ميلاده'],'يقول النص: أهداه دراجة جديدة يوم نجاحه.',pa('bike')],
+ ['فهم المقروء','لماذا جُرح سلمان؟',['ركب بسرعة دون خوذة','كانت الدراجة مكسورة','دفعه صديقه','كان الطريق مظلمًا'],'خرج يركبها بسرعة دون أن يلبس الخوذة فسقط.',pa('bike')],
+ ['معاني الكلمات','معنى «ضمّد» في النص ......',['عالج الجرح وربطه','ضرب','غسل الدراجة','أغلق الباب'],'ضمّد الجرح أي عالجه وربطه بالضماد.',pa('bike')],
+ ['الدرس المستفاد','ماذا تعلّم سلمان من الحادثة؟',['أن يلبس الخوذة دائمًا','ألا يركب الدراجة أبدًا','أن يركب بسرعة أكبر','أن يبيع الدراجة'],'منذ ذلك اليوم لم يركب إلا وعلى رأسه الخوذة.',pa('bike')],
+ ['فهم المقروء','يغطي الماء من سطح الأرض نحو ......',['ثلاثة أرباع','النصف','الربع','كل السطح'],'يقول النص: نحو ثلاثة أرباع سطح الأرض.',pa('water')],
+ ['فهم المقروء','أكثر الماء على سطح الأرض ......',['مالح','عذب','متجمد','تحت الأرض'],'أكثره ماء مالح في البحار والمحيطات.',pa('water')],
+ ['فهم المقروء','أين يوجد الماء العذب حسب النص؟',['في الأنهار والبحيرات وتحت الأرض','في البحار فقط','في المحيطات','في السحب فقط'],'القليل منه عذب في الأنهار والبحيرات وتحت الأرض.',pa('water')],
+ ['معاني الكلمات','عبارة «لا نسرف في استعماله» تعني ......',['لا نستعمل أكثر من حاجتنا','لا نشربه أبدًا','نبيعه','نخلطه بالملح'],'الإسراف هو استعمال الشيء أكثر من الحاجة.',pa('water')],
+ ['الاستنتاج','نفهم من العبارة أن ليلى ......',['تزور جدتها كل أسبوع','تعيش مع جدتها','لا تذهب إلى المدرسة يوم السبت','تعود بعد العشاء'],'تذهب كل يوم سبت، أي مرة كل أسبوع، وتذهب بعد المدرسة.',pa('laila')],
+ ['الاستنتاج','أين كان ماجد؟',['على شاطئ البحر','في الصحراء','في الغابة','في المدرسة'],'الأمواج والرمل وطيور النورس تدل على شاطئ البحر.',pa('beach')],
+ ['الاستنتاج','تدل الآية الكريمة على أهمية ......',['الماء للحياة','النار','الهواء فقط','الطعام فقط'],'كل شيء حي جُعل من الماء، فالماء أساس الحياة.',pa('ayah')],
+ ['الاستنتاج','نستنتج من العبارة أن ابن سينا ......',['وُلد قرب بخارى وتوفي في همذان','وُلد في همذان وتوفي في بخارى','وُلد وتوفي في بخارى','لم يغادر بخارى أبدًا'],'وُلد قرب بخارى، ثم انتقل إلى همذان وعاش فيها حتى توفي.',pa('sina')]
+]});
+Object.assign(BE,{
+8:[
+ ['Picture analogies',PA_EN,null,'A glove is worn on the hand, and a sock is worn on the foot.'],
+ ['Picture analogies',PA_EN,null,'A hen gives us eggs, and a bee gives us honey.'],
+ ['Picture analogies',PA_EN,null,'Scissors cut paper, and a knife cuts bread.'],
+ ['Picture analogies',PA_EN,null,'A fish lives in the sea, and a camel lives in the desert.'],
+ ['Picture analogies',PA_EN,null,'We use sunglasses in the sun, and an umbrella in the rain.'],
+ ['Picture analogies',PA_EN,null,'A car travels on the road, and a ship travels on the sea.'],
+ ['Picture analogies',PA_EN,null,'Apples and bananas are fruits; carrots and cucumbers are vegetables.'],
+ ['Picture analogies',PA_EN,null,'A chick grows into a hen, and a caterpillar grows into a butterfly.'],
+ ['Picture analogies',PA_EN,null,'The old phone developed into the mobile phone, and the candle developed into the light bulb.'],
+ ['Picture analogies',PA_EN,null,'A small plant grows into a tree, and a baby grows into an adult.'],
+ ['Picture analogies',PA_EN,null,'We play music on the piano, and we paint a picture with a brush.'],
+ ['Picture analogies',PA_EN,null,'An arrow is shot at a target, and a ball is kicked into a goal.'],
+ ['Odd one out',OD_EN,null,'Apples, bananas and grapes are fruits; a carrot is a vegetable.'],
+ ['Odd one out',OD_EN,null,'A car, a bus and a bicycle travel on land; a plane flies in the air.'],
+ ['Odd one out',OD_EN,null,'A fish, a dolphin and an octopus live in the sea; a camel lives in the desert.'],
+ ['Odd one out',OD_EN,null,'A pencil, a pen and a crayon are for writing and drawing; a fork is for eating.'],
+ ['Odd one out',OD_EN,null,'A hen, a duck and a penguin are birds with feathers that lay eggs; a rabbit is a mammal.'],
+ ['Odd one out',OD_EN,null,'Footballs, basketballs and tennis balls are for sport; books are for reading.'],
+ ['Odd one out',OD_EN,null,'The sun, a star and a light bulb give light; ice does not.'],
+ ['Odd one out',OD_EN,null,'A spoon, a fork and a knife are for eating; a broom is for cleaning.']
+],
+9:[
+ ['Word analogies','Muharram : Safar  ::  Jumada al-Ula : ...',['Jumada al-Akhirah','Rajab','Rabi al-Awwal','Shaban'],'Safar is the Hijri month after Muharram, and Jumada al-Akhirah is the month after Jumada al-Ula.'],
+ ['Word analogies','pen : ink  ::  car : ...',['fuel','road','wheel','driver'],'A pen needs ink to write, and a car needs fuel to move.'],
+ ['Word analogies','Riyadh : Saudi Arabia  ::  Muscat : ...',['Oman','Kuwait','Qatar','Jordan'],'Riyadh is the capital of Saudi Arabia, and Muscat is the capital of Oman.'],
+ ['Word analogies','book : library  ::  medicine : ...',['pharmacy','doctor','patient','treatment'],'We find books in a library and medicine in a pharmacy.'],
+ ['Opposites','tall : short  ::  fast : ...',['slow','runner','race','light'],'These are opposites: tall and short, fast and slow.'],
+ ['Synonyms','brave : bold  ::  happy : ...',['glad','sad','angry','tired'],'These mean the same: brave and bold, happy and glad.'],
+ ['Baby animals','cow : calf  ::  cat : ...',['kitten','puppy','foal','cub'],'A calf is a baby cow, and a kitten is a baby cat.'],
+ ['Male & female','bull : cow  ::  ram : ...',['ewe','nanny goat','lamb','mare'],'A cow is a female bull, and a ewe is a female ram.'],
+ ['Animal sounds','horse : neigh  ::  dog : ...',['bark','meow','roar','moo'],'A horse neighs, and a dog barks.'],
+ ['Jobs & tools','tailor : needle  ::  painter : ...',['brush','scissors','hammer','saw'],'A tailor uses a needle, and a painter uses a brush.'],
+ ['Jobs & places','farmer : field  ::  sailor : ...',['ship','school','bakery','garden'],'A farmer works in a field, and a sailor works on a ship.'],
+ ['Part & whole','branch : tree  ::  page : ...',['book','pen','ink','desk'],'A branch is part of a tree, and a page is part of a book.'],
+ ['Body parts & jobs','eye : seeing  ::  nose : ...',['smelling','hearing','tasting','touching'],'The eye is for seeing, and the nose is for smelling.'],
+ ['Countries & currencies','Japan : yen  ::  Kuwait : ...',['dinar','riyal','dirham','pound'],'The yen is Japan’s currency, and the dinar is Kuwait’s.'],
+ ['Needs','water : thirst  ::  sleep : ...',['tiredness','bed','dream','night'],'Water ends thirst, and sleep ends tiredness.'],
+ ['Cause & effect','studying : success  ::  neglect : ...',['failure','success','school','book'],'Studying leads to success, and neglect leads to failure.'],
+ ['Tools & uses','fridge : cooling  ::  oven : ...',['baking','freezing','washing','cleaning'],'A fridge is for cooling, and an oven is for baking.'],
+ ['Word analogies','7 days : week  ::  12 months : ...',['year','day','century','season'],'Seven days make a week, and twelve months make a year.'],
+ ['Categories','falcon : ...  (choose the word from the same group)',['eagle','fish','cat','rabbit'],'Falcons and eagles are both birds of prey.'],
+ ['Categories','apple : ...  (choose the word from the same group)',['mango','carrot','potato','lettuce'],'Apples and mangoes are fruits; the others are vegetables.']
+],
+10:[
+ ['Unreal premises','If the moon were square, and a triangle has three sides, then the moon has ...',['four sides','three sides','two sides','no sides'],'We accept the premise as it is: if the moon is square, it has four sides.'],
+ ['Unreal premises','If cats swam in the sea like fish, and a bird builds its nest in a tree, then cats live in ...',['the sea','the house','the forest','the desert'],'If cats swim in the sea like fish, they live in the sea.'],
+ ['Unreal premises','If chairs were eaten, and a pen is for writing, then a chair is used as ...',['food','a seat','a writing tool','a bed'],'If chairs are eaten, they are used as food.'],
+ ['Unreal premises','If sugar were salty, and lemons are sour, then sugar tastes ...',['salty','sweet','sour','bitter'],'In this premise sugar is salty, so it tastes salty.'],
+ ['Unreal premises','If rabbits could fly, and a tortoise walks slowly, then rabbits ...',['have wings','dig holes','swim','crawl'],'If rabbits fly, they have wings.'],
+ ['Unreal premises','If doctors worked in bakeries, and teachers work in schools, then a doctor makes ...',['bread','medicine','lessons','clothes'],'If a doctor works in a bakery, he makes bread.'],
+ ['Unreal premises','If cars travelled in the sky, and ships travel on the sea, then cars need ...',['wings','roads','sails','rails'],'Things that travel in the sky need wings.'],
+ ['Unreal premises','If milk were black, and snow is white, then the colour of milk is ...',['black','white','yellow','red'],'In this premise milk is black.'],
+ ['Unreal premises','If an elephant were as tiny as an ant, and a horse runs fast, then the elephant could go into ...',['a small hole','the sea','the sky','a mountain'],'If the elephant is as tiny as an ant, it can go into a small hole.'],
+ ['Unreal premises','If books were for drinking, and bread is for eating, then books are put in a ...',['cup','library','bag','drawer'],'Things we drink go in a cup.'],
+ ['Unreal premises','If potatoes were fruits, and cucumbers are vegetables, then potatoes are ...',['fruits','vegetables','legumes','grains'],'The premise says potatoes are fruits, so we follow it.'],
+ ['Unreal premises','If the heart were for thinking, and the stomach is for digestion, then the heart belongs to the ... system',['nervous','circulatory','digestive','respiratory'],'Thinking is the job of the nervous system, so here the heart belongs to it.'],
+ ['Unreal premises','If lions ate grass, and falcons eat meat, then lions are ...',['herbivores','predators','sea animals','reptiles'],'Animals that eat grass are herbivores.'],
+ ['Unreal premises','If birds lived under the ground, and fish live in water, then a bird’s nest is ...',['in a burrow under the ground','at the top of a tree','in the water','in the sky'],'If birds live under the ground, their nests are in burrows there.'],
+ ['Unreal premises','If squares were round, and a rectangle has four corners, then a square ...',['has no corners','has four corners','has three corners','has two corners'],'A round shape has no corners.'],
+ ['Unreal premises','If ears were for seeing, and the nose is for smelling, then glasses are worn on the ...',['ears','eyes','nose','hands'],'Glasses help us see, and here we see with our ears.'],
+ ['Unreal premises','If summer were cold, and winter is rainy, then in summer people wear ...',['heavy coats','light clothes','swimsuits','sun hats'],'In cold weather we wear heavy coats.'],
+ ['Unreal premises','If salt were used for washing clothes, and water is for drinking, then salt goes in the ...',['washing machine','food','fridge','pharmacy'],'Things used for washing clothes go in the washing machine.'],
+ ['Unreal premises','If clocks measured weight, and rulers measure length, then a watermelon is weighed with a ...',['clock','scale','ruler','tape measure'],'In this premise, the clock is what measures weight.'],
+ ['Unreal premises','If children got smaller as they grew older, and trees grow taller, then after some years a child becomes ...',['smaller','bigger','taller','stronger'],'The premise says children get smaller as they grow older.']
+],
+11:[
+ ['Completing meaning','Mum planted herbs in the garden, such as mint, basil and sage. So sage is used ...',['in food and drinks','to build houses','to make clothes','to feed cats'],'Sage is a herb like mint, so it is used in food and drinks.'],
+ ['Completing meaning','In science we learned about planets, such as Mercury, Venus, Mars and Saturn. So Saturn is a ...',['planet','star','moon','comet'],'Saturn was listed with the planets.'],
+ ['Completing meaning','The teacher talked about musical instruments, such as the oud, the violin and the qanun. So the qanun is used for ...',['playing music','writing','cooking','drawing'],'The qanun is listed as an instrument, so it is played.'],
+ ['Completing meaning','The teacher told us about some prophets, peace be upon them, such as Hud, Salih and Shuayb. So Shuayb is one of the ...',['prophets','companions','angels','caliphs'],'Shuayb was listed with the prophets Hud and Salih.'],
+ ['Completing meaning','At the museum Ali saw old farming tools, such as the plough, the sickle and the pitchfork. So the pitchfork is used in ...',['farming','hunting','cooking','building'],'The pitchfork is a farming tool.'],
+ ['Completing meaning','Birds of prey include the falcon, the vulture, the eagle and the hawk. So the hawk is a ...',['bird of prey','fish','insect','water bird'],'The hawk was listed with birds of prey.'],
+ ['Completing meaning','Sara read about gemstones, such as ruby, emerald and turquoise. So turquoise is used for ...',['jewellery','building','food','fuel'],'Gemstones are used to make jewellery.'],
+ ['Completing meaning','We learned units of length, such as the metre, centimetre, kilometre and millimetre. So the millimetre measures ...',['length','weight','time','temperature'],'The millimetre is a unit of length.'],
+ ['Completing meaning','The teacher named some insects: ants, locusts, beetles and the praying mantis. So the praying mantis is ...',['an insect','a horse','a bird','a reptile'],'The praying mantis was listed with insects.'],
+ ['Completing meaning','Coastal Saudi cities include Jeddah, Yanbu, Dammam and Jubail. So Jubail lies on ...',['the sea coast','a mountain top','the middle of the desert','a river bank'],'Jubail is a coastal city, so it is on the coast.'],
+ ['Completing meaning','Kitchen tools include the frying pan, the strainer and the ladle. So the ladle is used for ...',['serving food','writing lessons','washing clothes','sweeping the house'],'The ladle is a kitchen tool for serving food.'],
+ ['Completing meaning','We learned some 3D shapes: the cube, the sphere, the cylinder and the pyramid. So the pyramid is part of the subject ...',['maths','history','English','PE'],'3D shapes are taught in maths.'],
+ ['Completing meaning','Mammals include the whale, the bat and the camel. So the bat ...',['feeds its babies milk','lays eggs','breathes through gills','has feathers'],'Mammals feed their babies milk, and the bat is a mammal.'],
+ ['Completing meaning','The sun is about to rise, and I am afraid I will miss the ... prayer.',['Fajr','Dhuhr','Asr','Maghrib'],'The time for Fajr prayer ends at sunrise.'],
+ ['Completing meaning','Ahmed went into the restaurant, sat at a table and ordered food. So we can say that Ahmed is ...',['in the restaurant','a cook','at school','asleep'],'The sentence says he went in and sat down there.'],
+ ['Completing meaning','Maryam saw someone fall who cannot stand because of pain in his foot. She should first call ...',['an ambulance','civil defence','traffic police','the post office'],'Injuries need an ambulance.'],
+ ['Completing meaning','Fahd packed heavy clothes, a coat and gloves because his family is going to ...',['a place where it snows','a hot beach','a swimming pool','the desert in summer'],'Heavy clothes suit cold places.'],
+ ['Completing meaning','Hind played after Dhuhr, studied maths after Asr, science after Maghrib, and memorised Quran after Isha. So Hind studied science after the ... prayer.',['Maghrib','Asr','Isha','Dhuhr'],'The text says science was after Maghrib.'],
+ ['Completing meaning','Dad bought fish, chicken and meat. So he bought foods rich in ...',['protein','sugar','only vitamins','only fat'],'Fish, chicken and meat are rich sources of protein.'],
+ ['Completing meaning','All of these are family members except ...',['the neighbour','the brother','the grandfather','the uncle'],'A brother, a grandfather and an uncle are family; a neighbour is not.']
+],
+12:[
+ ['Reading','Where does the ant live?',['under the ground','in a tree','in water','on a mountain'],'The text says the ant carried the grains to her home under the ground.',pe('ant')],
+ ['Reading','Why was the ant collecting grains?',['to eat them in winter','to sell them','to feed the grasshopper','to play with them'],'The ant said: “I am saving my food for the winter.”',pe('ant')],
+ ['Reading','What is the grasshopper like in the story?',['he does not think about the future','hard-working','generous','careful'],'The grasshopper played all summer and did not prepare for winter.',pe('ant')],
+ ['Lessons','What lesson do we learn from the story?',['Hard work pays off','A friend in need is a friend indeed','Slow and steady is safest','Contentment is a lasting treasure'],'The ant worked hard and had food in winter.',pe('ant')],
+ ['Reading','The palm tree grows in ... regions.',['hot','cold','snowy','always rainy'],'The text says it grows in hot regions.',pe('palm')],
+ ['Reading','People make ... from palm fronds.',['baskets and mats','dates','roofs','medicine'],'The text says they make baskets and mats from its fronds.',pe('palm')],
+ ['Reading','A palm tree starts giving fruit after ...',['four to eight years','one month','decades','one year'],'The text says four to eight years after it is planted.',pe('palm')],
+ ['Word meaning','In the text, the word “trunks” means ...',['the thick stems of the tree','its leaves','its fruit','its roots'],'A trunk is the thick main stem of a tree.',pe('palm')],
+ ['Reading','When did the father give Salman the bicycle?',['on the day he passed his exams','on Eid','in the holidays','on his birthday'],'The text says he got it on the day he passed.',pe('bike')],
+ ['Reading','Why did Salman get hurt?',['he rode fast without a helmet','the bicycle was broken','his friend pushed him','the road was dark'],'He rode fast without wearing his helmet and fell.',pe('bike')],
+ ['Word meaning','In the text, “bandaged” means ...',['treated and wrapped the wound','hit','washed the bicycle','closed the door'],'To bandage a wound is to treat it and wrap it.',pe('bike')],
+ ['Lessons','What did Salman learn?',['to always wear his helmet','never to ride again','to ride even faster','to sell the bicycle'],'Since that day he never rides without his helmet.',pe('bike')],
+ ['Reading','Water covers about ... of the Earth’s surface.',['three quarters','half','a quarter','all'],'The text says about three quarters.',pe('water')],
+ ['Reading','Most of the water on Earth is ...',['salty','fresh','frozen','under the ground'],'Most of it is salty water in the seas and oceans.',pe('water')],
+ ['Reading','According to the text, where is fresh water found?',['in rivers, lakes and under the ground','only in the seas','in the oceans','only in clouds'],'Only a little is fresh water, in rivers, lakes and under the ground.',pe('water')],
+ ['Word meaning','“Not waste it” means ...',['not use more than we need','never drink it','sell it','mix it with salt'],'Wasting means using more than we need.',pe('water')],
+ ['Inference','From the sentence we understand that Laila ...',['visits her grandmother every week','lives with her grandmother','does not go to school on Saturday','comes back after Isha'],'She goes every Saturday, once a week, and she goes after school.',pe('laila')],
+ ['Inference','Where was Majid?',['on the beach','in the desert','in a forest','at school'],'Waves, sand and seagulls tell us he was at the beach.',pe('beach')],
+ ['Inference','The verse shows the importance of ...',['water for life','fire','only air','only food'],'Every living thing was made from water, so water is the basis of life.',pe('ayah')],
+ ['Inference','We can conclude that Ibn Sina ...',['was born near Bukhara and died in Hamadan','was born in Hamadan and died in Bukhara','was born and died in Bukhara','never left Bukhara'],'He was born near Bukhara, moved to Hamadan and lived there until he died.',pe('sina')]
+]});
+PARTS.unshift({k:'V',name:'الجزء اللفظي'});
+MODELS.push({n:8,p:'V'},{n:9,p:'V'},{n:10,p:'V'},{n:11,p:'V'},{n:12,p:'V'});
+const ORDER=['V','K','R','U'].flatMap(p=>MODELS.filter(m=>m.p===p).map(m=>m.n));
+
+const LETMAP={'أ':'A','ب':'B','ج':'C','د':'D','هـ':'E','و':'F'};
+const enFig=f=>f&&f.replace(/>(أ|ب|ج|د|هـ|و)<\/text>/g,(m,a)=>'>'+LETMAP[a]+'</text>').replace(/>؟</g,'>?<').replace(/<td>س<\/td>/g,'<td>x</td>').replace(/>←</g,'>→<');
+
+const Q=[];
+MODELS.forEach(m=>B[m.n].forEach((r,i)=>{const ex=r[4]||{};const e=BE[m.n][i];const ee=e[4]||{};
+  Q.push({m:m.n,p:m.p,figOpts:!!ex.figOpts,html:!!ex.html,
+    ar:{skill:r[0],q:r[1],o:r[2],e:r[3],fig:ex.fig,pass:ex.pass},
+    en:{skill:e[0],q:e[1],o:e[2]||r[2],e:e[3],fig:ee.fig||enFig(ex.fig),pass:ee.pass}});}));
+Q.forEach((q,i)=>{q.id=i;const r=((i*i*7+i*13+5)%11)%4;q.order=[0,1,2,3].map(k=>(k+r)%4);q.ans=q.order.indexOf(0);});
+
+// ================= interface text =================
+const I18N={
+ ar:{loginTitle:'تسجيل الدخول',loginSub:'ادخل بنفس الكود وكلمة المرور الخاصين بمنصة الأستاذ محمد رجب.',codeLbl:'كود المستخدم',passLbl:'كلمة المرور',showPw:'إظهار',hidePw:'إخفاء',loginBtn:'الدخول',loggingIn:'جاري الدخول…',loginHint:'يدخل الطالب بكوده، وولي الأمر بكود ولي الأمر.',
+  errs:{empty:'أدخل الكود وكلمة المرور.',bad:'الكود أو كلمة المرور غير صحيحة.',many:'محاولات كثيرة، انتظر قليلًا ثم أعد المحاولة.',net:'تعذر الاتصال. تحقق من الإنترنت ثم أعد المحاولة.',notLinked:'هذا الحساب غير مرتبط بأي طالب في المنصة.',perm:'لا تملك صلاحية الوصول إلى بيانات هذا الحساب.'},
+  loading:'جاري التحميل…',bootErr:{slow:'الاتصال بطيء… ما زلنا نحاول.',load:'تعذر تحميل صفحة الدخول. تأكد من اتصال الإنترنت.'},retry:'إعادة المحاولة',
+  logout:'خروج',outTitle:'تسجيل الخروج؟',outBody:'ستعود إلى صفحة الدخول.',outBodyExam:'سيتوقف النموذج الحالي ولن تُحفظ إجاباتك فيه، ثم تعود إلى صفحة الدخول.',outYes:'نعم، اخرج',outNo:'إلغاء',
+  studentLbl:'الطالب',chooseKid:'اختر الطالب الذي سيتدرب:',adminLabel:'أنت داخل بحساب المدير. اكتب اسم المتدرب (يظهر في الشهادة)',dir:'rtl',let:['أ','ب','ج','د'],brandTitle:'محاكاة مقياس موهبة',brandSub:'إعداد المدرب: محمد رجب',home:'الرئيسية',otherLang:'English',
+  foot:'جميع الأسئلة من إعداد المدرب <b>محمد رجب</b> · مدرب موهبة<br>اختبار تدريبي للمحاكاة وليس اختبارًا رسميًا',
+  parts:{V:'الجزء اللفظي',K:'الجزء الكمي',R:'المرونة العقلية',U:'جزء العلوم'},readLbl:'اقرأ النص ثم أجب:',
+  models:['النموذج الأول','النموذج الثاني','النموذج الثالث','النموذج الرابع','النموذج الخامس'],
+  heroTitle:'محاكاة مقياس موهبة للصفين الثالث والرابع',heroText:'اثنا عشر نموذجًا تدريبيًا موزعة على أجزاء المقياس الأربعة: اللفظي، والكمي، والمرونة العقلية، والعلوم. لكل نموذج مؤقت ولوحة تنقل وتقرير مفصل مع تفسير كل إجابة.',
+  by:'إعداد المدرب: محمد رجب · مدرب موهبة',
+  facts:[['12','نموذجًا تدريبيًا'],['240','سؤالًا'],['20','سؤالًا في كل نموذج'],['25','دقيقة لكل نموذج']],
+  nameLabel:'اكتب اسمك الثلاثي قبل بدء التدريب (يظهر في شهادة الإنجاز)',namePh:'مثال: عبدالله محمد العتيبي',nameErr:'اكتب اسم الطالب أولًا ثم ابدأ النموذج.',
+  modelSub:'20 سؤالًا · 25 د',last:p=>`آخر نتيجة ${p}٪`,
+  rules:['هناك إجابة صحيحة واحدة لكل سؤال، ويمكنك تغييرها قبل التسليم.','علّم أي سؤال للمراجعة وارجع إليه من لوحة الأسئلة.','يُسلَّم النموذج تلقائيًا عند انتهاء الوقت.'],
+  start:m=>`ابدأ ${m}`,certAll:'طباعة شهادة الإنجاز',
+  qOf:(i,n)=>`السؤال <span class="num">${i}</span> من <span class="num">${n}</span>`,flag:'تعليم السؤال للمراجعة',prev:'السابق',next:'التالي',finish:'إنهاء وتسليم',
+  answered:'مجاب',remaining:'متبقٍ',flagged:'للمراجعة',unanswered:'غير مجاب',submit:'تسليم النموذج',qAria:i=>`السؤال ${i}`,
+  subTitle:'تسليم النموذج؟',subBody:(a,n)=>`أجبت عن <b class="num">${a}</b> من <b class="num">${n}</b> سؤالًا${n-a?`، وبقي <b class="num">${n-a}</b> بلا إجابة`:''}. لا يمكن تعديل الإجابات بعد التسليم.`,subYes:'نعم، سلّم الآن',subNo:'العودة للنموذج',
+  verdicts:['أداء متميز','أداء جيد جدًا','أداء جيد، يحتاج تدريبًا إضافيًا','يحتاج إلى مزيد من التدريب'],
+  resOf:(n,m,p)=>`نتيجة ${n} في ${m} · ${p}`,correct:'صحيحة',wrong:'خاطئة',blank:'متروكة',time:'الوقت',
+  certShow:'عرض وطباعة شهادة الإنجاز',weak:'مهارات تحتاج إلى مراجعة',review:'مراجعة الإجابات',fAll:'الكل',fWrong:'الأخطاء والمتروكة',fFlag:'المعلّمة',
+  qn:i=>`السؤال <span class="num">${i}</span>`,ok:'إجابة صحيحة',none:'لم تُجب',bad:'إجابة خاطئة',rightTag:'الصحيحة',yourTag:'إجابتك',why:'التفسير:',empty:'لا توجد أسئلة في هذا التصنيف.',
+  cert:'شهادة الإنجاز',homePage:'الصفحة الرئيسية',
+  exitTitle:'الخروج إلى الصفحة الرئيسية؟',exitBody:'سيتوقف النموذج الحالي ولن تُحفظ إجاباتك فيه.',exitYes:'نعم، اخرج',exitNo:'متابعة النموذج',
+  cProgram:'برنامج محاكاة مقياس موهبة',cTitle:'شهادة إنجاز',cGrant:'يسرّ المدرب محمد رجب أن يمنح هذه الشهادة للطالب/ة',
+  cOne:(m,p,s)=>`<p>لإتمامه <b>${m}</b> من نماذج <b>${p}</b> في برنامج محاكاة مقياس موهبة،<br>وحصوله على نسبة <b dir="ltr">${s}%</b>.</p>`,dCols:['الإجابات الصحيحة','الخاطئة','المتروكة','الوقت المستغرق'],
+  cAll:(k,a)=>`<p>لإتمامه <b>${k}</b> من أصل <b>12</b> نموذجًا في برنامج محاكاة مقياس موهبة للصفين الثالث والرابع،<br>بمتوسط أداء <b dir="ltr">${a}%</b>.</p>`,
+  cCols:['النموذج','الجزء','النتيجة'],cWish:'مع تمنياتنا بدوام التميز والتفوق.',cDate:'التاريخ',cTrainer:'المدرب',cTrainerName:'محمد رجب · مدرب موهبة',
+  dateLoc:'ar-SA-u-ca-gregory-nu-latn',print:'طباعة الشهادة',close:'إغلاق',printHint:'من نافذة الطباعة اختر «حفظ بتنسيق PDF» إذا أردت الاحتفاظ بنسخة إلكترونية.',
+  title:'محاكاة مقياس موهبة'},
+ en:{loginTitle:'Sign in',loginSub:'Use the same code and password as Mr. Mohamed Ragab’s platform.',codeLbl:'User code',passLbl:'Password',showPw:'Show',hidePw:'Hide',loginBtn:'Sign in',loggingIn:'Signing in…',loginHint:'Students sign in with their own code, and parents with the parent code.',
+  errs:{empty:'Enter your code and password.',bad:'The code or password is incorrect.',many:'Too many attempts. Wait a little, then try again.',net:'Couldn’t connect. Check your internet, then try again.',notLinked:'This account isn’t linked to any student on the platform.',perm:'You don’t have access to this account’s data.'},
+  loading:'Loading…',bootErr:{slow:'The connection is slow… still trying.',load:'Couldn’t load the sign-in page. Check your internet connection.'},retry:'Try again',
+  logout:'Sign out',outTitle:'Sign out?',outBody:'You’ll go back to the sign-in page.',outBodyExam:'The current model will stop and your answers won’t be saved, then you’ll go back to the sign-in page.',outYes:'Yes, sign out',outNo:'Cancel',
+  studentLbl:'Student',chooseKid:'Choose who is training:',adminLabel:'You’re signed in as admin. Enter the trainee’s name (it appears on the certificate)',dir:'ltr',let:['A','B','C','D'],brandTitle:'Mawhiba Test Practice',brandSub:'Prepared by trainer Mohamed Ragab',home:'Home',otherLang:'العربية',
+  foot:'All questions prepared by trainer <b>Mohamed Ragab</b> · Mawhiba trainer<br>A practice simulation, not an official test',
+  parts:{V:'Verbal',K:'Quantitative',R:'Mental Flexibility',U:'Science'},readLbl:'Read the text, then answer:',
+  models:['Model 1','Model 2','Model 3','Model 4','Model 5'],
+  heroTitle:'Mawhiba Test Practice for Grades 3 and 4',heroText:'Twelve practice models covering the four parts of the test: verbal, quantitative, mental flexibility and science. Each model has a timer, a question board and a detailed report that explains every answer.',
+  by:'Prepared by trainer Mohamed Ragab · Mawhiba trainer',
+  facts:[['12','practice models'],['240','questions'],['20','questions per model'],['25','minutes per model']],
+  nameLabel:'Enter your full name before you start (it appears on your certificate)',namePh:'e.g. Abdullah Mohammed Alotaibi',nameErr:'Enter the student’s name first, then start the model.',
+  modelSub:'20 questions · 25 min',last:p=>`Last score ${p}%`,
+  rules:['Each question has one correct answer, and you can change it before you submit.','Flag any question for review and return to it from the question board.','The model is submitted automatically when time runs out.'],
+  start:m=>`Start ${m}`,certAll:'Print certificate',
+  qOf:(i,n)=>`Question <span class="num">${i}</span> of <span class="num">${n}</span>`,flag:'Flag this question for review',prev:'Previous',next:'Next',finish:'Finish and submit',
+  answered:'Answered',remaining:'Left',flagged:'Flagged',unanswered:'Not answered',submit:'Submit model',qAria:i=>`Question ${i}`,
+  subTitle:'Submit this model?',subBody:(a,n)=>`You answered <b class="num">${a}</b> of <b class="num">${n}</b> questions${n-a?`, and <b class="num">${n-a}</b> are unanswered`:''}. You can’t change your answers after submitting.`,subYes:'Yes, submit now',subNo:'Back to the model',
+  verdicts:['Excellent work','Very good work','Good work, more practice will help','More practice needed'],
+  resOf:(n,m,p)=>`${n}’s result in ${m} · ${p}`,correct:'Correct',wrong:'Wrong',blank:'Skipped',time:'Time',
+  certShow:'View and print certificate',weak:'Skills to review',review:'Review your answers',fAll:'All',fWrong:'Wrong and skipped',fFlag:'Flagged',
+  qn:i=>`Question <span class="num">${i}</span>`,ok:'Correct',none:'Not answered',bad:'Wrong',rightTag:'Correct',yourTag:'Your answer',why:'Explanation:',empty:'No questions in this filter.',
+  cert:'Certificate',homePage:'Home page',
+  exitTitle:'Go to the home page?',exitBody:'The current model will stop and your answers in it won’t be saved.',exitYes:'Yes, leave',exitNo:'Keep going',
+  cProgram:'Mawhiba Test Practice Program',cTitle:'Certificate of Achievement',cGrant:'Trainer Mohamed Ragab is pleased to award this certificate to',
+  cOne:(m,p,s)=>`<p>for completing <b>${m}</b> of the <b>${p}</b> part in the Mawhiba Test Practice Program,<br>with a score of <b>${s}%</b>.</p>`,dCols:['Correct','Wrong','Skipped','Time taken'],
+  cAll:(k,a)=>`<p>for completing <b>${k}</b> of <b>12</b> models in the Mawhiba Test Practice Program for grades 3 and 4,<br>with an average score of <b>${a}%</b>.</p>`,
+  cCols:['Model','Part','Score'],cWish:'Wishing you continued excellence and success.',cDate:'Date',cTrainer:'Trainer',cTrainerName:'Mohamed Ragab · Mawhiba trainer',
+  dateLoc:'en-GB',print:'Print certificate',close:'Close',printHint:'In the print window, choose “Save as PDF” to keep a digital copy.',
+  title:'Mawhiba Test Practice'}
+};
+
+// ================= app =================
+let lang=null;try{lang=localStorage.getItem('mr_lang')}catch(e){}
+if(lang!=='ar'&&lang!=='en')lang=null;
+const t=()=>I18N[lang||'ar'];
+let st={screen:lang?'boot':'lang',name:'',model:ORDER[0],user:null,kid:null,authKnown:false,loginErr:null,bootErr:null,doneKey:'mr_done'};
+try{st.name=localStorage.getItem('mr_name')||''}catch(e){}
+let done={};
+let timer=null;
+const app=document.getElementById('app'), bclock=document.getElementById('bclock'), gm=document.getElementById('gmodal');
+const partName=k=>t().parts[k];
+const modelOf=n=>MODELS.find(m=>m.n===n);
+const mName=n=>{const m=modelOf(n);return t().models[MODELS.filter(x=>x.p===m.p).indexOf(m)];};
+const mFull=n=>`${mName(n)} · ${partName(modelOf(n).p)}`;
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+const esc=v=>String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const L=q=>q[lang||'ar'];
+const stemHTML=q=>q.html?L(q).q:esc(L(q).q);
+
+function applyLang(){
+  const T=t(), root=document.getElementById('root');
+  root.dir=T.dir; root.lang=lang||'ar';
+  document.documentElement.dir=T.dir; document.documentElement.lang=lang||'ar';
+  document.title=T.title;
+  document.getElementById('brandTitle').textContent=T.brandTitle;
+  document.getElementById('brandSub').textContent=T.brandSub;
+  document.getElementById('homeLbl').textContent=T.home;
+  document.getElementById('langBtn').textContent=T.otherLang;
+  document.getElementById('foot').innerHTML=T.foot;
+}
+function setLang(l){lang=l;try{localStorage.setItem('mr_lang',l)}catch(e){};applyLang();}
+function updChrome(){
+  const T=t(), sc=st.screen;
+  document.getElementById('langBtn').hidden=!['start','res','login','boot'].includes(sc);
+  const ob=document.getElementById('outBtn'); ob.textContent=T.logout; ob.hidden=!(st.user&&['start','res','exam'].includes(sc));
+  document.getElementById('homeBtn').hidden=!(st.user&&['start','res','exam'].includes(sc));
+}
+function selectKid(code){
+  st.kid=st.user.kids.find(k=>k.code===code)||null;
+  st.doneKey='mr_done_'+(st.kid?st.kid.code:st.user.code);
+  done={};try{done=JSON.parse(localStorage.getItem(st.doneKey)||'{}')}catch(e){}
+  if(st.kid)st.name=st.kid.name||st.kid.code; else{st.name='';try{st.name=localStorage.getItem('mr_name')||''}catch(e){}}
+  st.det=null;
+}
+function route(){ if(st.user)renderStart(); else if(st.authKnown)renderLogin(); else renderBoot(); window.scrollTo(0,0); }
+function renderBoot(){
+  const T=t(); bclock.hidden=true; st.screen='boot'; updChrome();
+  app.innerHTML=`<section class="boot"><div class="spin" aria-hidden="true"></div><p>${T.loading}</p>${st.bootErr?`<p class="err">${T.bootErr[st.bootErr]}</p><button class="btn line" id="rl">${T.retry}</button>`:''}</section>`;
+  const rl=document.getElementById('rl'); if(rl)rl.onclick=()=>location.reload();
+}
+function renderLogin(){
+  const T=t(); bclock.hidden=true; st.screen='login'; updChrome();
+  app.innerHTML=`<section class="login"><div class="sheet logincard">
+    <div class="seal-big">${lang==='en'?'M':'م'}</div>
+    <h1>${T.loginTitle}</h1><p class="muted small">${T.loginSub}</p>
+    <form id="lf" novalidate>
+      <div class="field"><label for="lc">${T.codeLbl}</label><input id="lc" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" dir="ltr"></div>
+      <div class="field"><label for="lp">${T.passLbl}</label><div class="pw"><input id="lp" type="password" autocomplete="current-password" dir="ltr"><button type="button" id="eye">${T.showPw}</button></div></div>
+      <p class="err" id="lerr" role="alert" ${st.loginErr?'':'hidden'}>${st.loginErr?T.errs[st.loginErr]:''}</p>
+      <button class="btn gold" id="lb" type="submit">${T.loginBtn}</button>
+    </form>
+    <p class="muted small">${T.loginHint}</p>
+  </div></section>`;
+  const lc=document.getElementById('lc'),lp=document.getElementById('lp'),lb=document.getElementById('lb'),le=document.getElementById('lerr');
+  const showErr=k=>{st.loginErr=k;le.textContent=T.errs[k];le.hidden=false;};
+  document.getElementById('eye').onclick=e=>{const v=lp.type==='password';lp.type=v?'text':'password';e.target.textContent=v?T.hidePw:T.showPw;};
+  document.getElementById('lf').onsubmit=async e=>{
+    e.preventDefault();
+    const c=lc.value.trim(),p=lp.value.trim();
+    if(!c||!p)return showErr('empty');
+    if(!window.RG)return showErr('net');
+    lb.disabled=true;lb.textContent=T.loggingIn;st.loginErr=null;le.hidden=true;
+    try{await window.RG.signIn(c,p);}
+    catch(err){showErr(err.code==='auth/too-many-requests'?'many':err.code==='auth/network-request-failed'?'net':'bad');lb.disabled=false;lb.textContent=T.loginBtn;}
+  };
+  lc.focus();
+}
+window.MR={
+  onUser(p,reason){
+    st.authKnown=true; if(reason)st.loginErr=reason;
+    if(!p){st.user=null;clearInterval(timer);gm.innerHTML='';if(st.screen!=='lang')renderLogin();return;}
+    st.user=p;st.loginErr=null;selectKid(p.kids[0]?p.kids[0].code:null);
+    if(st.screen!=='lang'){renderStart();window.scrollTo(0,0);}
+  },
+  bootFail(kind){ if(st.authKnown)return; st.bootErr=kind; if(st.screen==='boot')renderBoot(); }
+};
+
+function renderLang(){
+  bclock.hidden=true;
+  app.innerHTML=`<section class="langpick">
+    <div class="hero"><h1>محاكاة مقياس موهبة<br>Mawhiba Test Practice</h1><p>اختر لغة الموقع · Choose your language</p><span class="by">إعداد المدرب: محمد رجب · Trainer Mohamed Ragab</span></div>
+    <div class="langs">
+      <button type="button" data-l="ar" dir="rtl"><b>العربية</b><span>الأسئلة والواجهة باللغة العربية</span></button>
+      <button type="button" data-l="en" dir="ltr"><b>English</b><span>Questions and interface in English</span></button>
+    </div>
+  </section>`;
+  app.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{setLang(b.dataset.l);route();});
+  updChrome();
+}
+function renderStart(){
+  const T=t(); bclock.hidden=true; st.screen='start'; updChrome();
+  app.innerHTML=`<section class="start">
+    <div class="hero">
+      <h1>${T.heroTitle}</h1>
+      <p>${T.heroText}</p>
+      <span class="by">${T.by}</span>
+    </div>
+    <div class="facts">${T.facts.map(f=>`<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>
+    <div class="sheet" style="display:flex;flex-direction:column;gap:18px">
+      ${st.user&&st.user.role!=='admin'?`<div class="field namebox who-box"><span class="muted">${T.studentLbl}</span><b>${esc(st.name)}</b>${st.user.kids.length>1?`<div class="kids"><span class="muted">${T.chooseKid}</span>${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div>`:''}</div>`
+      :`<div class="field namebox"><label for="nm">${st.user?T.adminLabel:T.nameLabel}</label><input id="nm" type="text" autocomplete="name" placeholder="${T.namePh}" value="${esc(st.name)}"><span class="err" id="nmErr" hidden>${T.nameErr}</span></div>`}
+      <div class="parts">${['V','K','R','U'].map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" aria-pressed="${st.model===m.n}"><b>${mName(m.n)}</b><span>${done[m.n]!==undefined?T.last(done[m.n]):T.modelSub}</span></button>`).join('')}</div></div>`).join('')}</div>
+      <ul class="rules">${T.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
+      <div class="row"><button class="btn gold" id="go">${T.start(mFull(st.model))}</button>${Object.keys(done).length?`<button class="btn line" id="certAll">${T.certAll}</button>`:''}</div>
+    </div>
+  </section>`;
+  const nmIn=document.getElementById('nm');
+  const needName=()=>{if(!nmIn)return true;const v=nmIn.value.trim();if(v.length<2){nmIn.classList.add('bad');document.getElementById('nmErr').hidden=false;nmIn.focus();return false;}st.name=v;try{localStorage.setItem('mr_name',v)}catch(e){};return true;};
+  if(nmIn)nmIn.oninput=()=>{nmIn.classList.remove('bad');document.getElementById('nmErr').hidden=true;};
+  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{st.model=+b.dataset.m;if(nmIn)st.name=nmIn.value;renderStart()});
+  app.querySelectorAll('[data-kid]').forEach(b=>b.onclick=()=>{selectKid(b.dataset.kid);renderStart()});
+  const ca=document.getElementById('certAll');if(ca)ca.onclick=()=>{if(needName())showCert(null);};
+  document.getElementById('go').onclick=()=>{
+    if(!needName())return;
+    st.list=Q.filter(q=>q.m===st.model).map(q=>q.id);
+    st.ans={};st.flag={};st.cur=0;st.left=25*60;st.total=25*60;st.screen='exam';
+    clearInterval(timer);timer=setInterval(tick,1000);
+    renderExam();window.scrollTo(0,0);
+  };
+}
+function tick(){st.left--;updClock();if(st.left<=0){clearInterval(timer);finish();}}
+function updClock(){bclock.hidden=false;bclock.textContent=fmt(Math.max(0,st.left));bclock.classList.toggle('low',st.left<=120);}
+function optHTML(q,k,pos,extra=''){
+  const content=q.figOpts?L(q).o[k]:esc(L(q).o[k]);
+  return `<span class="L">${t().let[pos]}</span><span class="c">${content}</span>${extra}`;
+}
+function renderExam(){
+  const T=t(); updClock(); updChrome();
+  const id=st.list[st.cur], q=Q[id], n=st.list.length, Lq=L(q);
+  const answered=Object.keys(st.ans).length, flagged=Object.values(st.flag).filter(Boolean).length;
+  app.innerHTML=`<div class="exam">
+    <section class="sheet" aria-live="polite">
+      <div class="qhead"><span class="qn">${T.qOf(st.cur+1,n)}</span><span class="sec">${partName(q.p)} · ${Lq.skill}</span></div>
+      <div class="stem">${Lq.pass?`<div class="passage"><b>${T.readLbl}</b>${Lq.pass}</div>`:''}<p>${stemHTML(q)}</p>${Lq.fig?`<div class="fig">${Lq.fig}</div>`:''}</div>
+      <div class="opts ${q.figOpts?'grid':''}" role="radiogroup">
+        ${q.order.map((k,pos)=>`<button class="opt" role="radio" data-p="${pos}" aria-checked="${st.ans[id]===pos}">${optHTML(q,k,pos)}</button>`).join('')}
+      </div>
+      <label class="flagrow"><input type="checkbox" id="fl" ${st.flag[id]?'checked':''}> ${T.flag}</label>
+      <div class="nav">
+        <button class="btn line" id="prev" ${st.cur===0?'disabled':''}>${T.prev}</button>
+        ${st.cur<n-1?`<button class="btn" id="next">${T.next}</button>`:`<button class="btn gold" id="sub">${T.finish}</button>`}
+      </div>
+    </section>
+    <aside class="console">
+      <div class="who"><i>${esc(st.name.charAt(0))}</i><div><b>${esc(st.name)}</b><div class="muted" style="font-size:13px">${mName(st.model)} · ${partName(modelOf(st.model).p)}</div></div></div>
+      <div class="tally"><div><b>${answered}</b>${T.answered}</div><div><b>${n-answered}</b>${T.remaining}</div><div><b>${flagged}</b>${T.flagged}</div></div>
+      <div class="pal">${st.list.map((qid,i)=>`<button data-i="${i}" class="${st.ans[qid]!==undefined?'a':''} ${st.flag[qid]?'f':''} ${i===st.cur?'cur':''}" aria-label="${T.qAria(i+1)}">${i+1}</button>`).join('')}</div>
+      <div class="legend"><span><i style="background:var(--ink-2)"></i>${T.answered}</span><span><i></i>${T.unanswered}</span><span><i style="background:var(--flag);border-radius:50%"></i>${T.flagged}</span></div>
+      <button class="btn bad" id="sub2">${T.submit}</button>
+    </aside>
+  </div><div id="modal"></div>`;
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{st.ans[id]=+b.dataset.p;renderExam()});
+  document.getElementById('fl').onchange=e=>{st.flag[id]=e.target.checked;renderExam()};
+  const go=i=>{st.cur=i;renderExam();window.scrollTo({top:0})};
+  const p=document.getElementById('prev'); if(p)p.onclick=()=>go(st.cur-1);
+  const nx=document.getElementById('next'); if(nx)nx.onclick=()=>go(st.cur+1);
+  app.querySelectorAll('.pal button').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+  const sub=document.getElementById('sub'); if(sub)sub.onclick=confirmSubmit;
+  document.getElementById('sub2').onclick=confirmSubmit;
+}
+function confirmSubmit(){
+  const T=t(), n=st.list.length, a=Object.keys(st.ans).length;
+  document.getElementById('modal').innerHTML=`<div class="modal"><div class="sheet">
+    <h2>${T.subTitle}</h2><p class="muted">${T.subBody(a,n)}</p>
+    <div class="row"><button class="btn gold" id="yes">${T.subYes}</button><button class="btn line" id="no">${T.subNo}</button></div>
+  </div></div>`;
+  document.getElementById('yes').onclick=finish;
+  document.getElementById('no').onclick=()=>document.getElementById('modal').innerHTML='';
+}
+function finish(){
+  clearInterval(timer);bclock.hidden=true;st.screen='res';st.filter='all';
+  const right=st.list.filter(id=>st.ans[id]===Q[id].ans).length;
+  done[st.model]=Math.round(right/st.list.length*100);
+  const blankN=st.list.filter(id=>st.ans[id]===undefined).length;st.det={model:st.model,right,wrong:st.list.length-right-blankN,blank:blankN,used:st.total-Math.max(0,st.left)};try{localStorage.setItem(st.doneKey,JSON.stringify(done))}catch(e){}
+  renderRes();window.scrollTo(0,0);
+}
+function renderRes(){
+  const T=t(); updChrome();
+  const Ls=st.list, n=Ls.length;
+  const right=Ls.filter(id=>st.ans[id]===Q[id].ans).length;
+  const blank=Ls.filter(id=>st.ans[id]===undefined).length;
+  const pct=Math.round(right/n*100);
+  const used=st.total-Math.max(0,st.left);
+  const C=2*Math.PI*70, off=C*(1-pct/100);
+  const verdict=T.verdicts[pct>=85?0:pct>=70?1:pct>=50?2:3];
+  const weak=[...new Set(Ls.filter(id=>st.ans[id]!==Q[id].ans).map(id=>L(Q[id]).skill))];
+  const nextN=ORDER[ORDER.indexOf(st.model)+1];const nextM=nextN?modelOf(nextN):null;
+  const list=Ls.filter(id=>st.filter==='all'||(st.filter==='wrong'&&st.ans[id]!==Q[id].ans)||(st.filter==='flag'&&st.flag[id]));
+  app.innerHTML=`<section class="res">
+    <div class="sheet score">
+      <svg class="ring" viewBox="0 0 170 170" role="img" aria-label="${pct}%">
+        <circle cx="85" cy="85" r="70" fill="none" stroke="var(--panel)" stroke-width="14"/>
+        <circle cx="85" cy="85" r="70" fill="none" stroke="var(--accent)" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 85 85)"/>
+        <text x="85" y="94" text-anchor="middle" font-size="34" font-weight="600" fill="var(--fg)" font-family="IBM Plex Mono,monospace">${pct}%</text>
+      </svg>
+      <div>
+        <div class="muted">${T.resOf(esc(st.name),mName(st.model),partName(modelOf(st.model).p))}</div>
+        <h2 style="font-size:26px">${verdict}</h2>
+        <div class="row" style="margin-top:10px;gap:20px">
+          <span>${T.correct}: <b class="num" style="color:var(--good)">${right}</b></span>
+          <span>${T.wrong}: <b class="num" style="color:var(--bad)">${n-right-blank}</b></span>
+          <span>${T.blank}: <b class="num">${blank}</b></span>
+          <span>${T.time}: <b class="num">${fmt(used)}</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="row"><button class="btn gold" id="cert2">${T.certShow}</button></div>
+    ${weak.length?`<div class="sheet"><h2 style="font-size:18px;margin-bottom:10px">${T.weak}</h2><div class="chips">${weak.map(w=>`<span>${w}</span>`).join('')}</div></div>`:''}
+    <div class="row" style="justify-content:space-between">
+      <h2 style="font-size:20px">${T.review}</h2>
+      <div class="filt">
+        <button data-f="all" aria-pressed="${st.filter==='all'}">${T.fAll}</button>
+        <button data-f="wrong" aria-pressed="${st.filter==='wrong'}">${T.fWrong}</button>
+        <button data-f="flag" aria-pressed="${st.filter==='flag'}">${T.fFlag}</button>
+      </div>
+    </div>
+    ${list.length?list.map(id=>{const q=Q[id],Lq=L(q);const mine=st.ans[id];const ok=mine===q.ans;return `<article class="rq">
+      <div class="meta"><span>${T.qn(Ls.indexOf(id)+1)} · ${Lq.skill}</span><span style="font-weight:700;color:${ok?'var(--good)':'var(--bad)'}">${ok?T.ok:mine===undefined?T.none:T.bad}</span></div>
+      <div class="stem">${Lq.pass?`<div class="passage"><b>${T.readLbl}</b>${Lq.pass}</div>`:''}<p>${stemHTML(q)}</p>${Lq.fig?`<div class="fig">${Lq.fig}</div>`:''}</div>
+      <div class="opts ${q.figOpts?'grid':''}">${q.order.map((k,pos)=>{const c=pos===q.ans?'ok':pos===mine?'no':'';const tag=pos===q.ans?`<span class="tag" style="color:var(--good)">${T.rightTag}</span>`:pos===mine?`<span class="tag" style="color:var(--bad)">${T.yourTag}</span>`:'';return `<button class="opt ${c}" disabled>${optHTML(q,k,pos,tag)}</button>`}).join('')}</div>
+      <div class="why"><b>${T.why}</b> ${Lq.e}</div>
+    </article>`}).join(''):`<p class="muted">${T.empty}</p>`}
+    <div class="row"><button class="btn gold" id="cert">${T.cert}</button>${nextM?`<button class="btn" id="nextm">${T.start(mFull(nextM.n))}</button>`:''}<button class="btn line" id="again">${T.homePage}</button></div>
+  </section>`;
+  app.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{st.filter=b.dataset.f;renderRes()});
+  document.getElementById('again').onclick=()=>{renderStart();window.scrollTo(0,0)};
+  document.getElementById('cert').onclick=()=>showCert(st.model);
+  document.getElementById('cert2').onclick=()=>showCert(st.model);
+  const nm=document.getElementById('nextm'); if(nm)nm.onclick=()=>{st.model=nextM.n;renderStart();document.getElementById('go').click()};
+}
+
+// ---------- home & language ----------
+function goHome(){
+  const T=t();
+  if(!st.user||!['start','res','exam'].includes(st.screen))return;
+  if(st.screen==='exam'){
+    gm.innerHTML=`<div class="modal"><div class="sheet"><h2>${T.exitTitle}</h2><p class="muted">${T.exitBody}</p><div class="row"><button class="btn bad" id="hYes">${T.exitYes}</button><button class="btn line" id="hNo">${T.exitNo}</button></div></div></div>`;
+    document.getElementById('hYes').onclick=()=>{gm.innerHTML='';clearInterval(timer);renderStart();window.scrollTo(0,0)};
+    document.getElementById('hNo').onclick=()=>gm.innerHTML='';
+    return;
+  }
+  gm.innerHTML='';renderStart();window.scrollTo(0,0);
+}
+document.getElementById('homeBtn').onclick=goHome;
+document.getElementById('homeLogo').onclick=goHome;
+document.getElementById('langBtn').onclick=()=>{
+  setLang(lang==='en'?'ar':'en');
+  if(st.screen==='res')renderRes(); else if(st.screen==='login')renderLogin(); else if(st.screen==='boot')renderBoot(); else renderStart();
+};
+document.getElementById('outBtn').onclick=()=>{
+  const T=t();
+  gm.innerHTML=`<div class="modal"><div class="sheet"><h2>${T.outTitle}</h2><p class="muted">${st.screen==='exam'?T.outBodyExam:T.outBody}</p><div class="row"><button class="btn bad" id="oYes">${T.outYes}</button><button class="btn line" id="oNo">${T.outNo}</button></div></div></div>`;
+  document.getElementById('oNo').onclick=()=>gm.innerHTML='';
+  document.getElementById('oYes').onclick=async()=>{gm.innerHTML='';clearInterval(timer);st.screen='login';try{await window.RG.signOut()}catch(e){window.MR.onUser(null)}};
+};
+
+// ---------- certificate ----------
+function certHTML(model){
+  const T=t();
+  let date='';try{date=new Date().toLocaleDateString(T.dateLoc,{year:'numeric',month:'long',day:'numeric'})}catch(e){date=new Date().toISOString().slice(0,10)}
+  const rows=MODELS.filter(m=>done[m.n]!==undefined);
+  const avg=rows.length?Math.round(rows.reduce((a,m)=>a+done[m.n],0)/rows.length):0;
+  const body=model?T.cOne(mName(model),partName(modelOf(model).p),done[model]):T.cAll(rows.length,avg);
+  const d=st.det&&st.det.model===model?st.det:null;
+  const table=model?(d?`<table><tr>${T.dCols.map(c=>`<th>${c}</th>`).join('')}</tr><tr><td>${d.right}</td><td>${d.wrong}</td><td>${d.blank}</td><td dir="ltr">${fmt(d.used)}</td></tr></table>`:''):rows.length?`<table><tr>${T.cCols.map(c=>`<th>${c}</th>`).join('')}</tr>${rows.map(r=>`<tr><td>${mName(r.n)}</td><td>${partName(r.p)}</td><td dir="ltr">${done[r.n]}%</td></tr>`).join('')}</table>`:'';
+  return `<div class="cert" dir="${T.dir}">
+    <div class="medal">${lang==='en'?'M':'م'}</div>
+    <div class="sub">${T.cProgram}</div>
+    <div class="ct">${T.cTitle}</div>
+    <p>${T.cGrant}</p>
+    <div class="nm">${esc(st.name||'')}</div>
+    ${body}${table}
+    <p>${T.cWish}</p>
+    <div class="sig">
+      <div><span class="sub">${T.cDate}</span><b>${date}</b></div>
+      <div><span class="sub">${T.cTrainer}</span><b>${T.cTrainerName}</b></div>
+    </div>
+  </div>`;
+}
+function showCert(model){
+  const T=t();
+  gm.innerHTML=`<div class="modal"><div class="cert-wrap">${certHTML(model)}
+    <div class="row" style="justify-content:center"><button class="btn gold" id="cPrint">${T.print}</button><button class="btn line" id="cClose" style="background:var(--surface)">${T.close}</button></div>
+    <p style="text-align:center;font-size:13.5px;margin:0;color:#e6eaf5">${T.printHint}</p>
+  </div></div>`;
+  document.getElementById('cClose').onclick=()=>gm.innerHTML='';
+  document.getElementById('cPrint').onclick=()=>{
+    let pc=document.getElementById('printcert');
+    if(!pc){pc=document.createElement('div');pc.id='printcert';document.body.appendChild(pc);}
+    pc.dir=T.dir; pc.innerHTML=certHTML(model);
+    try{window.print()}catch(e){}
+  };
+}
+
+applyLang();
+if(st.screen==='lang')renderLang(); else renderBoot();
+</script>
+<script type="module">
+/* Firebase: same project and accounts as Mr. Mohamed Ragab's platform (read-only here) */
+const FB="https://www.gstatic.com/firebasejs/10.7.1/";
+const firebaseConfig={apiKey:"AIzaSyAlmVnaD2CnBHJqF9ZpZ1EyJp-CvmqdSAQ",authDomain:"ragabweb-c243a.firebaseapp.com",projectId:"ragabweb-c243a"};
+const DOMAIN="@ragabweb.com", ADMIN_CODE="1411";
+const slowT=setTimeout(()=>window.MR.bootFail('slow'),9000);
+let P,A,F;
+try{[P,A,F]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-auth.js"),import(FB+"firebase-firestore.js")]);}
+catch(e){clearTimeout(slowT);window.MR.bootFail('load');throw e;}
+const fbApp=P.initializeApp(firebaseConfig), auth=A.getAuth(fbApp), db=F.getFirestore(fbApp);
+window.RG={signIn:(code,pass)=>A.signInWithEmailAndPassword(auth,code+DOMAIN,pass),signOut:()=>A.signOut(auth)};
+A.onAuthStateChanged(auth,async user=>{
+  clearTimeout(slowT);
+  if(!user){window.MR.onUser(null);return;}
+  const code=(user.email||"").split("@")[0];
+  try{
+    if(code===ADMIN_CODE){window.MR.onUser({code,role:"admin",kids:[]});return;}
+    const ps=await F.getDocs(F.query(F.collection(db,"students"),F.where("parentCode","==",code)));
+    let kids=ps.docs.map(d=>({code:d.data().code||d.id,name:d.data().name||""})), role="parent";
+    if(!kids.length){
+      const s=await F.getDoc(F.doc(db,"students",code));
+      if(!s.exists()){window.MR.onUser(null,"notLinked");await A.signOut(auth);return;}
+      kids=[{code,name:s.data().name||""}];role="student";
+    }
+    kids.sort((a,b)=>(a.name||"").localeCompare(b.name||"","ar"));
+    window.MR.onUser({code,role,kids});
+  }catch(e){console.error(e);window.MR.onUser(null,e.code==="permission-denied"?"perm":"net");try{await A.signOut(auth)}catch(_){}}
+});
+</script>
+</body>
+</html>
