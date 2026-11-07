@@ -9,6 +9,17 @@
 /* pen above everything, including the training overlay */
 .penbtn,.pencol{z-index:10002!important}
 .pencv{z-index:10001!important}
+
+/* pen toolbar: one narrow vertical column */
+.pentools{align-items:center!important;gap:6px!important;padding:6px!important;max-height:calc(100vh - 150px);max-height:calc(100dvh - 150px);overflow-y:auto;overscroll-behavior:contain}
+.pentools .pt-row{flex-direction:column!important;flex-wrap:nowrap!important;gap:6px!important;align-items:center!important}
+.pentools .pt-row+.pt-row{border-top:1px solid #e2e8f0;padding-top:6px}
+.pentools .pt-lbl{display:none!important}
+.pentools .pt-c{width:26px!important;height:26px!important}
+.pentools .pt-s{width:34px!important;height:30px!important}
+.pentools .pt-a{width:50px!important;padding:5px 2px!important;font-size:10.5px!important;line-height:1.25!important;white-space:normal!important;text-align:center}
+#gmodal .modal{z-index:10005}
+.train-bar #trainOut{margin-inline-start:auto}
 </style>
 <title>محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4288,6 +4299,7 @@ function selectKid(code){
   done={};try{done=JSON.parse(localStorage.getItem(st.doneKey)||'{}')}catch(e){}
   if(st.kid&&!nameEditable())st.name=st.kid.name||st.kid.code; else{st.name='';try{st.name=localStorage.getItem(nameEditable()?'mr_name_'+st.user.code:'mr_name')||''}catch(e){}}
   st.det=null;  syncDone();
+  st.lvP=applyLvLock().then(()=>{if(st.user&&st.screen==='start')renderStart();}).catch(e=>console.warn(e));
 }
 /* الدرجات والنموذج غير المكتمل محفوظة في الحساب: تظهر على أي جهاز */
 let unwatchRes=null,lastCloudProg=0;
@@ -4356,17 +4368,30 @@ window.MR={
     st.authKnown=true; if(reason)st.loginErr=reason;
     if(!p){stopWatch();st.user=null;clearInterval(timer);gm.innerHTML='';if(!['lang','level'].includes(st.screen))renderLogin();return;}
     st.user=p;st.loginErr=null;selectKid(p.kids[0]?p.kids[0].code:null);
-    if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}
+    (st.lvP||Promise.resolve()).then(()=>{if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}else if(st.screen==='level')renderLevel();});
   },
   bootFail(kind){ if(st.authKnown)return; st.bootErr=kind; if(st.screen==='boot')renderBoot(); }
 };
 
+
+function lvLocked(){return !!(st.user&&st.user.role!=='admin'&&st.allowed&&st.allowed.length===1);}
+async function applyLvLock(){
+  st.allowed=null;
+  if(!st.user||st.user.role==='admin'||!window.RG||!window.RG.trGet||!st.kid)return;
+  const code=String(st.kid.code);let lv=[];
+  let d=null;try{d=await window.RG.trGet(code);}catch(e){console.warn('levels',e);}
+  lv=((d&&d.levels)||[]).map(Number).filter(l=>l>=1&&l<=3);
+  if(!lv.length){const x=+(d&&d.progress&&d.progress._lvl);if(x>=1&&x<=3)lv=[x];}
+  if(!lv.length){lv=[st.level||1];if(st.user.role==='student'){try{await window.RG.trSet(code,{code,progress:{_lvl:lv[0]}});}catch(e){console.warn('save level',e);}}}
+  lv=[...new Set(lv)].sort();st.allowed=lv;
+  if(!lv.includes(st.level))setLevel(lv[0]);
+}
 function setLevel(l){st.level=l;st.model=ORDERS[l][0];try{localStorage.setItem('mr_level',String(l))}catch(e){}}
 function renderLevel(){
   const T=t(); bclock.hidden=true; st.screen='level'; updChrome();
   app.innerHTML=`<section class="langpick">
     <div class="hero"><h1>${T.lvTitle}</h1><p>${T.lvSub}</p><span class="by">${T.by}</span></div>
-    <div class="langs">${[1,2,3].map(l=>`<button type="button" data-lv="${l}" aria-pressed="${st.level===l}"><b>${T.levels[l].name}</b><span>${T.levels[l].meta}</span></button>`).join('')}</div>
+    <div class="langs">${(st.user&&st.allowed?st.allowed:[1,2,3]).map(l=>`<button type="button" data-lv="${l}" aria-pressed="${st.level===l}"><b>${T.levels[l].name}</b><span>${T.levels[l].meta}</span></button>`).join('')}</div>
   </section>`;
   app.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{setLevel(+b.dataset.lv);route();});
 }
@@ -4395,7 +4420,7 @@ function trMe(){
 }
 window.RGT={
   me:()=>TRN.me, lang:()=>lang||'ar', level:()=>st.level, theme:()=>document.documentElement.dataset.theme||'', close:()=>closeTraining(),
-  getTraining:code=>window.RG.trGet(code),
+  getTraining:code=>window.RG.trGet(code).then(d=>{if(d&&!(d.levels&&d.levels.length)&&d.progress&&+d.progress._lvl)d.levels=[+d.progress._lvl];return d;}),
   touch:code=>window.RG.trSet(String(code),{code:String(code),lastSeen:Date.now()}).catch(()=>{}),
   saveProgress:(code,id,val)=>window.RG.trSet(String(code),trPlain({code:String(code),progress:{[String(id)]:Number(val)}})),
   addAttempt:rec=>{const m=TRN.me;return window.RG.trAdd(trPlain(Object.assign({},rec,{uid:m.code,code:m.code,studentCode:m.code,byCode:m.code,parentCode:m.parentCode||''})));},
@@ -4403,7 +4428,7 @@ window.RGT={
     const [l,ex]=await Promise.all([window.RG.trList(code||null,m.role==='parent'?m.parentCode:null),window.RG.exResults?window.RG.exResults(code||null).catch(e=>{console.warn('examResults',e);return [];}):Promise.resolve([])]);
     const mx=ex.map(r=>({id:r.id,mode:'model',modelName:r.modelName||'',partName:r.partName||'',level:r.level,correct:r.right||0,total:r.total||0,pct:r.percent||0,secs:r.usedSec,limit:r.totalSec,atMs:r.timestamp||0,uid:r.studentCode,code:r.studentCode,name:r.studentName||'',ideaIds:[]}));
     return l.map(a=>Object.assign({},a,{uid:a.studentCode})).concat(mx).sort((a,b)=>(b.atMs||0)-(a.atMs||0));},
-  listStudents:async()=>{const r=await window.RG.trStudents();return r.students.sort((a,b)=>(a.name||'').localeCompare(b.name||'','ar')).map(s=>{const x=r.tu[s.code]||{};return {uid:s.code,code:s.code,name:s.name||s.code,levels:(x.levels&&x.levels.length)?x.levels:[1,2,3],active:x.active!==false,progress:x.progress||{},lastSeen:x.lastSeen?{toMillis:()=>x.lastSeen}:null,createdMs:0};});},
+  listStudents:async()=>{const r=await window.RG.trStudents();return r.students.sort((a,b)=>(a.name||'').localeCompare(b.name||'','ar')).map(s=>{const x=r.tu[s.code]||{};return {uid:s.code,code:s.code,name:s.name||s.code,levels:(x.levels&&x.levels.length)?x.levels:(x.progress&&+x.progress._lvl?[+x.progress._lvl]:[1,2,3]),active:x.active!==false,progress:x.progress||{},lastSeen:x.lastSeen?{toMillis:()=>x.lastSeen}:null,createdMs:0};});},
   updateTraining:(code,patch)=>window.RG.trSet(String(code),trPlain(Object.assign({code:String(code)},patch))),
   examAnswers:id=>window.RG.trAnswers(id)
 };
@@ -4414,9 +4439,9 @@ function openTraining(plus){plus=plus===true;TRN.plus=plus;
   const en=lang==='en', m=TRN.me;
   const who=m.role==='admin'?(en?'Training dashboard':'لوحة متابعة التدريب'):m.role==='parent'?(en?'Progress report: ':'تقرير التدريب: ')+m.name:(m.name||'');
   let ov=document.getElementById('trainOv');if(!ov){ov=document.createElement('div');ov.id='trainOv';ov.className='train-ov';document.body.appendChild(ov);}
-  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div></div>`;
+  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div>${st.user?`<button type="button" class="btn line" id="trainOut">${en?'Sign out':'خروج'}</button>`:''}</div>`;
   const f=document.createElement('iframe');f.title=plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار');f.onload=()=>{try{const w=f.contentWindow;if(w&&w.penShow){w.penShow(false);w.penShow=()=>{};}}catch(e){}};f.srcdoc=TRN.html;ov.appendChild(f);
-  ov.hidden=false;ov.style.display='flex';if(window.mrPen)mrPen(true);window.scrollTo(0,0);document.body.style.overflow='hidden';document.getElementById('trainBack').onclick=closeTraining;
+  ov.hidden=false;ov.style.display='flex';if(window.mrPen)mrPen(true);window.scrollTo(0,0);document.body.style.overflow='hidden';document.getElementById('trainBack').onclick=closeTraining;{const to=document.getElementById('trainOut');if(to)to.onclick=()=>document.getElementById('outBtn').onclick();}
   }catch(e){console.error(e);alert((lang==='en'?'Could not open the training: ':'تعذر فتح التدريب: ')+(e&&e.message||e));}
 }
 function closeTraining(){const ov=document.getElementById('trainOv');if(!ov||ov.hidden)return;ov.hidden=true;ov.style.display='none';ov.innerHTML='';if(window.mrPen)mrPen(true);document.body.style.overflow='';TRN.me=null;}
@@ -4482,7 +4507,7 @@ function renderHub(){
       ${C('hubTrain','⚡','#7b4bb7',par?'تدرب حسب الأفكار · المتابعة':'تدرب حسب الأفكار','Practice by idea','تعلّم الحل السريع لكل فكرة وتدرّب عليها','Learn the quick solution for each idea and practise it')}
       ${C('hubTP','⚡','#c0782a',par?'تدريب بلس · المتابعة':'تدريب بلس','Training Plus','أسئلة الكتب نفسها مقسّمة حسب الأفكار','The book questions themselves, sorted by idea')}
     </div>
-    <div class="row"><button class="btn line" id="chLv">${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${en?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}</div>
+    <div class="row"><button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${en?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}</div>
   </section>`;
   document.getElementById('hubMain').onclick=()=>{st.inModels=true;renderStart();window.scrollTo(0,0)};
   document.getElementById('hubTrain').onclick=()=>openTraining(false);
@@ -4513,7 +4538,7 @@ function renderStart(){
       :`<div class="field namebox"><label for="nm">${st.user&&st.user.role==='admin'?T.adminLabel:T.nameLabel}</label><input id="nm" type="text" autocomplete="name" placeholder="${T.namePh}" value="${esc(st.name)}"><span class="err" id="nmErr" hidden>${T.nameErr}</span></div>`}
       <div class="parts">${LEVELS[st.level].parts.map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" aria-pressed="${st.model===m.n}"><b>${mName(m.n)}</b><span>${done[m.n]!==undefined?T.last(done[m.n]):T.levels[st.level].msub}</span></button>`).join('')}</div></div>`).join('')}</div>
       <ul class="rules">${T.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
-      <div class="row"><button class="btn gold" id="go">${T.start(mFull(st.model))}</button>${HUB_ON?`<button class="btn line" id="toHub">${lang==='en'?'‹ Main page':'الرئيسية ›'}</button>`:''}<button class="btn line" id="chLv">${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${lang==='en'?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}${ORDERS[st.level].some(n=>done[n]!==undefined)?`<button class="btn line" id="certAll">${T.certAll}</button>`:''}</div>
+      <div class="row"><button class="btn gold" id="go">${T.start(mFull(st.model))}</button>${HUB_ON?`<button class="btn line" id="toHub">${lang==='en'?'‹ Main page':'الرئيسية ›'}</button>`:''}<button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${lang==='en'?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}${ORDERS[st.level].some(n=>done[n]!==undefined)?`<button class="btn line" id="certAll">${T.certAll}</button>`:''}</div>
     </div>
   </section>`;
   const nmIn=document.getElementById('nm');
