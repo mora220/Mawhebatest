@@ -20,6 +20,8 @@
 .pentools .pt-a{width:50px!important;padding:5px 2px!important;font-size:10.5px!important;line-height:1.25!important;white-space:normal!important;text-align:center}
 #gmodal .modal{z-index:10005}
 .train-bar #trainOut{margin-inline-start:auto}
+
+.pencv.hand{pointer-events:none!important;background:transparent!important}
 </style>
 <title>محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4257,25 +4259,25 @@ function applyLang(){
   const tl=document.createElement('div');tl.id='penCol';tl.className='pencol pentools';
   const COLS=['#d6336c','#1d4ed8','#111827','#16a34a','#f97316','#7c3aed'];
   const SIZES=[3,6,11];
-  let ink=COLS[0],wid=SIZES[0],erase=false,paper=false,on=false,ctx=null,last=null,store={q:null,p:null};
+  let hand=false,ink=COLS[0],wid=SIZES[0],erase=false,paper=false,on=false,ctx=null,last=null,store={q:null,p:null};
   document.body.append(c,tl,b);
   const label=()=>{b.innerHTML=on?`✖ ${EN()?'Cancel pen':'إلغاء القلم'}`:`✏️ ${EN()?'Pen':'القلم'}`;b.setAttribute('aria-pressed',on);};
   const tools=()=>{const sn=EN()?['Thin','Medium','Thick']:['رفيع','متوسط','عريض'];
     tl.innerHTML=`<div class="pt-row">${COLS.map(k=>`<button type="button" class="pt-c" data-ink="${k}" style="background:${k}" aria-pressed="${!erase&&k===ink}" aria-label="${EN()?'Colour':'لون'}"></button>`).join('')}</div>`
     +`<div class="pt-row"><span class="pt-lbl">${EN()?'Size':'الحجم'}</span>${SIZES.map((w,i)=>`<button type="button" class="pt-s" data-w="${w}" aria-pressed="${w===wid}" title="${sn[i]}" aria-label="${sn[i]}"><i style="width:${w+3}px;height:${w+3}px;background:${erase?'#fff':ink};${erase?'box-shadow:inset 0 0 0 1.5px #64748b':''}"></i></button>`).join('')}</div>`
-    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;};
+    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="hand" aria-pressed="${hand}" title="${EN()?'Use the mouse or touch normally; your writing stays':'استخدم الماوس أو اللمس عادي، والكتابة تفضل موجودة'}">✋ ${EN()?'Hand':'يد'}</button><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;};
   const size=()=>{const r=window.devicePixelRatio||1;c.width=Math.round(innerWidth*r);c.height=Math.round(innerHeight*r);c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';ctx=c.getContext('2d');ctx.setTransform(r,0,0,r,0,0);ctx.lineCap='round';ctx.lineJoin='round';apply();};
   const apply=()=>{if(!ctx)return;ctx.globalCompositeOperation=erase?'destination-out':'source-over';ctx.lineWidth=erase?wid*4:wid;ctx.strokeStyle=ink;c.classList.toggle('erasing',erase);};
   const wipe=()=>{if(ctx){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);ctx.restore();}};
-  const off=()=>{on=false;erase=false;c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
+  const off=()=>{on=false;erase=false;hand=false;c.classList.remove('hand');c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
   b.onclick=()=>{if(on){off();return;}on=true;size();tools();c.style.display='block';tl.style.display='flex';label();};
   tl.onclick=e=>{const x=e.target.closest('button');if(!x)return;
     if(x.dataset.ink){ink=x.dataset.ink;erase=false;apply();}
     else if(x.dataset.w){wid=+x.dataset.w;apply();}
     else if(x.dataset.pt==='erase'){erase=!erase;apply();}
-    else if(x.dataset.pt==='clear'){wipe();}
+    else if(x.dataset.pt==='clear'){wipe();}else if(x.dataset.pt==='hand'){hand=!hand;}
     else if(x.dataset.pt==='paper'){try{store[paper?'p':'q']=ctx.getImageData(0,0,c.width,c.height);}catch(_){}wipe();paper=!paper;c.classList.toggle('paper',paper);const im=store[paper?'p':'q'];if(im){try{ctx.putImageData(im,0,0);}catch(_){}}}
-    tools();};
+    if(x.dataset.pt!=='hand'&&x.dataset.pt!=='clear')hand=false;c.classList.toggle('hand',hand);tools();};
   const pt=e=>[e.clientX,e.clientY];
   c.addEventListener('pointerdown',e=>{last=pt(e);try{c.setPointerCapture(e.pointerId)}catch(x){}ctx.beginPath();ctx.arc(last[0],last[1],ctx.lineWidth/2,0,7);ctx.fillStyle=ink;ctx.fill();e.preventDefault();});
   c.addEventListener('pointermove',e=>{if(!last)return;const p=pt(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;e.preventDefault();});
@@ -6306,25 +6308,25 @@ bind.admin = () => {
   const tl=document.createElement('div');tl.id='penCol';tl.className='pencol pentools';
   const COLS=['#d6336c','#1d4ed8','#111827','#16a34a','#f97316','#7c3aed'];
   const SIZES=[3,6,11];
-  let ink=COLS[0],wid=SIZES[0],erase=false,paper=false,on=false,ctx=null,last=null,store={q:null,p:null};
+  let hand=false,ink=COLS[0],wid=SIZES[0],erase=false,paper=false,on=false,ctx=null,last=null,store={q:null,p:null};
   document.body.append(c,tl,b);
   const label=()=>{b.innerHTML=on?`✖ ${EN()?'Cancel pen':'إلغاء القلم'}`:`✏️ ${EN()?'Pen':'القلم'}`;b.setAttribute('aria-pressed',on);};
   const tools=()=>{const sn=EN()?['Thin','Medium','Thick']:['رفيع','متوسط','عريض'];
     tl.innerHTML=`<div class="pt-row">${COLS.map(k=>`<button type="button" class="pt-c" data-ink="${k}" style="background:${k}" aria-pressed="${!erase&&k===ink}" aria-label="${EN()?'Colour':'لون'}"></button>`).join('')}</div>`
     +`<div class="pt-row"><span class="pt-lbl">${EN()?'Size':'الحجم'}</span>${SIZES.map((w,i)=>`<button type="button" class="pt-s" data-w="${w}" aria-pressed="${w===wid}" title="${sn[i]}" aria-label="${sn[i]}"><i style="width:${w+3}px;height:${w+3}px;background:${erase?'#fff':ink};${erase?'box-shadow:inset 0 0 0 1.5px #64748b':''}"></i></button>`).join('')}</div>`
-    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;};
+    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="hand" aria-pressed="${hand}" title="${EN()?'Use the mouse or touch normally; your writing stays':'استخدم الماوس أو اللمس عادي، والكتابة تفضل موجودة'}">✋ ${EN()?'Hand':'يد'}</button><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;};
   const size=()=>{const r=window.devicePixelRatio||1;c.width=Math.round(innerWidth*r);c.height=Math.round(innerHeight*r);c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';ctx=c.getContext('2d');ctx.setTransform(r,0,0,r,0,0);ctx.lineCap='round';ctx.lineJoin='round';apply();};
   const apply=()=>{if(!ctx)return;ctx.globalCompositeOperation=erase?'destination-out':'source-over';ctx.lineWidth=erase?wid*4:wid;ctx.strokeStyle=ink;c.classList.toggle('erasing',erase);};
   const wipe=()=>{if(ctx){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);ctx.restore();}};
-  const off=()=>{on=false;erase=false;c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
+  const off=()=>{on=false;erase=false;hand=false;c.classList.remove('hand');c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
   b.onclick=()=>{if(on){off();return;}on=true;size();tools();c.style.display='block';tl.style.display='flex';label();};
   tl.onclick=e=>{const x=e.target.closest('button');if(!x)return;
     if(x.dataset.ink){ink=x.dataset.ink;erase=false;apply();}
     else if(x.dataset.w){wid=+x.dataset.w;apply();}
     else if(x.dataset.pt==='erase'){erase=!erase;apply();}
-    else if(x.dataset.pt==='clear'){wipe();}
+    else if(x.dataset.pt==='clear'){wipe();}else if(x.dataset.pt==='hand'){hand=!hand;}
     else if(x.dataset.pt==='paper'){try{store[paper?'p':'q']=ctx.getImageData(0,0,c.width,c.height);}catch(_){}wipe();paper=!paper;c.classList.toggle('paper',paper);const im=store[paper?'p':'q'];if(im){try{ctx.putImageData(im,0,0);}catch(_){}}}
-    tools();};
+    if(x.dataset.pt!=='hand'&&x.dataset.pt!=='clear')hand=false;c.classList.toggle('hand',hand);tools();};
   const pt=e=>[e.clientX,e.clientY];
   c.addEventListener('pointerdown',e=>{last=pt(e);try{c.setPointerCapture(e.pointerId)}catch(x){}ctx.beginPath();ctx.arc(last[0],last[1],ctx.lineWidth/2,0,7);ctx.fillStyle=ink;ctx.fill();e.preventDefault();});
   c.addEventListener('pointermove',e=>{if(!last)return;const p=pt(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;e.preventDefault();});
