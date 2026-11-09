@@ -22,6 +22,8 @@
 .train-bar #trainOut{margin-inline-start:auto}
 
 .pencv.hand{pointer-events:none!important;background:transparent!important}
+.pentools .pt-range{writing-mode:vertical-lr;direction:rtl;width:26px;height:110px;margin:2px 0;accent-color:#1d2b53}
+.pentools .pt-val{font:700 11px sans-serif;color:#475569}
 </style>
 <title>تجميعات اكسترا وبلس · محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4765,31 +4767,54 @@ function applyLang(){
   const b=document.createElement('button');b.type='button';b.id='penBtn';b.className='penbtn';
   const c=document.createElement('canvas');c.id='penCv';c.className='pencv';
   const tl=document.createElement('div');tl.id='penCol';tl.className='pencol pentools';
-  const COLS=['#d6336c','#1d4ed8','#111827','#16a34a','#f97316','#7c3aed'];
-  const SIZES=[3,6,11];
-  let hand=false,ink=COLS[0],wid=SIZES[0],erase=false,paper=false,on=false,ctx=null,last=null,store={q:null,p:null};
+  const COLS=['#d6336c','#1d4ed8','#111827','#16a34a','#f97316'];
+  let hand=false,shape=false,szOpen=false,ink=COLS[0],wid=3,erase=false,paper=false,on=false,ctx=null,last=null,pts=null,snap=null,store={q:null,p:null};
   document.body.append(c,tl,b);
   const label=()=>{b.innerHTML=on?`✖ ${EN()?'Cancel pen':'إلغاء القلم'}`:`✏️ ${EN()?'Pen':'القلم'}`;b.setAttribute('aria-pressed',on);};
-  const tools=()=>{const sn=EN()?['Thin','Medium','Thick']:['رفيع','متوسط','عريض'];
+  const dot=()=>{const d=Math.max(5,Math.min(22,wid+3));return `<i style="width:${d}px;height:${d}px;background:${erase?'#fff':ink};${erase?'box-shadow:inset 0 0 0 1.5px #64748b':''}"></i>`;};
+  const tools=()=>{
     tl.innerHTML=`<div class="pt-row">${COLS.map(k=>`<button type="button" class="pt-c" data-ink="${k}" style="background:${k}" aria-pressed="${!erase&&k===ink}" aria-label="${EN()?'Colour':'لون'}"></button>`).join('')}</div>`
-    +`<div class="pt-row"><span class="pt-lbl">${EN()?'Size':'الحجم'}</span>${SIZES.map((w,i)=>`<button type="button" class="pt-s" data-w="${w}" aria-pressed="${w===wid}" title="${sn[i]}" aria-label="${sn[i]}"><i style="width:${w+3}px;height:${w+3}px;background:${erase?'#fff':ink};${erase?'box-shadow:inset 0 0 0 1.5px #64748b':''}"></i></button>`).join('')}</div>`
-    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="hand" aria-pressed="${hand}" title="${EN()?'Use the mouse or touch normally; your writing stays':'استخدم الماوس أو اللمس عادي، والكتابة تفضل موجودة'}">✋ ${EN()?'Hand':'يد'}</button><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;};
+    +`<div class="pt-row"><button type="button" class="pt-s" data-pt="size" aria-pressed="${szOpen}" title="${EN()?'Pen size':'حجم القلم'}" aria-label="${EN()?'Pen size':'حجم القلم'}">${dot()}</button>${szOpen?`<input type="range" class="pt-range" min="1" max="24" step="1" value="${wid}" aria-label="${EN()?'Pen size':'حجم القلم'}"><span class="pt-val">${wid}</span>`:''}</div>`
+    +`<div class="pt-row"><button type="button" class="pt-a" data-pt="shape" aria-pressed="${shape}" title="${EN()?'Draw a rough circle, triangle, square or line and it is tidied up':'ارسم شكل تقريبي (دائرة، مثلث، مربع، خط) فيتعدّل لشكل مضبوط'}">📐 ${EN()?'Shapes':'تعديل'}</button><button type="button" class="pt-a" data-pt="hand" aria-pressed="${hand}" title="${EN()?'Use the mouse or touch normally; your writing stays':'استخدم الماوس أو اللمس عادي، والكتابة تفضل موجودة'}">✋ ${EN()?'Hand':'يد'}</button><button type="button" class="pt-a" data-pt="erase" aria-pressed="${erase}">🧽 ${EN()?'Eraser':'ممحاة'}</button><button type="button" class="pt-a" data-pt="paper" aria-pressed="${paper}">${paper?(EN()?'↩ Back to question':'↩ رجوع للسؤال'):(EN()?'📄 Blank page':'📄 مساحة للكتابة')}</button><button type="button" class="pt-a" data-pt="clear">🧹 ${EN()?'Clear':'مسح'}</button></div>`;
+    const rg=tl.querySelector('.pt-range');if(rg){rg.oninput=()=>{wid=+rg.value;apply();const v=tl.querySelector('.pt-val');if(v)v.textContent=wid;const s=tl.querySelector('[data-pt="size"]');if(s)s.innerHTML=dot();};}};
   const size=()=>{const r=window.devicePixelRatio||1;c.width=Math.round(innerWidth*r);c.height=Math.round(innerHeight*r);c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';ctx=c.getContext('2d');ctx.setTransform(r,0,0,r,0,0);ctx.lineCap='round';ctx.lineJoin='round';apply();};
   const apply=()=>{if(!ctx)return;ctx.globalCompositeOperation=erase?'destination-out':'source-over';ctx.lineWidth=erase?wid*4:wid;ctx.strokeStyle=ink;c.classList.toggle('erasing',erase);};
   const wipe=()=>{if(ctx){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,c.width,c.height);ctx.restore();}};
-  const off=()=>{on=false;erase=false;hand=false;c.classList.remove('hand');c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
+  const off=()=>{on=false;erase=false;hand=false;shape=false;szOpen=false;c.classList.remove('hand');c.classList.remove('erasing');c.style.display='none';tl.style.display='none';wipe();store={q:null,p:null};if(paper){paper=false;c.classList.remove('paper');}last=null;label();};
   b.onclick=()=>{if(on){off();return;}on=true;size();tools();c.style.display='block';tl.style.display='flex';label();};
   tl.onclick=e=>{const x=e.target.closest('button');if(!x)return;
     if(x.dataset.ink){ink=x.dataset.ink;erase=false;apply();}
-    else if(x.dataset.w){wid=+x.dataset.w;apply();}
-    else if(x.dataset.pt==='erase'){erase=!erase;apply();}
+    else if(x.dataset.pt==='size'){szOpen=!szOpen;}
+    else if(x.dataset.pt==='shape'){shape=!shape;if(shape)erase=false;apply();}
+    else if(x.dataset.pt==='erase'){erase=!erase;if(erase)shape=false;apply();}
     else if(x.dataset.pt==='clear'){wipe();}else if(x.dataset.pt==='hand'){hand=!hand;}
     else if(x.dataset.pt==='paper'){try{store[paper?'p':'q']=ctx.getImageData(0,0,c.width,c.height);}catch(_){}wipe();paper=!paper;c.classList.toggle('paper',paper);const im=store[paper?'p':'q'];if(im){try{ctx.putImageData(im,0,0);}catch(_){}}}
-    if(x.dataset.pt!=='hand'&&x.dataset.pt!=='clear')hand=false;c.classList.toggle('hand',hand);tools();};
+    if(x.dataset.pt!=='hand'&&x.dataset.pt!=='clear'&&x.dataset.pt!=='size')hand=false;c.classList.toggle('hand',hand);tools();};
+  /* shape recognition: closed stroke -> circle/ellipse, triangle, quadrilateral; open stroke -> straight line */
+  const D=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+  const segD=(p,a,b)=>{const l=D(a,b);if(!l)return D(p,a);const t=Math.max(0,Math.min(1,((p[0]-a[0])*(b[0]-a[0])+(p[1]-a[1])*(b[1]-a[1]))/(l*l)));return D(p,[a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]);};
+  const rdp=(P,eps)=>{if(P.length<3)return P;let m=0,k=0;for(let i=1;i<P.length-1;i++){const d=segD(P[i],P[0],P[P.length-1]);if(d>m){m=d;k=i;}}return m>eps?rdp(P.slice(0,k+1),eps).slice(0,-1).concat(rdp(P.slice(k),eps)):[P[0],P[P.length-1]];};
+  const tidy=P=>{
+    if(P.length<6)return null;
+    let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9,len=0;P.forEach((p,i)=>{x0=Math.min(x0,p[0]);y0=Math.min(y0,p[1]);x1=Math.max(x1,p[0]);y1=Math.max(y1,p[1]);if(i)len+=D(p,P[i-1]);});
+    const w=x1-x0,h=y1-y0,dg=Math.hypot(w,h);if(dg<12)return null;
+    if(D(P[0],P[P.length-1])>0.28*dg)return {t:'line',a:P[0],b:P[P.length-1]};
+    const cx=(x0+x1)/2,cy=(y0+y1)/2,rx=w/2||1,ry=h/2||1;
+    const ev=P.map(p=>Math.hypot((p[0]-cx)/rx,(p[1]-cy)/ry));const mean=ev.reduce((a,b)=>a+b,0)/ev.length;const sd=Math.sqrt(ev.reduce((a,b)=>a+(b-mean)*(b-mean),0)/ev.length);
+    let V=rdp(P.concat([P[0]]),0.09*dg);V=V.slice(0,-1);
+    // merge vertices that are too close
+    V=V.filter((v,i)=>i===0||D(v,V[i-1])>0.12*dg);if(V.length>2&&D(V[0],V[V.length-1])<0.12*dg)V.pop();
+    if(V.length===3&&sd>0.07)return {t:'poly',v:V};
+    if(V.length===4&&sd>0.07){const ang=V.map((v,i)=>{const a=V[(i+3)%4],b=V[(i+1)%4];const u=[a[0]-v[0],a[1]-v[1]],q=[b[0]-v[0],b[1]-v[1]];return Math.abs(u[0]*q[0]+u[1]*q[1])/(Math.hypot(...u)*Math.hypot(...q)||1);});
+      if(ang.every(a=>a<0.35))return {t:'rect',x0,y0,w,h};return {t:'poly',v:V};}
+    if(sd<0.16){const r=(w+h)/4;return Math.abs(w-h)<0.2*Math.max(w,h)?{t:'ell',cx,cy,rx:r,ry:r}:{t:'ell',cx,cy,rx,ry};}
+    return null;};
+  const drawShape=s=>{ctx.beginPath();if(s.t==='line'){ctx.moveTo(...s.a);ctx.lineTo(...s.b);}else if(s.t==='ell'){ctx.ellipse(s.cx,s.cy,s.rx,s.ry,0,0,Math.PI*2);}else if(s.t==='rect'){ctx.rect(s.x0,s.y0,s.w,s.h);}else{ctx.moveTo(...s.v[0]);s.v.slice(1).forEach(v=>ctx.lineTo(...v));ctx.closePath();}ctx.stroke();};
   const pt=e=>[e.clientX,e.clientY];
-  c.addEventListener('pointerdown',e=>{last=pt(e);try{c.setPointerCapture(e.pointerId)}catch(x){}ctx.beginPath();ctx.arc(last[0],last[1],ctx.lineWidth/2,0,7);ctx.fillStyle=ink;ctx.fill();e.preventDefault();});
-  c.addEventListener('pointermove',e=>{if(!last)return;const p=pt(e);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;e.preventDefault();});
-  ['pointerup','pointercancel','pointerleave'].forEach(ev=>c.addEventListener(ev,()=>{last=null;}));
+  c.addEventListener('pointerdown',e=>{last=pt(e);try{c.setPointerCapture(e.pointerId)}catch(x){}if(shape&&!erase){pts=[last];try{snap=ctx.getImageData(0,0,c.width,c.height);}catch(_){snap=null;}}ctx.beginPath();ctx.arc(last[0],last[1],ctx.lineWidth/2,0,7);ctx.fillStyle=ink;ctx.fill();e.preventDefault();});
+  c.addEventListener('pointermove',e=>{if(!last)return;const p=pt(e);if(pts)pts.push(p);ctx.beginPath();ctx.moveTo(last[0],last[1]);ctx.lineTo(p[0],p[1]);ctx.stroke();last=p;e.preventDefault();});
+  const end=()=>{if(pts&&snap){const s=tidy(pts);if(s){try{ctx.putImageData(snap,0,0);}catch(_){}apply();drawShape(s);}}pts=null;snap=null;last=null;};
+  ['pointerup','pointercancel','pointerleave'].forEach(ev=>c.addEventListener(ev,end));
   window.addEventListener('resize',()=>{if(on){const img=ctx.getImageData(0,0,c.width,c.height);size();try{ctx.putImageData(img,0,0)}catch(x){}}});
   window.mrPen=v=>{b.style.display=v?'inline-flex':'none';if(!v&&on)off();else{label();if(on)tools();}};
   window.mrPen(true);
