@@ -5456,114 +5456,142 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .gm-len button{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:6px 16px;font:700 14px var(--f-display)}
 .gm-len button[aria-pressed="true"]{background:#fbbf24;color:#2a1a00;border-color:#fbbf24}
 
-/* play */
-.gm-stage{position:relative;flex:0 0 auto;height:clamp(170px,34vh,300px);overflow:hidden;user-select:none;-webkit-user-select:none}
-.gm-q{flex:1 1 auto;overflow:auto;background:var(--bg);color:var(--ink);padding:16px 14px 0;border-radius:22px 22px 0 0;margin-top:-16px;position:relative;z-index:3;box-shadow:0 -12px 30px rgba(0,0,0,.35)}
-.gm-q .sheet{max-width:880px;margin:0 auto 12px}
-.gm-q .opt.ok{animation:gmOk .5s}
-.gm-q .opt.no{animation:gmNo .45s}
-@keyframes gmOk{30%{transform:scale(1.04)}}
-@keyframes gmNo{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.gm-sol{max-width:880px;margin:0 auto 12px}
-.gm-fb{position:sticky;bottom:0;margin:0 -14px;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));padding-inline-start:128px;display:flex;align-items:center;gap:10px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);min-height:64px}
-.gm-fb .msg{flex:1;font:700 15px var(--f-display);min-width:0}
-.gm-fb .msg.ok{color:var(--good)}.gm-fb .msg.no{color:var(--bad)}
-.gm-fb .msg small{display:block;font:500 13px var(--f-body);color:var(--muted)}
-.gm-next{border:0;border-radius:14px;padding:11px 22px;font:800 15.5px var(--f-display);background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 10px 22px -10px #4f46e5}
-.gm-next:disabled{opacity:.45;cursor:default}
-.gm-hint{flex:1;color:var(--muted);font-size:14px}
+/* play: the answer itself is the move */
+.gm-world{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;user-select:none;-webkit-user-select:none}
+.gm-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.gm-mission{position:relative;z-index:3;flex:0 1 auto;max-height:40%;overflow:auto;margin:8px 10px 0;padding:8px 14px 10px;border-radius:16px;background:rgba(255,255,255,.96);color:#1f2937;box-shadow:0 10px 26px -12px rgba(0,0,0,.55);user-select:text;-webkit-user-select:text}
+.gm-mission .qtext{font-size:clamp(15px,2.1vw,18px);line-height:1.75;font-weight:600;color:#1f2937}
+.gm-mission .qfig{margin:6px 0 2px;text-align:center}
+.gm-mission .qfig svg,.gm-mission .qfig img{max-width:100%;height:auto;max-height:26vh}
+.gm-task{display:inline-block;font:800 11.5px var(--f-display);color:#fff;background:var(--gc,#4f46e5);padding:2px 10px;border-radius:999px;margin-bottom:2px}
+.gm-arena{position:relative;z-index:2;flex:1 1 0;min-height:250px;touch-action:manipulation}
+.gx-actor{position:absolute;left:0;top:0;z-index:5;pointer-events:none;will-change:transform}
+.opts-grid{display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr)}
+.opts-grid.long{grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.opts-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.opts-grid.long{grid-template-columns:repeat(2,minmax(0,1fr))}.opts-grid.n2{grid-template-columns:repeat(2,minmax(0,1fr))}.opts-grid.n3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.gx-opt{position:relative;display:flex;align-items:center;gap:8px;border:0;margin:0;min-width:0;min-height:0;overflow:hidden;padding:6px 10px;text-align:start;color:#1f2937;font:700 clamp(15px,2.1vw,19px)/1.5 var(--f-body);background:#fff;border-radius:14px;transition:transform .18s,box-shadow .18s,opacity .3s,filter .3s}
+.gx-opt .bub{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--f-display);color:#fff;background:var(--gc,#4f46e5)}
+.gx-opt .val{flex:1;min-width:0;overflow-wrap:anywhere}
+.gx-opt.fig .val{display:grid;place-items:center}
+.gx-opt .val svg,.gx-opt .val img{max-width:100%;max-height:var(--oh,90px);width:auto;height:auto;display:block}
+.gx-opt .val table{font-size:.8em}
+.gx-opt:not(:disabled):hover,.gx-opt:not(:disabled):focus-visible{transform:translateY(-3px) scale(1.02);box-shadow:0 0 0 3px #fde047,0 12px 22px -10px rgba(0,0,0,.5);outline:0}
+.gx-opt.ok{box-shadow:0 0 0 4px #22c55e,0 0 26px #4ade80!important;background:#ecfdf5!important;opacity:1!important;filter:none!important}
+.gx-opt.ok .bub{background:#16a34a}
+.gx-opt.no{box-shadow:0 0 0 4px #ef4444!important;background:#fef2f2!important}
+.gx-opt.no .bub{background:#dc2626}
+.gx-opt.dim{opacity:.5;filter:saturate(.4)}
+.gm-sheet{position:absolute;inset:auto 0 0 0;z-index:9;max-height:62%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);border-radius:20px 20px 0 0;box-shadow:0 -14px 34px rgba(0,0,0,.45);animation:gmUp .35s cubic-bezier(.2,.9,.3,1.1);user-select:text;-webkit-user-select:text}
+.gm-sheet[hidden]{display:none}
+@keyframes gmUp{from{transform:translateY(100%)}}
+.gm-sol{overflow:auto;margin:10px 12px 0;flex:1 1 auto;min-height:0}
+.gm-row{flex:none;display:flex;align-items:center;gap:10px;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));padding-inline-start:128px;min-height:66px}
+.gm-row .msg{flex:1;font:800 15.5px var(--f-display);min-width:0}
+.gm-row .msg.ok{color:var(--good)}.gm-row .msg.no{color:var(--bad)}
+.gm-row .msg small{display:block;font:500 13px var(--f-body);color:var(--muted)}
+.gm-next{border:0;border-radius:14px;padding:11px 22px;font:800 15.5px var(--f-display);background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 10px 22px -10px #4f46e5;white-space:nowrap}
+.gm-tip{position:absolute;z-index:6;inset-inline:0;bottom:6px;text-align:center;font:700 12.5px var(--f-display);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);pointer-events:none;opacity:.9}
+
+/* ⚽ penalty */
+.g-penalty{background:linear-gradient(180deg,#0c4a6e 0,#0369a1 26%,#15803d 26.2%,#16a34a 100%);--gc:#15803d}
+.g-penalty .gm-bg{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 60px,transparent 60px 120px)}
+.pk-crowd{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(circle at 10px 10px,rgba(255,255,255,.35) 2.5px,transparent 3px) 0 0/22px 18px,radial-gradient(circle at 10px 10px,rgba(253,224,71,.4) 2.5px,transparent 3px) 11px 9px/22px 18px;opacity:.5}
+.pk-goal{position:absolute;inset:8px 12px 96px;border:7px solid #f8fafc;border-bottom:0;border-radius:10px 10px 0 0;padding:8px 8px 58px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),rgba(2,44,34,.35);box-shadow:0 10px 0 -4px rgba(0,0,0,.18)}
+.pk-goal .opts-grid{height:100%}
+.pk-zone{background:rgba(255,255,255,.93)}
+.pk-zone.goal{animation:pkNet .6s}
+@keyframes pkNet{30%{transform:scale(.93) translateY(-6px)}60%{transform:scale(1.03)}}
+.pk-spot{position:absolute;left:50%;bottom:34px;width:120px;height:26px;transform:translateX(-50%);border-radius:50%;border:3px solid rgba(255,255,255,.55)}
+.pk-board{position:absolute;bottom:10px;inset-inline-end:12px;z-index:6;display:flex;align-items:center;gap:8px;background:#0f172a;color:#fff;border-radius:12px;padding:6px 12px;font:800 13px var(--f-display);box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.pk-board b{font-size:20px;color:#fde047;min-width:16px;text-align:center}
+.pk-keeper{width:64px;height:74px}.pk-keeper svg{width:100%;height:100%;overflow:visible;animation:pkSway 1.3s ease-in-out infinite alternate}
+@keyframes pkSway{from{transform:translateX(-16px)}to{transform:translateX(16px)}}
+.pk-keeper.dive svg{animation:none}
+.pk-ball{font-size:40px;line-height:1;filter:drop-shadow(0 6px 5px rgba(0,0,0,.4))}
+
+/* 🐸 river */
+.g-river{background:linear-gradient(180deg,#0e7490,#0891b2 50%,#0e7490);--gc:#0e7490}
+.g-river .gm-bg{background:repeating-radial-gradient(ellipse 70px 16px at 50% 0,rgba(255,255,255,.2) 0 2px,transparent 3px 30px);animation:rvFlow 7s linear infinite}
+@keyframes rvFlow{to{background-position:140px 0}}
+.rv-far,.rv-near{position:absolute;inset-inline:0;background:linear-gradient(180deg,#65a30d,#3f6212);display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font:800 13px var(--f-display)}
+.rv-far{top:0;height:40px;border-radius:0 0 50% 50%/0 0 14px 14px;box-shadow:0 6px 0 #a16207}
+.rv-near{bottom:0;height:74px;border-radius:50% 50% 0 0/16px 16px 0 0;box-shadow:0 -6px 0 #a16207}
+.rv-pads{position:absolute;inset:56px 12px 92px}
+.rv-pad{background:radial-gradient(ellipse at 30% 25%,#d9f99d,#84cc16 70%);border-radius:38% 42% 40% 44%/46% 40% 48% 42%;padding:8px 14px;box-shadow:0 8px 0 -2px rgba(6,78,59,.55),inset 0 0 0 3px rgba(63,98,18,.35);animation:rvBob 3s ease-in-out infinite}
+.rv-pad:nth-child(2){animation-delay:-.8s}.rv-pad:nth-child(3){animation-delay:-1.6s}.rv-pad:nth-child(4){animation-delay:-2.3s}
+@keyframes rvBob{50%{translate:0 5px;rotate:1deg}}
+.rv-pad .val{background:rgba(255,255,255,.9);border-radius:10px;padding:3px 8px;text-align:center}
+.rv-pad.sink{animation:rvSink .9s forwards}
+@keyframes rvSink{to{translate:0 26px;scale:.8;opacity:.35;filter:saturate(.3)}}
+.rv-pad.ok{background:radial-gradient(ellipse at 30% 25%,#fef9c3,#facc15 75%)!important}
+.rv-frog{font-size:46px;line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))}
+.rv-croc{font-size:34px;line-height:1;z-index:4}
+.rv-croc span{display:block;animation:rvCroc 2.4s ease-in-out infinite}
+@keyframes rvCroc{50%{transform:translateY(6px) rotate(-4deg)}}
+[dir="rtl"] .rv-croc span{scale:-1 1}
+.rv-ring{position:absolute;z-index:4;width:20px;height:20px;border-radius:50%;border:3px solid #fff;pointer-events:none;animation:rvRing .8s ease-out forwards}
+@keyframes rvRing{to{transform:translate(-50%,-50%) scale(6);opacity:0}}
+
+/* 🎈 balloons */
+.g-balloons .gm-tip{color:#0f172a;text-shadow:0 1px 3px #fff}.g-balloons{background:linear-gradient(180deg,#38bdf8 0,#bae6fd 70%,#fef3c7 100%);--gc:#0369a1}
+.bl-cloud{position:absolute;width:110px;height:32px;border-radius:30px;background:#fff;opacity:.8;animation:blCloud 40s linear infinite}
+.bl-cloud::before{content:"";position:absolute;width:52px;height:52px;border-radius:50%;background:#fff;top:-24px;left:20px}
+@keyframes blCloud{from{left:-140px}to{left:110%}}
+.bl-grid{position:absolute;inset:4px 10px 92px}
+.bl-cell{display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:0;cursor:crosshair;animation:blBob 3.4s ease-in-out infinite}
+.bl-cell:nth-child(2){animation-delay:-1.1s}.bl-cell:nth-child(3){animation-delay:-2s}.bl-cell:nth-child(4){animation-delay:-2.8s}
+@keyframes blBob{50%{translate:0 -7px}}
+.bl-b{flex:0 0 clamp(40px,32%,78px);min-height:0;display:block;margin:0 auto;overflow:visible;transition:transform .2s}
+.bl-cell:hover .bl-b{transform:scale(1.08)}
+.bl-cell .gx-opt{flex:1 1 0;cursor:crosshair;box-shadow:0 8px 16px -8px rgba(0,0,0,.45);border:2px solid var(--bc)}
+.bl-cell .gx-opt .bub{background:var(--bc)}
+.bl-b.pop{animation:blPop .28s ease-out forwards}
+@keyframes blPop{to{transform:scale(1.9);opacity:0}}
+.bl-cell.fall{animation:blFall .9s ease-in forwards}
+@keyframes blFall{to{translate:0 30px;rotate:5deg}}
+.bl-cell.glow .bl-b{filter:drop-shadow(0 0 10px #fde047)}
+.bl-bit{position:absolute;z-index:6;width:9px;height:9px;border-radius:50%;pointer-events:none}
+.bl-bow{width:62px;height:62px}.bl-bow svg{width:100%;height:100%;overflow:visible;transition:transform .08s linear}
+.bl-arrow{width:44px;height:6px}.bl-arrow i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#78350f 0 78%,#475569 78%);border-radius:3px;clip-path:polygon(0 20%,78% 20%,78% 0,100% 50%,78% 100%,78% 80%,0 80%)}
+.bl-aim{position:absolute;z-index:4;height:0;border-top:3px dotted rgba(15,23,42,.45);transform-origin:0 50%;pointer-events:none}
+
+/* 🚀 space */
+.g-space{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
+.g-space .gm-bg,.g-space .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:spStars 9s linear infinite}
+.g-space .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:4s}
+@keyframes spStars{to{background-position:-320px 0}}
+[dir="rtl"] .g-space .gm-bg,[dir="rtl"] .g-space .gm-bg::after{animation-name:spStarsR}
+@keyframes spStarsR{to{background-position:320px 0}}
+.sp-bar{position:absolute;inset:6px 10px auto;height:40px;display:flex;align-items:center;gap:10px;z-index:6}
+.sp-fuel{flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;border:1px solid rgba(255,255,255,.25)}
+.sp-fuel i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f97316,#fde047,#4ade80);border-radius:999px}
+.sp-go{border:0;border-radius:999px;padding:8px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7);animation:gmPulse 1.1s infinite}
+.sp-lanes{position:absolute;inset:52px 8px 10px;display:flex;flex-direction:column;gap:7px}
+.sp-lane{flex:1 1 0;min-height:0;position:relative;border-radius:14px;cursor:pointer}
+.sp-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.13)}
+.sp-lane.on{background:linear-gradient(90deg,rgba(253,224,71,.16),transparent 60%)}
+[dir="rtl"] .sp-lane.on{background:linear-gradient(270deg,rgba(253,224,71,.16),transparent 60%)}
+.sp-gate{background:linear-gradient(90deg,rgba(30,27,75,.92),rgba(49,46,129,.82));color:#fff;position:absolute;top:0;bottom:0;max-height:120px;margin-block:auto;width:calc(100% - 150px);inset-inline-start:150px;border-radius:999px 18px 18px 999px;padding-inline-start:16px;box-shadow:0 0 0 3px var(--bc),0 0 18px var(--bc)}
+[dir="rtl"] .sp-gate{border-radius:18px 999px 999px 18px}
+.sp-gate .bub{background:var(--bc)}.sp-gate.fig .val{background:#fff;border-radius:10px;padding:3px;color:#1f2937}.sp-gate.ok,.sp-gate.no{color:#1f2937}
+.sp-lane.on .sp-gate{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047}
+.sp-gate.warp{animation:spWarp .6s}
+@keyframes spWarp{40%{transform:scale(1.06);filter:brightness(1.4)}}
+.sp-gate.boom{animation:gmShake .45s}
+.sp-ship{width:66px}.sp-ship svg{display:block;width:100%;overflow:visible}
+[dir="rtl"] .sp-ship svg{transform:scaleX(-1)}
+.sp-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
+@keyframes gmFl{to{opacity:.7}}
+.sp-ship.turbo .fl{transform:scale(2.6,1.5)}
+@media (max-width:560px){.sp-gate{width:calc(100% - 96px);inset-inline-start:96px}.sp-ship{width:52px}.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}}
 
 /* toasts & floating numbers */
 .gm-float{position:absolute;font:900 22px var(--f-display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 18px rgba(0,0,0,.4);pointer-events:none;z-index:6;white-space:nowrap;animation:gmFloat 1.2s ease-out forwards}
 @keyframes gmFloat{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}15%{opacity:1;transform:translate(-50%,0) scale(1.15)}100%{opacity:0;transform:translate(-50%,-46px) scale(1)}}
-.gm-banner{position:absolute;inset-inline:0;top:42%;text-align:center;font:900 clamp(22px,5vw,34px) var(--f-display);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.3),0 0 30px rgba(255,200,80,.6);pointer-events:none;z-index:7;animation:gmBan 1.3s ease-out forwards}
+.gm-banner{position:absolute;left:50%;top:40%;width:max-content;max-width:92%;margin-left:0;translate:-50% 0;padding:6px 22px;border-radius:999px;background:rgba(15,23,42,.82);text-align:center;font:900 clamp(22px,5vw,34px) var(--f-display);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.3),0 0 30px rgba(255,200,80,.6);pointer-events:none;z-index:7;animation:gmBan 1.3s ease-out forwards}
 @keyframes gmBan{0%{opacity:0;transform:scale(.4)}20%{opacity:1;transform:scale(1.1)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05) translateY(-10px)}}
 .gm-shake{animation:gmShake .45s}
 @keyframes gmShake{20%,60%{transform:translateX(-7px) rotate(-2deg)}40%,80%{transform:translateX(7px) rotate(2deg)}}
-
-/* race */
-.g-race{background:radial-gradient(600px 240px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46)}
-.g-race .stars,.g-race .stars2{position:absolute;inset:0;background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;opacity:.8;animation:gmStars 18s linear infinite}
-.g-race .stars2{background-size:200px 140px;opacity:.45;animation-duration:9s}
-@keyframes gmStars{to{background-position:-320px 0}}
-[dir="rtl"] .g-race .stars,[dir="rtl"] .g-race .stars2{animation-name:gmStarsR}
-@keyframes gmStarsR{to{background-position:320px 0}}
-.rc-lanes{position:absolute;inset:12px 14px 12px;display:flex;flex-direction:column;justify-content:space-around}
-.rc-lane{position:relative;height:22%;display:flex;align-items:center}
-.rc-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.12)}
-.rc-name{position:absolute;inset-inline-start:0;top:-2px;font:700 11.5px var(--f-display);color:rgba(255,255,255,.7);z-index:2}
-.rc-lane.me .rc-name{color:#fde68a}
-.rc-track{position:absolute;inset-inline-start:0;inset-inline-end:58px;top:0;bottom:0}
-.rc-finish{position:absolute;inset-inline-end:40px;top:6px;bottom:6px;width:14px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/7px 7px;border-radius:2px;opacity:.85}
-.rc-planet{position:absolute;inset-inline-end:-4px;top:50%;transform:translateY(-50%);width:44px;height:44px}
-.rc-rk{position:absolute;top:50%;inset-inline-start:0;width:clamp(54px,9vw,74px);transform:translate(0,-50%);transition:inset-inline-start 1s cubic-bezier(.25,.9,.3,1.1)}
-[dir="rtl"] .rc-rk svg{transform:scaleX(-1)}
-.rc-rk svg{display:block;width:100%;overflow:visible}
-.rc-rk .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
-.rc-rk.turbo .fl{transform:scale(2.1,1.5)}
-.rc-rk.turbo{filter:drop-shadow(0 0 10px #fb923c)}
-@keyframes gmFl{to{opacity:.7}}
-.rc-rk.me{filter:drop-shadow(0 0 8px rgba(253,230,138,.7))}
-.rc-rk.stall{animation:gmStall .5s}
-@keyframes gmStall{30%{transform:translate(0,-50%) rotate(-12deg)}60%{transform:translate(0,-50%) rotate(8deg)}}
-
-/* dragon */
-.g-dragon{background:linear-gradient(180deg,#1e1b4b 0,#6d28d9 55%,#f97316 100%)}
-.dr-mtn{position:absolute;inset:auto 0 0 0;height:46%;width:100%}
-.dr-row{position:absolute;inset:14px 6% 26px;display:flex;align-items:flex-end;justify-content:space-between}
-.dr-side{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
-.dr-hero{font-size:clamp(54px,11vh,84px);line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
-.dr-boss{font-size:clamp(72px,16vh,140px);line-height:1;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));animation:gmBob 2.4s ease-in-out infinite}
-[dir="ltr"] .dr-boss{transform:scaleX(-1)}
-[dir="ltr"] .dr-boss{animation-name:gmBobL}
-@keyframes gmBob{50%{translate:0 -8px}}
-@keyframes gmBobL{50%{translate:0 -8px}}
-.dr-hearts{font-size:20px;letter-spacing:2px;min-height:26px}
-.dr-hearts .lost{filter:grayscale(1);opacity:.35}
-.dr-hp{width:clamp(130px,30vw,240px);height:16px;border-radius:999px;background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.5);overflow:hidden}
-.dr-hp i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .6s ease}
-.dr-hp.mid i{background:linear-gradient(90deg,#f59e0b,#facc15)}.dr-hp.low i{background:linear-gradient(90deg,#dc2626,#f97316)}
-.dr-lbl{font:700 12px var(--f-display);color:#fff;opacity:.85}
-.gm-proj{position:absolute;z-index:6;font-size:36px;pointer-events:none;left:0;top:0;filter:drop-shadow(0 0 10px #fff)}
-
-/* treasure */
-.g-treasure{background:linear-gradient(180deg,#38bdf8 0,#7dd3fc 45%,#06b6d4 46%,#0e7490 100%)}
-.tr-sun{position:absolute;top:14px;inset-inline-end:8%;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle,#fff7c2,#fbbf24);box-shadow:0 0 40px #fde047}
-.tr-wave{position:absolute;inset:auto -20% 0 -20%;height:58%;background:repeating-radial-gradient(ellipse 60px 14px at 50% 0,rgba(255,255,255,.25) 0 2px,transparent 3px 26px);animation:gmWave 6s linear infinite;opacity:.6}
-@keyframes gmWave{to{transform:translateX(60px)}}
-.tr-island{position:absolute;bottom:-18px;inset-inline-start:4%;width:38%;height:46%;background:radial-gradient(ellipse at 50% 100%,#fcd34d 0,#f59e0b 60%,transparent 61%)}
-.tr-palm{position:absolute;bottom:8%;inset-inline-start:12%;font-size:clamp(48px,10vh,80px);line-height:1}
-.tr-gold{position:absolute;top:12px;inset-inline-start:14px;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.35);padding:6px 14px 6px 10px;border-radius:999px;font:900 22px var(--f-display);color:#fde68a;z-index:4}
-.tr-gold .coin{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7c2,#f59e0b 60%,#b45309);box-shadow:inset 0 0 0 2px #b45309}
-.tr-chests{position:absolute;inset:auto 0 calc(8% + 14px) 0;display:flex;justify-content:center;gap:clamp(10px,4vw,34px);z-index:4}
-.tr-chest{border:0;background:none;padding:0;width:clamp(74px,18vw,118px);position:relative;transition:transform .2s;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
-.tr-chest:not(:disabled):hover{transform:translateY(-6px) rotate(-2deg)}
-.tr-chest:not(:disabled){animation:gmChest 1.6s ease-in-out infinite}
-.tr-chest:nth-child(2){animation-delay:.2s}.tr-chest:nth-child(3){animation-delay:.4s}
-@keyframes gmChest{50%{transform:translateY(-5px)}}
-.tr-chest svg{width:100%;display:block;overflow:visible}
-.tr-chest .lid{transform-box:fill-box;transform-origin:0 100%;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
-.tr-chest.open .lid{transform:rotate(-28deg) translate(-4px,-6px)}
-.tr-chest .loot{position:absolute;left:50%;top:-6%;transform:translate(-50%,0) scale(0);font:900 clamp(14px,3.2vw,19px) var(--f-display);background:#fff;color:#1f2937;padding:3px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.25);transition:transform .45s .15s cubic-bezier(.3,1.6,.5,1)}
-.tr-chest.open .loot{transform:translate(-50%,-70%) scale(1)}
-.tr-chest.dim{opacity:.55}
-.tr-chest.dim .loot{font-size:12px}
-.tr-tip{position:absolute;inset-inline:0;top:30%;text-align:center;font:800 18px var(--f-display);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);z-index:4}
-
-/* archery */
-.g-archery{background:linear-gradient(180deg,#bae6fd 0,#e0f2fe 52%,#86efac 53%,#16a34a 100%)}
-.ar-cloud{position:absolute;top:14%;width:90px;height:28px;border-radius:30px;background:#fff;opacity:.85;animation:gmCloud 26s linear infinite}
-.ar-cloud::before{content:"";position:absolute;width:44px;height:44px;border-radius:50%;background:#fff;top:-20px;left:16px}
-@keyframes gmCloud{from{left:-120px}to{left:110%}}
-.ar-tgt{position:absolute;top:14%;width:clamp(78px,15vh,118px);aspect-ratio:1;transform:translateX(-50%);left:50%}
-.ar-tgt svg{width:100%;height:100%;display:block}
-.ar-tgt::after{content:"";position:absolute;left:50%;top:100%;width:6px;height:70%;transform:translateX(-50%);background:#78350f;border-radius:3px;z-index:-1}
-.ar-aim{position:absolute;left:50%;top:6%;bottom:26%;border-left:2px dashed rgba(220,38,38,.6);transform:translateX(-1px)}
-.ar-bow{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:clamp(40px,8vh,58px);line-height:1}
-.ar-arrow{position:absolute;width:6px;height:34px;left:0;top:0;background:linear-gradient(#7c2d12,#a16207);border-radius:3px;z-index:5}
-.ar-arrow::before{content:"";position:absolute;top:-8px;left:-4px;border:7px solid transparent;border-bottom:10px solid #475569;border-top:0}
-.ar-shoot{position:absolute;bottom:30px;inset-inline-end:14px;border:0;border-radius:999px;padding:10px 26px;font:900 18px var(--f-display);color:#fff;background:linear-gradient(135deg,#dc2626,#f97316);box-shadow:0 10px 24px -8px #b91c1c;z-index:6;animation:gmPulse 1s infinite}
-.ar-wind{position:absolute;top:10px;inset-inline-start:12px;font:700 13px var(--f-display);color:#0f172a;background:rgba(255,255,255,.7);padding:4px 10px;border-radius:999px}
 
 /* end screen */
 .gm-end{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px 110px;background:radial-gradient(800px 400px at 50% 0,#4c1d95 0,transparent 70%),#0b1026}
@@ -5595,7 +5623,6 @@ html.gm-open,html.gm-open body{overflow:hidden}
   .gm-cards{grid-template-columns:1fr 1fr;gap:10px}.gm-card .art{height:84px}.gm-card b{font-size:16px}.gm-card .txt{padding:8px 10px 12px}.gm-card .txt span{font-size:12px;line-height:1.45}.gm-card .tag{display:none}
   .gm-stats{grid-template-columns:repeat(2,1fr)}
   .gm-top{gap:6px;padding-inline:10px}.gm-chip{padding:4px 8px;font-size:12.5px}
-  .gm-fb{padding-inline-start:118px}.gm-next{padding:10px 16px}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
@@ -6304,46 +6331,44 @@ async function record(r) {
 function finishPractice() { const r = RUN; const c = r.ans.filter((a, k) => a === r.qs[k].a).length; r.done = { correct: c, pct: Math.round(100 * c / r.qs.length), used: Math.floor((Date.now() - r.start) / 1000) }; go("result"); record(r); }
 function finishExam() { stopTimer(); const r = RUN; if (r.done) return; const c = r.ans.filter((a, k) => a === r.qs[k].a).length; r.done = { correct: c, pct: Math.round(100 * c / r.qs.length), used: Math.min(r.total, Math.floor((Date.now() - r.start) / 1000)) }; go("result"); record(r); }
 
-/* ---------- game mode: turn any idea's questions into a game ---------- */
+/* ---------- game mode: the answer itself is the move ---------- */
 const GM_TX = {
   ar: {
-    play: "🎮 حوّلها للعبة", pick: "اختر لعبتك", sub: "نفس أسئلة الفكرة… لكن كل إجابة صحيحة تحرّك اللعبة. اختر عالمك وابدأ!",
-    len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "اعرض الشرح",
-    again: "🔁 العب مرة أخرى", other: "🎲 لعبة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
-    praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "إجابة صحيحة!", "مذهل!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
+    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تسدّدها، تقفز عليها، تصيبها أو تطير نحوها!",
+    len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "الشرح",
+    again: "🔁 العب مرة أخرى", other: "🎲 مغامرة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
+    praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "مذهل!", "يا سلام!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
     acc: "الدقة", best: "أفضل متتالية", time: "الوقت", pts: "النقاط", rec: "🏅 رقم قياسي جديد!", recOld: s => `أفضل نتيجة لك: ${s}`, saved: "حُفظت الجولة في نتائجك ✓", saveFail: "تعذّر حفظ الجولة",
-    streak: n => `${n} متتالية!`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.", tapNext: "أجب لتتحرك اللعبة",
-    you: "أنت", me: "أنت",
+    streak: n => `${n} متتالية 🔥`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.",
     games: {
-      race: { n: "سباق المجرّة", d: "تسابق مع ٣ صواريخ. كل إجابة صحيحة دفعة للأمام، و٣ إجابات متتالية تشغّل التيربو 🔥", tag: "سرعة" },
-      dragon: { n: "معركة التنين", d: "اهزم التنين قبل أن تنفد قلوبك. المتتالية والسرعة تضاعفان قوة ضربتك ⚡", tag: "مغامرة" },
-      treasure: { n: "جزيرة الكنز", d: "كل إجابة صحيحة تفتح لك صندوقًا من ثلاثة… ذهب، ألماس، ومفاجآت!", tag: "حظ وذكاء" },
-      archery: { n: "بطل الرماية", d: "أجب صح لتحصل على سهم، ثم صوّب على الهدف المتحرك في اللحظة المناسبة 🎯", tag: "مهارة" }
+      penalty: { n: "ركلات الترجيح", d: "المرمى مقسوم على الإجابات. سدّد الكرة في خانة الإجابة الصحيحة لتسجّل… وإلا تصدّى لها الحارس!", tag: "كرة قدم", task: "⚽ سدّد في خانة الإجابة الصحيحة", tip: "اضغط على الخانة لتسدّد" },
+      river: { n: "عبور النهر", d: "الإجابات أوراق لوتس فوق الماء. اقفز بالضفدع على الورقة الصحيحة لتعبر… الخاطئة تغرق والتمساح ينتظر!", tag: "مغامرة", task: "🐸 اقفز على ورقة الإجابة الصحيحة", tip: "اضغط على الورقة لتقفز" },
+      balloons: { n: "صيّاد البالونات", d: "كل بالون يحمل إجابة. صوّب القوس وأطلق السهم على بالون الإجابة الصحيحة فقط!", tag: "تصويب", task: "🏹 أصِب بالون الإجابة الصحيحة", tip: "صوّب واضغط على البالون لتطلق السهم" },
+      space: { n: "بوابات المجرّة", d: "أربع بوابات فضائية وإجابة واحدة صحيحة. وجّه مركبتك إلى المسار الصحيح وانطلق قبل نفاد الوقود!", tag: "فضاء", task: "🚀 وجّه المركبة إلى بوابة الإجابة الصحيحة", tip: "اضغط على المسار ثم «انطلق»" }
     },
-    race: { bots: ["نجم", "شهاب", "مذنّب"], turbo: "تيربو! 🔥", first: "المركز الأول! 🏆", place: p => `المركز ${["الأول", "الثاني", "الثالث", "الرابع"][p - 1]}`, finishLine: "وصلت لخط النهاية أولًا!", stall: "توقف المحرك!" },
-    dragon: { hp: "التنين", combo: m => `كومبو ×${m}`, fast: "ضربة سريعة!", win: "هزمت التنين! 🏆", lose: "التنين انتصر هذه المرة", fled: "التنين هرب جريحًا!", hit: "أصابك اللهب!" },
-    treasure: { pickC: "اختر صندوقًا!", lost: "🌊 الموجة أخذت دورك", total: n => `جمعت ${n} عملة ذهبية!`, x2: "×٢ مضاعفة!", gem: "💎 ألماسة!", octo: "🐙 أخطبوط أخذ ٢٥٪", map: "🧭 خريطة +١٥" },
-    archery: { shoot: "🏹 أطلق!", miss: "فاتك السهم", bull: "في المنتصف تمامًا! 🎯", calm: "🍃 الريح هادئة", windy: "💨 الريح قوية", ring: p => `+${p}`, total: n => `مجموع الرماية: ${n}` },
+    penalty: { goal: "جوووول! ⚽", save: "تصدّى الحارس! 🧤", you: "أنت", keeper: "الحارس", win: (g, v) => `فزت ${g} – ${v} 🏆`, draw: (g, v) => `تعادل ${g} – ${v}`, lose: (g, v) => `الحارس فاز ${v} – ${g}` },
+    river: { safe: "قفزة آمنة! 🌿", sink: "غرقت الورقة! 💦", bank: "🏁 الضفة الأخرى", total: n => `عبرت النهر ${n} مرة` },
+    balloons: { pop: "إصابة! 🎯", storm: "بالون خاطئ! ⛈️", miss: "صوّب على بالون!", total: n => `أصبت ${n} بالون صحيح` },
+    space: { go: "انطلق 🚀", warp: "قفزة ضوئية! ✨", boom: "بوابة خاطئة! 💥", total: n => `${n} قفزات ضوئية ناجحة`, out: "نفد الوقود!" },
     end: { great: "أداء أبطال!", good: "أداء رائع!", ok: "بداية جيدة!", try: "حاول مرة أخرى!" }
   },
   en: {
-    play: "🎮 Play it as a game", pick: "Choose your game", sub: "Same questions from this idea — but every right answer moves the game. Pick a world and start!",
-    len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Show solution",
-    again: "🔁 Play again", other: "🎲 Another game", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
-    praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Correct!", "Amazing!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
+    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you kick it, jump on it, shoot it or fly into it!",
+    len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Solution",
+    again: "🔁 Play again", other: "🎲 Another adventure", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
+    praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Amazing!", "Superb!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
     acc: "Accuracy", best: "Best streak", time: "Time", pts: "Points", rec: "🏅 New personal best!", recOld: s => `Your best: ${s}`, saved: "Round saved to your results ✓", saveFail: "Could not save this round",
-    streak: n => `${n} in a row!`, noQs: "Not enough questions for this idea.", tapNext: "Answer to move the game",
-    you: "You", me: "You",
+    streak: n => `${n} in a row 🔥`, noQs: "Not enough questions for this idea.",
     games: {
-      race: { n: "Galaxy Race", d: "Race three rockets. Each right answer is a boost, and three in a row fires the turbo 🔥", tag: "Speed" },
-      dragon: { n: "Dragon Battle", d: "Defeat the dragon before your hearts run out. Streaks and speed multiply your strike ⚡", tag: "Adventure" },
-      treasure: { n: "Treasure Island", d: "Each right answer opens one of three chests… gold, gems and surprises!", tag: "Luck & brains" },
-      archery: { n: "Archery Champion", d: "Answer right to earn an arrow, then shoot the moving target at the perfect moment 🎯", tag: "Skill" }
+      penalty: { n: "Penalty Shootout", d: "The goal is split into the answers. Kick the ball into the right answer to score — or the keeper saves it!", tag: "Football", task: "⚽ Shoot into the correct answer", tip: "Tap a zone to shoot" },
+      river: { n: "River Crossing", d: "The answers are lily pads. Jump the frog onto the right one to cross — wrong pads sink, and the crocodile is waiting!", tag: "Adventure", task: "🐸 Jump onto the correct answer", tip: "Tap a pad to jump" },
+      balloons: { n: "Balloon Hunter", d: "Each balloon carries an answer. Aim your bow and shoot only the balloon with the right answer!", tag: "Aim", task: "🏹 Hit the balloon with the correct answer", tip: "Aim and tap a balloon to shoot" },
+      space: { n: "Galaxy Gates", d: "Four space gates, one right answer. Steer your ship to the right lane and launch before the fuel runs out!", tag: "Space", task: "🚀 Steer into the gate with the correct answer", tip: "Tap a lane, then “Launch”" }
     },
-    race: { bots: ["Nova", "Comet", "Meteor"], turbo: "Turbo! 🔥", first: "1st place! 🏆", place: p => `${["1st", "2nd", "3rd", "4th"][p - 1]} place`, finishLine: "You crossed the finish line first!", stall: "Engine stalled!" },
-    dragon: { hp: "Dragon", combo: m => `Combo ×${m}`, fast: "Quick strike!", win: "You beat the dragon! 🏆", lose: "The dragon won this time", fled: "The dragon fled, wounded!", hit: "Fire hit you!" },
-    treasure: { pickC: "Pick a chest!", lost: "🌊 The wave took your turn", total: n => `You collected ${n} gold coins!`, x2: "×2 Double!", gem: "💎 A gem!", octo: "🐙 Octopus took 25%", map: "🧭 Map +15" },
-    archery: { shoot: "🏹 Shoot!", miss: "No arrow this time", bull: "Bullseye! 🎯", calm: "🍃 Calm wind", windy: "💨 Strong wind", ring: p => `+${p}`, total: n => `Archery total: ${n}` },
+    penalty: { goal: "GOAL! ⚽", save: "Saved by the keeper! 🧤", you: "You", keeper: "Keeper", win: (g, v) => `You won ${g} – ${v} 🏆`, draw: (g, v) => `Draw ${g} – ${v}`, lose: (g, v) => `Keeper won ${v} – ${g}` },
+    river: { safe: "Safe jump! 🌿", sink: "The pad sank! 💦", bank: "🏁 Far bank", total: n => `You crossed the river ${n} times` },
+    balloons: { pop: "Hit! 🎯", storm: "Wrong balloon! ⛈️", miss: "Aim at a balloon!", total: n => `You hit ${n} correct balloons` },
+    space: { go: "Launch 🚀", warp: "Light jump! ✨", boom: "Wrong gate! 💥", total: n => `${n} successful light jumps`, out: "Out of fuel!" },
     end: { great: "Champion play!", good: "Great play!", ok: "Good start!", try: "Try again!" }
   }
 };
@@ -6353,7 +6378,7 @@ const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
 /* ---- sound ---- */
-const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]] };
+const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]] };
 function gmSnd(k) {
   if (GM.mute) return;
   try {
@@ -6365,15 +6390,16 @@ function gmSnd(k) {
 
 /* ---- art ---- */
 const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmChestSVG = `<svg viewBox="0 0 80 72" aria-hidden="true"><g class="lid"><path d="M6 32 Q6 9 40 9 Q74 9 74 32Z" fill="#c2410c" stroke="#7c2d12" stroke-width="3"/><path d="M14 30 Q15 16 40 15 Q65 16 66 30" fill="none" stroke="#f59e0b" stroke-width="2.5"/><rect x="36" y="9" width="8" height="23" fill="#fbbf24"/></g><rect x="6" y="32" width="68" height="34" rx="4" fill="#9a3412" stroke="#7c2d12" stroke-width="3"/><rect x="6" y="32" width="68" height="6" fill="#7c2d12" opacity=".35"/><rect x="36" y="32" width="8" height="34" fill="#fbbf24"/><rect x="33.5" y="37" width="13" height="11" rx="2.5" fill="#fde68a" stroke="#7c2d12" stroke-width="2"/><circle cx="40" cy="42.5" r="1.8" fill="#7c2d12"/></svg>`;
-const gmTargetSVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" fill="#fff" stroke="#334155" stroke-width="1.5"/><circle cx="50" cy="50" r="39.2" fill="#0f172a"/><circle cx="50" cy="50" r="29.4" fill="#2563eb"/><circle cx="50" cy="50" r="19.6" fill="#dc2626"/><circle cx="50" cy="50" r="9.8" fill="#facc15"/><circle cx="50" cy="50" r="2" fill="#0f172a"/></svg>`;
+const gmBalloon = c => `<svg class="bl-b" viewBox="0 0 60 80" aria-hidden="true"><path d="M30 2C11 2 3 19 7 34c4 14 16 22 23 24 7-2 19-10 23-24C57 19 49 2 30 2Z" fill="${c}"/><ellipse cx="20" cy="20" rx="6" ry="10" fill="#fff" opacity=".4" transform="rotate(-20 20 20)"/><path d="M26 58h8l-4 7Z" fill="${c}"/><path d="M30 65q-5 7 0 15" stroke="#64748b" stroke-width="1.6" fill="none"/></svg>`;
+const gmKeeper = `<svg viewBox="0 0 64 74" aria-hidden="true"><path d="M20 30 L6 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><path d="M44 30 L58 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><circle cx="6" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><circle cx="58" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><rect x="18" y="26" width="28" height="28" rx="9" fill="#facc15"/><path d="M24 54 L22 70 M40 54 L42 70" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><circle cx="32" cy="16" r="11" fill="#fcd9b6"/><path d="M21 14 Q32 0 43 14 Q32 8 21 14Z" fill="#1e293b"/><circle cx="28" cy="17" r="1.6" fill="#1e293b"/><circle cx="36" cy="17" r="1.6" fill="#1e293b"/><path d="M28 21.5 Q32 24 36 21.5" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><text x="32" y="46" font-size="13" font-weight="900" text-anchor="middle" fill="#1e293b">1</text></svg>`;
+const gmBow = `<svg viewBox="0 0 74 74" aria-hidden="true"><path d="M10 44 Q37 6 64 44" fill="none" stroke="#92400e" stroke-width="6" stroke-linecap="round"/><path d="M10 44 L37 52 L64 44" fill="none" stroke="#e2e8f0" stroke-width="2"/><path d="M37 60 V10" stroke="#78350f" stroke-width="4" stroke-linecap="round"/><path d="M37 2 L30 14 H44Z" fill="#475569"/><path d="M37 60 l-6 8 M37 60 l6 8" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/></svg>`;
+const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
 const GM_GAMES = [
-  { id: "race", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="210" cy="30" r="1.6"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="100" r="1.2"/><circle cx="170" cy="110" r="1"/></g><circle cx="262" cy="34" r="22" fill="#f472b6"/><ellipse cx="262" cy="34" rx="36" ry="7" fill="none" stroke="#fbcfe8" stroke-width="3"/><g transform="translate(120 34) scale(1.5)">${gmRocket("#fde047", "#f59e0b").replace(/<\/?svg[^>]*>/g, "")}</g><g transform="translate(40 72) scale(1.3)">${gmRocket("#38bdf8", "#0369a1").replace(/<\/?svg[^>]*>/g, "")}</g><g transform="translate(160 86) scale(1.1)">${gmRocket("#a78bfa", "#6d28d9").replace(/<\/?svg[^>]*>/g, "")}</g></svg>` },
-  { id: "dragon", c1: "#db2777", c2: "#4c0519", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gmdg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b0764"/><stop offset=".7" stop-color="#be185d"/><stop offset="1" stop-color="#fb923c"/></linearGradient></defs><rect width="300" height="128" fill="url(#gmdg)"/><path d="M0 128 L50 70 L90 100 L150 50 L210 104 L250 78 L300 110 V128Z" fill="#1e0b2e"/><text x="205" y="98" font-size="70" text-anchor="middle">🐉</text><text x="70" y="104" font-size="44" text-anchor="middle">🧙</text><text x="138" y="70" font-size="26" text-anchor="middle">⚡</text></svg>` },
-  { id: "treasure", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="64" width="300" height="64" fill="#0891b2"/><ellipse cx="90" cy="128" rx="110" ry="42" fill="#fbbf24"/><circle cx="262" cy="26" r="16" fill="#fde047"/><text x="44" y="96" font-size="52" text-anchor="middle">🌴</text><g transform="translate(118 58) scale(.85)">${gmChestSVG.replace(/<\/?svg[^>]*>/g, "")}</g><text x="236" y="104" font-size="26" text-anchor="middle">💎</text><text x="210" y="80" font-size="20" text-anchor="middle">🪙</text></svg>` },
-  { id: "archery", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#bae6fd"/><rect y="78" width="300" height="50" fill="#22c55e"/><rect x="186" y="60" width="5" height="44" fill="#78350f"/><g transform="translate(150 10) scale(.8)">${gmTargetSVG.replace(/<\/?svg[^>]*>/g, "")}</g><rect x="76" y="64" width="80" height="4" rx="2" fill="#7c2d12" transform="rotate(-14 116 66)"/><text x="58" y="118" font-size="44" text-anchor="middle">🏹</text></svg>` }
+  { id: "penalty", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0369a1"/><rect y="70" width="300" height="58" fill="#16a34a"/><rect x="60" y="14" width="180" height="78" fill="rgba(255,255,255,.14)" stroke="#fff" stroke-width="6"/><path d="M150 17 V90 M63 53 H237" stroke="#fff" stroke-width="2" opacity=".7"/><g font-size="20" font-weight="900" fill="#fff" text-anchor="middle"><text x="105" y="42">أ</text><text x="195" y="42">ب</text><text x="105" y="80">ج</text><text x="195" y="80">د</text></g><g transform="translate(118 44) scale(.9)">${gmIn(gmKeeper)}</g><text x="216" y="120" font-size="30" text-anchor="middle">⚽</text></svg>` },
+  { id: "river", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0891b2"/><rect width="300" height="20" fill="#65a30d"/><rect y="108" width="300" height="20" fill="#65a30d"/><g fill="#a3e635" stroke="#3f6212" stroke-width="3"><ellipse cx="60" cy="62" rx="36" ry="22"/><ellipse cx="150" cy="70" rx="36" ry="22"/><ellipse cx="240" cy="58" rx="36" ry="22"/></g><g font-size="20" font-weight="900" fill="#14532d" text-anchor="middle"><text x="60" y="69">أ</text><text x="240" y="65">ج</text></g><text x="150" y="80" font-size="34" text-anchor="middle">🐸</text><text x="262" y="110" font-size="30" text-anchor="middle">🐊</text></svg>` },
+  { id: "balloons", c1: "#0ea5e9", c2: "#075985", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><ellipse cx="60" cy="24" rx="36" ry="10" fill="#fff" opacity=".8"/><g transform="translate(40 14) scale(.95)">${gmIn(gmBalloon("#ef4444"))}</g><g transform="translate(110 30) scale(.95)">${gmIn(gmBalloon("#f59e0b"))}</g><g transform="translate(180 8) scale(.95)">${gmIn(gmBalloon("#22c55e"))}</g><g transform="translate(240 34) scale(.95)">${gmIn(gmBalloon("#8b5cf6"))}</g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="68" y="48">أ</text><text x="138" y="64">ب</text><text x="208" y="42">ج</text><text x="268" y="68">د</text></g><g transform="translate(120 66) rotate(28 37 37) scale(.8)">${gmIn(gmBow)}</g></svg>` },
+  { id: "space", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="150" cy="116" r="1"/></g><g fill="none" stroke-width="5"><ellipse cx="226" cy="26" rx="12" ry="18" stroke="#f472b6"/><ellipse cx="226" cy="64" rx="12" ry="18" stroke="#fde047"/><ellipse cx="226" cy="102" rx="12" ry="18" stroke="#34d399"/></g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="226" y="31">أ</text><text x="226" y="69">ب</text><text x="226" y="107">ج</text></g><g transform="translate(56 40) scale(1.5)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g></svg>` }
 ];
-
 /* ---- shell ---- */
 function openGame(ideaId) {
   GM.idea = ideaId; gmClose(true);
@@ -6410,199 +6436,213 @@ function gmPicker() {
   GM.el.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { gmSnd("tap"); gmStart(b.dataset.g); });
   const f = gm$(".gm-card"); if (f) f.focus({ preventScroll: true });
 }
+/* ---- engine ---- */
+const gmRTL = () => LANGUI !== "en";
+const gmT = (x, y, sc = 1, r = 0) => `translate(${x}px,${y}px) translate(-50%,-50%) scale(${sc}) rotate(${r}deg)`;
+function gmPos(el, ar) { const r = el.getBoundingClientRect(), R = ar.getBoundingClientRect(); return { x: r.left - R.left + r.width / 2, y: r.top - R.top + r.height / 2, w: r.width, h: r.height }; }
+function gmActor(ar, cls, html, x, y) { const a = document.createElement("div"); a.className = "gx-actor " + cls; a.innerHTML = html; ar.appendChild(a); a._s = 1; a._r = 0; gmPut(a, x, y); return a; }
+function gmPut(a, x, y, sc = a._s, r = a._r) { a._x = x; a._y = y; a._s = sc; a._r = r; a.style.transform = gmT(x, y, sc, r); }
+function gmFly(a, x, y, ms, { arc = 0, scale = a._s, rot = a._r, ease = "ease-out" } = {}) {
+  const x0 = a._x, y0 = a._y, s0 = a._s, r0 = a._r;
+  const kf = [{ transform: gmT(x0, y0, s0, r0) }, { transform: gmT((x0 + x) / 2, (y0 + y) / 2 - arc, (s0 + scale) / 2 * (arc ? 1.18 : 1), (r0 + rot) / 2) }, { transform: gmT(x, y, scale, rot) }];
+  gmPut(a, x, y, scale, rot);
+  let an; try { an = a.animate(kf, { duration: ms, easing: ease }); } catch (e) { }
+  return new Promise(res => { let done = false; const f = () => { if (!done) { done = true; res(); } }; if (an) an.onfinish = f; GM.timers.push(setTimeout(f, ms + 60)); });
+}
+function gmFloat(ar, x, y, txt, color) { const f = document.createElement("div"); f.className = "gm-float"; f.textContent = txt; f.style.left = x + "px"; f.style.top = y + "px"; if (color) f.style.color = color; ar.appendChild(f); arabize(f); GM.timers.push(setTimeout(() => f.remove(), 1300)); }
+function gmBanner(ar, txt) { const b = document.createElement("div"); b.className = "gm-banner"; b.textContent = txt; ar.appendChild(b); arabize(b); GM.timers.push(setTimeout(() => b.remove(), 1400)); }
+function gmShake(el) { el.classList.remove("gm-shake"); void el.offsetWidth; el.classList.add("gm-shake"); }
+const gmStreakMul = s => Math.min(1 + .25 * Math.max(0, s.streak - 1), 2);
+const gmOptEl = (ar, k) => ar.querySelector(`.gx-opt[data-opt="${k}"]`);
+function gmOpt(q, i, cls) { const fig = /<(svg|img|table)/i.test(q.o[i]); return `<button type="button" class="gx-opt ${cls}${fig ? " fig" : ""}" data-opt="${i}"><span class="bub">${LETS()[i]}</span><span class="val">${q.o[i]}</span></button>`; }
+const gmGrid = q => `opts-grid n${q.o.length}${q.c === 2 ? " long" : ""}`;
+function gmFit(ar) {
+  ar.querySelectorAll(".gx-opt").forEach(el => {
+    el.style.setProperty("--oh", Math.max(30, el.clientHeight - 14) + "px");
+    let fs = parseFloat(getComputedStyle(el).fontSize), n = 0;
+    while ((el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) && fs > 10 && n++ < 10) { fs -= 1; el.style.fontSize = fs + "px"; el.style.lineHeight = "1.3"; }
+  });
+}
 function gmStart(gid) {
   const I = ideaById(GM.idea); let qs = [];
   try { qs = draw(I, GM.n); } catch (e) { qs = []; }
   if (!qs.length) { alert(gt("noQs")); return; }
   const G = GMG[gid];
-  const s = GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
+  GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, gain: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
   GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
-    `<div class="gm-stage g-${gid}" id="gmStage"></div><div class="gm-q" id="gmQ"></div>`;
-  gmBindTop(); G.init(gm$("#gmStage"), s); gmHud(); gmQ();
+    `<div class="gm-world g-${gid}" id="gmWorld"><div class="gm-bg">${G.bg ? G.bg() : ""}</div><div class="gm-mission" id="gmMis"></div><div class="gm-arena" id="gmArena"></div><div class="gm-sheet" id="gmSheet" hidden></div></div>`;
+  gmBindTop(); gmRound();
 }
 function gmHud(bump) {
-  const s = GM.st; if (!s) return;
-  const q = gm$("#gmQn"); q.textContent = gt("qn", Math.min(s.i + 1, s.qs.length), s.qs.length);
+  const s = GM.st; if (!s || !gm$("#gmQn")) return;
+  gm$("#gmQn").textContent = gt("qn", Math.min(s.i + 1, s.qs.length), s.qs.length);
   const sc = gm$("#gmSc"); sc.textContent = s.score; if (bump) { sc.classList.remove("pop"); void sc.offsetWidth; sc.classList.add("pop"); }
   const k = gm$("#gmStk"); k.innerHTML = `🔥 <b>${s.streak}</b>`; k.classList.toggle("hot", s.streak >= 3);
   arabize(gm$(".gm-hud"));
 }
-function gmQ() {
-  const s = GM.st, q = s.qs[s.i], picked = s.ans[s.i], box = gm$("#gmQ");
-  let h = `<div class="sheet">${qHTML(q, { reveal: picked != null ? q.a : null, mark: picked, pickable: picked == null })}</div>`;
-  if (picked != null && q.s && q.s.length) h += `<details class="gm-sol explain ${picked === q.a ? "ok" : "no"}" ${picked === q.a ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>`;
-  const last = s.i + 1 >= s.qs.length || s.over;
-  h += `<div class="gm-fb">${picked == null ? `<span class="gm-hint">${gt("tapNext")}</span>` : picked === q.a ? `<span class="msg ok">${s.msg}<small>${s.sub || ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
-  ${picked != null ? `<button type="button" class="gm-next" id="gmNext" ${s.ready ? "" : "disabled"}>${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button>` : ""}</div>`;
-  box.innerHTML = h; arabize(box);
-  box.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => gmAnswer(+b.dataset.opt));
-  const nx = gm$("#gmNext"); if (nx) nx.onclick = gmNext;
-  if (picked == null) { box.scrollTop = 0; s.qT = Date.now(); }
+function gmRound() {
+  const s = GM.st, q = s.qs[s.i], mis = gm$("#gmMis"), ar = gm$("#gmArena"), sh = gm$("#gmSheet");
+  cancelAnimationFrame(GM.raf); s.busy = false; s.ready = false; sh.hidden = true; sh.innerHTML = "";
+  mis.innerHTML = `<span class="gm-task">${gt("games." + s.gid + ".task")}</span><div class="qtext">${q.q}</div>${q.f ? `<div class="qfig">${q.f}</div>` : ""}<div id="gmTr">${trHTML(q, null)}</div>`;
+  mis.scrollTop = 0; ar.innerHTML = ""; ar.onclick = ar.onpointermove = null;
+  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmHud(); s.qT = Date.now();
 }
-async function gmAnswer(k) {
+async function gmChoose(k) {
   const s = GM.st; if (!s || s.busy || s.ans[s.i] != null) return;
-  s.busy = true; s.ready = false; const q = s.qs[s.i], ok = k === q.a; s.ans[s.i] = k;
-  const secs = (Date.now() - s.qT) / 1000;
-  if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.msg = pick(gt("praise")); s.sub = s.streak >= 3 ? gt("streak", s.streak) : ""; gmSnd("ok"); }
-  else { s.streak = 0; gmSnd("no"); }
-  gmQ(); gmHud();
-  const fb = gm$(".gm-fb"); if (fb && fb.scrollIntoView) fb.scrollIntoView({ block: "nearest" });
-  try { await s.G.answer(gm$("#gmStage"), s, ok, secs); } catch (e) { console.warn(e); }
+  const q = s.qs[s.i]; if (!(k >= 0 && k < q.o.length)) return;
+  s.busy = true; s.ans[s.i] = k; const ok = k === q.a, secs = (Date.now() - s.qT) / 1000, ar = gm$("#gmArena");
+  ar.querySelectorAll(".gx-opt").forEach(b => b.disabled = true); const tip = ar.querySelector(".gm-tip"); if (tip) tip.remove();
+  if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.gain = Math.round(100 * gmStreakMul(s) + Math.max(0, 50 - secs * 1.5)); s.score += s.gain; } else { s.streak = 0; s.gain = 0; }
+  try { await s.G.resolve(ar, s, k, ok, q); } catch (e) { console.warn(e); }
   if (GM.st !== s) return;
-  s.busy = false; s.ready = true; gmHud(true);
-  const nx = gm$("#gmNext"); if (nx) { nx.disabled = false; nx.textContent = `${(s.i + 1 >= s.qs.length || s.over) ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}`; nx.focus({ preventScroll: true }); }
+  ar.querySelectorAll(".gx-opt").forEach(b => { const i = +b.dataset.opt; b.classList.add(i === q.a ? "ok" : i === k ? "no" : "dim"); });
+  gmHud(true);
+  const sh = gm$("#gmSheet"), last = s.i + 1 >= s.qs.length, tr = gm$("#gmTr"); if (tr) { tr.innerHTML = trHTML(q, q.a); arabize(tr); }
+  sh.innerHTML = `${q.s && q.s.length ? `<details class="gm-sol explain ${ok ? "ok" : "no"}" ${ok ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>` : ""}
+  <div class="gm-row">${ok ? `<span class="msg ok">${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
+  <button type="button" class="gm-next" id="gmNext">${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button></div>`;
+  sh.hidden = false; arabize(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
+  s.busy = false; s.ready = true;
 }
 function gmNext() {
   const s = GM.st; if (!s || !s.ready) return; gmSnd("tap");
-  if (s.over || s.i + 1 >= s.qs.length) return gmEnd();
-  s.i++; s.ready = false; gmHud(); gmQ(); s.G.next && s.G.next(gm$("#gmStage"), s);
+  if (s.i + 1 >= s.qs.length) return gmEnd();
+  s.i++; gmRound();
 }
 function gmKey(e) {
-  const s = GM.st; if (!s || e.target.closest("input,textarea")) return;
-  if (s.ans[s.i] == null && /^[1-4]$/.test(e.key)) { const b = GM.el.querySelector(`[data-opt="${+e.key - 1}"]`); if (b) { e.preventDefault(); b.click(); } }
-  else if (e.key === "Enter" && s.ready && document.activeElement && !document.activeElement.closest("button")) { e.preventDefault(); gmNext(); }
+  const s = GM.st; if (!s || s.over) return;
+  if (s.ans[s.i] == null && !s.busy) {
+    if (s.G.key && s.G.key(e, s)) { e.preventDefault(); return; }
+    if (/^[1-5]$/.test(e.key)) { e.preventDefault(); gmChoose(+e.key - 1); }
+  }
 }
-function gmFloat(stage, x, y, txt, color) {
-  const f = document.createElement("div"); f.className = "gm-float"; f.textContent = txt; f.style.left = x + "px"; f.style.top = y + "px"; if (color) f.style.color = color;
-  stage.appendChild(f); arabize(f); GM.timers.push(setTimeout(() => f.remove(), 1300));
-}
-function gmBanner(stage, txt) { const b = document.createElement("div"); b.className = "gm-banner"; b.textContent = txt; stage.appendChild(b); arabize(b); GM.timers.push(setTimeout(() => b.remove(), 1400)); }
-function gmCenter(el, stage) { const r = el.getBoundingClientRect(), R = stage.getBoundingClientRect(); return { x: r.left - R.left + r.width / 2, y: r.top - R.top + r.height / 2 }; }
-function gmShake(el) { el.classList.remove("gm-shake"); void el.offsetWidth; el.classList.add("gm-shake"); }
-const gmStreakMul = s => Math.min(1 + .25 * Math.max(0, s.streak - 1), 2);
 
-/* ---- the four games ---- */
+/* ---- the four adventures ---- */
+const GM_COLS = ["#ef4444", "#f59e0b", "#22c55e", "#8b5cf6", "#ec4899"];
 const GMG = {
-  race: {
-    init(st, s) {
-      const B = gt("race.bots"), cols = [["#38bdf8", "#0369a1"], ["#a78bfa", "#6d28d9"], ["#34d399", "#047857"]];
-      s.d.D = s.qs.length * 1.1; s.d.pos = [0, 0, 0, 0]; s.d.acc = shuffle([.5, .64, .76]);
-      const lanes = [{ n: gt("me"), me: 1, c: ["#fde047", "#f59e0b"] }].concat(B.map((n, k) => ({ n, c: cols[k] })));
-      st.innerHTML = `<div class="stars"></div><div class="stars2"></div><div class="rc-lanes">${lanes.map((l, k) => `<div class="rc-lane ${l.me ? "me" : ""}"><span class="rc-name">${esc(l.n)}</span><div class="rc-finish"></div><svg class="rc-planet" viewBox="0 0 44 44"><circle cx="22" cy="22" r="13" fill="${["#f472b6", "#60a5fa", "#fbbf24", "#34d399"][k]}"/><ellipse cx="22" cy="22" rx="21" ry="5" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/></svg><div class="rc-track"><div class="rc-rk ${l.me ? "me" : ""}" data-rk="${k}">${gmRocket(l.c[0], l.c[1])}</div></div></div>`).join("")}</div>`;
-      this.place(st, s);
+  /* ⚽ kick the ball into the answer */
+  penalty: {
+    bg: () => `<div class="pk-crowd"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.g = d.g || 0; d.v = d.v || 0;
+      ar.innerHTML = `<div class="pk-goal"><div class="${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "pk-zone")).join("")}</div></div><div class="pk-spot"></div>
+      <div class="pk-board">${gt("penalty.you")} <b id="pkG">${d.g}</b>–<b id="pkV">${d.v}</b> ${gt("penalty.keeper")}</div><div class="gm-tip">${gt("games.penalty.tip")}</div>`;
+      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
+      const g = gmPos(ar.querySelector(".pk-goal"), ar);
+      d.kp = gmActor(ar, "pk-keeper", gmKeeper, g.x, g.y + g.h / 2 - 36);
+      d.ball = gmActor(ar, "pk-ball", "⚽", ar.clientWidth / 2, ar.clientHeight - 48);
     },
-    place(st, s) { st.querySelectorAll("[data-rk]").forEach(r => { const p = Math.min(1, s.d.pos[+r.dataset.rk] / s.d.D); r.style.insetInlineStart = `calc((100% - ${r.offsetWidth || 64}px) * ${p.toFixed(4)})`; }); },
-    async answer(st, s, ok, secs) {
-      const me = st.querySelector('[data-rk="0"]');
-      if (ok) {
-        const turbo = s.streak >= 3, step = turbo ? 1.45 : 1;
-        s.d.pos[0] += step; s.score += Math.round(100 * gmStreakMul(s) + Math.max(0, 40 - secs * 2));
-        me.classList.toggle("turbo", turbo); gmSnd(turbo ? "boost" : "whoosh");
-        if (turbo) gmBanner(st, gt("race.turbo"));
-      } else { me.classList.remove("turbo"); me.classList.remove("stall"); void me.offsetWidth; me.classList.add("stall"); gmFloat(st, gmCenter(me, st).x, gmCenter(me, st).y - 20, gt("race.stall"), "#fca5a5"); }
-      this.place(st, s); await gmWait(450);
-      for (let b = 1; b <= 3; b++) { if (Math.random() < s.d.acc[b - 1]) s.d.pos[b] += .9 + Math.random() * .3; }
-      this.place(st, s); await gmWait(700);
-      me.classList.remove("turbo");
-      if (s.d.pos[0] >= s.d.D) { s.over = true; s.d.won = 1; gmBanner(st, gt("race.finishLine")); gmSnd("win"); await gmWait(600); }
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d, el = gmOptEl(ar, k), z = gmPos(el, ar); let t = z;
+      if (ok) { const o = pick([...ar.querySelectorAll(".gx-opt")].filter(b => +b.dataset.opt !== k)); if (o) t = gmPos(o, ar); }
+      d.kp.classList.add("dive"); gmSnd("kick");
+      const side = t.x < d.kp._x ? -1 : 1;
+      await Promise.all([gmFly(d.ball, z.x, z.y, 520, { arc: 46, scale: .62, rot: 540 }), gmWait(160).then(() => gmFly(d.kp, t.x, t.y, 340, { rot: side * 62 }))]);
+      if (ok) { d.g++; el.classList.add("goal"); gmSnd("win"); gmBanner(ar, gt("penalty.goal")); gmFloat(ar, z.x, z.y - 20, `+${s.gain}`, "#fde047"); }
+      else { d.v++; gmSnd("hit"); gmBanner(ar, gt("penalty.save")); await gmFly(d.ball, z.x + (Math.random() < .5 ? -110 : 110), ar.clientHeight + 60, 560, { scale: 1, rot: 1100, ease: "ease-in" }); }
+      ar.querySelector("#pkG").textContent = d.g; ar.querySelector("#pkV").textContent = d.v; arabize(ar.querySelector(".pk-board"));
+      await gmWait(650);
     },
-    final(s) { const me = s.d.pos[0]; const rank = s.d.won ? 1 : 1 + s.d.pos.slice(1).filter(p => p > me).length; return { win: rank === 1, medal: ["🥇", "🥈", "🥉", "🚀"][rank - 1], title: rank === 1 ? gt("race.first") : gt("race.place", rank) }; }
+    final(s) { const g = s.d.g || 0, v = s.d.v || 0; return g > v ? { win: true, medal: "🏆", title: gt("penalty.win", g, v) } : g === v ? { win: false, medal: "🤝", title: gt("penalty.draw", g, v) } : { win: false, medal: "🧤", title: gt("penalty.lose", g, v) }; }
   },
-  dragon: {
-    init(st, s) {
-      s.d.hp = 100; s.d.hearts = 3; s.d.base = 100 / Math.max(3, s.qs.length * .62);
-      st.innerHTML = `<svg class="dr-mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><path d="M0 100 L0 60 L60 20 L110 55 L170 10 L240 60 L300 25 L360 55 L400 35 V100Z" fill="#2e1065" opacity=".85"/><path d="M0 100 L0 80 L80 50 L150 78 L230 45 L310 80 L400 60 V100Z" fill="#1e0b2e"/></svg>
-      <div class="dr-row"><div class="dr-side"><div class="dr-hearts" id="drH"></div><div class="dr-hero" id="drHero">🧙</div></div>
-      <div class="dr-side"><span class="dr-lbl">${gt("dragon.hp")}</span><div class="dr-hp" id="drHp"><i></i></div><div class="dr-boss" id="drBoss">🐉</div></div></div>`;
-      this.paint(st, s);
+  /* 🐸 jump onto the answer */
+  river: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0;
+      ar.innerHTML = `<div class="rv-far">${gt("river.bank")}</div><div class="rv-pads ${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "rv-pad")).join("")}</div><div class="rv-near"></div><div class="gm-tip">${gt("games.river.tip")}</div>`;
+      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
+      const W = ar.clientWidth, H = ar.clientHeight;
+      d.frog = gmActor(ar, "rv-frog", "🐸", W / 2, H - 44);
+      d.croc = gmActor(ar, "rv-croc", "<span>🐊</span>", gmRTL() ? W - 22 : 22, H - 92);
     },
-    paint(st, s) {
-      st.querySelector("#drH").innerHTML = [0, 1, 2].map(k => `<span class="${k < s.d.hearts ? "" : "lost"}">❤️</span>`).join("");
-      const hp = st.querySelector("#drHp"); hp.querySelector("i").style.width = Math.max(0, s.d.hp) + "%"; hp.className = "dr-hp" + (s.d.hp < 30 ? " low" : s.d.hp < 60 ? " mid" : "");
-    },
-    async fly(st, from, to, glyph, ms) {
-      const a = gmCenter(from, st), b = gmCenter(to, st); const p = document.createElement("div"); p.className = "gm-proj"; p.textContent = glyph; st.appendChild(p);
-      const anim = p.animate([{ transform: `translate(${a.x - 18}px,${a.y - 18}px) scale(.6)` }, { transform: `translate(${(a.x + b.x) / 2 - 18}px,${Math.min(a.y, b.y) - 60}px) scale(1.1)` }, { transform: `translate(${b.x - 18}px,${b.y - 18}px) scale(1.4)` }], { duration: ms, easing: "ease-in" });
-      await new Promise(r => { anim.onfinish = r; GM.timers.push(setTimeout(r, ms + 50)); }); p.remove();
-    },
-    async answer(st, s, ok, secs) {
-      const hero = st.querySelector("#drHero"), boss = st.querySelector("#drBoss");
+    ring(ar, x, y) { const r = document.createElement("div"); r.className = "rv-ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.transform = "translate(-50%,-50%)"; ar.appendChild(r); GM.timers.push(setTimeout(() => r.remove(), 850)); },
+    async resolve(ar, s, k, ok) {
+      const d = s.d, pad = gmOptEl(ar, k), p = gmPos(pad, ar), W = ar.clientWidth, H = ar.clientHeight;
+      gmSnd("whoosh"); await gmFly(d.frog, p.x, p.y - p.h * .28, 560, { arc: 90 }); this.ring(ar, p.x, p.y);
       if (ok) {
-        const mul = gmStreakMul(s), fast = secs < 15, dmg = Math.round(s.d.base * mul * (fast ? 1.25 : 1));
-        gmSnd("whoosh"); await this.fly(st, hero, boss, s.streak >= 3 ? "☄️" : "⚡", 650);
-        s.d.hp -= dmg; s.score += dmg * 10; gmSnd("hit"); gmShake(boss); this.paint(st, s);
-        const c = gmCenter(boss, st); gmFloat(st, c.x, c.y - 40, `-${dmg}`, "#fde047");
-        if (mul > 1) gmBanner(st, gt("dragon.combo", mul.toFixed(2).replace(/\.?0+$/, ""))); else if (fast) gmBanner(st, gt("dragon.fast"));
-        await gmWait(500);
-        if (s.d.hp <= 0) { s.over = true; s.d.win = 1; boss.style.transition = "transform .8s, opacity .8s"; boss.style.transform = "scale(.2) rotate(40deg)"; boss.style.opacity = "0"; gmSnd("win"); await gmWait(700); }
+        d.n++; gmSnd("ok"); pad.classList.add("ok"); gmBanner(ar, gt("river.safe")); gmFloat(ar, p.x, p.y - 30, `+${s.gain}`, "#fde047");
+        await gmWait(520); gmSnd("whoosh"); await gmFly(d.frog, W / 2, 20, 560, { arc: 60, scale: .8 });
       } else {
-        await this.fly(st, boss, hero, "🔥", 600); s.d.hearts--; gmSnd("hit"); gmShake(hero); this.paint(st, s);
-        const c = gmCenter(hero, st); gmFloat(st, c.x, c.y - 40, gt("dragon.hit"), "#fca5a5");
-        await gmWait(450);
-        if (s.d.hearts <= 0) { s.over = true; s.d.lost = 1; gmSnd("lose"); }
+        gmSnd("splash"); pad.classList.add("sink"); gmFloat(ar, p.x, p.y - 20, "💦", "#fff"); gmBanner(ar, gt("river.sink"));
+        await Promise.all([gmFly(d.croc, p.x, p.y, 520), gmWait(120).then(() => gmFly(d.frog, W / 2, H - 44, 620, { arc: 110 }))]);
+        gmSnd("hit"); gmShake(d.croc.firstChild);
       }
+      await gmWait(450);
     },
-    final(s) { return s.d.win ? { win: true, medal: "🏆", title: gt("dragon.win") } : s.d.lost ? { win: false, medal: "🐉", title: gt("dragon.lose") } : { win: false, medal: "🛡️", title: gt("dragon.fled") }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "🐸" : "🐊", title: gt("river.total", n) }; }
   },
-  treasure: {
-    init(st, s) {
-      st.innerHTML = `<div class="tr-sun"></div><div class="tr-wave"></div><div class="tr-island"></div><div class="tr-palm">🌴</div><div class="tr-gold"><span class="coin"></span><span id="trG">0</span></div><div id="trZone"></div>`;
-      arabize(st);
+  /* 🏹 shoot the balloon that carries the answer */
+  balloons: {
+    bg: () => `<div class="bl-cloud" style="top:12%;animation-delay:-8s"></div><div class="bl-cloud" style="top:44%;animation-delay:-26s;transform:scale(.7)"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0;
+      ar.innerHTML = `<div class="bl-grid ${gmGrid(q)}">${q.o.map((o, i) => `<div class="bl-cell" data-cell="${i}" style="--bc:${GM_COLS[i]}">${gmBalloon(GM_COLS[i])}${gmOpt(q, i, "")}</div>`).join("")}</div><div class="bl-aim" hidden></div><div class="gm-tip">${gt("games.balloons.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight; d.bx = W / 2; d.by = H - 52;
+      d.bow = gmActor(ar, "bl-bow", gmBow, d.bx, d.by);
+      const aim = ar.querySelector(".bl-aim"); aim.style.left = d.bx + "px"; aim.style.top = d.by + "px";
+      const pt = e => { const R = ar.getBoundingClientRect(); return { x: e.clientX - R.left, y: e.clientY - R.top }; };
+      const point = (x, y, line) => { const a = Math.atan2(y - d.by, x - d.bx) * 180 / Math.PI; d.ang = a; d.bow.firstElementChild.style.transform = `rotate(${a + 90}deg)`; if (line) { aim.hidden = false; aim.style.width = Math.hypot(x - d.bx, y - d.by) + "px"; aim.style.transform = `rotate(${a}deg)`; } };
+      d.point = point; point(d.bx, 0);
+      ar.onpointermove = e => { if (s.busy || s.ans[s.i] != null) return; const p = pt(e); if (p.y < d.by - 20) point(p.x, p.y, true); };
+      ar.onclick = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet")) return;
+        const c = e.target.closest(".bl-cell");
+        if (c) return gmChoose(+c.dataset.cell);
+        const p = pt(e); if (p.y > d.by - 20) return; point(p.x, p.y); gmSnd("whoosh");
+        const a = gmActor(ar, "bl-arrow", "<i></i>", d.bx, d.by); gmPut(a, d.bx, d.by, 1, d.ang);
+        const L = Math.max(W, H) * 1.2, r = d.ang * Math.PI / 180; gmFly(a, d.bx + Math.cos(r) * L, d.by + Math.sin(r) * L, 520, { ease: "linear" }).then(() => a.remove());
+        gmFloat(ar, p.x, p.y, gt("balloons.miss"), "#0f172a");
+      };
     },
-    loot() {
-      const r = Math.random();
-      if (r < .07) return { k: "gem", add: 100, t: gt("treasure.gem") };
-      if (r < .17) return { k: "x2", mul: 2, t: gt("treasure.x2") };
-      if (r < .23) return { k: "octo", mul: .75, t: gt("treasure.octo") };
-      if (r < .33) return { k: "map", add: 15, t: gt("treasure.map") };
-      const v = pick([10, 20, 20, 30, 30, 40, 50]); return { k: "gold", add: v, t: `🪙 +${v}` };
+    burst(ar, x, y, c) { for (let i = 0; i < 12; i++) { const b = document.createElement("i"); b.className = "bl-bit"; b.style.background = i % 3 ? c : "#fff"; b.style.left = x + "px"; b.style.top = y + "px"; ar.appendChild(b); const a = i / 12 * 6.283, r = 40 + Math.random() * 46; try { b.animate([{ transform: "translate(-50%,-50%) scale(1)", opacity: 1 }, { transform: `translate(${Math.cos(a) * r}px,${Math.sin(a) * r + 24}px) scale(.3)`, opacity: 0 }], { duration: 560, easing: "ease-out", fill: "forwards" }); } catch (e) { } GM.timers.push(setTimeout(() => b.remove(), 600)); } },
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d, cell = ar.querySelector(`[data-cell="${k}"]`), b = cell.querySelector(".bl-b"), p = gmPos(b, ar);
+      ar.querySelector(".bl-aim").hidden = true; d.point(p.x, p.y); gmSnd("whoosh");
+      const a = gmActor(ar, "bl-arrow", "<i></i>", d.bx, d.by); gmPut(a, d.bx, d.by, 1, d.ang);
+      await gmFly(a, p.x, p.y, Math.max(200, Math.hypot(p.x - d.bx, p.y - d.by) * .7), { ease: "linear" }); a.remove();
+      b.classList.add("pop"); gmSnd("pop"); this.burst(ar, p.x, p.y, GM_COLS[k]);
+      if (ok) { d.n++; gmSnd("ok"); gmBanner(ar, gt("balloons.pop")); gmFloat(ar, p.x, p.y - 10, `+${s.gain}`, "#b45309"); }
+      else { gmSnd("no"); cell.classList.add("fall"); gmBanner(ar, gt("balloons.storm")); const c = ar.querySelector(`[data-cell="${q.a}"]`); if (c) c.classList.add("glow"); }
+      await gmWait(750);
     },
-    async answer(st, s, ok) {
-      const z = st.querySelector("#trZone");
-      if (!ok) { gmBanner(st, gt("treasure.lost")); await gmWait(900); return; }
-      const L = [this.loot(), this.loot(), this.loot()];
-      z.innerHTML = `<div class="tr-tip">${gt("treasure.pickC")}</div><div class="tr-chests">${L.map((l, k) => `<button type="button" class="tr-chest" data-c="${k}">${gmChestSVG}<span class="loot">${l.t}</span></button>`).join("")}</div>`;
-      arabize(z);
-      const fbn = gm$(".gm-fb .msg small"); if (fbn) fbn.textContent = gt("treasure.pickC");
-      const k = await new Promise(res => z.querySelectorAll("[data-c]").forEach(b => b.onclick = () => res(+b.dataset.c)));
-      if (GM.st !== s) return;
-      const btns = z.querySelectorAll("[data-c]"); btns.forEach(b => b.disabled = true);
-      z.querySelector(".tr-tip").remove();
-      btns[k].classList.add("open"); gmSnd("coin"); { const sm = gm$(".gm-fb .msg small"); if (sm) { sm.textContent = L[k].t; arabize(sm); } }
-      const l = L[k], before = s.score; s.score = l.mul ? Math.round(s.score * l.mul) : s.score + l.add; if (l.k === "x2" && before === 0) s.score += 20;
-      st.querySelector("#trG").textContent = s.score; arabize(st.querySelector(".tr-gold")); gmHud(true);
-      const c = gmCenter(btns[k], st); gmFloat(st, c.x, c.y - 50, s.score >= before ? `+${s.score - before}` : `-${before - s.score}`, s.score >= before ? "#fde047" : "#fca5a5");
-      await gmWait(650); btns.forEach((b, j) => { if (j !== k) b.classList.add("open", "dim"); }); await gmWait(700);
-    },
-    next(st) { const z = st.querySelector("#trZone"); if (z) z.innerHTML = ""; },
-    final(s) { const n = s.ans.filter((a, k) => a === s.qs[k].a).length / s.qs.length; return { win: n >= .7, medal: n >= .9 ? "👑" : n >= .7 ? "💎" : "🪙", title: gt("treasure.total", s.score) }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🎯" : r >= .6 ? "🏹" : "🎈", title: gt("balloons.total", n) }; }
   },
-  archery: {
-    init(st, s) {
-      s.d.shots = 0; s.d.pts = 0;
-      st.innerHTML = `<div class="ar-cloud" style="animation-delay:-6s"></div><div class="ar-cloud" style="top:30%;animation-delay:-17s;transform:scale(.7)"></div><div class="ar-aim"></div><div class="ar-tgt" id="arT">${gmTargetSVG}</div><div class="ar-bow">🏹</div><span class="ar-wind" id="arW"></span>`;
+  /* 🚀 steer the ship into the answer's gate */
+  space: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; d.lane = Math.min(1, q.o.length - 1);
+      ar.innerHTML = `<div class="sp-bar"><div class="sp-fuel"><i></i></div><button type="button" class="sp-go">${gt("space.go")}</button></div>
+      <div class="sp-lanes">${q.o.map((o, i) => `<div class="sp-lane" data-lane="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "sp-gate")}</div>`).join("")}</div>`;
+      d.ship = gmActor(ar, "sp-ship", gmRocket("#fde047", "#f59e0b"), 0, 0);
+      d.place = fly => { ar.querySelectorAll(".sp-lane").forEach(l => l.classList.toggle("on", +l.dataset.lane === d.lane)); const l = gmPos(ar.querySelector(`[data-lane="${d.lane}"]`), ar), x = d.ship.offsetWidth / 2 + 14; d.sx = gmRTL() ? ar.clientWidth - x : x; fly ? gmFly(d.ship, d.sx, l.y, 180) : gmPut(d.ship, d.sx, l.y); };
+      d.place();
+      d.go = () => gmChoose(d.lane);
+      ar.querySelectorAll(".sp-lane").forEach(l => l.onclick = () => { if (s.busy || s.ans[s.i] != null) return; const i = +l.dataset.lane; if (i === d.lane) return d.go(); d.lane = i; gmSnd("tap"); d.place(true); });
+      ar.querySelector(".sp-go").onclick = () => d.go();
+      const len = (q.q || "").replace(/<[^>]+>/g, "").length + q.o.join("").replace(/<[^>]+>/g, "").length, T = Math.min(75, Math.max(28, 20 + len * .22 + (q.f || /<(svg|img)/.test(q.o.join("")) ? 18 : 0)));
+      const f = ar.querySelector(".sp-fuel i"); requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transition = `width ${T}s linear`; f.style.width = "0%"; }));
+      clearTimeout(d.to); d.to = setTimeout(() => { if (GM.st === s && s.ans[s.i] == null && !s.busy) { gmBanner(ar, gt("space.out")); d.go(); } }, T * 1000); GM.timers.push(d.to);
     },
-    async answer(st, s, ok) {
-      const T = st.querySelector("#arT"), W = st.querySelector("#arW");
-      st.querySelectorAll(".ar-arrow").forEach(a => a.remove());
-      if (!ok) { gmBanner(st, gt("archery.miss")); await gmWait(800); return; }
-      const calm = s.streak >= 3; W.textContent = calm ? gt("archery.calm") : gt("archery.windy");
-      const speed = (calm ? 1.5 : 2.3) + s.i * .06, w = st.clientWidth, amp = Math.max(40, w / 2 - T.offsetWidth / 2 - 10);
-      const btn = document.createElement("button"); btn.type = "button"; btn.className = "ar-shoot"; btn.textContent = gt("archery.shoot"); st.appendChild(btn);
-      const fbn = gm$(".gm-fb .msg small"); if (fbn) fbn.textContent = gt("archery.shoot");
-      const t0 = performance.now(), ph = Math.random() * 6.28; let x = w / 2;
-      const loop = now => { x = w / 2 + amp * Math.sin(ph + (now - t0) / 1000 * speed); T.style.left = x + "px"; GM.raf = requestAnimationFrame(loop); };
-      GM.raf = requestAnimationFrame(loop);
-      await new Promise(res => { btn.onclick = res; st.onclick = e => { if (e.target === st || e.target.closest(".ar-tgt,.ar-aim,.ar-bow")) res(); }; });
-      st.onclick = null; cancelAnimationFrame(GM.raf); GM.raf = 0; btn.remove(); if (GM.st !== s) return;
-      const R = T.offsetWidth / 2, d = Math.abs(x - w / 2) / R;
-      const p = d < .2 ? 10 : d < .4 ? 8 : d < .6 ? 6 : d < .8 ? 4 : d < 1 ? 2 : 0;
-      const tc = gmCenter(T, st), bow = gmCenter(st.querySelector(".ar-bow"), st);
-      const ar = document.createElement("div"); ar.className = "ar-arrow"; st.appendChild(ar); gmSnd("whoosh");
-      const hx = w / 2 - 3, hy = tc.y - 17;
-      const an = ar.animate([{ transform: `translate(${bow.x - 3}px,${bow.y - 30}px)` }, { transform: `translate(${hx}px,${hy}px)` }], { duration: 380, easing: "cubic-bezier(.2,.8,.4,1)", fill: "forwards" });
-      await new Promise(r => { an.onfinish = r; GM.timers.push(setTimeout(r, 420)); });
-      if (p) { const off = x - w / 2; ar.remove(); const stuck = document.createElement("div"); stuck.className = "ar-arrow"; stuck.style.transform = `translate(${R - off - 3}px,${R - 22}px)`; T.appendChild(stuck); gmSnd(p === 10 ? "win" : "coin"); gmShake(T); }
-      else gmSnd("no");
-      s.d.shots++; s.d.pts += p; s.score += 50 + p * 15;
-      gmFloat(st, w / 2, tc.y - 30, p === 10 ? gt("archery.bull") : p ? gt("archery.ring", p) : gt("archery.miss"), p >= 8 ? "#facc15" : p ? "#fff" : "#fca5a5");
-      await gmWait(800);
+    key(e, s) {
+      const d = s.d, n = s.qs[s.i].o.length;
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") { d.lane = Math.max(0, Math.min(n - 1, d.lane + (e.key === "ArrowUp" ? -1 : 1))); gmSnd("tap"); d.place(true); return true; }
+      if (e.key === "Enter" || e.key === " ") { d.go(); return true; }
+      return false;
     },
-    next(st) { st.querySelectorAll(".ar-arrow").forEach(a => a.remove()); const T = st.querySelector("#arT"); if (T) T.style.left = "50%"; const W = st.querySelector("#arW"); if (W) W.textContent = ""; },
-    final(s) { const avg = s.d.shots ? s.d.pts / s.d.shots : 0; return { win: avg >= 6, medal: avg >= 8 ? "🎯" : avg >= 5 ? "🏹" : "🎪", title: gt("archery.total", s.d.pts) }; }
+    async resolve(ar, s, k, ok) {
+      const d = s.d, gate = gmOptEl(ar, k), g = gmPos(gate, ar), W = ar.clientWidth; clearTimeout(d.to);
+      const f = ar.querySelector(".sp-fuel i"); f.style.width = getComputedStyle(f).width; f.style.transition = "none"; ar.querySelector(".sp-go").remove();
+      if (d.lane !== k) { d.lane = k; d.place(); }
+      d.ship.classList.add("turbo"); gmSnd("boost");
+      const edge = gmRTL() ? g.x + g.w / 2 - 30 : g.x - g.w / 2 + 30;
+      await gmFly(d.ship, edge, g.y, 420, { ease: "ease-in" });
+      if (ok) { d.n++; gate.classList.add("warp"); gmSnd("win"); gmBanner(ar, gt("space.warp")); gmFloat(ar, g.x, g.y - 10, `+${s.gain}`, "#fde047"); await gmFly(d.ship, gmRTL() ? -90 : W + 90, g.y, 420, { ease: "ease-in", scale: 1.3 }); }
+      else { gate.classList.add("boom"); gmSnd("hit"); gmFloat(ar, edge, g.y, "💥", "#fff"); gmBanner(ar, gt("space.boom")); await gmFly(d.ship, d.sx, g.y, 620, { rot: gmRTL() ? 360 : -360 }); gmPut(d.ship, d.sx, g.y, 1, 0); }
+      d.ship.classList.remove("turbo"); await gmWait(400);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🚀" : "🛰️", title: gt("space.total", n) }; }
   }
 };
-
 /* ---- end ---- */
 function gmEnd() {
   const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf);
@@ -7446,114 +7486,142 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .gm-len button{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:6px 16px;font:700 14px var(--f-display)}
 .gm-len button[aria-pressed="true"]{background:#fbbf24;color:#2a1a00;border-color:#fbbf24}
 
-/* play */
-.gm-stage{position:relative;flex:0 0 auto;height:clamp(170px,34vh,300px);overflow:hidden;user-select:none;-webkit-user-select:none}
-.gm-q{flex:1 1 auto;overflow:auto;background:var(--bg);color:var(--ink);padding:16px 14px 0;border-radius:22px 22px 0 0;margin-top:-16px;position:relative;z-index:3;box-shadow:0 -12px 30px rgba(0,0,0,.35)}
-.gm-q .sheet{max-width:880px;margin:0 auto 12px}
-.gm-q .opt.ok{animation:gmOk .5s}
-.gm-q .opt.no{animation:gmNo .45s}
-@keyframes gmOk{30%{transform:scale(1.04)}}
-@keyframes gmNo{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-.gm-sol{max-width:880px;margin:0 auto 12px}
-.gm-fb{position:sticky;bottom:0;margin:0 -14px;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));padding-inline-start:128px;display:flex;align-items:center;gap:10px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line);min-height:64px}
-.gm-fb .msg{flex:1;font:700 15px var(--f-display);min-width:0}
-.gm-fb .msg.ok{color:var(--good)}.gm-fb .msg.no{color:var(--bad)}
-.gm-fb .msg small{display:block;font:500 13px var(--f-body);color:var(--muted)}
-.gm-next{border:0;border-radius:14px;padding:11px 22px;font:800 15.5px var(--f-display);background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 10px 22px -10px #4f46e5}
-.gm-next:disabled{opacity:.45;cursor:default}
-.gm-hint{flex:1;color:var(--muted);font-size:14px}
+/* play: the answer itself is the move */
+.gm-world{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;user-select:none;-webkit-user-select:none}
+.gm-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.gm-mission{position:relative;z-index:3;flex:0 1 auto;max-height:40%;overflow:auto;margin:8px 10px 0;padding:8px 14px 10px;border-radius:16px;background:rgba(255,255,255,.96);color:#1f2937;box-shadow:0 10px 26px -12px rgba(0,0,0,.55);user-select:text;-webkit-user-select:text}
+.gm-mission .qtext{font-size:clamp(15px,2.1vw,18px);line-height:1.75;font-weight:600;color:#1f2937}
+.gm-mission .qfig{margin:6px 0 2px;text-align:center}
+.gm-mission .qfig svg,.gm-mission .qfig img{max-width:100%;height:auto;max-height:26vh}
+.gm-task{display:inline-block;font:800 11.5px var(--f-display);color:#fff;background:var(--gc,#4f46e5);padding:2px 10px;border-radius:999px;margin-bottom:2px}
+.gm-arena{position:relative;z-index:2;flex:1 1 0;min-height:250px;touch-action:manipulation}
+.gx-actor{position:absolute;left:0;top:0;z-index:5;pointer-events:none;will-change:transform}
+.opts-grid{display:grid;gap:8px;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr)}
+.opts-grid.long{grid-template-columns:minmax(0,1fr)}
+@media (min-width:760px){.opts-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.opts-grid.long{grid-template-columns:repeat(2,minmax(0,1fr))}.opts-grid.n2{grid-template-columns:repeat(2,minmax(0,1fr))}.opts-grid.n3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.gx-opt{position:relative;display:flex;align-items:center;gap:8px;border:0;margin:0;min-width:0;min-height:0;overflow:hidden;padding:6px 10px;text-align:start;color:#1f2937;font:700 clamp(15px,2.1vw,19px)/1.5 var(--f-body);background:#fff;border-radius:14px;transition:transform .18s,box-shadow .18s,opacity .3s,filter .3s}
+.gx-opt .bub{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:800 13px var(--f-display);color:#fff;background:var(--gc,#4f46e5)}
+.gx-opt .val{flex:1;min-width:0;overflow-wrap:anywhere}
+.gx-opt.fig .val{display:grid;place-items:center}
+.gx-opt .val svg,.gx-opt .val img{max-width:100%;max-height:var(--oh,90px);width:auto;height:auto;display:block}
+.gx-opt .val table{font-size:.8em}
+.gx-opt:not(:disabled):hover,.gx-opt:not(:disabled):focus-visible{transform:translateY(-3px) scale(1.02);box-shadow:0 0 0 3px #fde047,0 12px 22px -10px rgba(0,0,0,.5);outline:0}
+.gx-opt.ok{box-shadow:0 0 0 4px #22c55e,0 0 26px #4ade80!important;background:#ecfdf5!important;opacity:1!important;filter:none!important}
+.gx-opt.ok .bub{background:#16a34a}
+.gx-opt.no{box-shadow:0 0 0 4px #ef4444!important;background:#fef2f2!important}
+.gx-opt.no .bub{background:#dc2626}
+.gx-opt.dim{opacity:.5;filter:saturate(.4)}
+.gm-sheet{position:absolute;inset:auto 0 0 0;z-index:9;max-height:62%;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);border-radius:20px 20px 0 0;box-shadow:0 -14px 34px rgba(0,0,0,.45);animation:gmUp .35s cubic-bezier(.2,.9,.3,1.1);user-select:text;-webkit-user-select:text}
+.gm-sheet[hidden]{display:none}
+@keyframes gmUp{from{transform:translateY(100%)}}
+.gm-sol{overflow:auto;margin:10px 12px 0;flex:1 1 auto;min-height:0}
+.gm-row{flex:none;display:flex;align-items:center;gap:10px;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px));padding-inline-start:128px;min-height:66px}
+.gm-row .msg{flex:1;font:800 15.5px var(--f-display);min-width:0}
+.gm-row .msg.ok{color:var(--good)}.gm-row .msg.no{color:var(--bad)}
+.gm-row .msg small{display:block;font:500 13px var(--f-body);color:var(--muted)}
+.gm-next{border:0;border-radius:14px;padding:11px 22px;font:800 15.5px var(--f-display);background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 10px 22px -10px #4f46e5;white-space:nowrap}
+.gm-tip{position:absolute;z-index:6;inset-inline:0;bottom:6px;text-align:center;font:700 12.5px var(--f-display);color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);pointer-events:none;opacity:.9}
+
+/* ⚽ penalty */
+.g-penalty{background:linear-gradient(180deg,#0c4a6e 0,#0369a1 26%,#15803d 26.2%,#16a34a 100%);--gc:#15803d}
+.g-penalty .gm-bg{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 60px,transparent 60px 120px)}
+.pk-crowd{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(circle at 10px 10px,rgba(255,255,255,.35) 2.5px,transparent 3px) 0 0/22px 18px,radial-gradient(circle at 10px 10px,rgba(253,224,71,.4) 2.5px,transparent 3px) 11px 9px/22px 18px;opacity:.5}
+.pk-goal{position:absolute;inset:8px 12px 96px;border:7px solid #f8fafc;border-bottom:0;border-radius:10px 10px 0 0;padding:8px 8px 58px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),rgba(2,44,34,.35);box-shadow:0 10px 0 -4px rgba(0,0,0,.18)}
+.pk-goal .opts-grid{height:100%}
+.pk-zone{background:rgba(255,255,255,.93)}
+.pk-zone.goal{animation:pkNet .6s}
+@keyframes pkNet{30%{transform:scale(.93) translateY(-6px)}60%{transform:scale(1.03)}}
+.pk-spot{position:absolute;left:50%;bottom:34px;width:120px;height:26px;transform:translateX(-50%);border-radius:50%;border:3px solid rgba(255,255,255,.55)}
+.pk-board{position:absolute;bottom:10px;inset-inline-end:12px;z-index:6;display:flex;align-items:center;gap:8px;background:#0f172a;color:#fff;border-radius:12px;padding:6px 12px;font:800 13px var(--f-display);box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.pk-board b{font-size:20px;color:#fde047;min-width:16px;text-align:center}
+.pk-keeper{width:64px;height:74px}.pk-keeper svg{width:100%;height:100%;overflow:visible;animation:pkSway 1.3s ease-in-out infinite alternate}
+@keyframes pkSway{from{transform:translateX(-16px)}to{transform:translateX(16px)}}
+.pk-keeper.dive svg{animation:none}
+.pk-ball{font-size:40px;line-height:1;filter:drop-shadow(0 6px 5px rgba(0,0,0,.4))}
+
+/* 🐸 river */
+.g-river{background:linear-gradient(180deg,#0e7490,#0891b2 50%,#0e7490);--gc:#0e7490}
+.g-river .gm-bg{background:repeating-radial-gradient(ellipse 70px 16px at 50% 0,rgba(255,255,255,.2) 0 2px,transparent 3px 30px);animation:rvFlow 7s linear infinite}
+@keyframes rvFlow{to{background-position:140px 0}}
+.rv-far,.rv-near{position:absolute;inset-inline:0;background:linear-gradient(180deg,#65a30d,#3f6212);display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font:800 13px var(--f-display)}
+.rv-far{top:0;height:40px;border-radius:0 0 50% 50%/0 0 14px 14px;box-shadow:0 6px 0 #a16207}
+.rv-near{bottom:0;height:74px;border-radius:50% 50% 0 0/16px 16px 0 0;box-shadow:0 -6px 0 #a16207}
+.rv-pads{position:absolute;inset:56px 12px 92px}
+.rv-pad{background:radial-gradient(ellipse at 30% 25%,#d9f99d,#84cc16 70%);border-radius:38% 42% 40% 44%/46% 40% 48% 42%;padding:8px 14px;box-shadow:0 8px 0 -2px rgba(6,78,59,.55),inset 0 0 0 3px rgba(63,98,18,.35);animation:rvBob 3s ease-in-out infinite}
+.rv-pad:nth-child(2){animation-delay:-.8s}.rv-pad:nth-child(3){animation-delay:-1.6s}.rv-pad:nth-child(4){animation-delay:-2.3s}
+@keyframes rvBob{50%{translate:0 5px;rotate:1deg}}
+.rv-pad .val{background:rgba(255,255,255,.9);border-radius:10px;padding:3px 8px;text-align:center}
+.rv-pad.sink{animation:rvSink .9s forwards}
+@keyframes rvSink{to{translate:0 26px;scale:.8;opacity:.35;filter:saturate(.3)}}
+.rv-pad.ok{background:radial-gradient(ellipse at 30% 25%,#fef9c3,#facc15 75%)!important}
+.rv-frog{font-size:46px;line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35))}
+.rv-croc{font-size:34px;line-height:1;z-index:4}
+.rv-croc span{display:block;animation:rvCroc 2.4s ease-in-out infinite}
+@keyframes rvCroc{50%{transform:translateY(6px) rotate(-4deg)}}
+[dir="rtl"] .rv-croc span{scale:-1 1}
+.rv-ring{position:absolute;z-index:4;width:20px;height:20px;border-radius:50%;border:3px solid #fff;pointer-events:none;animation:rvRing .8s ease-out forwards}
+@keyframes rvRing{to{transform:translate(-50%,-50%) scale(6);opacity:0}}
+
+/* 🎈 balloons */
+.g-balloons .gm-tip{color:#0f172a;text-shadow:0 1px 3px #fff}.g-balloons{background:linear-gradient(180deg,#38bdf8 0,#bae6fd 70%,#fef3c7 100%);--gc:#0369a1}
+.bl-cloud{position:absolute;width:110px;height:32px;border-radius:30px;background:#fff;opacity:.8;animation:blCloud 40s linear infinite}
+.bl-cloud::before{content:"";position:absolute;width:52px;height:52px;border-radius:50%;background:#fff;top:-24px;left:20px}
+@keyframes blCloud{from{left:-140px}to{left:110%}}
+.bl-grid{position:absolute;inset:4px 10px 92px}
+.bl-cell{display:flex;flex-direction:column;align-items:stretch;min-width:0;min-height:0;cursor:crosshair;animation:blBob 3.4s ease-in-out infinite}
+.bl-cell:nth-child(2){animation-delay:-1.1s}.bl-cell:nth-child(3){animation-delay:-2s}.bl-cell:nth-child(4){animation-delay:-2.8s}
+@keyframes blBob{50%{translate:0 -7px}}
+.bl-b{flex:0 0 clamp(40px,32%,78px);min-height:0;display:block;margin:0 auto;overflow:visible;transition:transform .2s}
+.bl-cell:hover .bl-b{transform:scale(1.08)}
+.bl-cell .gx-opt{flex:1 1 0;cursor:crosshair;box-shadow:0 8px 16px -8px rgba(0,0,0,.45);border:2px solid var(--bc)}
+.bl-cell .gx-opt .bub{background:var(--bc)}
+.bl-b.pop{animation:blPop .28s ease-out forwards}
+@keyframes blPop{to{transform:scale(1.9);opacity:0}}
+.bl-cell.fall{animation:blFall .9s ease-in forwards}
+@keyframes blFall{to{translate:0 30px;rotate:5deg}}
+.bl-cell.glow .bl-b{filter:drop-shadow(0 0 10px #fde047)}
+.bl-bit{position:absolute;z-index:6;width:9px;height:9px;border-radius:50%;pointer-events:none}
+.bl-bow{width:62px;height:62px}.bl-bow svg{width:100%;height:100%;overflow:visible;transition:transform .08s linear}
+.bl-arrow{width:44px;height:6px}.bl-arrow i{display:block;width:100%;height:100%;background:linear-gradient(90deg,#78350f 0 78%,#475569 78%);border-radius:3px;clip-path:polygon(0 20%,78% 20%,78% 0,100% 50%,78% 100%,78% 80%,0 80%)}
+.bl-aim{position:absolute;z-index:4;height:0;border-top:3px dotted rgba(15,23,42,.45);transform-origin:0 50%;pointer-events:none}
+
+/* 🚀 space */
+.g-space{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
+.g-space .gm-bg,.g-space .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:spStars 9s linear infinite}
+.g-space .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:4s}
+@keyframes spStars{to{background-position:-320px 0}}
+[dir="rtl"] .g-space .gm-bg,[dir="rtl"] .g-space .gm-bg::after{animation-name:spStarsR}
+@keyframes spStarsR{to{background-position:320px 0}}
+.sp-bar{position:absolute;inset:6px 10px auto;height:40px;display:flex;align-items:center;gap:10px;z-index:6}
+.sp-fuel{flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;border:1px solid rgba(255,255,255,.25)}
+.sp-fuel i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f97316,#fde047,#4ade80);border-radius:999px}
+.sp-go{border:0;border-radius:999px;padding:8px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7);animation:gmPulse 1.1s infinite}
+.sp-lanes{position:absolute;inset:52px 8px 10px;display:flex;flex-direction:column;gap:7px}
+.sp-lane{flex:1 1 0;min-height:0;position:relative;border-radius:14px;cursor:pointer}
+.sp-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.13)}
+.sp-lane.on{background:linear-gradient(90deg,rgba(253,224,71,.16),transparent 60%)}
+[dir="rtl"] .sp-lane.on{background:linear-gradient(270deg,rgba(253,224,71,.16),transparent 60%)}
+.sp-gate{background:linear-gradient(90deg,rgba(30,27,75,.92),rgba(49,46,129,.82));color:#fff;position:absolute;top:0;bottom:0;max-height:120px;margin-block:auto;width:calc(100% - 150px);inset-inline-start:150px;border-radius:999px 18px 18px 999px;padding-inline-start:16px;box-shadow:0 0 0 3px var(--bc),0 0 18px var(--bc)}
+[dir="rtl"] .sp-gate{border-radius:18px 999px 999px 18px}
+.sp-gate .bub{background:var(--bc)}.sp-gate.fig .val{background:#fff;border-radius:10px;padding:3px;color:#1f2937}.sp-gate.ok,.sp-gate.no{color:#1f2937}
+.sp-lane.on .sp-gate{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047}
+.sp-gate.warp{animation:spWarp .6s}
+@keyframes spWarp{40%{transform:scale(1.06);filter:brightness(1.4)}}
+.sp-gate.boom{animation:gmShake .45s}
+.sp-ship{width:66px}.sp-ship svg{display:block;width:100%;overflow:visible}
+[dir="rtl"] .sp-ship svg{transform:scaleX(-1)}
+.sp-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
+@keyframes gmFl{to{opacity:.7}}
+.sp-ship.turbo .fl{transform:scale(2.6,1.5)}
+@media (max-width:560px){.sp-gate{width:calc(100% - 96px);inset-inline-start:96px}.sp-ship{width:52px}.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}}
 
 /* toasts & floating numbers */
 .gm-float{position:absolute;font:900 22px var(--f-display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 18px rgba(0,0,0,.4);pointer-events:none;z-index:6;white-space:nowrap;animation:gmFloat 1.2s ease-out forwards}
 @keyframes gmFloat{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}15%{opacity:1;transform:translate(-50%,0) scale(1.15)}100%{opacity:0;transform:translate(-50%,-46px) scale(1)}}
-.gm-banner{position:absolute;inset-inline:0;top:42%;text-align:center;font:900 clamp(22px,5vw,34px) var(--f-display);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.3),0 0 30px rgba(255,200,80,.6);pointer-events:none;z-index:7;animation:gmBan 1.3s ease-out forwards}
+.gm-banner{position:absolute;left:50%;top:40%;width:max-content;max-width:92%;margin-left:0;translate:-50% 0;padding:6px 22px;border-radius:999px;background:rgba(15,23,42,.82);text-align:center;font:900 clamp(22px,5vw,34px) var(--f-display);color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.3),0 0 30px rgba(255,200,80,.6);pointer-events:none;z-index:7;animation:gmBan 1.3s ease-out forwards}
 @keyframes gmBan{0%{opacity:0;transform:scale(.4)}20%{opacity:1;transform:scale(1.1)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05) translateY(-10px)}}
 .gm-shake{animation:gmShake .45s}
 @keyframes gmShake{20%,60%{transform:translateX(-7px) rotate(-2deg)}40%,80%{transform:translateX(7px) rotate(2deg)}}
-
-/* race */
-.g-race{background:radial-gradient(600px 240px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46)}
-.g-race .stars,.g-race .stars2{position:absolute;inset:0;background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;opacity:.8;animation:gmStars 18s linear infinite}
-.g-race .stars2{background-size:200px 140px;opacity:.45;animation-duration:9s}
-@keyframes gmStars{to{background-position:-320px 0}}
-[dir="rtl"] .g-race .stars,[dir="rtl"] .g-race .stars2{animation-name:gmStarsR}
-@keyframes gmStarsR{to{background-position:320px 0}}
-.rc-lanes{position:absolute;inset:12px 14px 12px;display:flex;flex-direction:column;justify-content:space-around}
-.rc-lane{position:relative;height:22%;display:flex;align-items:center}
-.rc-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.12)}
-.rc-name{position:absolute;inset-inline-start:0;top:-2px;font:700 11.5px var(--f-display);color:rgba(255,255,255,.7);z-index:2}
-.rc-lane.me .rc-name{color:#fde68a}
-.rc-track{position:absolute;inset-inline-start:0;inset-inline-end:58px;top:0;bottom:0}
-.rc-finish{position:absolute;inset-inline-end:40px;top:6px;bottom:6px;width:14px;background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 0 0/7px 7px;border-radius:2px;opacity:.85}
-.rc-planet{position:absolute;inset-inline-end:-4px;top:50%;transform:translateY(-50%);width:44px;height:44px}
-.rc-rk{position:absolute;top:50%;inset-inline-start:0;width:clamp(54px,9vw,74px);transform:translate(0,-50%);transition:inset-inline-start 1s cubic-bezier(.25,.9,.3,1.1)}
-[dir="rtl"] .rc-rk svg{transform:scaleX(-1)}
-.rc-rk svg{display:block;width:100%;overflow:visible}
-.rc-rk .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
-.rc-rk.turbo .fl{transform:scale(2.1,1.5)}
-.rc-rk.turbo{filter:drop-shadow(0 0 10px #fb923c)}
-@keyframes gmFl{to{opacity:.7}}
-.rc-rk.me{filter:drop-shadow(0 0 8px rgba(253,230,138,.7))}
-.rc-rk.stall{animation:gmStall .5s}
-@keyframes gmStall{30%{transform:translate(0,-50%) rotate(-12deg)}60%{transform:translate(0,-50%) rotate(8deg)}}
-
-/* dragon */
-.g-dragon{background:linear-gradient(180deg,#1e1b4b 0,#6d28d9 55%,#f97316 100%)}
-.dr-mtn{position:absolute;inset:auto 0 0 0;height:46%;width:100%}
-.dr-row{position:absolute;inset:14px 6% 26px;display:flex;align-items:flex-end;justify-content:space-between}
-.dr-side{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative}
-.dr-hero{font-size:clamp(54px,11vh,84px);line-height:1;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
-.dr-boss{font-size:clamp(72px,16vh,140px);line-height:1;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));animation:gmBob 2.4s ease-in-out infinite}
-[dir="ltr"] .dr-boss{transform:scaleX(-1)}
-[dir="ltr"] .dr-boss{animation-name:gmBobL}
-@keyframes gmBob{50%{translate:0 -8px}}
-@keyframes gmBobL{50%{translate:0 -8px}}
-.dr-hearts{font-size:20px;letter-spacing:2px;min-height:26px}
-.dr-hearts .lost{filter:grayscale(1);opacity:.35}
-.dr-hp{width:clamp(130px,30vw,240px);height:16px;border-radius:999px;background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.5);overflow:hidden}
-.dr-hp i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#22c55e,#a3e635);transition:width .6s ease}
-.dr-hp.mid i{background:linear-gradient(90deg,#f59e0b,#facc15)}.dr-hp.low i{background:linear-gradient(90deg,#dc2626,#f97316)}
-.dr-lbl{font:700 12px var(--f-display);color:#fff;opacity:.85}
-.gm-proj{position:absolute;z-index:6;font-size:36px;pointer-events:none;left:0;top:0;filter:drop-shadow(0 0 10px #fff)}
-
-/* treasure */
-.g-treasure{background:linear-gradient(180deg,#38bdf8 0,#7dd3fc 45%,#06b6d4 46%,#0e7490 100%)}
-.tr-sun{position:absolute;top:14px;inset-inline-end:8%;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle,#fff7c2,#fbbf24);box-shadow:0 0 40px #fde047}
-.tr-wave{position:absolute;inset:auto -20% 0 -20%;height:58%;background:repeating-radial-gradient(ellipse 60px 14px at 50% 0,rgba(255,255,255,.25) 0 2px,transparent 3px 26px);animation:gmWave 6s linear infinite;opacity:.6}
-@keyframes gmWave{to{transform:translateX(60px)}}
-.tr-island{position:absolute;bottom:-18px;inset-inline-start:4%;width:38%;height:46%;background:radial-gradient(ellipse at 50% 100%,#fcd34d 0,#f59e0b 60%,transparent 61%)}
-.tr-palm{position:absolute;bottom:8%;inset-inline-start:12%;font-size:clamp(48px,10vh,80px);line-height:1}
-.tr-gold{position:absolute;top:12px;inset-inline-start:14px;display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.35);padding:6px 14px 6px 10px;border-radius:999px;font:900 22px var(--f-display);color:#fde68a;z-index:4}
-.tr-gold .coin{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff7c2,#f59e0b 60%,#b45309);box-shadow:inset 0 0 0 2px #b45309}
-.tr-chests{position:absolute;inset:auto 0 calc(8% + 14px) 0;display:flex;justify-content:center;gap:clamp(10px,4vw,34px);z-index:4}
-.tr-chest{border:0;background:none;padding:0;width:clamp(74px,18vw,118px);position:relative;transition:transform .2s;filter:drop-shadow(0 8px 10px rgba(0,0,0,.35))}
-.tr-chest:not(:disabled):hover{transform:translateY(-6px) rotate(-2deg)}
-.tr-chest:not(:disabled){animation:gmChest 1.6s ease-in-out infinite}
-.tr-chest:nth-child(2){animation-delay:.2s}.tr-chest:nth-child(3){animation-delay:.4s}
-@keyframes gmChest{50%{transform:translateY(-5px)}}
-.tr-chest svg{width:100%;display:block;overflow:visible}
-.tr-chest .lid{transform-box:fill-box;transform-origin:0 100%;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
-.tr-chest.open .lid{transform:rotate(-28deg) translate(-4px,-6px)}
-.tr-chest .loot{position:absolute;left:50%;top:-6%;transform:translate(-50%,0) scale(0);font:900 clamp(14px,3.2vw,19px) var(--f-display);background:#fff;color:#1f2937;padding:3px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.25);transition:transform .45s .15s cubic-bezier(.3,1.6,.5,1)}
-.tr-chest.open .loot{transform:translate(-50%,-70%) scale(1)}
-.tr-chest.dim{opacity:.55}
-.tr-chest.dim .loot{font-size:12px}
-.tr-tip{position:absolute;inset-inline:0;top:30%;text-align:center;font:800 18px var(--f-display);color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.4);z-index:4}
-
-/* archery */
-.g-archery{background:linear-gradient(180deg,#bae6fd 0,#e0f2fe 52%,#86efac 53%,#16a34a 100%)}
-.ar-cloud{position:absolute;top:14%;width:90px;height:28px;border-radius:30px;background:#fff;opacity:.85;animation:gmCloud 26s linear infinite}
-.ar-cloud::before{content:"";position:absolute;width:44px;height:44px;border-radius:50%;background:#fff;top:-20px;left:16px}
-@keyframes gmCloud{from{left:-120px}to{left:110%}}
-.ar-tgt{position:absolute;top:14%;width:clamp(78px,15vh,118px);aspect-ratio:1;transform:translateX(-50%);left:50%}
-.ar-tgt svg{width:100%;height:100%;display:block}
-.ar-tgt::after{content:"";position:absolute;left:50%;top:100%;width:6px;height:70%;transform:translateX(-50%);background:#78350f;border-radius:3px;z-index:-1}
-.ar-aim{position:absolute;left:50%;top:6%;bottom:26%;border-left:2px dashed rgba(220,38,38,.6);transform:translateX(-1px)}
-.ar-bow{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);font-size:clamp(40px,8vh,58px);line-height:1}
-.ar-arrow{position:absolute;width:6px;height:34px;left:0;top:0;background:linear-gradient(#7c2d12,#a16207);border-radius:3px;z-index:5}
-.ar-arrow::before{content:"";position:absolute;top:-8px;left:-4px;border:7px solid transparent;border-bottom:10px solid #475569;border-top:0}
-.ar-shoot{position:absolute;bottom:30px;inset-inline-end:14px;border:0;border-radius:999px;padding:10px 26px;font:900 18px var(--f-display);color:#fff;background:linear-gradient(135deg,#dc2626,#f97316);box-shadow:0 10px 24px -8px #b91c1c;z-index:6;animation:gmPulse 1s infinite}
-.ar-wind{position:absolute;top:10px;inset-inline-start:12px;font:700 13px var(--f-display);color:#0f172a;background:rgba(255,255,255,.7);padding:4px 10px;border-radius:999px}
 
 /* end screen */
 .gm-end{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px 110px;background:radial-gradient(800px 400px at 50% 0,#4c1d95 0,transparent 70%),#0b1026}
@@ -7585,7 +7653,6 @@ html.gm-open,html.gm-open body{overflow:hidden}
   .gm-cards{grid-template-columns:1fr 1fr;gap:10px}.gm-card .art{height:84px}.gm-card b{font-size:16px}.gm-card .txt{padding:8px 10px 12px}.gm-card .txt span{font-size:12px;line-height:1.45}.gm-card .tag{display:none}
   .gm-stats{grid-template-columns:repeat(2,1fr)}
   .gm-top{gap:6px;padding-inline:10px}.gm-chip{padding:4px 8px;font-size:12.5px}
-  .gm-fb{padding-inline-start:118px}.gm-next{padding:10px 16px}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
@@ -8273,46 +8340,44 @@ async function record(r) {
 function finishPractice() { const r = RUN; const c = r.ans.filter((a, k) => a === r.qs[k].a).length; r.done = { correct: c, pct: Math.round(100 * c / r.qs.length), used: Math.floor((Date.now() - r.start) / 1000) }; go("result"); record(r); }
 function finishExam() { stopTimer(); const r = RUN; if (r.done) return; const c = r.ans.filter((a, k) => a === r.qs[k].a).length; r.done = { correct: c, pct: Math.round(100 * c / r.qs.length), used: Math.min(r.total, Math.floor((Date.now() - r.start) / 1000)) }; go("result"); record(r); }
 
-/* ---------- game mode: turn any idea's questions into a game ---------- */
+/* ---------- game mode: the answer itself is the move ---------- */
 const GM_TX = {
   ar: {
-    play: "🎮 حوّلها للعبة", pick: "اختر لعبتك", sub: "نفس أسئلة الفكرة… لكن كل إجابة صحيحة تحرّك اللعبة. اختر عالمك وابدأ!",
-    len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "اعرض الشرح",
-    again: "🔁 العب مرة أخرى", other: "🎲 لعبة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
-    praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "إجابة صحيحة!", "مذهل!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
+    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تسدّدها، تقفز عليها، تصيبها أو تطير نحوها!",
+    len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "الشرح",
+    again: "🔁 العب مرة أخرى", other: "🎲 مغامرة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
+    praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "مذهل!", "يا سلام!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
     acc: "الدقة", best: "أفضل متتالية", time: "الوقت", pts: "النقاط", rec: "🏅 رقم قياسي جديد!", recOld: s => `أفضل نتيجة لك: ${s}`, saved: "حُفظت الجولة في نتائجك ✓", saveFail: "تعذّر حفظ الجولة",
-    streak: n => `${n} متتالية!`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.", tapNext: "أجب لتتحرك اللعبة",
-    you: "أنت", me: "أنت",
+    streak: n => `${n} متتالية 🔥`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.",
     games: {
-      race: { n: "سباق المجرّة", d: "تسابق مع ٣ صواريخ. كل إجابة صحيحة دفعة للأمام، و٣ إجابات متتالية تشغّل التيربو 🔥", tag: "سرعة" },
-      dragon: { n: "معركة التنين", d: "اهزم التنين قبل أن تنفد قلوبك. المتتالية والسرعة تضاعفان قوة ضربتك ⚡", tag: "مغامرة" },
-      treasure: { n: "جزيرة الكنز", d: "كل إجابة صحيحة تفتح لك صندوقًا من ثلاثة… ذهب، ألماس، ومفاجآت!", tag: "حظ وذكاء" },
-      archery: { n: "بطل الرماية", d: "أجب صح لتحصل على سهم، ثم صوّب على الهدف المتحرك في اللحظة المناسبة 🎯", tag: "مهارة" }
+      penalty: { n: "ركلات الترجيح", d: "المرمى مقسوم على الإجابات. سدّد الكرة في خانة الإجابة الصحيحة لتسجّل… وإلا تصدّى لها الحارس!", tag: "كرة قدم", task: "⚽ سدّد في خانة الإجابة الصحيحة", tip: "اضغط على الخانة لتسدّد" },
+      river: { n: "عبور النهر", d: "الإجابات أوراق لوتس فوق الماء. اقفز بالضفدع على الورقة الصحيحة لتعبر… الخاطئة تغرق والتمساح ينتظر!", tag: "مغامرة", task: "🐸 اقفز على ورقة الإجابة الصحيحة", tip: "اضغط على الورقة لتقفز" },
+      balloons: { n: "صيّاد البالونات", d: "كل بالون يحمل إجابة. صوّب القوس وأطلق السهم على بالون الإجابة الصحيحة فقط!", tag: "تصويب", task: "🏹 أصِب بالون الإجابة الصحيحة", tip: "صوّب واضغط على البالون لتطلق السهم" },
+      space: { n: "بوابات المجرّة", d: "أربع بوابات فضائية وإجابة واحدة صحيحة. وجّه مركبتك إلى المسار الصحيح وانطلق قبل نفاد الوقود!", tag: "فضاء", task: "🚀 وجّه المركبة إلى بوابة الإجابة الصحيحة", tip: "اضغط على المسار ثم «انطلق»" }
     },
-    race: { bots: ["نجم", "شهاب", "مذنّب"], turbo: "تيربو! 🔥", first: "المركز الأول! 🏆", place: p => `المركز ${["الأول", "الثاني", "الثالث", "الرابع"][p - 1]}`, finishLine: "وصلت لخط النهاية أولًا!", stall: "توقف المحرك!" },
-    dragon: { hp: "التنين", combo: m => `كومبو ×${m}`, fast: "ضربة سريعة!", win: "هزمت التنين! 🏆", lose: "التنين انتصر هذه المرة", fled: "التنين هرب جريحًا!", hit: "أصابك اللهب!" },
-    treasure: { pickC: "اختر صندوقًا!", lost: "🌊 الموجة أخذت دورك", total: n => `جمعت ${n} عملة ذهبية!`, x2: "×٢ مضاعفة!", gem: "💎 ألماسة!", octo: "🐙 أخطبوط أخذ ٢٥٪", map: "🧭 خريطة +١٥" },
-    archery: { shoot: "🏹 أطلق!", miss: "فاتك السهم", bull: "في المنتصف تمامًا! 🎯", calm: "🍃 الريح هادئة", windy: "💨 الريح قوية", ring: p => `+${p}`, total: n => `مجموع الرماية: ${n}` },
+    penalty: { goal: "جوووول! ⚽", save: "تصدّى الحارس! 🧤", you: "أنت", keeper: "الحارس", win: (g, v) => `فزت ${g} – ${v} 🏆`, draw: (g, v) => `تعادل ${g} – ${v}`, lose: (g, v) => `الحارس فاز ${v} – ${g}` },
+    river: { safe: "قفزة آمنة! 🌿", sink: "غرقت الورقة! 💦", bank: "🏁 الضفة الأخرى", total: n => `عبرت النهر ${n} مرة` },
+    balloons: { pop: "إصابة! 🎯", storm: "بالون خاطئ! ⛈️", miss: "صوّب على بالون!", total: n => `أصبت ${n} بالون صحيح` },
+    space: { go: "انطلق 🚀", warp: "قفزة ضوئية! ✨", boom: "بوابة خاطئة! 💥", total: n => `${n} قفزات ضوئية ناجحة`, out: "نفد الوقود!" },
     end: { great: "أداء أبطال!", good: "أداء رائع!", ok: "بداية جيدة!", try: "حاول مرة أخرى!" }
   },
   en: {
-    play: "🎮 Play it as a game", pick: "Choose your game", sub: "Same questions from this idea — but every right answer moves the game. Pick a world and start!",
-    len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Show solution",
-    again: "🔁 Play again", other: "🎲 Another game", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
-    praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Correct!", "Amazing!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
+    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you kick it, jump on it, shoot it or fly into it!",
+    len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Solution",
+    again: "🔁 Play again", other: "🎲 Another adventure", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
+    praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Amazing!", "Superb!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
     acc: "Accuracy", best: "Best streak", time: "Time", pts: "Points", rec: "🏅 New personal best!", recOld: s => `Your best: ${s}`, saved: "Round saved to your results ✓", saveFail: "Could not save this round",
-    streak: n => `${n} in a row!`, noQs: "Not enough questions for this idea.", tapNext: "Answer to move the game",
-    you: "You", me: "You",
+    streak: n => `${n} in a row 🔥`, noQs: "Not enough questions for this idea.",
     games: {
-      race: { n: "Galaxy Race", d: "Race three rockets. Each right answer is a boost, and three in a row fires the turbo 🔥", tag: "Speed" },
-      dragon: { n: "Dragon Battle", d: "Defeat the dragon before your hearts run out. Streaks and speed multiply your strike ⚡", tag: "Adventure" },
-      treasure: { n: "Treasure Island", d: "Each right answer opens one of three chests… gold, gems and surprises!", tag: "Luck & brains" },
-      archery: { n: "Archery Champion", d: "Answer right to earn an arrow, then shoot the moving target at the perfect moment 🎯", tag: "Skill" }
+      penalty: { n: "Penalty Shootout", d: "The goal is split into the answers. Kick the ball into the right answer to score — or the keeper saves it!", tag: "Football", task: "⚽ Shoot into the correct answer", tip: "Tap a zone to shoot" },
+      river: { n: "River Crossing", d: "The answers are lily pads. Jump the frog onto the right one to cross — wrong pads sink, and the crocodile is waiting!", tag: "Adventure", task: "🐸 Jump onto the correct answer", tip: "Tap a pad to jump" },
+      balloons: { n: "Balloon Hunter", d: "Each balloon carries an answer. Aim your bow and shoot only the balloon with the right answer!", tag: "Aim", task: "🏹 Hit the balloon with the correct answer", tip: "Aim and tap a balloon to shoot" },
+      space: { n: "Galaxy Gates", d: "Four space gates, one right answer. Steer your ship to the right lane and launch before the fuel runs out!", tag: "Space", task: "🚀 Steer into the gate with the correct answer", tip: "Tap a lane, then “Launch”" }
     },
-    race: { bots: ["Nova", "Comet", "Meteor"], turbo: "Turbo! 🔥", first: "1st place! 🏆", place: p => `${["1st", "2nd", "3rd", "4th"][p - 1]} place`, finishLine: "You crossed the finish line first!", stall: "Engine stalled!" },
-    dragon: { hp: "Dragon", combo: m => `Combo ×${m}`, fast: "Quick strike!", win: "You beat the dragon! 🏆", lose: "The dragon won this time", fled: "The dragon fled, wounded!", hit: "Fire hit you!" },
-    treasure: { pickC: "Pick a chest!", lost: "🌊 The wave took your turn", total: n => `You collected ${n} gold coins!`, x2: "×2 Double!", gem: "💎 A gem!", octo: "🐙 Octopus took 25%", map: "🧭 Map +15" },
-    archery: { shoot: "🏹 Shoot!", miss: "No arrow this time", bull: "Bullseye! 🎯", calm: "🍃 Calm wind", windy: "💨 Strong wind", ring: p => `+${p}`, total: n => `Archery total: ${n}` },
+    penalty: { goal: "GOAL! ⚽", save: "Saved by the keeper! 🧤", you: "You", keeper: "Keeper", win: (g, v) => `You won ${g} – ${v} 🏆`, draw: (g, v) => `Draw ${g} – ${v}`, lose: (g, v) => `Keeper won ${v} – ${g}` },
+    river: { safe: "Safe jump! 🌿", sink: "The pad sank! 💦", bank: "🏁 Far bank", total: n => `You crossed the river ${n} times` },
+    balloons: { pop: "Hit! 🎯", storm: "Wrong balloon! ⛈️", miss: "Aim at a balloon!", total: n => `You hit ${n} correct balloons` },
+    space: { go: "Launch 🚀", warp: "Light jump! ✨", boom: "Wrong gate! 💥", total: n => `${n} successful light jumps`, out: "Out of fuel!" },
     end: { great: "Champion play!", good: "Great play!", ok: "Good start!", try: "Try again!" }
   }
 };
@@ -8322,7 +8387,7 @@ const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
 /* ---- sound ---- */
-const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]] };
+const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]] };
 function gmSnd(k) {
   if (GM.mute) return;
   try {
@@ -8334,15 +8399,16 @@ function gmSnd(k) {
 
 /* ---- art ---- */
 const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmChestSVG = `<svg viewBox="0 0 80 72" aria-hidden="true"><g class="lid"><path d="M6 32 Q6 9 40 9 Q74 9 74 32Z" fill="#c2410c" stroke="#7c2d12" stroke-width="3"/><path d="M14 30 Q15 16 40 15 Q65 16 66 30" fill="none" stroke="#f59e0b" stroke-width="2.5"/><rect x="36" y="9" width="8" height="23" fill="#fbbf24"/></g><rect x="6" y="32" width="68" height="34" rx="4" fill="#9a3412" stroke="#7c2d12" stroke-width="3"/><rect x="6" y="32" width="68" height="6" fill="#7c2d12" opacity=".35"/><rect x="36" y="32" width="8" height="34" fill="#fbbf24"/><rect x="33.5" y="37" width="13" height="11" rx="2.5" fill="#fde68a" stroke="#7c2d12" stroke-width="2"/><circle cx="40" cy="42.5" r="1.8" fill="#7c2d12"/></svg>`;
-const gmTargetSVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="49" fill="#fff" stroke="#334155" stroke-width="1.5"/><circle cx="50" cy="50" r="39.2" fill="#0f172a"/><circle cx="50" cy="50" r="29.4" fill="#2563eb"/><circle cx="50" cy="50" r="19.6" fill="#dc2626"/><circle cx="50" cy="50" r="9.8" fill="#facc15"/><circle cx="50" cy="50" r="2" fill="#0f172a"/></svg>`;
+const gmBalloon = c => `<svg class="bl-b" viewBox="0 0 60 80" aria-hidden="true"><path d="M30 2C11 2 3 19 7 34c4 14 16 22 23 24 7-2 19-10 23-24C57 19 49 2 30 2Z" fill="${c}"/><ellipse cx="20" cy="20" rx="6" ry="10" fill="#fff" opacity=".4" transform="rotate(-20 20 20)"/><path d="M26 58h8l-4 7Z" fill="${c}"/><path d="M30 65q-5 7 0 15" stroke="#64748b" stroke-width="1.6" fill="none"/></svg>`;
+const gmKeeper = `<svg viewBox="0 0 64 74" aria-hidden="true"><path d="M20 30 L6 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><path d="M44 30 L58 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><circle cx="6" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><circle cx="58" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><rect x="18" y="26" width="28" height="28" rx="9" fill="#facc15"/><path d="M24 54 L22 70 M40 54 L42 70" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><circle cx="32" cy="16" r="11" fill="#fcd9b6"/><path d="M21 14 Q32 0 43 14 Q32 8 21 14Z" fill="#1e293b"/><circle cx="28" cy="17" r="1.6" fill="#1e293b"/><circle cx="36" cy="17" r="1.6" fill="#1e293b"/><path d="M28 21.5 Q32 24 36 21.5" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><text x="32" y="46" font-size="13" font-weight="900" text-anchor="middle" fill="#1e293b">1</text></svg>`;
+const gmBow = `<svg viewBox="0 0 74 74" aria-hidden="true"><path d="M10 44 Q37 6 64 44" fill="none" stroke="#92400e" stroke-width="6" stroke-linecap="round"/><path d="M10 44 L37 52 L64 44" fill="none" stroke="#e2e8f0" stroke-width="2"/><path d="M37 60 V10" stroke="#78350f" stroke-width="4" stroke-linecap="round"/><path d="M37 2 L30 14 H44Z" fill="#475569"/><path d="M37 60 l-6 8 M37 60 l6 8" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/></svg>`;
+const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
 const GM_GAMES = [
-  { id: "race", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="210" cy="30" r="1.6"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="100" r="1.2"/><circle cx="170" cy="110" r="1"/></g><circle cx="262" cy="34" r="22" fill="#f472b6"/><ellipse cx="262" cy="34" rx="36" ry="7" fill="none" stroke="#fbcfe8" stroke-width="3"/><g transform="translate(120 34) scale(1.5)">${gmRocket("#fde047", "#f59e0b").replace(/<\/?svg[^>]*>/g, "")}</g><g transform="translate(40 72) scale(1.3)">${gmRocket("#38bdf8", "#0369a1").replace(/<\/?svg[^>]*>/g, "")}</g><g transform="translate(160 86) scale(1.1)">${gmRocket("#a78bfa", "#6d28d9").replace(/<\/?svg[^>]*>/g, "")}</g></svg>` },
-  { id: "dragon", c1: "#db2777", c2: "#4c0519", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gmdg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b0764"/><stop offset=".7" stop-color="#be185d"/><stop offset="1" stop-color="#fb923c"/></linearGradient></defs><rect width="300" height="128" fill="url(#gmdg)"/><path d="M0 128 L50 70 L90 100 L150 50 L210 104 L250 78 L300 110 V128Z" fill="#1e0b2e"/><text x="205" y="98" font-size="70" text-anchor="middle">🐉</text><text x="70" y="104" font-size="44" text-anchor="middle">🧙</text><text x="138" y="70" font-size="26" text-anchor="middle">⚡</text></svg>` },
-  { id: "treasure", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="64" width="300" height="64" fill="#0891b2"/><ellipse cx="90" cy="128" rx="110" ry="42" fill="#fbbf24"/><circle cx="262" cy="26" r="16" fill="#fde047"/><text x="44" y="96" font-size="52" text-anchor="middle">🌴</text><g transform="translate(118 58) scale(.85)">${gmChestSVG.replace(/<\/?svg[^>]*>/g, "")}</g><text x="236" y="104" font-size="26" text-anchor="middle">💎</text><text x="210" y="80" font-size="20" text-anchor="middle">🪙</text></svg>` },
-  { id: "archery", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#bae6fd"/><rect y="78" width="300" height="50" fill="#22c55e"/><rect x="186" y="60" width="5" height="44" fill="#78350f"/><g transform="translate(150 10) scale(.8)">${gmTargetSVG.replace(/<\/?svg[^>]*>/g, "")}</g><rect x="76" y="64" width="80" height="4" rx="2" fill="#7c2d12" transform="rotate(-14 116 66)"/><text x="58" y="118" font-size="44" text-anchor="middle">🏹</text></svg>` }
+  { id: "penalty", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0369a1"/><rect y="70" width="300" height="58" fill="#16a34a"/><rect x="60" y="14" width="180" height="78" fill="rgba(255,255,255,.14)" stroke="#fff" stroke-width="6"/><path d="M150 17 V90 M63 53 H237" stroke="#fff" stroke-width="2" opacity=".7"/><g font-size="20" font-weight="900" fill="#fff" text-anchor="middle"><text x="105" y="42">أ</text><text x="195" y="42">ب</text><text x="105" y="80">ج</text><text x="195" y="80">د</text></g><g transform="translate(118 44) scale(.9)">${gmIn(gmKeeper)}</g><text x="216" y="120" font-size="30" text-anchor="middle">⚽</text></svg>` },
+  { id: "river", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0891b2"/><rect width="300" height="20" fill="#65a30d"/><rect y="108" width="300" height="20" fill="#65a30d"/><g fill="#a3e635" stroke="#3f6212" stroke-width="3"><ellipse cx="60" cy="62" rx="36" ry="22"/><ellipse cx="150" cy="70" rx="36" ry="22"/><ellipse cx="240" cy="58" rx="36" ry="22"/></g><g font-size="20" font-weight="900" fill="#14532d" text-anchor="middle"><text x="60" y="69">أ</text><text x="240" y="65">ج</text></g><text x="150" y="80" font-size="34" text-anchor="middle">🐸</text><text x="262" y="110" font-size="30" text-anchor="middle">🐊</text></svg>` },
+  { id: "balloons", c1: "#0ea5e9", c2: "#075985", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><ellipse cx="60" cy="24" rx="36" ry="10" fill="#fff" opacity=".8"/><g transform="translate(40 14) scale(.95)">${gmIn(gmBalloon("#ef4444"))}</g><g transform="translate(110 30) scale(.95)">${gmIn(gmBalloon("#f59e0b"))}</g><g transform="translate(180 8) scale(.95)">${gmIn(gmBalloon("#22c55e"))}</g><g transform="translate(240 34) scale(.95)">${gmIn(gmBalloon("#8b5cf6"))}</g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="68" y="48">أ</text><text x="138" y="64">ب</text><text x="208" y="42">ج</text><text x="268" y="68">د</text></g><g transform="translate(120 66) rotate(28 37 37) scale(.8)">${gmIn(gmBow)}</g></svg>` },
+  { id: "space", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="150" cy="116" r="1"/></g><g fill="none" stroke-width="5"><ellipse cx="226" cy="26" rx="12" ry="18" stroke="#f472b6"/><ellipse cx="226" cy="64" rx="12" ry="18" stroke="#fde047"/><ellipse cx="226" cy="102" rx="12" ry="18" stroke="#34d399"/></g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="226" y="31">أ</text><text x="226" y="69">ب</text><text x="226" y="107">ج</text></g><g transform="translate(56 40) scale(1.5)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g></svg>` }
 ];
-
 /* ---- shell ---- */
 function openGame(ideaId) {
   GM.idea = ideaId; gmClose(true);
@@ -8379,199 +8445,213 @@ function gmPicker() {
   GM.el.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { gmSnd("tap"); gmStart(b.dataset.g); });
   const f = gm$(".gm-card"); if (f) f.focus({ preventScroll: true });
 }
+/* ---- engine ---- */
+const gmRTL = () => LANGUI !== "en";
+const gmT = (x, y, sc = 1, r = 0) => `translate(${x}px,${y}px) translate(-50%,-50%) scale(${sc}) rotate(${r}deg)`;
+function gmPos(el, ar) { const r = el.getBoundingClientRect(), R = ar.getBoundingClientRect(); return { x: r.left - R.left + r.width / 2, y: r.top - R.top + r.height / 2, w: r.width, h: r.height }; }
+function gmActor(ar, cls, html, x, y) { const a = document.createElement("div"); a.className = "gx-actor " + cls; a.innerHTML = html; ar.appendChild(a); a._s = 1; a._r = 0; gmPut(a, x, y); return a; }
+function gmPut(a, x, y, sc = a._s, r = a._r) { a._x = x; a._y = y; a._s = sc; a._r = r; a.style.transform = gmT(x, y, sc, r); }
+function gmFly(a, x, y, ms, { arc = 0, scale = a._s, rot = a._r, ease = "ease-out" } = {}) {
+  const x0 = a._x, y0 = a._y, s0 = a._s, r0 = a._r;
+  const kf = [{ transform: gmT(x0, y0, s0, r0) }, { transform: gmT((x0 + x) / 2, (y0 + y) / 2 - arc, (s0 + scale) / 2 * (arc ? 1.18 : 1), (r0 + rot) / 2) }, { transform: gmT(x, y, scale, rot) }];
+  gmPut(a, x, y, scale, rot);
+  let an; try { an = a.animate(kf, { duration: ms, easing: ease }); } catch (e) { }
+  return new Promise(res => { let done = false; const f = () => { if (!done) { done = true; res(); } }; if (an) an.onfinish = f; GM.timers.push(setTimeout(f, ms + 60)); });
+}
+function gmFloat(ar, x, y, txt, color) { const f = document.createElement("div"); f.className = "gm-float"; f.textContent = txt; f.style.left = x + "px"; f.style.top = y + "px"; if (color) f.style.color = color; ar.appendChild(f); arabize(f); GM.timers.push(setTimeout(() => f.remove(), 1300)); }
+function gmBanner(ar, txt) { const b = document.createElement("div"); b.className = "gm-banner"; b.textContent = txt; ar.appendChild(b); arabize(b); GM.timers.push(setTimeout(() => b.remove(), 1400)); }
+function gmShake(el) { el.classList.remove("gm-shake"); void el.offsetWidth; el.classList.add("gm-shake"); }
+const gmStreakMul = s => Math.min(1 + .25 * Math.max(0, s.streak - 1), 2);
+const gmOptEl = (ar, k) => ar.querySelector(`.gx-opt[data-opt="${k}"]`);
+function gmOpt(q, i, cls) { const fig = /<(svg|img|table)/i.test(q.o[i]); return `<button type="button" class="gx-opt ${cls}${fig ? " fig" : ""}" data-opt="${i}"><span class="bub">${LETS()[i]}</span><span class="val">${q.o[i]}</span></button>`; }
+const gmGrid = q => `opts-grid n${q.o.length}${q.c === 2 ? " long" : ""}`;
+function gmFit(ar) {
+  ar.querySelectorAll(".gx-opt").forEach(el => {
+    el.style.setProperty("--oh", Math.max(30, el.clientHeight - 14) + "px");
+    let fs = parseFloat(getComputedStyle(el).fontSize), n = 0;
+    while ((el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1) && fs > 10 && n++ < 10) { fs -= 1; el.style.fontSize = fs + "px"; el.style.lineHeight = "1.3"; }
+  });
+}
 function gmStart(gid) {
   const I = ideaById(GM.idea); let qs = [];
   try { qs = draw(I, GM.n); } catch (e) { qs = []; }
   if (!qs.length) { alert(gt("noQs")); return; }
   const G = GMG[gid];
-  const s = GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
+  GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, gain: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
   GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
-    `<div class="gm-stage g-${gid}" id="gmStage"></div><div class="gm-q" id="gmQ"></div>`;
-  gmBindTop(); G.init(gm$("#gmStage"), s); gmHud(); gmQ();
+    `<div class="gm-world g-${gid}" id="gmWorld"><div class="gm-bg">${G.bg ? G.bg() : ""}</div><div class="gm-mission" id="gmMis"></div><div class="gm-arena" id="gmArena"></div><div class="gm-sheet" id="gmSheet" hidden></div></div>`;
+  gmBindTop(); gmRound();
 }
 function gmHud(bump) {
-  const s = GM.st; if (!s) return;
-  const q = gm$("#gmQn"); q.textContent = gt("qn", Math.min(s.i + 1, s.qs.length), s.qs.length);
+  const s = GM.st; if (!s || !gm$("#gmQn")) return;
+  gm$("#gmQn").textContent = gt("qn", Math.min(s.i + 1, s.qs.length), s.qs.length);
   const sc = gm$("#gmSc"); sc.textContent = s.score; if (bump) { sc.classList.remove("pop"); void sc.offsetWidth; sc.classList.add("pop"); }
   const k = gm$("#gmStk"); k.innerHTML = `🔥 <b>${s.streak}</b>`; k.classList.toggle("hot", s.streak >= 3);
   arabize(gm$(".gm-hud"));
 }
-function gmQ() {
-  const s = GM.st, q = s.qs[s.i], picked = s.ans[s.i], box = gm$("#gmQ");
-  let h = `<div class="sheet">${qHTML(q, { reveal: picked != null ? q.a : null, mark: picked, pickable: picked == null })}</div>`;
-  if (picked != null && q.s && q.s.length) h += `<details class="gm-sol explain ${picked === q.a ? "ok" : "no"}" ${picked === q.a ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>`;
-  const last = s.i + 1 >= s.qs.length || s.over;
-  h += `<div class="gm-fb">${picked == null ? `<span class="gm-hint">${gt("tapNext")}</span>` : picked === q.a ? `<span class="msg ok">${s.msg}<small>${s.sub || ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
-  ${picked != null ? `<button type="button" class="gm-next" id="gmNext" ${s.ready ? "" : "disabled"}>${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button>` : ""}</div>`;
-  box.innerHTML = h; arabize(box);
-  box.querySelectorAll("[data-opt]").forEach(b => b.onclick = () => gmAnswer(+b.dataset.opt));
-  const nx = gm$("#gmNext"); if (nx) nx.onclick = gmNext;
-  if (picked == null) { box.scrollTop = 0; s.qT = Date.now(); }
+function gmRound() {
+  const s = GM.st, q = s.qs[s.i], mis = gm$("#gmMis"), ar = gm$("#gmArena"), sh = gm$("#gmSheet");
+  cancelAnimationFrame(GM.raf); s.busy = false; s.ready = false; sh.hidden = true; sh.innerHTML = "";
+  mis.innerHTML = `<span class="gm-task">${gt("games." + s.gid + ".task")}</span><div class="qtext">${q.q}</div>${q.f ? `<div class="qfig">${q.f}</div>` : ""}<div id="gmTr">${trHTML(q, null)}</div>`;
+  mis.scrollTop = 0; ar.innerHTML = ""; ar.onclick = ar.onpointermove = null;
+  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmHud(); s.qT = Date.now();
 }
-async function gmAnswer(k) {
+async function gmChoose(k) {
   const s = GM.st; if (!s || s.busy || s.ans[s.i] != null) return;
-  s.busy = true; s.ready = false; const q = s.qs[s.i], ok = k === q.a; s.ans[s.i] = k;
-  const secs = (Date.now() - s.qT) / 1000;
-  if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.msg = pick(gt("praise")); s.sub = s.streak >= 3 ? gt("streak", s.streak) : ""; gmSnd("ok"); }
-  else { s.streak = 0; gmSnd("no"); }
-  gmQ(); gmHud();
-  const fb = gm$(".gm-fb"); if (fb && fb.scrollIntoView) fb.scrollIntoView({ block: "nearest" });
-  try { await s.G.answer(gm$("#gmStage"), s, ok, secs); } catch (e) { console.warn(e); }
+  const q = s.qs[s.i]; if (!(k >= 0 && k < q.o.length)) return;
+  s.busy = true; s.ans[s.i] = k; const ok = k === q.a, secs = (Date.now() - s.qT) / 1000, ar = gm$("#gmArena");
+  ar.querySelectorAll(".gx-opt").forEach(b => b.disabled = true); const tip = ar.querySelector(".gm-tip"); if (tip) tip.remove();
+  if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.gain = Math.round(100 * gmStreakMul(s) + Math.max(0, 50 - secs * 1.5)); s.score += s.gain; } else { s.streak = 0; s.gain = 0; }
+  try { await s.G.resolve(ar, s, k, ok, q); } catch (e) { console.warn(e); }
   if (GM.st !== s) return;
-  s.busy = false; s.ready = true; gmHud(true);
-  const nx = gm$("#gmNext"); if (nx) { nx.disabled = false; nx.textContent = `${(s.i + 1 >= s.qs.length || s.over) ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}`; nx.focus({ preventScroll: true }); }
+  ar.querySelectorAll(".gx-opt").forEach(b => { const i = +b.dataset.opt; b.classList.add(i === q.a ? "ok" : i === k ? "no" : "dim"); });
+  gmHud(true);
+  const sh = gm$("#gmSheet"), last = s.i + 1 >= s.qs.length, tr = gm$("#gmTr"); if (tr) { tr.innerHTML = trHTML(q, q.a); arabize(tr); }
+  sh.innerHTML = `${q.s && q.s.length ? `<details class="gm-sol explain ${ok ? "ok" : "no"}" ${ok ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>` : ""}
+  <div class="gm-row">${ok ? `<span class="msg ok">${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
+  <button type="button" class="gm-next" id="gmNext">${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button></div>`;
+  sh.hidden = false; arabize(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
+  s.busy = false; s.ready = true;
 }
 function gmNext() {
   const s = GM.st; if (!s || !s.ready) return; gmSnd("tap");
-  if (s.over || s.i + 1 >= s.qs.length) return gmEnd();
-  s.i++; s.ready = false; gmHud(); gmQ(); s.G.next && s.G.next(gm$("#gmStage"), s);
+  if (s.i + 1 >= s.qs.length) return gmEnd();
+  s.i++; gmRound();
 }
 function gmKey(e) {
-  const s = GM.st; if (!s || e.target.closest("input,textarea")) return;
-  if (s.ans[s.i] == null && /^[1-4]$/.test(e.key)) { const b = GM.el.querySelector(`[data-opt="${+e.key - 1}"]`); if (b) { e.preventDefault(); b.click(); } }
-  else if (e.key === "Enter" && s.ready && document.activeElement && !document.activeElement.closest("button")) { e.preventDefault(); gmNext(); }
+  const s = GM.st; if (!s || s.over) return;
+  if (s.ans[s.i] == null && !s.busy) {
+    if (s.G.key && s.G.key(e, s)) { e.preventDefault(); return; }
+    if (/^[1-5]$/.test(e.key)) { e.preventDefault(); gmChoose(+e.key - 1); }
+  }
 }
-function gmFloat(stage, x, y, txt, color) {
-  const f = document.createElement("div"); f.className = "gm-float"; f.textContent = txt; f.style.left = x + "px"; f.style.top = y + "px"; if (color) f.style.color = color;
-  stage.appendChild(f); arabize(f); GM.timers.push(setTimeout(() => f.remove(), 1300));
-}
-function gmBanner(stage, txt) { const b = document.createElement("div"); b.className = "gm-banner"; b.textContent = txt; stage.appendChild(b); arabize(b); GM.timers.push(setTimeout(() => b.remove(), 1400)); }
-function gmCenter(el, stage) { const r = el.getBoundingClientRect(), R = stage.getBoundingClientRect(); return { x: r.left - R.left + r.width / 2, y: r.top - R.top + r.height / 2 }; }
-function gmShake(el) { el.classList.remove("gm-shake"); void el.offsetWidth; el.classList.add("gm-shake"); }
-const gmStreakMul = s => Math.min(1 + .25 * Math.max(0, s.streak - 1), 2);
 
-/* ---- the four games ---- */
+/* ---- the four adventures ---- */
+const GM_COLS = ["#ef4444", "#f59e0b", "#22c55e", "#8b5cf6", "#ec4899"];
 const GMG = {
-  race: {
-    init(st, s) {
-      const B = gt("race.bots"), cols = [["#38bdf8", "#0369a1"], ["#a78bfa", "#6d28d9"], ["#34d399", "#047857"]];
-      s.d.D = s.qs.length * 1.1; s.d.pos = [0, 0, 0, 0]; s.d.acc = shuffle([.5, .64, .76]);
-      const lanes = [{ n: gt("me"), me: 1, c: ["#fde047", "#f59e0b"] }].concat(B.map((n, k) => ({ n, c: cols[k] })));
-      st.innerHTML = `<div class="stars"></div><div class="stars2"></div><div class="rc-lanes">${lanes.map((l, k) => `<div class="rc-lane ${l.me ? "me" : ""}"><span class="rc-name">${esc(l.n)}</span><div class="rc-finish"></div><svg class="rc-planet" viewBox="0 0 44 44"><circle cx="22" cy="22" r="13" fill="${["#f472b6", "#60a5fa", "#fbbf24", "#34d399"][k]}"/><ellipse cx="22" cy="22" rx="21" ry="5" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/></svg><div class="rc-track"><div class="rc-rk ${l.me ? "me" : ""}" data-rk="${k}">${gmRocket(l.c[0], l.c[1])}</div></div></div>`).join("")}</div>`;
-      this.place(st, s);
+  /* ⚽ kick the ball into the answer */
+  penalty: {
+    bg: () => `<div class="pk-crowd"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.g = d.g || 0; d.v = d.v || 0;
+      ar.innerHTML = `<div class="pk-goal"><div class="${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "pk-zone")).join("")}</div></div><div class="pk-spot"></div>
+      <div class="pk-board">${gt("penalty.you")} <b id="pkG">${d.g}</b>–<b id="pkV">${d.v}</b> ${gt("penalty.keeper")}</div><div class="gm-tip">${gt("games.penalty.tip")}</div>`;
+      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
+      const g = gmPos(ar.querySelector(".pk-goal"), ar);
+      d.kp = gmActor(ar, "pk-keeper", gmKeeper, g.x, g.y + g.h / 2 - 36);
+      d.ball = gmActor(ar, "pk-ball", "⚽", ar.clientWidth / 2, ar.clientHeight - 48);
     },
-    place(st, s) { st.querySelectorAll("[data-rk]").forEach(r => { const p = Math.min(1, s.d.pos[+r.dataset.rk] / s.d.D); r.style.insetInlineStart = `calc((100% - ${r.offsetWidth || 64}px) * ${p.toFixed(4)})`; }); },
-    async answer(st, s, ok, secs) {
-      const me = st.querySelector('[data-rk="0"]');
-      if (ok) {
-        const turbo = s.streak >= 3, step = turbo ? 1.45 : 1;
-        s.d.pos[0] += step; s.score += Math.round(100 * gmStreakMul(s) + Math.max(0, 40 - secs * 2));
-        me.classList.toggle("turbo", turbo); gmSnd(turbo ? "boost" : "whoosh");
-        if (turbo) gmBanner(st, gt("race.turbo"));
-      } else { me.classList.remove("turbo"); me.classList.remove("stall"); void me.offsetWidth; me.classList.add("stall"); gmFloat(st, gmCenter(me, st).x, gmCenter(me, st).y - 20, gt("race.stall"), "#fca5a5"); }
-      this.place(st, s); await gmWait(450);
-      for (let b = 1; b <= 3; b++) { if (Math.random() < s.d.acc[b - 1]) s.d.pos[b] += .9 + Math.random() * .3; }
-      this.place(st, s); await gmWait(700);
-      me.classList.remove("turbo");
-      if (s.d.pos[0] >= s.d.D) { s.over = true; s.d.won = 1; gmBanner(st, gt("race.finishLine")); gmSnd("win"); await gmWait(600); }
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d, el = gmOptEl(ar, k), z = gmPos(el, ar); let t = z;
+      if (ok) { const o = pick([...ar.querySelectorAll(".gx-opt")].filter(b => +b.dataset.opt !== k)); if (o) t = gmPos(o, ar); }
+      d.kp.classList.add("dive"); gmSnd("kick");
+      const side = t.x < d.kp._x ? -1 : 1;
+      await Promise.all([gmFly(d.ball, z.x, z.y, 520, { arc: 46, scale: .62, rot: 540 }), gmWait(160).then(() => gmFly(d.kp, t.x, t.y, 340, { rot: side * 62 }))]);
+      if (ok) { d.g++; el.classList.add("goal"); gmSnd("win"); gmBanner(ar, gt("penalty.goal")); gmFloat(ar, z.x, z.y - 20, `+${s.gain}`, "#fde047"); }
+      else { d.v++; gmSnd("hit"); gmBanner(ar, gt("penalty.save")); await gmFly(d.ball, z.x + (Math.random() < .5 ? -110 : 110), ar.clientHeight + 60, 560, { scale: 1, rot: 1100, ease: "ease-in" }); }
+      ar.querySelector("#pkG").textContent = d.g; ar.querySelector("#pkV").textContent = d.v; arabize(ar.querySelector(".pk-board"));
+      await gmWait(650);
     },
-    final(s) { const me = s.d.pos[0]; const rank = s.d.won ? 1 : 1 + s.d.pos.slice(1).filter(p => p > me).length; return { win: rank === 1, medal: ["🥇", "🥈", "🥉", "🚀"][rank - 1], title: rank === 1 ? gt("race.first") : gt("race.place", rank) }; }
+    final(s) { const g = s.d.g || 0, v = s.d.v || 0; return g > v ? { win: true, medal: "🏆", title: gt("penalty.win", g, v) } : g === v ? { win: false, medal: "🤝", title: gt("penalty.draw", g, v) } : { win: false, medal: "🧤", title: gt("penalty.lose", g, v) }; }
   },
-  dragon: {
-    init(st, s) {
-      s.d.hp = 100; s.d.hearts = 3; s.d.base = 100 / Math.max(3, s.qs.length * .62);
-      st.innerHTML = `<svg class="dr-mtn" viewBox="0 0 400 100" preserveAspectRatio="none"><path d="M0 100 L0 60 L60 20 L110 55 L170 10 L240 60 L300 25 L360 55 L400 35 V100Z" fill="#2e1065" opacity=".85"/><path d="M0 100 L0 80 L80 50 L150 78 L230 45 L310 80 L400 60 V100Z" fill="#1e0b2e"/></svg>
-      <div class="dr-row"><div class="dr-side"><div class="dr-hearts" id="drH"></div><div class="dr-hero" id="drHero">🧙</div></div>
-      <div class="dr-side"><span class="dr-lbl">${gt("dragon.hp")}</span><div class="dr-hp" id="drHp"><i></i></div><div class="dr-boss" id="drBoss">🐉</div></div></div>`;
-      this.paint(st, s);
+  /* 🐸 jump onto the answer */
+  river: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0;
+      ar.innerHTML = `<div class="rv-far">${gt("river.bank")}</div><div class="rv-pads ${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "rv-pad")).join("")}</div><div class="rv-near"></div><div class="gm-tip">${gt("games.river.tip")}</div>`;
+      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
+      const W = ar.clientWidth, H = ar.clientHeight;
+      d.frog = gmActor(ar, "rv-frog", "🐸", W / 2, H - 44);
+      d.croc = gmActor(ar, "rv-croc", "<span>🐊</span>", gmRTL() ? W - 22 : 22, H - 92);
     },
-    paint(st, s) {
-      st.querySelector("#drH").innerHTML = [0, 1, 2].map(k => `<span class="${k < s.d.hearts ? "" : "lost"}">❤️</span>`).join("");
-      const hp = st.querySelector("#drHp"); hp.querySelector("i").style.width = Math.max(0, s.d.hp) + "%"; hp.className = "dr-hp" + (s.d.hp < 30 ? " low" : s.d.hp < 60 ? " mid" : "");
-    },
-    async fly(st, from, to, glyph, ms) {
-      const a = gmCenter(from, st), b = gmCenter(to, st); const p = document.createElement("div"); p.className = "gm-proj"; p.textContent = glyph; st.appendChild(p);
-      const anim = p.animate([{ transform: `translate(${a.x - 18}px,${a.y - 18}px) scale(.6)` }, { transform: `translate(${(a.x + b.x) / 2 - 18}px,${Math.min(a.y, b.y) - 60}px) scale(1.1)` }, { transform: `translate(${b.x - 18}px,${b.y - 18}px) scale(1.4)` }], { duration: ms, easing: "ease-in" });
-      await new Promise(r => { anim.onfinish = r; GM.timers.push(setTimeout(r, ms + 50)); }); p.remove();
-    },
-    async answer(st, s, ok, secs) {
-      const hero = st.querySelector("#drHero"), boss = st.querySelector("#drBoss");
+    ring(ar, x, y) { const r = document.createElement("div"); r.className = "rv-ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.transform = "translate(-50%,-50%)"; ar.appendChild(r); GM.timers.push(setTimeout(() => r.remove(), 850)); },
+    async resolve(ar, s, k, ok) {
+      const d = s.d, pad = gmOptEl(ar, k), p = gmPos(pad, ar), W = ar.clientWidth, H = ar.clientHeight;
+      gmSnd("whoosh"); await gmFly(d.frog, p.x, p.y - p.h * .28, 560, { arc: 90 }); this.ring(ar, p.x, p.y);
       if (ok) {
-        const mul = gmStreakMul(s), fast = secs < 15, dmg = Math.round(s.d.base * mul * (fast ? 1.25 : 1));
-        gmSnd("whoosh"); await this.fly(st, hero, boss, s.streak >= 3 ? "☄️" : "⚡", 650);
-        s.d.hp -= dmg; s.score += dmg * 10; gmSnd("hit"); gmShake(boss); this.paint(st, s);
-        const c = gmCenter(boss, st); gmFloat(st, c.x, c.y - 40, `-${dmg}`, "#fde047");
-        if (mul > 1) gmBanner(st, gt("dragon.combo", mul.toFixed(2).replace(/\.?0+$/, ""))); else if (fast) gmBanner(st, gt("dragon.fast"));
-        await gmWait(500);
-        if (s.d.hp <= 0) { s.over = true; s.d.win = 1; boss.style.transition = "transform .8s, opacity .8s"; boss.style.transform = "scale(.2) rotate(40deg)"; boss.style.opacity = "0"; gmSnd("win"); await gmWait(700); }
+        d.n++; gmSnd("ok"); pad.classList.add("ok"); gmBanner(ar, gt("river.safe")); gmFloat(ar, p.x, p.y - 30, `+${s.gain}`, "#fde047");
+        await gmWait(520); gmSnd("whoosh"); await gmFly(d.frog, W / 2, 20, 560, { arc: 60, scale: .8 });
       } else {
-        await this.fly(st, boss, hero, "🔥", 600); s.d.hearts--; gmSnd("hit"); gmShake(hero); this.paint(st, s);
-        const c = gmCenter(hero, st); gmFloat(st, c.x, c.y - 40, gt("dragon.hit"), "#fca5a5");
-        await gmWait(450);
-        if (s.d.hearts <= 0) { s.over = true; s.d.lost = 1; gmSnd("lose"); }
+        gmSnd("splash"); pad.classList.add("sink"); gmFloat(ar, p.x, p.y - 20, "💦", "#fff"); gmBanner(ar, gt("river.sink"));
+        await Promise.all([gmFly(d.croc, p.x, p.y, 520), gmWait(120).then(() => gmFly(d.frog, W / 2, H - 44, 620, { arc: 110 }))]);
+        gmSnd("hit"); gmShake(d.croc.firstChild);
       }
+      await gmWait(450);
     },
-    final(s) { return s.d.win ? { win: true, medal: "🏆", title: gt("dragon.win") } : s.d.lost ? { win: false, medal: "🐉", title: gt("dragon.lose") } : { win: false, medal: "🛡️", title: gt("dragon.fled") }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "🐸" : "🐊", title: gt("river.total", n) }; }
   },
-  treasure: {
-    init(st, s) {
-      st.innerHTML = `<div class="tr-sun"></div><div class="tr-wave"></div><div class="tr-island"></div><div class="tr-palm">🌴</div><div class="tr-gold"><span class="coin"></span><span id="trG">0</span></div><div id="trZone"></div>`;
-      arabize(st);
+  /* 🏹 shoot the balloon that carries the answer */
+  balloons: {
+    bg: () => `<div class="bl-cloud" style="top:12%;animation-delay:-8s"></div><div class="bl-cloud" style="top:44%;animation-delay:-26s;transform:scale(.7)"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0;
+      ar.innerHTML = `<div class="bl-grid ${gmGrid(q)}">${q.o.map((o, i) => `<div class="bl-cell" data-cell="${i}" style="--bc:${GM_COLS[i]}">${gmBalloon(GM_COLS[i])}${gmOpt(q, i, "")}</div>`).join("")}</div><div class="bl-aim" hidden></div><div class="gm-tip">${gt("games.balloons.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight; d.bx = W / 2; d.by = H - 52;
+      d.bow = gmActor(ar, "bl-bow", gmBow, d.bx, d.by);
+      const aim = ar.querySelector(".bl-aim"); aim.style.left = d.bx + "px"; aim.style.top = d.by + "px";
+      const pt = e => { const R = ar.getBoundingClientRect(); return { x: e.clientX - R.left, y: e.clientY - R.top }; };
+      const point = (x, y, line) => { const a = Math.atan2(y - d.by, x - d.bx) * 180 / Math.PI; d.ang = a; d.bow.firstElementChild.style.transform = `rotate(${a + 90}deg)`; if (line) { aim.hidden = false; aim.style.width = Math.hypot(x - d.bx, y - d.by) + "px"; aim.style.transform = `rotate(${a}deg)`; } };
+      d.point = point; point(d.bx, 0);
+      ar.onpointermove = e => { if (s.busy || s.ans[s.i] != null) return; const p = pt(e); if (p.y < d.by - 20) point(p.x, p.y, true); };
+      ar.onclick = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet")) return;
+        const c = e.target.closest(".bl-cell");
+        if (c) return gmChoose(+c.dataset.cell);
+        const p = pt(e); if (p.y > d.by - 20) return; point(p.x, p.y); gmSnd("whoosh");
+        const a = gmActor(ar, "bl-arrow", "<i></i>", d.bx, d.by); gmPut(a, d.bx, d.by, 1, d.ang);
+        const L = Math.max(W, H) * 1.2, r = d.ang * Math.PI / 180; gmFly(a, d.bx + Math.cos(r) * L, d.by + Math.sin(r) * L, 520, { ease: "linear" }).then(() => a.remove());
+        gmFloat(ar, p.x, p.y, gt("balloons.miss"), "#0f172a");
+      };
     },
-    loot() {
-      const r = Math.random();
-      if (r < .07) return { k: "gem", add: 100, t: gt("treasure.gem") };
-      if (r < .17) return { k: "x2", mul: 2, t: gt("treasure.x2") };
-      if (r < .23) return { k: "octo", mul: .75, t: gt("treasure.octo") };
-      if (r < .33) return { k: "map", add: 15, t: gt("treasure.map") };
-      const v = pick([10, 20, 20, 30, 30, 40, 50]); return { k: "gold", add: v, t: `🪙 +${v}` };
+    burst(ar, x, y, c) { for (let i = 0; i < 12; i++) { const b = document.createElement("i"); b.className = "bl-bit"; b.style.background = i % 3 ? c : "#fff"; b.style.left = x + "px"; b.style.top = y + "px"; ar.appendChild(b); const a = i / 12 * 6.283, r = 40 + Math.random() * 46; try { b.animate([{ transform: "translate(-50%,-50%) scale(1)", opacity: 1 }, { transform: `translate(${Math.cos(a) * r}px,${Math.sin(a) * r + 24}px) scale(.3)`, opacity: 0 }], { duration: 560, easing: "ease-out", fill: "forwards" }); } catch (e) { } GM.timers.push(setTimeout(() => b.remove(), 600)); } },
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d, cell = ar.querySelector(`[data-cell="${k}"]`), b = cell.querySelector(".bl-b"), p = gmPos(b, ar);
+      ar.querySelector(".bl-aim").hidden = true; d.point(p.x, p.y); gmSnd("whoosh");
+      const a = gmActor(ar, "bl-arrow", "<i></i>", d.bx, d.by); gmPut(a, d.bx, d.by, 1, d.ang);
+      await gmFly(a, p.x, p.y, Math.max(200, Math.hypot(p.x - d.bx, p.y - d.by) * .7), { ease: "linear" }); a.remove();
+      b.classList.add("pop"); gmSnd("pop"); this.burst(ar, p.x, p.y, GM_COLS[k]);
+      if (ok) { d.n++; gmSnd("ok"); gmBanner(ar, gt("balloons.pop")); gmFloat(ar, p.x, p.y - 10, `+${s.gain}`, "#b45309"); }
+      else { gmSnd("no"); cell.classList.add("fall"); gmBanner(ar, gt("balloons.storm")); const c = ar.querySelector(`[data-cell="${q.a}"]`); if (c) c.classList.add("glow"); }
+      await gmWait(750);
     },
-    async answer(st, s, ok) {
-      const z = st.querySelector("#trZone");
-      if (!ok) { gmBanner(st, gt("treasure.lost")); await gmWait(900); return; }
-      const L = [this.loot(), this.loot(), this.loot()];
-      z.innerHTML = `<div class="tr-tip">${gt("treasure.pickC")}</div><div class="tr-chests">${L.map((l, k) => `<button type="button" class="tr-chest" data-c="${k}">${gmChestSVG}<span class="loot">${l.t}</span></button>`).join("")}</div>`;
-      arabize(z);
-      const fbn = gm$(".gm-fb .msg small"); if (fbn) fbn.textContent = gt("treasure.pickC");
-      const k = await new Promise(res => z.querySelectorAll("[data-c]").forEach(b => b.onclick = () => res(+b.dataset.c)));
-      if (GM.st !== s) return;
-      const btns = z.querySelectorAll("[data-c]"); btns.forEach(b => b.disabled = true);
-      z.querySelector(".tr-tip").remove();
-      btns[k].classList.add("open"); gmSnd("coin"); { const sm = gm$(".gm-fb .msg small"); if (sm) { sm.textContent = L[k].t; arabize(sm); } }
-      const l = L[k], before = s.score; s.score = l.mul ? Math.round(s.score * l.mul) : s.score + l.add; if (l.k === "x2" && before === 0) s.score += 20;
-      st.querySelector("#trG").textContent = s.score; arabize(st.querySelector(".tr-gold")); gmHud(true);
-      const c = gmCenter(btns[k], st); gmFloat(st, c.x, c.y - 50, s.score >= before ? `+${s.score - before}` : `-${before - s.score}`, s.score >= before ? "#fde047" : "#fca5a5");
-      await gmWait(650); btns.forEach((b, j) => { if (j !== k) b.classList.add("open", "dim"); }); await gmWait(700);
-    },
-    next(st) { const z = st.querySelector("#trZone"); if (z) z.innerHTML = ""; },
-    final(s) { const n = s.ans.filter((a, k) => a === s.qs[k].a).length / s.qs.length; return { win: n >= .7, medal: n >= .9 ? "👑" : n >= .7 ? "💎" : "🪙", title: gt("treasure.total", s.score) }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🎯" : r >= .6 ? "🏹" : "🎈", title: gt("balloons.total", n) }; }
   },
-  archery: {
-    init(st, s) {
-      s.d.shots = 0; s.d.pts = 0;
-      st.innerHTML = `<div class="ar-cloud" style="animation-delay:-6s"></div><div class="ar-cloud" style="top:30%;animation-delay:-17s;transform:scale(.7)"></div><div class="ar-aim"></div><div class="ar-tgt" id="arT">${gmTargetSVG}</div><div class="ar-bow">🏹</div><span class="ar-wind" id="arW"></span>`;
+  /* 🚀 steer the ship into the answer's gate */
+  space: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; d.lane = Math.min(1, q.o.length - 1);
+      ar.innerHTML = `<div class="sp-bar"><div class="sp-fuel"><i></i></div><button type="button" class="sp-go">${gt("space.go")}</button></div>
+      <div class="sp-lanes">${q.o.map((o, i) => `<div class="sp-lane" data-lane="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "sp-gate")}</div>`).join("")}</div>`;
+      d.ship = gmActor(ar, "sp-ship", gmRocket("#fde047", "#f59e0b"), 0, 0);
+      d.place = fly => { ar.querySelectorAll(".sp-lane").forEach(l => l.classList.toggle("on", +l.dataset.lane === d.lane)); const l = gmPos(ar.querySelector(`[data-lane="${d.lane}"]`), ar), x = d.ship.offsetWidth / 2 + 14; d.sx = gmRTL() ? ar.clientWidth - x : x; fly ? gmFly(d.ship, d.sx, l.y, 180) : gmPut(d.ship, d.sx, l.y); };
+      d.place();
+      d.go = () => gmChoose(d.lane);
+      ar.querySelectorAll(".sp-lane").forEach(l => l.onclick = () => { if (s.busy || s.ans[s.i] != null) return; const i = +l.dataset.lane; if (i === d.lane) return d.go(); d.lane = i; gmSnd("tap"); d.place(true); });
+      ar.querySelector(".sp-go").onclick = () => d.go();
+      const len = (q.q || "").replace(/<[^>]+>/g, "").length + q.o.join("").replace(/<[^>]+>/g, "").length, T = Math.min(75, Math.max(28, 20 + len * .22 + (q.f || /<(svg|img)/.test(q.o.join("")) ? 18 : 0)));
+      const f = ar.querySelector(".sp-fuel i"); requestAnimationFrame(() => requestAnimationFrame(() => { f.style.transition = `width ${T}s linear`; f.style.width = "0%"; }));
+      clearTimeout(d.to); d.to = setTimeout(() => { if (GM.st === s && s.ans[s.i] == null && !s.busy) { gmBanner(ar, gt("space.out")); d.go(); } }, T * 1000); GM.timers.push(d.to);
     },
-    async answer(st, s, ok) {
-      const T = st.querySelector("#arT"), W = st.querySelector("#arW");
-      st.querySelectorAll(".ar-arrow").forEach(a => a.remove());
-      if (!ok) { gmBanner(st, gt("archery.miss")); await gmWait(800); return; }
-      const calm = s.streak >= 3; W.textContent = calm ? gt("archery.calm") : gt("archery.windy");
-      const speed = (calm ? 1.5 : 2.3) + s.i * .06, w = st.clientWidth, amp = Math.max(40, w / 2 - T.offsetWidth / 2 - 10);
-      const btn = document.createElement("button"); btn.type = "button"; btn.className = "ar-shoot"; btn.textContent = gt("archery.shoot"); st.appendChild(btn);
-      const fbn = gm$(".gm-fb .msg small"); if (fbn) fbn.textContent = gt("archery.shoot");
-      const t0 = performance.now(), ph = Math.random() * 6.28; let x = w / 2;
-      const loop = now => { x = w / 2 + amp * Math.sin(ph + (now - t0) / 1000 * speed); T.style.left = x + "px"; GM.raf = requestAnimationFrame(loop); };
-      GM.raf = requestAnimationFrame(loop);
-      await new Promise(res => { btn.onclick = res; st.onclick = e => { if (e.target === st || e.target.closest(".ar-tgt,.ar-aim,.ar-bow")) res(); }; });
-      st.onclick = null; cancelAnimationFrame(GM.raf); GM.raf = 0; btn.remove(); if (GM.st !== s) return;
-      const R = T.offsetWidth / 2, d = Math.abs(x - w / 2) / R;
-      const p = d < .2 ? 10 : d < .4 ? 8 : d < .6 ? 6 : d < .8 ? 4 : d < 1 ? 2 : 0;
-      const tc = gmCenter(T, st), bow = gmCenter(st.querySelector(".ar-bow"), st);
-      const ar = document.createElement("div"); ar.className = "ar-arrow"; st.appendChild(ar); gmSnd("whoosh");
-      const hx = w / 2 - 3, hy = tc.y - 17;
-      const an = ar.animate([{ transform: `translate(${bow.x - 3}px,${bow.y - 30}px)` }, { transform: `translate(${hx}px,${hy}px)` }], { duration: 380, easing: "cubic-bezier(.2,.8,.4,1)", fill: "forwards" });
-      await new Promise(r => { an.onfinish = r; GM.timers.push(setTimeout(r, 420)); });
-      if (p) { const off = x - w / 2; ar.remove(); const stuck = document.createElement("div"); stuck.className = "ar-arrow"; stuck.style.transform = `translate(${R - off - 3}px,${R - 22}px)`; T.appendChild(stuck); gmSnd(p === 10 ? "win" : "coin"); gmShake(T); }
-      else gmSnd("no");
-      s.d.shots++; s.d.pts += p; s.score += 50 + p * 15;
-      gmFloat(st, w / 2, tc.y - 30, p === 10 ? gt("archery.bull") : p ? gt("archery.ring", p) : gt("archery.miss"), p >= 8 ? "#facc15" : p ? "#fff" : "#fca5a5");
-      await gmWait(800);
+    key(e, s) {
+      const d = s.d, n = s.qs[s.i].o.length;
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") { d.lane = Math.max(0, Math.min(n - 1, d.lane + (e.key === "ArrowUp" ? -1 : 1))); gmSnd("tap"); d.place(true); return true; }
+      if (e.key === "Enter" || e.key === " ") { d.go(); return true; }
+      return false;
     },
-    next(st) { st.querySelectorAll(".ar-arrow").forEach(a => a.remove()); const T = st.querySelector("#arT"); if (T) T.style.left = "50%"; const W = st.querySelector("#arW"); if (W) W.textContent = ""; },
-    final(s) { const avg = s.d.shots ? s.d.pts / s.d.shots : 0; return { win: avg >= 6, medal: avg >= 8 ? "🎯" : avg >= 5 ? "🏹" : "🎪", title: gt("archery.total", s.d.pts) }; }
+    async resolve(ar, s, k, ok) {
+      const d = s.d, gate = gmOptEl(ar, k), g = gmPos(gate, ar), W = ar.clientWidth; clearTimeout(d.to);
+      const f = ar.querySelector(".sp-fuel i"); f.style.width = getComputedStyle(f).width; f.style.transition = "none"; ar.querySelector(".sp-go").remove();
+      if (d.lane !== k) { d.lane = k; d.place(); }
+      d.ship.classList.add("turbo"); gmSnd("boost");
+      const edge = gmRTL() ? g.x + g.w / 2 - 30 : g.x - g.w / 2 + 30;
+      await gmFly(d.ship, edge, g.y, 420, { ease: "ease-in" });
+      if (ok) { d.n++; gate.classList.add("warp"); gmSnd("win"); gmBanner(ar, gt("space.warp")); gmFloat(ar, g.x, g.y - 10, `+${s.gain}`, "#fde047"); await gmFly(d.ship, gmRTL() ? -90 : W + 90, g.y, 420, { ease: "ease-in", scale: 1.3 }); }
+      else { gate.classList.add("boom"); gmSnd("hit"); gmFloat(ar, edge, g.y, "💥", "#fff"); gmBanner(ar, gt("space.boom")); await gmFly(d.ship, d.sx, g.y, 620, { rot: gmRTL() ? 360 : -360 }); gmPut(d.ship, d.sx, g.y, 1, 0); }
+      d.ship.classList.remove("turbo"); await gmWait(400);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🚀" : "🛰️", title: gt("space.total", n) }; }
   }
 };
-
 /* ---- end ---- */
 function gmEnd() {
   const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf);
