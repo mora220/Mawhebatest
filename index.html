@@ -24,6 +24,105 @@
 .pencv.hand{pointer-events:none!important;background:transparent!important}
 .pentools .pt-range{writing-mode:vertical-lr;direction:rtl;width:26px;height:110px;margin:2px 0;accent-color:#1d2b53}
 .pentools .pt-val{font:700 11px sans-serif;color:#475569}
+/* ===== final simulated test (FX) ===== */
+.hub-card.hub-fx{grid-column:1/-1;min-height:120px;flex-direction:row;gap:18px;text-align:start;justify-content:flex-start;padding:18px 22px;background:linear-gradient(120deg,#0f4c5c,#12355b);color:#fff;border-color:#e0a01b}
+.hub-card.hub-fx .hub-ico{font-size:44px}
+.hub-card.hub-fx b{font-size:20px;color:#fff;display:block}
+.hub-card.hub-fx small{color:#d8e6ee;display:block;margin-top:4px}
+.hub-card.hub-fx .fx-tagl{margin-inline-start:auto;flex:none;background:#e0a01b;color:#1d2b53;font:700 12.5px var(--f-disp);padding:5px 12px;border-radius:999px}
+html.fx-on,html.fx-on body{overflow:hidden}
+#fx{position:fixed;inset:0;z-index:950;background:#e9edf2;color:#1b2a41;display:flex;flex-direction:column;font-family:var(--f-body);--fxc:#0f4c5c;--fxg:#c9a227}
+#fx *{box-sizing:border-box}
+#fx button{font-family:inherit;cursor:pointer}
+.fx-top{flex:none;background:var(--fxc);color:#fff;border-bottom:4px solid var(--fxg);display:flex;align-items:center;gap:14px;padding:8px 16px;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+.fx-top .t{flex:1;min-width:0}
+.fx-top .t b{display:block;font:700 16px var(--f-disp);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-top .t small{display:block;color:#cfe1e6;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fx-clock{flex:none;background:#fff;color:#0f4c5c;border-radius:8px;padding:4px 12px;text-align:center;min-width:92px}
+.fx-clock small{display:block;font-size:10.5px;color:#55707a}
+.fx-clock b{font:700 20px "IBM Plex Mono",monospace;direction:ltr;display:block}
+.fx-clock.low{background:#fff1f0;color:#b42318;animation:fxBlink 1s steps(2) infinite}
+@keyframes fxBlink{50%{opacity:.6}}
+.fx-x{flex:none;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:8px;padding:8px 12px;font-size:13.5px}
+.fx-sub{flex:none;background:#fff;border-bottom:1px solid #cdd5df;display:flex;align-items:center;gap:12px;padding:8px 16px;font-size:14.5px}
+.fx-sub .sec{font-weight:700;color:var(--fxc)}
+.fx-sub .qn{margin-inline-start:auto;font-weight:700}
+.fx-bar{flex:none;height:5px;background:#d5dce5}.fx-bar i{display:block;height:100%;background:var(--fxg);transition:width .25s}
+.fx-body{flex:1 1 auto;overflow:auto;padding:16px 16px 96px}
+.fx-card{max-width:980px;margin:0 auto;background:#fff;border:1px solid #cdd5df;border-radius:6px;padding:22px 24px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.fx-card h2{font:700 21px var(--f-disp);color:var(--fxc);margin:0 0 10px}
+.fx-card h3{font:700 16px var(--f-disp);margin:16px 0 6px}
+.fx-qh{display:flex;align-items:center;gap:10px;border-bottom:2px solid #e3e8ef;padding-bottom:10px;margin-bottom:14px}
+.fx-qh b{font:700 16px var(--f-disp);color:var(--fxc)}
+.fx-flag{margin-inline-start:auto;border:1px solid #b9c3d0;background:#fff;color:#44546a;border-radius:6px;padding:6px 12px;font-size:13.5px}
+.fx-flag[aria-pressed="true"]{background:#fff4d6;border-color:#c9a227;color:#7a5b00;font-weight:700}
+.fx-stem{font-size:18.5px;line-height:1.9;font-weight:500;color:#1b2a41}
+.fx-stem p{margin:0 0 8px}
+.fx-stem .passage{margin-bottom:12px;background:#f5f7fa;color:#1b2a41}
+.fx-stem .fig{margin-top:10px}
+.fx-opts{display:flex;flex-direction:column;gap:8px;margin-top:18px}
+.fx-opts.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.fx-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:start;background:#fff;border:1px solid #b9c3d0;border-radius:6px;padding:10px 14px;font-size:17.5px;min-height:52px;color:#1b2a41}
+.fx-opt:hover{background:#f3f7fa}
+.fx-opt .r{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #6b7c93;display:grid;place-items:center}
+.fx-opt .L{flex:none;font:700 16px var(--f-disp);color:#44546a;min-width:18px}
+.fx-opt .c{min-width:0;flex:1}
+.fx-opt .c svg{display:block;height:74px;width:auto;max-width:100%}
+.fx-opt[aria-checked="true"]{border-color:var(--fxc);background:#e6f2f4;box-shadow:inset 0 0 0 1px var(--fxc)}
+.fx-opt[aria-checked="true"] .r{border-color:var(--fxc)}.fx-opt[aria-checked="true"] .r::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--fxc)}
+.fx-opt.ok{border-color:#1f8a5a;background:#e7f6ee}.fx-opt.no{border-color:#c2453a;background:#fdecea}
+.fx-bot{flex:none;background:#fff;border-top:1px solid #cdd5df;display:flex;align-items:center;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));padding-inline-start:140px;flex-wrap:wrap}
+.fx-b{border:1px solid var(--fxc);background:#fff;color:var(--fxc);border-radius:6px;padding:10px 18px;font:700 15px var(--f-disp)}
+.fx-b.pri{background:var(--fxc);color:#fff}
+.fx-b.gold{background:var(--fxg);border-color:var(--fxg);color:#1b2a41}
+.fx-b.red{border-color:#b42318;color:#b42318}
+.fx-b:disabled{opacity:.4;cursor:default}
+.fx-sp{flex:1}
+.fx-tbl{width:100%;border-collapse:collapse;margin:10px 0;font-size:15px}
+.fx-tbl th,.fx-tbl td{border:1px solid #cdd5df;padding:8px 10px;text-align:center}
+.fx-tbl th{background:#eef3f6;color:var(--fxc)}
+.fx-list{margin:6px 0;padding-inline-start:22px;line-height:2}
+.fx-note{background:#fff8e1;border:1px solid #ecd58a;border-radius:6px;padding:10px 14px;font-size:14.5px;margin:10px 0}
+.fx-in{width:100%;max-width:380px;border:1px solid #b9c3d0;border-radius:6px;padding:10px 12px;font:inherit}
+.fx-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin:14px 0}
+.fx-grid button{position:relative;height:46px;border:1px solid #b9c3d0;background:#fff;border-radius:6px;font:700 15px var(--f-disp);color:#44546a}
+.fx-grid button.a{background:var(--fxc);border-color:var(--fxc);color:#fff}
+.fx-grid button.f::after{content:"⚑";position:absolute;top:-8px;inset-inline-end:-4px;color:#c9a227;font-size:17px}
+.fx-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13.5px;color:#44546a}
+.fx-leg i{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid #b9c3d0;vertical-align:-2px;margin-inline-end:5px}
+.fx-modal{position:absolute;inset:0;z-index:5;background:rgba(15,30,45,.55);display:grid;place-items:center;padding:16px}
+.fx-modal>div{background:#fff;border-radius:8px;border-top:5px solid var(--fxc);padding:22px;max-width:440px;width:100%;text-align:center}
+.fx-modal b{display:block;font:700 18px var(--f-disp);margin-bottom:8px}
+.fx-modal p{margin:0 0 16px;color:#44546a}
+.fx-modal .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.fx-score{text-align:center;padding:8px 0 4px}
+.fx-score .big{font:800 clamp(46px,9vw,72px) var(--f-disp);color:var(--fxc);direction:ltr;line-height:1.1}
+.fx-score .big small{font-size:.38em;color:#6b7c93}
+.fx-grade{display:inline-block;margin:8px 0;padding:6px 22px;border-radius:999px;font:800 19px var(--f-disp);background:#e6f2f4;color:var(--fxc)}
+.fx-grade.g3{background:linear-gradient(90deg,#c9a227,#f1d56b);color:#3a2c00}.fx-grade.g2{background:#dcf2e6;color:#146c43}.fx-grade.g1{background:#eef1fb;color:#2b3a68}
+.fx-msg{font-size:17px;font-weight:600;margin:8px auto;max-width:640px;line-height:1.9}
+.fx-msg.pass{color:#146c43}.fx-msg.near{color:#8a5a00}
+.fx-meter{position:relative;height:16px;border-radius:999px;background:linear-gradient(90deg,#cfd8e3 0 55%,#bfe3cf 55% 80%,#f1d56b 80%);margin:26px auto 30px;max-width:620px}
+.fx-meter i{position:absolute;top:-7px;width:6px;height:30px;background:#1b2a41;border-radius:3px;transform:translateX(-50%)}
+.fx-meter span{position:absolute;top:20px;font-size:11.5px;color:#44546a;transform:translateX(-50%);white-space:nowrap}
+.fx-rev{border:1px solid #cdd5df;border-radius:6px;padding:12px 14px;margin:10px 0;background:#fff}
+.fx-rev .h{display:flex;gap:8px;align-items:center;font:700 14px var(--f-disp);margin-bottom:6px}
+.fx-rev .h .okb{color:#146c43}.fx-rev .h .nob{color:#b42318}.fx-rev .h .blb{color:#8a5a00}
+.fx-rev .ex{background:#f5f7fa;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:15px}
+.fx-load{display:flex;align-items:center;gap:10px;color:#44546a;font-size:14.5px}
+.fx-load::before{content:"";width:16px;height:16px;border-radius:50%;border:3px solid #cdd5df;border-top-color:var(--fxc);animation:fxSpin .8s linear infinite}
+@keyframes fxSpin{to{transform:rotate(360deg)}}
+.cert .fxbig{font:800 46px var(--f-disp);direction:ltr;margin:6px 0;color:#1d2b53}
+.cert .fxbig small{font-size:.4em}
+.cert .fxgr{display:inline-block;padding:4px 20px;border-radius:999px;background:#e0a01b;color:#1d2b53;font:800 18px var(--f-disp);margin-bottom:6px}
+.cert .fxnote{font-size:11.5px;color:#55607a;margin-top:10px}
+@media (max-width:640px){
+  .fx-top{gap:8px;padding-inline:10px}.fx-top .t b{font-size:14px}.fx-clock{min-width:78px;padding:3px 8px}.fx-clock b{font-size:17px}
+  .fx-body{padding:10px 10px 96px}.fx-card{padding:16px 14px}.fx-stem{font-size:17px}.fx-opt{font-size:16px}
+  .fx-sub{font-size:13px;gap:8px;padding-inline:10px}.fx-sub .qn{white-space:nowrap}
+  .fx-bot{padding-inline-start:124px;gap:6px}.fx-b{padding:9px 12px;font-size:14px}
+  .hub-card.hub-fx{flex-wrap:wrap}.hub-card.hub-fx .fx-tagl{margin-inline-start:0}
+}
 </style>
 <title>محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4533,12 +4632,14 @@ function renderHub(){
       ${C('hubXP','✚','#2f9e6b','تجميعات اكسترا وبلس','Compilations Extra & Plus','نماذج كتب موهبة كما هي واختبارات إضافية على أفكارها','The model-book tests as printed plus extra tests on their ideas','exams.html')}
       ${C('hubTrain','⚡','#7b4bb7',par?'تدرب حسب الأفكار · المتابعة':'تدرب حسب الأفكار','Practice by idea','تعلّم الحل السريع لكل فكرة وتدرّب عليها','Learn the quick solution for each idea and practise it')}
       ${C('hubTP','⚡','#c0782a',par?'تدريب بلس · المتابعة':'تدريب بلس','Training Plus','أسئلة الكتب نفسها مقسّمة حسب الأفكار','The book questions themselves, sorted by idea')}
+      ${`<button type="button" class="hub-card hub-fx" id="hubFX" style="--hc:#e0a01b"><span class="hub-ico">🎓</span><span><b>${en?'Final simulated test':'الاختبار المحاكي النهائي'}</b><small>${en?'Same number of questions and time as the real scale, new questions every attempt, and a score certificate out of 2000':'بعدد أسئلة ووقت المقياس الحقيقي، أسئلة جديدة في كل محاولة، وشهادة بالدرجة من 2000'}</small></span><span class="fx-tagl">${({1:'64 · 103',2:'96 · 120',3:'120 · 168'})[st.level]} ${en?'min':'د'}</span></button>`}
     </div>
     <div class="row"><button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${en?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}</div>
   </section>`;
   document.getElementById('hubMain').onclick=()=>{st.inModels=true;renderStart();window.scrollTo(0,0)};
   document.getElementById('hubTrain').onclick=()=>openTraining(false);
   document.getElementById('hubTP').onclick=()=>openTraining(true);
+  {const fxb=document.getElementById('hubFX');if(fxb)fxb.onclick=()=>window.FX.open();}
   app.querySelectorAll('[data-kid]').forEach(b=>b.onclick=()=>{selectKid(b.dataset.kid);renderHub()});
   const ab=document.getElementById('accBtn');if(ab)ab.onclick=()=>{renderAccounts();window.scrollTo(0,0)};
   document.getElementById('chLv').onclick=()=>{renderLevel();window.scrollTo(0,0)};
@@ -4833,6 +4934,278 @@ function showCert(model){
 
 applyLang();
 if(st.screen==='lang')renderLang(); else if(st.screen==='level')renderLevel(); else renderBoot();
+</script>
+<script>
+/* ================= الاختبار المحاكي النهائي (FX) ================= */
+window.FX=(function(){
+  const EN=()=>lang==='en', X=(a,e)=>EN()?e:a;
+  const CFG={1:{n:64,min:103},2:{n:96,min:120},3:{n:120,min:168}};
+  const PASS=1550, TOP=1800, FULL=2000;
+  const ASP=['V','M','S','F'];
+  const ASPN={V:['الاستدلال اللغوي وفهم المقروء','Verbal reasoning & reading'],M:['الاستدلال الرياضي والمكاني','Mathematical & spatial reasoning'],S:['الاستدلال العلمي والميكانيكي','Scientific & mechanical reasoning'],F:['المرونة العقلية','Mental flexibility']};
+  const an=a=>X(ASPN[a][0],ASPN[a][1]);
+  const sn=i=>X(['القسم الأول','القسم الثاني','القسم الثالث','القسم الرابع'][i],['Section one','Section two','Section three','Section four'][i]);
+  const SET=s=>new Set(s.split('|'));
+  const SK={
+    V:SET('العلاقات|المقدمات غير الواقعية|الكلمة المختلفة|فهم المقروء|تسلسل الكلمات|معاني العبارات|الاستنتاج من السياق|المرادفات|تناظر الصور|معنى الكلمة في السياق|الاستنتاج|التصنيف|الأضداد|المفردات|إكمال الجمل|التناظر اللفظي|إكمال المعنى|فهم الأقوال|الصورة المختلفة|أصوات الحيوانات|معاني الكلمات|التضاد|الترادف|الألغاز اللفظية|صغار الحيوانات|ترتيب الحروف|تسلسل الحروف|المجموعة المختلفة'),
+    S:SET('الفيزياء|الأحياء|التروس والبكرات|المادة وتحولاتها|الأرض والفضاء|التروس|الحركة|الطاقة|القوى|الكهرباء|القصور الذاتي|الموازين|البكرات|تصنيف الحيوانات|الروافع|حالات المادة|جسم الإنسان|العلوم|الجاذبية|الغازات|تحولات المادة|الخلية|الكثافة|المرايا|النبات|الحرارة|المغناطيس|الصوت|السلاسل الغذائية|تحولات الطاقة|ضغط الهواء|مهد نيوتن|الكهرباء الساكنة|الضغط|الكيمياء|الوراثة|تيارات الهواء|الأرض|الطفو|الغليان|الذرة|الاحتكاك|اللزوجة|سرعة الذوبان|الوزن الظاهري|الخاصية الشعرية|الاتزان|اتزان السفن|الروابط الكيميائية|الانتشار|تاريخ العلوم|فصل المخاليط|البراكين|التصادم|الوزن|قوانين نيوتن|الموجات|المخاليط|الأدوات العلمية|الطقس|الاستنتاج العلمي|الكوارث الطبيعية|السلامة|الشمس|الحشرات|دورة الحياة|انقسام الخلايا|الماء|الضوء والصوت|الصوت والضوء|مستويات التنظيم|الهضم|الموائع|الجغرافيا|الظل|الشحنات|التنفس|المواد|الزلازل|التجوية|الكواكب|المتغيرات'),
+    F:SET('التفكير المنطقي|الترتيب|علاقة الأعداد|إكمال النمط|مصفوفة الأشكال|الشكل المختلف|المكعبات|قيمة الرموز|الرقم السري|الأنماط|عدّ المثلثات|حجر النرد|طي الورق وقصه|جدول الأعداد|شبكات المكعب|عدّ المربعات|المجسمات|المكعبات الملونة|التناظر بالأشكال|الاستدلال|عدّ الأشكال|حل المشكلات|معادلات الرموز|التحرك على الشبكة|الحروف المعكوسة|طي الورق|الترميز|التماثل|التفكير المكاني|الترتيب المنطقي|هرم الأعداد|شبكات المجسمات|دوران الأشكال|أزواج الأعداد|الرسوم|الاتجاهات|الأشكال|عدّ الطرق|اكتشاف الخطأ|عدّ المستطيلات|الرؤية المكانية|المسارات')
+  };
+  const PMAP={V:'V',K:'M',R:'F',U:'S'};
+  const aspOf=q=>PMAP[q.p]||(SK.V.has(q.ar.skill)?'V':SK.S.has(q.ar.skill)?'S':SK.F.has(q.ar.skill)?'F':'M');
+  const who=()=>String(st.kid?st.kid.code:(st.user?st.user.code:'guest'));
+  const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+  const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+  const mmss=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');};
+
+  /* ---------- bank: every question on the site for the level ---------- */
+  let BANK=null,bankP=null,extraOK=false;
+  async function loadExtra(){
+    try{
+      const r=await fetch('exams.html');if(!r.ok)throw new Error('http '+r.status);
+      const tx=await r.text(),a=tx.indexOf('<script>'),b=tx.indexOf('\nconst LEVELS=',a);if(a<0||b<0)throw new Error('format');
+      const o=new Function(tx.slice(a+8,b)+'\n;return {B:B,BE:BE,MODELS:MODELS,enFig:enFig};')();
+      const out=[];let id=0;
+      o.MODELS.forEach(m=>{const lv=/X/.test(m.p)?1:/Y/.test(m.p)?2:/Z/.test(m.p)?3:0;
+        (o.B[m.n]||[]).forEach((r,i)=>{const ex=r[4]||{},e=(o.BE[m.n]||[])[i]||[],ee=e[4]||{},qid=id++,rr=(((qid*2654435761)>>>0)>>>7)%4,order=[0,1,2,3].map(k=>(k+rr)%4);
+          if(!lv||!r[2]||r[2].length!==4)return;
+          out.push({key:'x'+qid,lv,q:{p:m.p,figOpts:!!ex.figOpts,html:!!ex.html,ar:{skill:r[0],q:r[1],o:r[2],e:r[3],fig:ex.fig,pass:ex.pass},en:{skill:e[0]||r[0],q:e[1]||r[1],o:e[2]||r[2],e:e[3]||r[3],fig:ee.fig||o.enFig(ex.fig),pass:ee.pass||ex.pass},order,ans:order.indexOf(0)}});});});
+      extraOK=true;return out;
+    }catch(e){console.warn('FX: extra bank not loaded',e);return [];}
+  }
+  function loadBank(){
+    if(bankP)return bankP;
+    bankP=loadExtra().then(xs=>{
+      const all=Q.filter(q=>L_(q,'ar').o&&L_(q,'ar').o.length===4).map(q=>({key:'i'+q.id,lv:levelOf(q.m),q})).concat(xs);
+      all.forEach(it=>it.asp=aspOf(it.q));
+      BANK={all,by:Object.fromEntries(all.map(it=>[it.key,it]))};return BANK;});
+    return bankP;
+  }
+  const L_=(q,l)=>q[l||lang||'ar'];
+  const pool=lv=>BANK.all.filter(it=>it.lv===lv);
+
+  /* ---------- no repeats until the whole bank is done ---------- */
+  const seenKey=lv=>`mr_fx_seen_${who()}_${lv}`;
+  async function cloudSeen(lv){
+    if(!st.kid||!st.user||st.user.role==='admin'||!window.RG||!window.RG.exResults)return;
+    try{const rs=await Promise.race([window.RG.exResults(String(st.kid.code)),new Promise((_,j)=>setTimeout(()=>j(new Error('slow')),6000))]);
+      const s=new Set(LS.get(seenKey(lv),[]));let best=0,n=0;
+      rs.forEach(r=>{if(r&&r.fx&&r.level===lv){n++;best=Math.max(best,r.score||0);(r.fxKeys||[]).forEach(k=>s.add(k));}});
+      LS.set(seenKey(lv),[...s]);const h=LS.get(histKey(lv),{n:0,best:0});LS.set(histKey(lv),{n:Math.max(h.n,n),best:Math.max(h.best,best)});
+    }catch(e){console.warn('FX seen',e);}
+  }
+  const histKey=lv=>`mr_fx_hist_${who()}_${lv}`;
+  function pickQs(lv){
+    const per=CFG[lv].n/4;let seen=new Set(LS.get(seenKey(lv),[]));const P=pool(lv),secs=[0,1,2,3].map(()=>({keys:[]}));
+    ASP.forEach((a,ai)=>{
+      const all=P.filter(it=>it.asp===a);let fresh=shuf(all.filter(it=>!seen.has(it.key))),take=fresh.slice(0,per);
+      if(take.length<per){all.forEach(it=>seen.delete(it.key));const got=new Set(take.map(it=>it.key));take=take.concat(shuf(all.filter(it=>!got.has(it.key))).slice(0,per-take.length));}
+      take.forEach(it=>seen.add(it.key));
+      /* spread this aspect evenly over the four sections (extra ones rotate so every section has the same size) */
+      const base=Math.floor(take.length/4),extra=take.length-base*4;let p=0;
+      for(let k=0;k<4;k++){const si=(ai+k)%4,n=base+(k<extra?1:0);take.slice(p,p+n).forEach(it=>secs[si].keys.push(it.key));p+=n;}
+    });
+    secs.forEach(s=>s.keys=shuf(s.keys));
+    LS.set(seenKey(lv),[...seen]);return secs;
+  }
+
+  /* ---------- state ---------- */
+  let F=null,tm=null,el=null;
+  const progKey=()=>`mr_fx_prog_${who()}`;
+  const saveProg=()=>{if(F&&F.phase==='run')LS.set(progKey(),{lv:F.lv,secs:F.secs,sec:F.sec,cur:F.cur,ans:F.ans,flag:F.flag,left:F.left,used:F.used,secT:F.secT,ts:Date.now(),name:F.name});};
+  const item=k=>BANK.by[k];
+  const $=s=>el.querySelector(s);
+  function mount(){
+    if(el)return;el=document.createElement('div');el.id='fx';document.body.appendChild(el);document.documentElement.classList.add('fx-on');
+    el.addEventListener('click',e=>{const b=e.target.closest('[data-fx]');if(b&&ACT[b.dataset.fx])ACT[b.dataset.fx](b);});
+  }
+  function close(){clearInterval(tm);tm=null;if(el){el.remove();el=null;}F=null;document.documentElement.classList.remove('fx-on');try{renderHub();}catch(e){}}
+  function modal(title,body,btns){const m=document.createElement('div');m.className='fx-modal';m.innerHTML=`<div><b>${title}</b><p>${body}</p><div class="row">${btns.map((b,i)=>`<button type="button" class="fx-b ${b[1]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;el.appendChild(m);m.querySelectorAll('[data-i]').forEach(x=>x.onclick=()=>{m.remove();const f=btns[+x.dataset.i][2];if(f)f();});}
+  const wipePen=()=>{try{const tl=document.getElementById('penCol');if(tl&&tl.style.display==='flex'){const c=tl.querySelector('[data-pt="clear"]');if(c)c.click();}}catch(e){}};
+  const top=(sub,clock)=>`<div class="fx-top"><div class="t"><b>${X('الاختبار المحاكي النهائي · مقياس موهبة','Final simulated test · Mawhiba scale')}</b><small>${sub}</small></div>${clock||''}<button type="button" class="fx-x" data-fx="exit">${X('خروج','Exit')}</button></div>`;
+  const lvName=lv=>t().levels[lv].short;
+
+  /* ---------- intro ---------- */
+  function open(){
+    const lv=st.level;if(!CFG[lv])return;mount();
+    F={phase:'intro',lv,name:st.name||''};
+    el.innerHTML=top(lvName(lv))+`<div class="fx-body"><div class="fx-card"><div class="fx-load">${X('جارٍ تجهيز بنك الأسئلة…','Preparing the question bank…')}</div></div></div>`;
+    Promise.all([loadBank(),cloudSeen(lv)]).then(()=>{if(F&&F.phase==='intro')intro();});
+  }
+  function intro(){
+    const lv=F.lv,c=CFG[lv],per=c.n/4,secMin=c.min/4,P=pool(lv),seen=new Set(LS.get(seenKey(lv),[])),done_=P.filter(it=>seen.has(it.key)).length,h=LS.get(histKey(lv),{n:0,best:0});
+    const pr=LS.get(progKey(),null),canRes=pr&&pr.lv===lv&&Date.now()-pr.ts<12*3600*1000&&pr.secs.every(s=>s.keys.every(k=>BANK.by[k]));
+    const short=ASP.some(a=>P.filter(it=>it.asp===a).length<per);
+    el.innerHTML=top(lvName(lv))+`<div class="fx-body"><div class="fx-card">
+      <h2>${X('تعليمات الاختبار','Test instructions')}</h2>
+      <table class="fx-tbl"><tr><th>${X('المستوى','Level')}</th><th>${X('عدد الأسئلة','Questions')}</th><th>${X('مدة الاختبار','Duration')}</th><th>${X('الدرجة النهائية','Full mark')}</th></tr>
+      <tr><td>${lvName(lv)}</td><td>${c.n}</td><td>${c.min} ${X('دقيقة','min')}</td><td>${FULL}</td></tr></table>
+      <h3>${X('أقسام الاختبار','Sections')}</h3>
+      <table class="fx-tbl"><tr><th>#</th><th>${X('القسم','Section')}</th><th>${X('الأسئلة','Questions')}</th><th>${X('الزمن','Time')}</th></tr>
+      ${ASP.map((a,i)=>`<tr><td>${i+1}</td><td>${sn(i)}</td><td>${per}</td><td dir="ltr">${mmss(secMin*60)}</td></tr>`).join('')}</table>
+      <p>${X('كل قسم منوّع ويضم أسئلة من الجوانب الأربعة','Every section is mixed and has questions from the four aspects')}: ${ASP.map(an).join(X(' ، ',', '))}.</p>
+      <ul class="fx-list">
+        <li>${X('لكل قسم زمنه الخاص، وعند انتهاء الزمن ينتقل الاختبار تلقائيًا للقسم التالي.','Each section has its own time; when it ends the test moves to the next section automatically.')}</li>
+        <li>${X('داخل القسم يمكنك التنقل بين الأسئلة وتمييز أي سؤال للمراجعة، ولا يمكن الرجوع لقسم بعد إنهائه.','Inside a section you can move between questions and flag any for review; you cannot return to a finished section.')}</li>
+        <li>${X('لا يوجد خصم على الإجابة الخاطئة، فلا تترك سؤالًا بلا إجابة.','There is no penalty for wrong answers, so do not leave a question blank.')}</li>
+        <li>${X('القلم متاح طوال الاختبار للحل والتظليل، وتُمسح الكتابة عند الانتقال لسؤال آخر.','The pen is available throughout; your writing is cleared when you move to another question.')}</li>
+        <li>${X('الأسئلة تتغير في كل محاولة حتى تحل كل أسئلة المستوى.','Questions change every attempt until you have solved all the questions of the level.')}</li>
+      </ul>
+      <div class="fx-note">${X(`حللت حتى الآن <b>${done_}</b> من <b>${P.length}</b> سؤالًا في بنك هذا المستوى`,`So far you have solved <b>${done_}</b> of <b>${P.length}</b> questions in this level's bank`)}${h.n?X(` · عدد محاولاتك: <b>${h.n}</b> · أفضل درجة: <b>${h.best}</b>`,` · attempts: <b>${h.n}</b> · best score: <b>${h.best}</b>`):''}.${extraOK?'':X('<br>تنبيه: تعذّر تحميل أسئلة «اكسترا وبلس» الآن، فسيُسحب الاختبار من «التجميعات» فقط.','<br>Note: the “Extra & Plus” questions could not be loaded now, so this test draws from “Compilations” only.')}</div>
+      ${st.name?`<p>${X('المتقدم','Candidate')}: <b>${esc(st.name)}</b></p>`:`<p><label>${X('اسم الطالب (يظهر في الشهادة)','Student name (shown on the certificate)')}<br><input class="fx-in" id="fxName" maxlength="60"></label></p>`}
+      ${short?`<div class="fx-note">${X('عدد الأسئلة المتاحة في أحد الأقسام أقل من المطلوب.','One section has fewer questions than required.')}</div>`:''}
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+        ${canRes?`<button type="button" class="fx-b gold" data-fx="resume">${X('متابعة الاختبار غير المكتمل','Resume the unfinished test')}</button>`:''}
+        <button type="button" class="fx-b pri" data-fx="start">${canRes?X('بدء اختبار جديد','Start a new test'):X('ابدأ الاختبار','Start the test')}</button>
+        <button type="button" class="fx-b" data-fx="exit">${X('رجوع','Back')}</button></div>
+    </div></div>`;
+  }
+  function needName(){const i=$('#fxName');if(!i)return true;const v=i.value.trim();if(v.length<2){i.focus();i.style.borderColor='#b42318';return false;}F.name=v;return true;}
+  function start(){
+    if(!needName())return;const lv=F.lv;
+    Object.assign(F,{phase:'run',secs:pickQs(lv),sec:0,cur:0,ans:{},flag:{},used:0,secT:Math.round(CFG[lv].min*60/4)});F.left=F.secT;
+    secGate();
+  }
+  function resume(){
+    if(!needName())return;const p=LS.get(progKey(),null);if(!p)return intro();
+    Object.assign(F,{phase:'run',secs:p.secs,sec:p.sec,cur:p.cur,ans:p.ans||{},flag:p.flag||{},left:p.left,used:p.used||0,secT:p.secT});if(p.name&&!F.name)F.name=p.name;
+    run();
+  }
+  /* ---------- section gate ---------- */
+  function secGate(){
+    clearInterval(tm);const s=F.secs[F.sec];saveProg();
+    el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`)+`<div class="fx-body"><div class="fx-card" style="text-align:center">
+      <h2>${sn(F.sec)}</h2><p style="font:700 17px var(--f-disp);margin:6px 0;color:#55607a">${X(`القسم ${F.sec+1} من 4 · أسئلة منوّعة من الجوانب الأربعة`,`Section ${F.sec+1} of 4 · mixed questions from the four aspects`)}</p>
+      <p>${X(`عدد الأسئلة: <b>${s.keys.length}</b> · الزمن: <b dir="ltr">${mmss(F.left)}</b>`,`Questions: <b>${s.keys.length}</b> · Time: <b dir="ltr">${mmss(F.left)}</b>`)}</p>
+      <p style="color:#55607a">${X('يبدأ حساب الوقت عند الضغط على «ابدأ القسم».','The clock starts when you press “Start section”.')}</p>
+      <button type="button" class="fx-b pri" data-fx="run">${X('ابدأ القسم','Start section')}</button></div></div>`;
+  }
+  function run(){clearInterval(tm);tm=setInterval(tick,1000);F.view='q';draw();}
+  function tick(){
+    if(!F||F.phase!=='run')return;F.left--;F.used++;
+    const c=$('#fxClock');if(c){c.querySelector('b').textContent=mmss(F.left);c.classList.toggle('low',F.left<=120);}
+    if(F.used%5===0)saveProg();
+    if(F.left<=0){clearInterval(tm);const m=el.querySelector('.fx-modal');if(m)m.remove();modal(X('انتهى زمن القسم','Section time is over'),X('سيتم الانتقال الآن.','Moving on now.'),[[X('متابعة','Continue'),'pri',endSec]]);}
+  }
+  const clock=()=>`<div class="fx-clock ${F.left<=120?'low':''}" id="fxClock"><small>${X('الوقت المتبقي للقسم','Section time left')}</small><b>${mmss(F.left)}</b></div>`;
+  function draw(){
+    const s=F.secs[F.sec],n=s.keys.length;
+    if(F.view==='rev')return drawRev();
+    const key=s.keys[F.cur],q=item(key).q,Lq=L_(q),a=F.ans[key];
+    el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`,clock())+
+      `<div class="fx-sub"><span class="sec">${X(`القسم ${F.sec+1} من 4`,`Section ${F.sec+1} of 4`)}</span><span class="qn">${X(`السؤال ${F.cur+1} من ${n}`,`Question ${F.cur+1} of ${n}`)}</span></div>
+      <div class="fx-bar"><i style="width:${(F.cur+1)/n*100}%"></i></div>
+      <div class="fx-body" id="fxBody"><div class="fx-card">
+        <div class="fx-qh"><b>${X('السؤال','Question')} ${F.cur+1}</b><button type="button" class="fx-flag" data-fx="flag" aria-pressed="${!!F.flag[key]}">⚑ ${F.flag[key]?X('مميّز للمراجعة','Flagged for review'):X('تمييز للمراجعة','Flag for review')}</button></div>
+        <div class="fx-stem">${Lq.pass?`<div class="passage"><b>${t().readLbl}</b>${Lq.pass}</div>`:''}<p>${q.html?Lq.q:esc(Lq.q)}</p>${Lq.fig?`<div class="fig">${Lq.fig}</div>`:''}${typeof trBoxHTML==='function'?trBoxHTML(q,key):''}</div>
+        <div class="fx-opts ${q.figOpts?'grid':''}" role="radiogroup">${q.order.map((k,pos)=>`<button type="button" class="fx-opt" role="radio" data-fx="pick" data-p="${pos}" aria-checked="${a===pos}"><span class="r"></span><span class="L">${t().let[pos]}</span><span class="c">${q.figOpts?Lq.o[k]:esc(Lq.o[k])}</span></button>`).join('')}</div>
+      </div></div>
+      <div class="fx-bot"><button type="button" class="fx-b" data-fx="prev" ${F.cur===0?'disabled':''}>${X('السابق','Previous')}</button><button type="button" class="fx-b pri" data-fx="next">${F.cur<n-1?X('التالي','Next'):X('مراجعة القسم','Review section')}</button><span class="fx-sp"></span><button type="button" class="fx-b" data-fx="rev">${X('مراجعة','Review')}</button><button type="button" class="fx-b red" data-fx="endAsk">${F.sec<3?X('إنهاء القسم','End section'):X('إنهاء الاختبار','End test')}</button></div>`;
+  }
+  function drawRev(){
+    const s=F.secs[F.sec],n=s.keys.length,ansd=s.keys.filter(k=>F.ans[k]!==undefined).length,fl=s.keys.filter(k=>F.flag[k]).length;
+    el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`,clock())+
+      `<div class="fx-sub"><span class="sec">${X(`القسم ${F.sec+1} من 4`,`Section ${F.sec+1} of 4`)}</span><span class="qn">${X('شاشة المراجعة','Review screen')}</span></div>
+      <div class="fx-body"><div class="fx-card"><h2>${X('مراجعة القسم','Section review')}</h2>
+        <p>${X(`أجبت عن <b>${ansd}</b> من <b>${n}</b> · غير مجاب: <b>${n-ansd}</b> · مميّز: <b>${fl}</b>`,`Answered <b>${ansd}</b> of <b>${n}</b> · unanswered: <b>${n-ansd}</b> · flagged: <b>${fl}</b>`)}</p>
+        <div class="fx-grid">${s.keys.map((k,i)=>`<button type="button" data-fx="jump" data-i="${i}" class="${F.ans[k]!==undefined?'a':''} ${F.flag[k]?'f':''}">${i+1}</button>`).join('')}</div>
+        <div class="fx-leg"><span><i style="background:#0f4c5c"></i>${X('مجاب','Answered')}</span><span><i></i>${X('غير مجاب','Unanswered')}</span><span>⚑ ${X('مميّز للمراجعة','Flagged')}</span></div>
+      </div></div>
+      <div class="fx-bot"><button type="button" class="fx-b" data-fx="back">${X('العودة للأسئلة','Back to questions')}</button><span class="fx-sp"></span><button type="button" class="fx-b red" data-fx="endAsk">${F.sec<3?X('إنهاء القسم','End section'):X('إنهاء الاختبار','End test')}</button></div>`;
+  }
+  function go(i){F.cur=i;F.view='q';wipePen();draw();saveProg();}
+  function endSec(){
+    wipePen();
+    if(F.sec<3){F.sec++;F.cur=0;F.left=F.secT;F.view='q';secGate();}else finish();
+  }
+  const ACT={
+    exit(){if(F&&F.phase==='run'){modal(X('الخروج من الاختبار؟','Leave the test?'),X('سيُحفظ تقدمك على هذا الجهاز ويمكنك المتابعة لاحقًا من نفس المكان.','Your progress is kept on this device and you can resume later.'),[[X('خروج','Leave'),'red',()=>{saveProg();close();}],[X('متابعة الاختبار','Keep going'),'pri']]);}else close();},
+    start(){start();},resume(){resume();},run(){run();},
+    pick(b){const k=F.secs[F.sec].keys[F.cur],p=+b.dataset.p;F.ans[k]=p;el.querySelectorAll('.fx-opt').forEach(o=>o.setAttribute('aria-checked',+o.dataset.p===p));saveProg();},
+    flag(){const k=F.secs[F.sec].keys[F.cur];F.flag[k]=!F.flag[k];draw();},
+    prev(){if(F.cur>0)go(F.cur-1);},
+    next(){const n=F.secs[F.sec].keys.length;if(F.cur<n-1)go(F.cur+1);else{F.view='rev';wipePen();draw();}},
+    rev(){F.view='rev';wipePen();draw();},back(){F.view='q';draw();},jump(b){go(+b.dataset.i);},
+    endAsk(){const s=F.secs[F.sec],bl=s.keys.filter(k=>F.ans[k]===undefined).length;
+      modal(F.sec<3?X('إنهاء القسم؟','End this section?'):X('إنهاء الاختبار؟','End the test?'),(bl?X(`لديك <b>${bl}</b> سؤال بلا إجابة. `,`You have <b>${bl}</b> unanswered question(s). `):'')+X('لن تستطيع الرجوع لهذا القسم بعد إنهائه.','You cannot return to this section afterwards.'),[[X('نعم، إنهاء','Yes, end'),'red',()=>{clearInterval(tm);endSec();}],[X('رجوع','Go back'),'pri']]);},
+    print(){let pc=document.getElementById('printcert');if(!pc){pc=document.createElement('div');pc.id='printcert';document.body.appendChild(pc);}pc.dir=t().dir;pc.innerHTML=cert();try{window.print()}catch(e){}},
+    answers(){drawAnswers();},result(){drawResult();},again(){open();},home(){close();}
+  };
+
+  /* ---------- scoring: 1000–2000 on the Mawhiba-style scale ---------- */
+  /* overall % -> scale: 0%=1000, 68%=1550 (gifted), 80%=1800 (exceptional), 100%=2000 */
+  const PTS=[[0,0],[.68,.55],[.8,.8],[1,1]];
+  const curve=p=>{for(let i=1;i<PTS.length;i++){if(p<=PTS[i][0]){const [x0,y0]=PTS[i-1],[x1,y1]=PTS[i];return y0+(y1-y0)*(p-x0)/(x1-x0);}}return 1;};
+  function score(){
+    const R={asp:{},right:0,blank:0,total:0};ASP.forEach(a=>R.asp[a]={c:0,n:0,sc:250});
+    F.secs.forEach(s=>s.keys.forEach(k=>{const it=item(k),a=F.ans[k],o=R.asp[it.asp];o.n++;R.total++;if(a===undefined)R.blank++;else if(a===it.q.ans){o.c++;R.right++;}}));
+    R.score=Math.round(1000+1000*curve(R.total?R.right/R.total:0));
+    /* share the total over the four aspects (250–500 each) in proportion to each aspect's own curve */
+    const ex=ASP.map(a=>{const o=R.asp[a];return 250*curve(o.n?o.c/o.n:0);}),sum=ex.reduce((x,y)=>x+y,0),k=sum?(R.score-1000)/sum:0;
+    ASP.forEach((a,i)=>R.asp[a].sc=Math.min(500,Math.round(250+ex[i]*k)));
+    let diff=R.score-ASP.reduce((x,a)=>x+R.asp[a].sc,0),g=0;
+    while(diff!==0&&g++<400){const d=diff>0?1:-1,c=ASP.filter(a=>d>0?R.asp[a].sc<500:R.asp[a].sc>250);if(!c.length)break;R.asp[c[g%c.length]].sc+=d;diff-=d;}
+    R.wrong=R.total-R.right-R.blank;R.pct=R.total?Math.round(R.right/R.total*100):0;
+    R.g=R.score>=TOP?3:R.score>=PASS?2:1;R.grade=R.g===3?X('موهبة استثنائية','Exceptionally gifted'):R.g===2?X('موهوب','Gifted'):X('واعد بالموهبة','Promising talent');
+    R.gradeAr=R.g===3?'موهبة استثنائية':R.g===2?'موهوب':'واعد بالموهبة';
+    return R;
+  }
+  function finish(){
+    clearInterval(tm);F.phase='done';LS.del(progKey());const R=F.R=score(),lv=F.lv;F.ts=Date.now();
+    const h=LS.get(histKey(lv),{n:0,best:0});LS.set(histKey(lv),{n:h.n+1,best:Math.max(h.best,R.score)});
+    F.sync='';
+    if(st.user&&st.user.role!=='admin'&&st.kid&&window.RG&&window.RG.saveResult){
+      const keys=F.secs.flatMap(s=>s.keys);F.sync='saving';
+      const data={studentCode:String(st.kid.code),studentName:F.name||st.kid.name||'',nameEdited:false,byCode:String(st.user.code),role:st.user.role,level:lv,model:9000+lv,hasAnswers:false,lang:lang||'ar',
+        modelName:'الاختبار المحاكي النهائي',partName:`الدرجة ${R.score} من ${FULL} · ${R.gradeAr}`,levelName:I18N.ar.levels[lv].short,
+        percent:R.pct,right:R.right,wrong:R.wrong,blank:R.blank,total:R.total,usedSec:F.used,totalSec:CFG[lv].min*60,timestamp:F.ts,
+        fx:true,score:R.score,grade:R.gradeAr,aspects:Object.fromEntries(ASP.map(a=>[a,R.asp[a]])),fxKeys:keys,fxPicks:keys.map(k=>F.ans[k]===undefined?-1:F.ans[k])};
+      window.RG.saveResult(JSON.parse(JSON.stringify(data)),null).then(()=>{F.sync='ok';syncNote();}).catch(e=>{console.warn('FX save',e);F.sync='fail';syncNote();});
+    }
+    drawResult();
+  }
+  function syncNote(){const n=el&&$('#fxSync');if(!n||!F)return;n.textContent=F.sync==='saving'?X('جارٍ حفظ النتيجة…','Saving the result…'):F.sync==='ok'?X('✓ تم حفظ النتيجة في حسابك.','✓ Result saved to your account.'):F.sync==='fail'?X('تعذّر الحفظ الآن؛ النتيجة محفوظة على الجهاز وستُرسل تلقائيًا عند عودة الاتصال.','Could not save now; the result is kept on this device and will be sent automatically.'):'';}
+  const msg=R=>R.score>=PASS?X(`🎉 لقد اجتزت درجة القبول لفصول موهبة حسب العام الماضي (${PASS}).`,`🎉 You passed last year's admission score for Mawhiba classes (${PASS}).`):X(`لقد اقتربت من أن تكون موهوبًا! ينقصك ${PASS-R.score} درجة فقط عن درجة القبول لفصول موهبة حسب العام الماضي (${PASS}). واصل التدريب وأعد المحاولة.`,`You are close to being gifted! You are only ${PASS-R.score} points below last year's admission score for Mawhiba classes (${PASS}). Keep practising and try again.`);
+  const aspTable=R=>`<table class="fx-tbl"><tr><th>${X('الجانب','Aspect')}</th><th>${X('الإجابات الصحيحة','Correct')}</th><th>${X('الدرجة','Score')}</th></tr>${ASP.map(a=>`<tr><td>${an(a)}</td><td dir="ltr">${R.asp[a].c} / ${R.asp[a].n}</td><td dir="ltr">${R.asp[a].sc} / 500</td></tr>`).join('')}<tr><th>${X('المجموع','Total')}</th><th dir="ltr">${R.right} / ${R.total}</th><th dir="ltr">${R.score} / ${FULL}</th></tr></table>`;
+  function cert(){
+    const R=F.R,T=t();let date='';try{date=new Date(F.ts).toLocaleDateString(T.dateLoc,{year:'numeric',month:'long',day:'numeric'})}catch(e){date=new Date(F.ts).toISOString().slice(0,10)}
+    return `<div class="cert" dir="${T.dir}"><div class="medal">${EN()?'M':'م'}</div>
+      <div class="sub">${X('الاختبار المحاكي النهائي لمقياس موهبة','Final simulated test · Mawhiba scale')} · ${lvName(F.lv)}</div>
+      <div class="ct">${X('شهادة درجات','Score certificate')}</div><p>${T.cGrant}</p><div class="nm">${esc(F.name||'')}</div>
+      <p>${X('أتمّ الاختبار المحاكي النهائي وحصل على الدرجة','completed the final simulated test with a score of')}</p>
+      <div class="fxbig">${R.score} <small>/ ${FULL}</small></div><div class="fxgr">${X('التقييم','Rating')}: ${R.grade}</div>
+      <p>${msg(R)}</p>${aspTable(R)}
+      <div class="sig"><div><span class="sub">${T.cDate}</span><b>${date}</b></div><div><span class="sub">${T.cTrainer}</span><b>${T.cTrainerName}</b></div></div>
+      <div class="fxnote">${X('شهادة تدريبية غير رسمية؛ الدرجة تقديرية على غرار سلّم مقياس موهبة ولا تمثّل نتيجة المقياس الرسمي.','Unofficial practice certificate; the score is an estimate modelled on the Mawhiba scale and is not an official result.')}</div></div>`;
+  }
+  function drawResult(){
+    const R=F.R,pos=v=>((v-1000)/1000*100).toFixed(1)+'%';
+    el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`)+`<div class="fx-body"><div class="fx-card">
+      <div class="fx-score"><h2>${X('نتيجتك في الاختبار المحاكي النهائي','Your result in the final simulated test')}</h2>
+        <div class="big">${R.score} <small>/ ${FULL}</small></div><div class="fx-grade g${R.g}">${X('التقييم','Rating')}: ${R.grade}</div>
+        <p class="fx-msg ${R.score>=PASS?'pass':'near'}">${msg(R)}</p>
+        <div class="fx-meter" dir="ltr"><i style="left:${pos(R.score)}"></i><span style="left:0">1000</span><span style="left:${pos(PASS)}">${PASS}</span><span style="left:${pos(TOP)}">${TOP}</span><span style="left:100%">${FULL}</span></div></div>
+      ${aspTable(R)}
+      <p style="color:#55607a;font-size:14px">${X(`الوقت المستغرق: <b dir="ltr">${mmss(F.used)}</b> · صحيحة ${R.right} · خاطئة ${R.wrong} · بلا إجابة ${R.blank}`,`Time used: <b dir="ltr">${mmss(F.used)}</b> · correct ${R.right} · wrong ${R.wrong} · blank ${R.blank}`)}</p>
+      <p id="fxSync" style="font-size:14px;color:#146c43"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 18px"><button type="button" class="fx-b gold" data-fx="print">${X('طباعة الشهادة / حفظ PDF','Print certificate / save PDF')}</button><button type="button" class="fx-b pri" data-fx="answers">${X('مراجعة الإجابات والشرح','Review answers & explanations')}</button><button type="button" class="fx-b" data-fx="again">${X('اختبار جديد','New test')}</button><button type="button" class="fx-b" data-fx="home">${X('الرئيسية','Home')}</button></div>
+      ${cert()}
+    </div></div>`;
+    syncNote();
+  }
+  function drawAnswers(){
+    let h='';
+    F.secs.forEach((s,si)=>{h+=`<h3>${sn(si)}</h3>`;
+      s.keys.forEach((k,i)=>{const q=item(k).q,Lq=L_(q),a=F.ans[k],ok=a===q.ans;
+        h+=`<div class="fx-rev"><div class="h"><span>${X('السؤال','Question')} ${i+1}</span><span style="color:#55607a;font-weight:500">${an(item(k).asp)}</span><span class="${a===undefined?'blb':ok?'okb':'nob'}">${a===undefined?X('بلا إجابة','Blank'):ok?X('✓ صحيحة','✓ Correct'):X('✗ خاطئة','✗ Wrong')}</span></div>
+          <div class="fx-stem">${Lq.pass?`<div class="passage">${Lq.pass}</div>`:''}<p>${q.html?Lq.q:esc(Lq.q)}</p>${Lq.fig?`<div class="fig">${Lq.fig}</div>`:''}</div>
+          <div class="fx-opts ${q.figOpts?'grid':''}">${q.order.map((o,pos)=>`<div class="fx-opt ${pos===q.ans?'ok':a===pos?'no':''}"><span class="L">${t().let[pos]}</span><span class="c">${q.figOpts?Lq.o[o]:esc(Lq.o[o])}</span></div>`).join('')}</div>
+          ${Lq.e?`<div class="ex"><b>${X('التوضيح','Explanation')}:</b> ${Lq.e}</div>`:''}</div>`;});});
+    el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`)+`<div class="fx-body"><div class="fx-card"><h2>${X('مراجعة الإجابات','Answer review')}</h2>${h}</div></div><div class="fx-bot"><button type="button" class="fx-b pri" data-fx="result">${X('رجوع للنتيجة','Back to the result')}</button></div>`;
+  }
+  window.addEventListener('beforeunload',()=>saveProg());
+  return {open,close,_dbg:()=>({F,BANK})};
+})();
 </script>
 <script type="module">
 /* Firebase: same project and accounts as Mr. Mohamed Ragab's platform (reads accounts, writes exam results to examResults) */
