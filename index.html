@@ -5156,11 +5156,12 @@ window.FX=(function(){
     F.sync='';
     if(st.user&&st.user.role!=='admin'&&st.kid&&window.RG&&window.RG.saveResult){
       const keys=F.secs.flatMap(s=>s.keys);F.sync='saving';
-      const data={studentCode:String(st.kid.code),studentName:F.name||st.kid.name||'',nameEdited:false,byCode:String(st.user.code),role:st.user.role,level:lv,model:9000+lv,hasAnswers:false,lang:lang||'ar',
+      const data={studentCode:String(st.kid.code),studentName:F.name||st.kid.name||'',nameEdited:false,byCode:String(st.user.code),role:st.user.role,level:lv,model:9000+lv,hasAnswers:true,lang:lang||'ar',
         modelName:'الاختبار المحاكي النهائي',partName:`الدرجة ${R.score} من ${FULL} · ${R.gradeAr}`,levelName:I18N.ar.levels[lv].short,
         percent:R.pct,right:R.right,wrong:R.wrong,blank:R.blank,total:R.total,usedSec:F.used,totalSec:CFG[lv].min*60,timestamp:F.ts,
         fx:true,score:R.score,grade:R.gradeAr,aspects:Object.fromEntries(ASP.map(a=>[a,R.asp[a]])),fxKeys:keys,fxPicks:keys.map(k=>F.ans[k]===undefined?-1:F.ans[k])};
-      window.RG.saveResult(JSON.parse(JSON.stringify(data)),null).then(()=>{F.sync='ok';syncNote();}).catch(e=>{console.warn('FX save',e);F.sync='fail';syncNote();});
+      const answers=F.secs.flatMap(s=>s.keys).map((k,i)=>{const q=item(k).q,a=q.ar,p=F.ans[k];return {n:i+1,skill:a.skill,q:a.q,html:!!q.html,pass:a.pass||'',fig:a.fig||'',figOpts:!!q.figOpts,opts:q.order.map(o=>a.o[o]),pick:p===undefined?-1:p,ans:q.ans,flag:!!F.flag[k],e:a.e};});
+      window.RG.saveResult(JSON.parse(JSON.stringify(data)),JSON.parse(JSON.stringify({studentCode:data.studentCode,byCode:data.byCode,timestamp:data.timestamp,answers}))).then(()=>{F.sync='ok';syncNote();}).catch(e=>{console.warn('FX save',e);F.sync='fail';syncNote();});
     }
     drawResult();
   }
