@@ -6568,7 +6568,7 @@ const XP = (() => {
     const a = keyOf(id, LANGUI), b = keyOf(id, LANGUI === "en" ? "ar" : "en");
     return IDX[a] ? { key: a, e: IDX[a] } : IDX[b] ? { key: b, e: IDX[b] } : null;
   }
-  const canSee = id => !!USER && (!isGuest() || isFree(id));
+  const isFree = () => false; const canSee = id => !!USER;
   const isAdmin = () => false;
 
   /* ---------- buttons (slots in the learn and practice pages, chips in the path) ---------- */
