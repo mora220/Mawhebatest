@@ -5886,64 +5886,73 @@ html.gm-open,html.gm-open body{overflow:hidden}
 
 /* shared bits */
 .gx-bit{position:absolute;z-index:7;width:9px;height:9px;border-radius:50%;pointer-events:none}
+.kd svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .12s}
+.kd .lg1,.kd .lg2{transform-box:fill-box;transform-origin:50% 0}
+.kd.go .lg1{animation:kdLeg .26s ease-in-out infinite alternate}.kd.go .lg2{animation:kdLeg .26s ease-in-out infinite alternate-reverse}
+.kd.go .kd-arms{animation:kdArm .26s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 0}
+@keyframes kdLeg{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+@keyframes kdArm{to{transform:translateY(2px)}}
+.kd.blink{animation:kdBlink .2s steps(2) infinite}
+@keyframes kdBlink{50%{opacity:.35}}
 
-/* ⚽ penalty */
-.g-penalty{background:linear-gradient(180deg,#0c4a6e 0,#0369a1 26%,#15803d 26.2%,#16a34a 100%);--gc:#15803d}
-.g-penalty .gm-bg{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 60px,transparent 60px 120px)}
-.pk-crowd{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(circle at 10px 10px,rgba(255,255,255,.4) 2.6px,transparent 3px) 0 0/22px 18px,radial-gradient(circle at 10px 10px,rgba(253,224,71,.45) 2.6px,transparent 3px) 11px 9px/22px 18px,radial-gradient(circle at 10px 10px,rgba(248,113,113,.4) 2.4px,transparent 3px) 5px 4px/26px 20px;opacity:.55;animation:pkCrowd 1.6s ease-in-out infinite alternate}
-@keyframes pkCrowd{to{background-position:0 2px,11px 7px,5px 6px}}
-.gm-world.cheer .pk-crowd{animation:pkCheer .22s ease-in-out 6 alternate;opacity:.9}
-@keyframes pkCheer{to{transform:translateY(-6px)}}
-.pk-lights{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(60px 30px at 12% 10%,rgba(255,255,255,.35),transparent 70%),radial-gradient(60px 30px at 88% 10%,rgba(255,255,255,.35),transparent 70%)}
-.pk-goal{position:absolute;inset:8px 12px 104px;border:7px solid #f8fafc;border-bottom:0;border-radius:10px 10px 0 0;padding:8px 8px 58px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),rgba(2,44,34,.35);box-shadow:0 10px 0 -4px rgba(0,0,0,.18)}
-.pk-goal .opts-grid{height:100%}
-.pk-zone{background:rgba(255,255,255,.93)}
-.pk-zone.aim{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047!important;transform:scale(1.04)}
-.pk-zone.goal{animation:pkNet .7s}
+/* ⚽ dribble */
+.g-dribble{background:#16a34a;--gc:#15803d}
+.db-stripes{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 60px,transparent 60px 120px)}
+.db-mark{position:absolute;left:50%;bottom:-60px;width:180px;height:180px;margin-left:-90px;border-radius:50%;border:3px solid rgba(255,255,255,.45);pointer-events:none}
+.db-goals{position:absolute;top:6px;inset-inline:8px;height:clamp(84px,30%,170px);display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px}
+.db-goal{position:relative;display:flex;padding:6px 6px 8px;border:5px solid #fff;border-bottom:0;border-radius:8px 8px 0 0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.2) 0 2px,transparent 2px 12px),repeating-linear-gradient(-45deg,rgba(255,255,255,.2) 0 2px,transparent 2px 12px),rgba(2,44,34,.35);cursor:pointer}
+.db-goal::after{content:"";position:absolute;inset-inline:-5px;bottom:-4px;height:4px;background:#fff}
+.db-card{flex:1;box-shadow:0 0 0 3px var(--bc)}
+.db-card.goal{animation:pkNet .7s}
 @keyframes pkNet{25%{transform:scale(.9) translateY(-8px)}55%{transform:scale(1.05)}80%{transform:scale(.98)}}
-.pk-spot{position:absolute;left:50%;bottom:34px;width:120px;height:26px;transform:translateX(-50%);border-radius:50%;border:3px solid rgba(255,255,255,.55)}
-.pk-aim{position:absolute;z-index:4;height:0;border-top:4px dashed #fde047;transform-origin:0 50%;pointer-events:none;filter:drop-shadow(0 0 4px rgba(0,0,0,.5))}
-.pk-board{position:absolute;bottom:10px;inset-inline-end:12px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:4px;background:#0f172a;color:#fff;border-radius:12px;padding:6px 12px;font:800 13px var(--f-display);box-shadow:0 6px 14px rgba(0,0,0,.35)}
-.pk-board b{font-size:20px;color:#fde047;min-width:16px;text-align:center;display:inline-block}
-.pk-hist{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:150px}
-.pk-hist i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25)}
-.pk-hist i.g{background:#22c55e}.pk-hist i.m{background:#ef4444}.pk-hist i.now{background:#fde047;animation:gmPulse 1s infinite}
-.pk-keeper{width:64px;height:74px}.pk-keeper svg{width:100%;height:100%;overflow:visible;animation:pkSway 1.3s ease-in-out infinite alternate}
-@keyframes pkSway{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
-.pk-keeper.dive svg{animation:none}
-.pk-ball{font-size:40px;line-height:1;filter:drop-shadow(0 6px 5px rgba(0,0,0,.4));z-index:6}
-.pk-shadow{width:34px;height:10px;border-radius:50%;background:rgba(0,0,0,.3);z-index:3}
+.db-kid,.db-def{width:42px;height:54px;z-index:5}
+.db-def{z-index:4}
+.db-ball{font-size:22px;line-height:1;z-index:6;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.db-star{font-size:24px;line-height:1;z-index:3;animation:gmPulse 1s infinite}
 
-/* 🐸 river */
-.g-river{background:linear-gradient(180deg,#0e7490,#0891b2 50%,#0e7490);--gc:#0e7490}
-.g-river .gm-bg{background:repeating-radial-gradient(ellipse 70px 16px at 50% 0,rgba(255,255,255,.2) 0 2px,transparent 3px 30px);animation:rvFlow 7s linear infinite}
-@keyframes rvFlow{to{background-position:140px 0}}
-.rv-far,.rv-near{position:absolute;inset-inline:0;background:linear-gradient(180deg,#65a30d,#3f6212);display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font:800 13px var(--f-display)}
-.rv-far{top:0;height:40px;border-radius:0 0 50% 50%/0 0 14px 14px;box-shadow:0 6px 0 #a16207;padding:0 14px}
-.rv-near{bottom:0;height:74px;border-radius:50% 50% 0 0/16px 16px 0 0;box-shadow:0 -6px 0 #a16207}
-.rv-trip{position:relative;flex:1;max-width:420px;height:10px;border-radius:999px;background:rgba(0,0,0,.25)}
-.rv-trip i{position:absolute;inset-block:0;inset-inline-start:0;border-radius:999px;background:linear-gradient(90deg,#fde047,#facc15);transition:width .8s}
-.rv-trip b{position:absolute;top:50%;translate:-50% -50%;font-size:20px;transition:inset-inline-start .8s;line-height:1}
-[dir="rtl"] .rv-trip b{translate:50% -50%}
-.rv-trip span{position:absolute;top:50%;inset-inline-end:-6px;translate:0 -50%;font-size:20px;line-height:1}
-.rv-pads{position:absolute;inset:56px 12px 92px;animation:rvIn .5s ease-out}
-@keyframes rvIn{from{opacity:0;transform:translateY(-16px)}}
-.rv-pad{align-self:center;height:min(100%,200px);background:radial-gradient(ellipse at 30% 25%,#d9f99d,#84cc16 70%);border-radius:38% 42% 40% 44%/46% 40% 48% 42%;padding:8px 14px;box-shadow:0 8px 0 -2px rgba(6,78,59,.55),inset 0 0 0 3px rgba(63,98,18,.35);animation:rvDrift 6s ease-in-out infinite}
-.rv-pad:nth-child(2){animation-duration:7.2s;animation-delay:-1.4s}.rv-pad:nth-child(3){animation-duration:5.4s;animation-delay:-2.6s}.rv-pad:nth-child(4){animation-duration:6.6s;animation-delay:-3.8s}.rv-pad:nth-child(5){animation-duration:5.8s;animation-delay:-.6s}
-@keyframes rvDrift{0%,100%{translate:-12px 0;rotate:-1.5deg}50%{translate:12px 5px;rotate:1.5deg}}
-.rv-pads.still .rv-pad{animation-play-state:paused}
-.rv-pad .val{background:rgba(255,255,255,.9);border-radius:10px;padding:3px 8px;text-align:center}
-.rv-pad.sink{animation:rvSink .9s forwards!important}
-@keyframes rvSink{to{translate:0 26px;scale:.8;opacity:.35;filter:saturate(.3)}}
-.rv-pad.ok{background:radial-gradient(ellipse at 30% 25%,#fef9c3,#facc15 75%)!important}
-.rv-frog{font-size:46px;line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35));z-index:6}
-.rv-croc{font-size:40px;line-height:1;z-index:4}
-.rv-croc span{display:inline-block}
-.rv-fly{font-size:22px;line-height:1;z-index:5;animation:rvBuzz .12s linear infinite alternate}
-@keyframes rvBuzz{to{margin-top:-2px}}
-.rv-tongue{position:absolute;z-index:6;height:5px;width:0;border-radius:3px;background:#f472b6;transform-origin:0 50%;pointer-events:none;margin-top:-2px}
-.rv-ring{position:absolute;z-index:4;width:20px;height:20px;border-radius:50%;border:3px solid #fff;pointer-events:none;animation:rvRing .8s ease-out forwards}
-@keyframes rvRing{to{transform:translate(-50%,-50%) scale(6);opacity:0}}
+/* 🏃 runner */
+.g-runner{background:#14532d;--gc:#a16207}
+.rn-trees{position:absolute;inset:0;background:radial-gradient(circle at 20px 30px,#166534 14px,transparent 15px) 0 0/60px 70px,radial-gradient(circle at 40px 60px,#15803d 12px,transparent 13px) 10px 0/70px 80px}
+.rn-doors{position:absolute;top:6px;inset-inline:8px;height:clamp(80px,28%,160px);display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;transform-origin:50% 0;z-index:3}
+.rn-door{display:flex;padding:6px;border-radius:14px 14px 4px 4px;background:linear-gradient(180deg,#78350f,#451a03);box-shadow:0 0 0 3px var(--bc),0 8px 14px -6px rgba(0,0,0,.6)}
+.rn-card{flex:1}
+.rn-door.open{box-shadow:0 0 0 4px #fde047,0 0 30px #fde047}
+.rn-track{position:absolute;inset:calc(clamp(80px,28%,160px) + 12px) 8px 0;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.08) 0 40px,transparent 40px 80px)}
+.rn-lane{border-radius:10px 10px 0 0;background:repeating-linear-gradient(180deg,rgba(0,0,0,.12) 0 40px,transparent 40px 80px) 0 var(--off,0px),linear-gradient(180deg,#a16207,#ca8a04);box-shadow:inset 0 0 0 2px rgba(0,0,0,.15)}
+.rn-prog{position:absolute;top:calc(clamp(80px,28%,160px) + 6px);inset-inline:8px;height:5px;border-radius:999px;background:rgba(0,0,0,.3);z-index:4}
+.rn-prog i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#fde047,#f97316)}
+.rn-kid{width:44px;height:56px;z-index:6}
+.rn-ob{z-index:5;pointer-events:none}
+
+.rn-ob svg{display:block;width:100%;height:100%}
+.rn-btns{position:absolute;bottom:10px;inset-inline-end:10px;display:flex;flex-direction:column;gap:8px;z-index:7}
+.rn-btn{border:0;border-radius:999px;padding:9px 14px;font:900 14px var(--f-display);color:#fff;background:rgba(15,23,42,.8);box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.rn-btn.hot{background:linear-gradient(135deg,#f97316,#ef4444)}
+.g-runner .gm-tip{bottom:auto;top:calc(clamp(80px,28%,160px) + 14px)}
+
+/* 🛸 shooter */
+.g-shooter{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
+.g-shooter .gm-bg,.g-shooter .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:shStars 9s linear infinite}
+.g-shooter .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:4s}
+@keyframes shStars{to{background-position:0 200px}}
+.sh-ufos{position:absolute;top:4px;inset-inline:8px;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;z-index:3}
+.sh-ufo{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .8s ease-in,opacity .8s}
+.sh-saucer{display:block;width:min(100%,92px)}.sh-saucer svg{display:block;width:100%;height:auto}
+.sh-saucer .uf-l{animation:shBlink .5s steps(2) infinite}
+@keyframes shBlink{50%{opacity:.3}}
+.sh-card{width:100%;height:clamp(54px,16vh,130px);margin-top:-4px;box-shadow:0 0 0 3px var(--bc),0 0 16px var(--bc)}
+.sh-ufo.down{transform:scale(.2) rotate(200deg)!important;opacity:0}
+.sh-ufo.away{transform:translateY(-140%)!important;opacity:0}
+.sh-ufo.glow .sh-card{box-shadow:0 0 0 4px #22c55e,0 0 26px #4ade80}
+.sh-ship{width:58px;z-index:6}.sh-ship svg{display:block;width:100%;overflow:visible}
+.sh-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
+@keyframes gmFl{to{opacity:.7}}
+.sh-laser{width:5px;height:22px;border-radius:3px;background:linear-gradient(#fff,#f472b6);box-shadow:0 0 10px #f472b6;z-index:5}
+.sh-met{width:34px;height:34px;z-index:4}.sh-met svg{display:block;width:100%;height:100%}
+.sh-fire{position:absolute;bottom:12px;inset-inline-end:12px;z-index:7;border:0;border-radius:999px;padding:12px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7)}
+.sh-zap{position:absolute;z-index:6;height:4px;background:#fde047;box-shadow:0 0 12px #fde047;transform-origin:0 50%;pointer-events:none;animation:shZap .5s steps(4)}
+@keyframes shZap{50%{opacity:.3}}
+.g-shooter .gm-tip{bottom:58px}
 
 /* 🏰 castle */
 .g-castle{background:linear-gradient(180deg,#7dd3fc 0,#bae6fd 55%,#86efac 55.2%,#4ade80 100%);--gc:#b45309}
@@ -5998,38 +6007,7 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .mz-coin{z-index:3;animation:mzSpin 1.6s linear infinite}
 @keyframes mzSpin{50%{scale:.35 1}}
 
-/* 🚀 space */
-.g-space{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
-.g-space .gm-bg,.g-space .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:spStars 7s linear infinite}
-.g-space .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:3s}
-.gm-world.warp .gm-bg,.gm-world.warp .gm-bg::after{animation-duration:.5s;filter:blur(1px) brightness(1.6)}
-@keyframes spStars{to{background-position:-320px 0}}
-[dir="rtl"] .g-space .gm-bg,[dir="rtl"] .g-space .gm-bg::after{animation-name:spStarsR}
-@keyframes spStarsR{to{background-position:320px 0}}
-.g-space .gm-tip{bottom:auto;top:46px}
-.sp-bar{position:absolute;inset:6px 10px auto;height:40px;display:flex;align-items:center;gap:10px;z-index:6}
-.sp-fuel{flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;border:1px solid rgba(255,255,255,.25)}
-.sp-fuel i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f97316,#fde047,#4ade80);border-radius:999px}
-.sp-go{border:0;border-radius:999px;padding:8px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7);animation:gmPulse 1.1s infinite}
-.sp-lanes{position:absolute;inset:66px 8px 10px;display:flex;flex-direction:column;gap:7px}
-.sp-lane{flex:1 1 0;min-height:0;position:relative;border-radius:14px;cursor:pointer}
-.sp-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.13)}
-.sp-lane.on{background:linear-gradient(90deg,rgba(253,224,71,.18),transparent 70%)}
-[dir="rtl"] .sp-lane.on{background:linear-gradient(270deg,rgba(253,224,71,.18),transparent 70%)}
-.sp-gate{background:linear-gradient(90deg,rgba(30,27,75,.92),rgba(49,46,129,.82));color:#fff;position:absolute;top:0;bottom:0;max-height:120px;margin-block:auto;width:min(56%,520px);inset-inline-end:0;border-radius:999px 18px 18px 999px;padding-inline-start:16px;box-shadow:0 0 0 3px var(--bc),0 0 18px var(--bc)}
-[dir="rtl"] .sp-gate{border-radius:18px 999px 999px 18px}
-.sp-gate .bub{background:var(--bc)}.sp-gate.fig .val{background:#fff;border-radius:10px;padding:3px;color:#1f2937}.sp-gate.ok,.sp-gate.no{color:#1f2937}
-.sp-lane.on .sp-gate{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047}
-.sp-gate.warp{animation:spWarp .6s}
-@keyframes spWarp{40%{transform:scale(1.06);filter:brightness(1.4)}}
-.sp-gate.boom{animation:gmShake .45s}
-.sp-ship{width:66px;z-index:6}.sp-ship svg{display:block;width:100%;overflow:visible}
-[dir="rtl"] .sp-ship svg{transform:scaleX(-1)}
-.sp-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
-@keyframes gmFl{to{opacity:.7}}
-.sp-ship.turbo .fl{transform:scale(2.6,1.5)}
-.sp-rock{width:38px;height:38px;z-index:5}.sp-rock svg{display:block;width:100%;height:100%}
-@media (max-width:560px){.sp-gate{width:62%}.sp-ship{width:50px}.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}.cs-wall{width:54px}.cs-field{inset-inline-start:60px}.cs-hp{inset-inline-start:60px}.cs-mob{width:76%}.pk-board{font-size:12px}}
+@media (max-width:560px){.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}.cs-wall{width:54px}.cs-field{inset-inline-start:60px}.cs-hp{inset-inline-start:60px}.cs-mob{width:76%}.db-goals,.rn-doors,.sh-ufos{gap:5px;inset-inline:5px}.rn-track{gap:5px;inset-inline:5px}.db-goal{border-width:4px;padding:4px 4px 6px}.gx-opt .bub{width:22px;height:22px;font-size:12px}.rn-btn{padding:8px 11px;font-size:13px}}
 
 /* toasts & floating numbers */
 .gm-float{position:absolute;font:900 22px var(--f-display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 18px rgba(0,0,0,.4);pointer-events:none;z-index:6;white-space:nowrap;animation:gmFloat 1.2s ease-out forwards}
@@ -6072,6 +6050,9 @@ html.gm-open,html.gm-open body{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
+.db-card,.rn-card,.sh-card{flex-direction:column;justify-content:center;text-align:center;gap:4px;padding:6px 5px}
+.db-card .val,.rn-card .val,.sh-card .val{flex:0 1 auto;overflow-wrap:normal;word-break:normal;hyphens:none}
+
 
 </style>
 <style>
@@ -7237,45 +7218,45 @@ function finishExam() { stopTimer(); const r = RUN; if (r.done) return; const c 
 /* ---------- game mode: the answer itself is the move ---------- */
 const GM_TX = {
   ar: {
-    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تسدّدها، تقفز عليها، تقصفها بالمدفع، تصل إليها في المتاهة أو تطير نحوها!",
+    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تراوغ إليها، تجري نحوها، تطلق الليزر عليها، تقصفها بالمدفع أو تصل إليها في المتاهة!",
     len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "الشرح",
     again: "🔁 العب مرة أخرى", other: "🎲 مغامرة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
     praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "مذهل!", "يا سلام!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
     acc: "الدقة", best: "أفضل متتالية", time: "الوقت", pts: "النقاط", rec: "🏅 رقم قياسي جديد!", recOld: s => `أفضل نتيجة لك: ${s}`, saved: "حُفظت الجولة في نتائجك ✓", saveFail: "تعذّر حفظ الجولة",
     streak: n => `${n} متتالية 🔥`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.",
     games: {
-      penalty: { n: "ركلات الترجيح", d: "المرمى مقسوم على الإجابات. اسحب الكرة وسدّدها في خانة الإجابة الصحيحة… والجمهور ينتظر الهدف!", tag: "كرة قدم", task: "⚽ سدّد في خانة الإجابة الصحيحة", tip: "اسحب الكرة نحو الخانة أو اضغط على الخانة" },
-      river: { n: "عبور النهر", d: "أوراق اللوتس تطفو وتتحرك وعليها الإجابات. اقفز بالضفدع على الصحيحة، والتقط الذباب، واحذر التمساح!", tag: "مغامرة", task: "🐸 اقفز على ورقة الإجابة الصحيحة", tip: "اضغط على الورقة لتقفز" },
+      dribble: { n: "مراوغة الأبطال", d: "راوغ المدافعين بالكرة واجمع النجوم، ثم سدّد في مرمى الإجابة الصحيحة… لا تدعهم يخطفون الكرة!", tag: "كرة قدم", task: "⚽ راوغ وادخل مرمى الإجابة الصحيحة", tip: "اضغط أو اسحب ليجري اللاعب • أو الأسهم" },
+      runner: { n: "عدّاء الغابة", d: "اجرِ في الغابة، اقفز فوق الجذوع وتفادَ الصخور واجمع العملات، ثم ادخل باب الإجابة الصحيحة!", tag: "جري", task: "🏃 اجرِ إلى باب الإجابة الصحيحة", tip: "اسحب يمينًا ويسارًا لتغيير المسار • اسحب لأعلى للقفز" },
+      shooter: { n: "غزو الفضاء", d: "أطباق فضائية تهبط وكل طبق يحمل إجابة. حرّك مركبتك وأطلق الليزر على طبق الإجابة الصحيحة، وفجّر النيازك!", tag: "فضاء", task: "🛸 أطلق الليزر على طبق الإجابة الصحيحة", tip: "اسحب لتحريك المركبة • زر الإطلاق أو اضغط على الطبق" },
       castle: { n: "حارس القلعة", d: "وحوش تزحف نحو قلعتك وكل وحش يحمل إجابة. صوّب المدفع على الوحش الصحيح قبل أن يصل إلى الأسوار!", tag: "دفاع", task: "🏰 أطلق المدفع على وحش الإجابة الصحيحة", tip: "اضغط على الوحش لتطلق المدفع" },
-      maze: { n: "متاهة الكنز", d: "تجوّل في المتاهة، اجمع العملات واهرب من الشبح، ثم ادخل غرفة الكنز التي فيها الإجابة الصحيحة!", tag: "استكشاف", task: "🗺️ ادخل غرفة الإجابة الصحيحة", tip: "اسحب للجري • اضغط على أي مكان للذهاب إليه • أو استخدم الأسهم" },
-      space: { n: "بوابات المجرّة", d: "مركبتك تنطلق نحو البوابات! وجّهها إلى مسار الإجابة الصحيحة، وتفادَ النيازك، واستخدم النيترو إذا كنت واثقًا!", tag: "فضاء", task: "🚀 وجّه المركبة إلى بوابة الإجابة الصحيحة", tip: "اضغط على المسار أو اسحب للتوجيه • النيترو للانطلاق فورًا" }
+      maze: { n: "متاهة الكنز", d: "تجوّل في المتاهة، اجمع العملات واهرب من الشبح، ثم ادخل غرفة الكنز التي فيها الإجابة الصحيحة!", tag: "استكشاف", task: "🗺️ ادخل غرفة الإجابة الصحيحة", tip: "اسحب للجري • اضغط على أي مكان للذهاب إليه • أو استخدم الأسهم" }
     },
-    penalty: { goal: "جوووول! ⚽", save: "تصدّى الحارس! 🧤", you: "أنت", keeper: "الحارس", win: (g, v) => `فزت ${g} – ${v} 🏆`, draw: (g, v) => `تعادل ${g} – ${v}`, lose: (g, v) => `الحارس فاز ${v} – ${g}` },
-    river: { safe: "قفزة آمنة! 🌿", sink: "غرقت الورقة! 💦", fly: "ذبابة! +15", total: n => `عبرت النهر ${n} مرة` },
+    dribble: { goal: "جوووول! ⚽", miss: "مرمى خطأ! 🙈", steal: "خطف المدافع الكرة! -10", star: "+10 ⭐", total: n => `سجّلت ${n} أهداف` },
+    runner: { open: "الباب الصحيح! 🎉", locked: "باب مغلق! 🔒", trip: "تعثّرت! -10", coin: "+5", jump: "⬆ قفز", dash: "⚡ انطلق", total: n => `فتحت ${n} أبواب` },
+    shooter: { fire: "🔥 إطلاق", hit: "إصابة! 💥", wrong: "طبق خطأ! ⚡", meteor: "+5", crash: "نيزك! -10", total: n => `أسقطت ${n} أطباق صحيحة` },
     castle: { hit: "إصابة مباشرة! 🎯", wrong: "وحش خاطئ! الوحش الحقيقي هاجم الأسوار", wall: "الوحوش عند الأسوار! اختر بسرعة", hp: "القلعة", win: "حميت القلعة! 🏰", hold: "صمدت القلعة 🛡️", lose: "سقطت الأسوار… حاول مجددًا" },
     maze: { treasure: "كنز! 💰", locked: "باب مغلق! 🔒", ghost: "👻 بووو! -10", coin: "+10", total: n => `وجدت ${n} كنوز` },
-    space: { go: "🔥 نيترو", warp: "قفزة ضوئية! ✨", boom: "بوابة خاطئة! 💥", hit: "نيزك! -10", total: n => `${n} قفزات ضوئية ناجحة`, out: "وصلت إلى البوابات!" },
     end: { great: "أداء أبطال!", good: "أداء رائع!", ok: "بداية جيدة!", try: "حاول مرة أخرى!" }
   },
   en: {
-    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you kick it, jump on it, blast it, reach it in a maze or fly into it!",
+    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you dribble to it, run to it, laser it, blast it or reach it in a maze!",
     len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Solution",
     again: "🔁 Play again", other: "🎲 Another adventure", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
     praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Amazing!", "Superb!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
     acc: "Accuracy", best: "Best streak", time: "Time", pts: "Points", rec: "🏅 New personal best!", recOld: s => `Your best: ${s}`, saved: "Round saved to your results ✓", saveFail: "Could not save this round",
     streak: n => `${n} in a row 🔥`, noQs: "Not enough questions for this idea.",
     games: {
-      penalty: { n: "Penalty Shootout", d: "The goal is split into the answers. Drag the ball and shoot it into the right answer — the crowd is waiting!", tag: "Football", task: "⚽ Shoot into the correct answer", tip: "Drag the ball toward a zone, or tap the zone" },
-      river: { n: "River Crossing", d: "Floating, drifting lily pads carry the answers. Jump the frog onto the right one, catch flies, and watch out for the crocodile!", tag: "Adventure", task: "🐸 Jump onto the correct answer", tip: "Tap a pad to jump" },
+      dribble: { n: "Dribble Stars", d: "Dribble past the defenders, collect stars, then score in the goal with the right answer — don't let them steal the ball!", tag: "Football", task: "⚽ Dribble into the correct answer's goal", tip: "Tap or drag to run • or use the arrows" },
+      runner: { n: "Jungle Runner", d: "Run through the jungle, jump the logs, dodge the rocks, grab coins, then run through the door with the right answer!", tag: "Run", task: "🏃 Run to the correct answer's door", tip: "Swipe left/right to change lane • swipe up to jump" },
+      shooter: { n: "Space Invaders", d: "Saucers are landing, each carrying an answer. Move your ship and laser the right saucer — and blast the meteors!", tag: "Space", task: "🛸 Laser the saucer with the correct answer", tip: "Drag to move the ship • Fire button or tap a saucer" },
       castle: { n: "Castle Guard", d: "Monsters march on your castle, each carrying an answer. Fire the cannon at the right monster before it reaches the walls!", tag: "Defence", task: "🏰 Fire at the monster with the correct answer", tip: "Tap a monster to fire the cannon" },
-      maze: { n: "Treasure Maze", d: "Explore the maze, collect coins, escape the ghost, then enter the treasure room with the right answer!", tag: "Explore", task: "🗺️ Enter the room with the correct answer", tip: "Swipe to run • tap anywhere to walk there • or use the arrows" },
-      space: { n: "Galaxy Gates", d: "Your ship is flying toward the gates! Steer into the right answer's lane, dodge meteors, and hit nitro when you're sure!", tag: "Space", task: "🚀 Steer into the gate with the correct answer", tip: "Tap or drag to steer • Nitro to launch now" }
+      maze: { n: "Treasure Maze", d: "Explore the maze, collect coins, escape the ghost, then enter the treasure room with the right answer!", tag: "Explore", task: "🗺️ Enter the room with the correct answer", tip: "Swipe to run • tap anywhere to walk there • or use the arrows" }
     },
-    penalty: { goal: "GOAL! ⚽", save: "Saved by the keeper! 🧤", you: "You", keeper: "Keeper", win: (g, v) => `You won ${g} – ${v} 🏆`, draw: (g, v) => `Draw ${g} – ${v}`, lose: (g, v) => `Keeper won ${v} – ${g}` },
-    river: { safe: "Safe jump! 🌿", sink: "The pad sank! 💦", fly: "A fly! +15", total: n => `You crossed the river ${n} times` },
+    dribble: { goal: "GOAL! ⚽", miss: "Wrong goal! 🙈", steal: "Ball stolen! -10", star: "+10 ⭐", total: n => `You scored ${n} goals` },
+    runner: { open: "Right door! 🎉", locked: "Locked door! 🔒", trip: "Tripped! -10", coin: "+5", jump: "⬆ Jump", dash: "⚡ Dash", total: n => `You opened ${n} doors` },
+    shooter: { fire: "🔥 Fire", hit: "Hit! 💥", wrong: "Wrong saucer! ⚡", meteor: "+5", crash: "Meteor! -10", total: n => `You downed ${n} correct saucers` },
     castle: { hit: "Direct hit! 🎯", wrong: "Wrong monster! The real one hit the walls", wall: "Monsters at the walls! Choose fast", hp: "Castle", win: "You defended the castle! 🏰", hold: "The castle held 🛡️", lose: "The walls fell… try again" },
     maze: { treasure: "Treasure! 💰", locked: "Locked door! 🔒", ghost: "👻 Boo! -10", coin: "+10", total: n => `You found ${n} treasures` },
-    space: { go: "🔥 Nitro", warp: "Light jump! ✨", boom: "Wrong gate! 💥", hit: "Meteor! -10", total: n => `${n} successful light jumps`, out: "You reached the gates!" },
     end: { great: "Champion play!", good: "Great play!", ok: "Good start!", try: "Try again!" }
   }
 };
@@ -7285,7 +7266,7 @@ const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
 /* ---- sound ---- */
-const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]], cheer: [[1400, .9, "noise", .09]], ooh: [[700, .5, "noise", .06]], cannon: [[180, .25, "noise", .22], [70, .2, "sine", .2]], boom: [[120, .45, "noise", .2]], ghost: [[440, .18, "sine", .08], [330, .18, "sine", .08], [220, .3, "sine", .08]] };
+const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]], cheer: [[1400, .9, "noise", .09]], ooh: [[700, .5, "noise", .06]], cannon: [[180, .25, "noise", .22], [70, .2, "sine", .2]], boom: [[120, .45, "noise", .2]], ghost: [[440, .18, "sine", .08], [330, .18, "sine", .08], [220, .3, "sine", .08]], whistle: [[2300, .12, "sine", .1], [2000, .3, "sine", .1]], laser: [[1400, .07, "square", .045], [700, .09, "square", .035]], jump: [[420, .08, "triangle", .1], [760, .12, "triangle", .1]] };
 function gmSnd(k) {
   if (GM.mute) return;
   try {
@@ -7299,7 +7280,6 @@ function gmSnd(k) {
 
 /* ---- art ---- */
 const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmKeeper = `<svg viewBox="0 0 64 74" aria-hidden="true"><path d="M20 30 L6 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><path d="M44 30 L58 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><circle cx="6" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><circle cx="58" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><rect x="18" y="26" width="28" height="28" rx="9" fill="#facc15"/><path d="M24 54 L22 70 M40 54 L42 70" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><circle cx="32" cy="16" r="11" fill="#fcd9b6"/><path d="M21 14 Q32 0 43 14 Q32 8 21 14Z" fill="#1e293b"/><circle cx="28" cy="17" r="1.6" fill="#1e293b"/><circle cx="36" cy="17" r="1.6" fill="#1e293b"/><path d="M28 21.5 Q32 24 36 21.5" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><text x="32" y="46" font-size="13" font-weight="900" text-anchor="middle" fill="#1e293b">1</text></svg>`;
 const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><rect class="lg2" x="34" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/></g><g class="mo-body"><path d="M16 15 L11 2 L24 11Z M44 15 L49 2 L36 11Z" fill="#fef3c7" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><path d="M8 38 Q6 10 30 9 Q54 10 52 38 Q52 54 30 54 Q8 54 8 38Z" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="2"/><ellipse cx="30" cy="44" rx="13" ry="6" fill="rgba(255,255,255,.18)"/><circle cx="22" cy="27" r="7.5" fill="#fff"/><circle cx="38" cy="27" r="7.5" fill="#fff"/><circle class="mo-eye" cx="22" cy="28" r="3.6" fill="#111"/><circle class="mo-eye" cx="38" cy="28" r="3.6" fill="#111"/><path d="M20 39 Q30 47 40 39" stroke="#111" stroke-width="2.6" fill="#7f1d1d" stroke-linecap="round"/><path d="M24 40 l2.2 3.4 l2.2 -3 M32 40.5 l2.2 3 l2.2 -3.4" fill="#fff"/></g></svg>`;
 const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="20" height="12" patternUnits="userSpaceOnUse"><rect width="20" height="12" fill="#a8a29e"/><path d="M0 0H20M0 6H20M10 0V6M0 6V12M20 6V12" stroke="#78716c" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V0 H12 V8 H24 V0 H36 V8 H48 V0 H60 V8 H70 V16Z" fill="#a8a29e" stroke="#78716c" stroke-width="1.5"/><rect x="62" y="16" width="8" height="184" fill="#57534e" opacity=".35"/></svg>`;
 const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><circle cx="20" cy="18" r="11" fill="#7c2d12" stroke="#431407" stroke-width="2"/><circle cx="20" cy="18" r="3" fill="#fbbf24"/><path d="M9 18 H31 M20 7 V29" stroke="#431407" stroke-width="2"/></svg>`;
@@ -7308,12 +7288,15 @@ const gmGhost = `<svg viewBox="0 0 40 44" aria-hidden="true"><path d="M5 40 V20 
 const gmCoin = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#facc15" stroke="#b45309" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fde68a" stroke-width="2"/><path d="M8 8 l3 -2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
 const gmRock = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 14 L16 5 L28 6 L36 16 L33 30 L20 36 L8 30 L4 21Z" fill="#78716c" stroke="#44403c" stroke-width="2"/><circle cx="15" cy="16" r="3.5" fill="#57534e"/><circle cx="25" cy="25" r="4.5" fill="#57534e"/><circle cx="27" cy="13" r="2" fill="#57534e"/></svg>`;
 const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
+const gmKid = (sh, pa) => `<svg viewBox="0 0 40 52" aria-hidden="true"><ellipse cx="20" cy="49" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><g class="kd-legs"><rect class="lg1" x="13" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect class="lg2" x="21" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect x="12" y="44" width="8" height="5" rx="2" fill="#111827"/><rect x="20" y="44" width="8" height="5" rx="2" fill="#111827"/></g><rect x="11" y="29" width="18" height="8" rx="3" fill="${pa}"/><g class="kd-arms"><path d="M11 20 l-6 9 M29 20 l6 9" stroke="${sh}" stroke-width="5" stroke-linecap="round"/></g><rect x="10" y="17" width="20" height="15" rx="6" fill="${sh}"/><circle cx="20" cy="10.5" r="8" fill="#fcd9b6"/><path d="M12 9 Q20 -1 28 9 Q24 5.5 20 5.5 Q16 5.5 12 9Z" fill="#3f2a14"/><circle cx="17" cy="11.5" r="1.4" fill="#1e293b"/><circle cx="23" cy="11.5" r="1.4" fill="#1e293b"/><path d="M17 14.5 Q20 16.5 23 14.5" stroke="#1e293b" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>`;
+const gmUfo = c => `<svg viewBox="0 0 80 40" aria-hidden="true"><ellipse cx="40" cy="15" rx="15" ry="12" fill="#bae6fd" stroke="#0ea5e9" stroke-width="2" opacity=".92"/><ellipse cx="36" cy="11" rx="4" ry="3" fill="#fff" opacity=".7"/><ellipse cx="40" cy="24" rx="37" ry="10" fill="${c}" stroke="rgba(0,0,0,.3)" stroke-width="2"/><g class="uf-l" fill="#fde047"><circle cx="18" cy="25" r="2.8"/><circle cx="31" cy="27.5" r="2.8"/><circle cx="49" cy="27.5" r="2.8"/><circle cx="62" cy="25" r="2.8"/></g><path d="M27 33 L21 40 M53 33 L59 40" stroke="${c}" stroke-width="3" stroke-linecap="round"/></svg>`;
+const gmLog = `<svg viewBox="0 0 60 26" aria-hidden="true"><rect x="4" y="5" width="52" height="16" rx="8" fill="#92400e" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="5" ry="8" fill="#d6a46b" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="2" ry="3.5" fill="none" stroke="#92400e" stroke-width="1.5"/><path d="M12 10 H34 M16 16 H40" stroke="#78350f" stroke-width="2" stroke-linecap="round"/></svg>`;
 const GM_GAMES = [
-  { id: "penalty", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0369a1"/><g fill="rgba(255,255,255,.35)"><circle cx="20" cy="10" r="3"/><circle cx="40" cy="14" r="3"/><circle cx="60" cy="9" r="3"/><circle cx="250" cy="12" r="3"/><circle cx="270" cy="9" r="3"/><circle cx="290" cy="14" r="3"/></g><rect y="70" width="300" height="58" fill="#16a34a"/><rect x="60" y="14" width="180" height="78" fill="rgba(255,255,255,.14)" stroke="#fff" stroke-width="6"/><path d="M150 17 V90 M63 53 H237" stroke="#fff" stroke-width="2" opacity=".7"/><g font-size="20" font-weight="900" fill="#fff" text-anchor="middle"><text x="105" y="42">أ</text><text x="195" y="42">ب</text><text x="105" y="80">ج</text><text x="195" y="80">د</text></g><g transform="translate(118 44) scale(.9)">${gmIn(gmKeeper)}</g><path d="M214 116 Q200 90 190 64" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/><text x="216" y="122" font-size="30" text-anchor="middle">⚽</text></svg>` },
-  { id: "river", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0891b2"/><rect width="300" height="20" fill="#65a30d"/><rect y="108" width="300" height="20" fill="#65a30d"/><g fill="#a3e635" stroke="#3f6212" stroke-width="3"><ellipse cx="60" cy="62" rx="36" ry="22"/><ellipse cx="150" cy="70" rx="36" ry="22"/><ellipse cx="240" cy="58" rx="36" ry="22"/></g><g font-size="20" font-weight="900" fill="#14532d" text-anchor="middle"><text x="60" y="69">أ</text><text x="240" y="65">ج</text></g><text x="150" y="80" font-size="34" text-anchor="middle">🐸</text><text x="196" y="38" font-size="18" text-anchor="middle">🪰</text><text x="262" y="110" font-size="30" text-anchor="middle">🐊</text></svg>` },
+  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#16a34a"/><g fill="#15803d"><rect x="0" y="0" width="50" height="128"/><rect x="100" y="0" width="50" height="128"/><rect x="200" y="0" width="50" height="128"/></g><g fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="4"><rect x="16" y="4" width="78" height="34" rx="3"/><rect x="111" y="4" width="78" height="34" rx="3"/><rect x="206" y="4" width="78" height="34" rx="3"/></g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="55" y="28">أ</text><text x="150" y="28">ب</text><text x="245" y="28">ج</text></g><circle cx="150" cy="80" r="26" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/><g transform="translate(70 54) scale(.95)">${gmIn(gmKid("#dc2626", "#111827"))}</g><g transform="translate(196 62) scale(1.1)">${gmIn(gmKid("#2563eb", "#1e3a8a"))}</g><text x="232" y="122" font-size="20" text-anchor="middle">⚽</text><path d="M226 104 Q220 70 245 42" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
+  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#14532d"/><path d="M60 0 L0 128 H300 L240 0Z" fill="#a16207"/><path d="M120 0 L100 128 M180 0 L200 128" stroke="#fde68a" stroke-width="3" stroke-dasharray="10 8"/><g stroke-width="4"><rect x="66" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#ef4444"/><rect x="124" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#f59e0b"/><rect x="182" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#22c55e"/></g><g font-size="17" font-weight="900" text-anchor="middle"><text x="92" y="25" fill="#ef4444">أ</text><text x="150" y="25" fill="#f59e0b">ب</text><text x="208" y="25" fill="#22c55e">ج</text></g><g transform="translate(118 52) scale(.7)">${gmIn(gmLog)}</g><g transform="translate(184 64) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(184 86) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(130 76) scale(1.05)">${gmIn(gmKid("#f59e0b", "#7c2d12"))}</g><text x="20" y="60" font-size="34">🌴</text><text x="252" y="80" font-size="34">🌴</text></svg>` },
+  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="90" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="40" r="1"/></g><g transform="translate(30 8) scale(.9)">${gmIn(gmUfo("#ef4444"))}</g><g transform="translate(114 16) scale(.9)">${gmIn(gmUfo("#22c55e"))}</g><g transform="translate(198 6) scale(.9)">${gmIn(gmUfo("#8b5cf6"))}</g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="66" y="56">أ</text><text x="150" y="64">ب</text><text x="234" y="54">ج</text></g><rect x="148" y="72" width="4" height="24" rx="2" fill="#f472b6"/><g transform="translate(166 98) rotate(-90) scale(1.1)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g><g transform="translate(232 76) scale(.5)">${gmIn(gmRock)}</g></svg>` },
   { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="96" width="300" height="32" fill="#65a30d"/><g transform="translate(236 0) scale(.9 .64)">${gmIn(gmCastle)}</g><circle cx="226" cy="70" r="8" fill="#7c2d12"/><rect x="190" y="66" width="34" height="8" rx="3" fill="#292524"/><circle cx="160" cy="58" r="5" fill="#111"/><g transform="translate(30 52) scale(.8)">${gmIn(gmMonster("#a855f7"))}</g><g transform="translate(90 40) scale(.9)">${gmIn(gmMonster("#22c55e"))}</g><text x="120" y="54" font-size="22" text-anchor="middle">💥</text></svg>` },
-  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` },
-  { id: "space", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="150" cy="116" r="1"/></g><g fill="none" stroke-width="5"><ellipse cx="226" cy="26" rx="12" ry="18" stroke="#f472b6"/><ellipse cx="226" cy="64" rx="12" ry="18" stroke="#fde047"/><ellipse cx="226" cy="102" rx="12" ry="18" stroke="#34d399"/></g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="226" y="31">أ</text><text x="226" y="69">ب</text><text x="226" y="107">ج</text></g><g transform="translate(150 84) scale(.6)">${gmIn(gmRock)}</g><g transform="translate(56 40) scale(1.5)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g></svg>` }
+  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` }
 ];
 /* ---- shell ---- */
 function openGame(ideaId) {
@@ -7458,110 +7441,221 @@ const CONF = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#fde047", 
 const gmPt = (e, ar) => { const R = ar.getBoundingClientRect(); return { x: e.clientX - R.left, y: e.clientY - R.top }; };
 
 const GMG = {
-  /* ⚽ drag the ball (or tap a zone) and shoot into the answer */
-  penalty: {
-    bg: () => `<div class="pk-crowd"></div><div class="pk-lights"></div>`,
+  /* ⚽ dribble past the defenders and score in the answer's goal */
+  dribble: {
+    bg: () => `<div class="db-stripes"></div>`,
     round(ar, s, q) {
-      const d = s.d; d.g = d.g || 0; d.v = d.v || 0;
-      const hist = s.qs.map((x, i) => `<i class="${i < s.i ? (s.ans[i] === s.qs[i].a ? "g" : "m") : i === s.i ? "now" : ""}"></i>`).join("");
-      ar.innerHTML = `<div class="pk-goal"><div class="${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "pk-zone")).join("")}</div></div><div class="pk-spot"></div><div class="pk-aim" hidden></div>
-      <div class="pk-board"><span class="pk-hist">${hist}</span><span>${gt("penalty.you")} <b id="pkG">${d.g}</b>–<b id="pkV">${d.v}</b> ${gt("penalty.keeper")}</span></div><div class="gm-tip">${gt("games.penalty.tip")}</div>`;
-      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
-      const g = gmPos(ar.querySelector(".pk-goal"), ar);
-      d.kp = gmActor(ar, "pk-keeper", gmKeeper, g.x, g.y + g.h / 2 - 36);
-      d.bx = ar.clientWidth / 2; d.by = ar.clientHeight - 48;
-      d.shadow = gmActor(ar, "pk-shadow", "", d.bx, d.by + 18);
-      d.ball = gmActor(ar, "pk-ball", "⚽", d.bx, d.by);
-      const aim = ar.querySelector(".pk-aim");
-      const zoneAt = p => {
-        const dx = p.x - d.bx, dy = p.y - d.by, L = Math.hypot(dx, dy); if (L < 18 || dy > -8) return -1;
-        let best = -1, bs = 1e9;
-        ar.querySelectorAll(".pk-zone").forEach(z => { const c = gmPos(z, ar), vx = c.x - d.bx, vy = c.y - d.by, t = (vx * dx + vy * dy) / L; if (t <= 0) return; const perp = Math.abs(vx * dy - vy * dx) / L, lim = Math.max(c.w, c.h) * .75; if (perp < lim && perp < bs) { bs = perp; best = +z.dataset.opt; } });
-        return best;
-      };
-      const mark = k => ar.querySelectorAll(".pk-zone").forEach(z => z.classList.toggle("aim", +z.dataset.opt === k));
-      ar.onpointerdown = e => {
-        if (s.busy || s.ans[s.i] != null || e.target.closest(".gx-opt,.gm-sheet")) return;
-        const p = gmPt(e, ar); if (Math.hypot(p.x - d.bx, p.y - d.by) > 90) return;
-        d.drag = true; d.aimK = -1; try { ar.setPointerCapture(e.pointerId); } catch (_) { } e.preventDefault();
-      };
-      ar.onpointermove = e => {
-        if (!d.drag) return; const p = gmPt(e, ar), dx = p.x - d.bx, dy = p.y - d.by, L = Math.hypot(dx, dy);
-        aim.hidden = false; aim.style.left = d.bx + "px"; aim.style.top = d.by + "px"; aim.style.width = Math.min(L, 400) + "px"; aim.style.transform = `rotate(${Math.atan2(dy, dx) * 180 / Math.PI}deg)`;
-        d.aimK = zoneAt(p); mark(d.aimK);
-      };
-      ar.onpointerup = ar.onpointercancel = e => {
-        if (!d.drag) return; d.drag = false; aim.hidden = true; mark(-1);
-        if (e.type === "pointerup" && d.aimK >= 0) gmChoose(d.aimK);
-      };
-    },
-    async resolve(ar, s, k, ok, q) {
-      const d = s.d, el = gmOptEl(ar, k), z = gmPos(el, ar); let t = z;
-      if (ok) { const o = pick([...ar.querySelectorAll(".gx-opt")].filter(b => +b.dataset.opt !== k)); if (o) t = gmPos(o, ar); }
-      d.kp.classList.add("dive"); gmSnd("kick");
-      const side = t.x < d.kp._x ? -1 : 1;
-      gmFly(d.shadow, z.x, d.by + 18, 520, { scale: .4 });
-      await Promise.all([gmFly(d.ball, z.x, z.y, 520, { arc: 56, scale: .6, rot: 720 }), gmWait(150).then(() => gmFly(d.kp, t.x, t.y, 340, { rot: side * 62 }))]);
-      if (ok) {
-        d.g++; el.classList.add("goal"); gmSnd("win"); gmSnd("cheer"); gmBanner(ar, gt("penalty.goal")); gmFloat(ar, z.x, z.y - 20, `+${s.gain}`, "#fde047");
-        gmBurst(ar, z.x, z.y, CONF, 22, 50); const w = gm$("#gmWorld"); if (w) { w.classList.remove("cheer"); void w.offsetWidth; w.classList.add("cheer"); }
-      } else {
-        d.v++; gmSnd("hit"); gmSnd("ooh"); gmBanner(ar, gt("penalty.save")); gmShake(ar.querySelector(".pk-goal"));
-        await gmFly(d.ball, d.kp._x, d.kp._y - 8, 160, { scale: .55 });
-        await gmFly(d.ball, z.x + (Math.random() < .5 ? -120 : 120), ar.clientHeight + 60, 560, { scale: 1, rot: 1100, ease: "ease-in" });
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="db-mark"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, gr = gmPos(ar.querySelector(".db-goals"), ar);
+      d.line = gr.y + gr.h / 2;
+      d.goals = [...ar.querySelectorAll(".db-goal")].map(g => { const p = gmPos(g, ar); return { k: +g.dataset.goal, x0: p.x - p.w / 2, x1: p.x + p.w / 2, x: p.x, y: p.y }; });
+      d.home = { x: W / 2, y: H - 34 }; d.p = { ...d.home }; d.t = null; d.face = 1; d.inv = 1; d.kx = d.ky = 0;
+      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#1e3a8a"), d.p.x, d.p.y);
+      d.ball = gmActor(ar, "db-ball", "⚽", d.p.x + 12, d.p.y + 16);
+      const span = H - 110 - (d.line + 46), rows = span > 300 ? 3 : 2; d.def = [];
+      for (let r = 0; r < rows; r++) {
+        const y = d.line + 46 + span * (rows > 1 ? r / (rows - 1) : .5), x = 40 + Math.random() * (W - 80), v = (Math.min(W, 900) / 900 * 40 + 34 + Math.random() * 36 + s.i * 3) * (Math.random() < .5 ? -1 : 1);
+        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827"), x, y) });
       }
-      ar.querySelector("#pkG").textContent = d.g; ar.querySelector("#pkV").textContent = d.v;
-      const dot = ar.querySelector(".pk-hist .now"); if (dot) { dot.className = ok ? "g" : "m"; }
-      arabize(ar.querySelector(".pk-board"));
-      await gmWait(650);
-    },
-    final(s) { const g = s.d.g || 0, v = s.d.v || 0; return g > v ? { win: true, medal: "🏆", title: gt("penalty.win", g, v) } : g === v ? { win: false, medal: "🤝", title: gt("penalty.draw", g, v) } : { win: false, medal: "🧤", title: gt("penalty.lose", g, v) }; }
-  },
-
-  /* 🐸 jump onto the drifting pad with the answer */
-  river: {
-    round(ar, s, q) {
-      const d = s.d; d.n = d.n || 0;
-      const pct = Math.round(100 * d.n / s.qs.length);
-      ar.innerHTML = `<div class="rv-far"><div class="rv-trip"><i style="width:${pct}%"></i><b style="inset-inline-start:${pct}%">🐸</b><span>🏠</span></div></div>
-      <div class="rv-pads ${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "rv-pad")).join("")}</div><div class="rv-near"></div><div class="gm-tip">${gt("games.river.tip")}</div>`;
-      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
-      const W = ar.clientWidth, H = ar.clientHeight;
-      d.frog = gmActor(ar, "rv-frog", "🐸", W / 2, H - 44);
-      d.croc = gmActor(ar, "rv-croc", "<span>🐊</span>", 40, H - 96);
-      d.fly = gmActor(ar, "rv-fly", "🪰", W / 2, 70);
-      let t = Math.random() * 10;
+      d.stars = [];
+      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", "⭐", x, y) }); }
+      const clampP = p => ({ x: Math.max(16, Math.min(W - 16, p.x)), y: Math.max(d.line - 14, Math.min(H - 22, p.y)) });
+      let held = false;
+      ar.onpointerdown = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet")) return;
+        const g = e.target.closest(".db-goal"); if (g) { const G = d.goals.find(x => x.k === +g.dataset.goal); d.t = { x: G.x, y: d.line - 14 }; return; }
+        held = true; d.t = clampP(gmPt(e, ar)); try { ar.setPointerCapture(e.pointerId); } catch (_) { }
+      };
+      ar.onpointermove = e => { if (held) d.t = clampP(gmPt(e, ar)); };
+      ar.onpointerup = ar.onpointercancel = () => { held = false; };
+      const steal = () => {
+        d.inv = 1.4; s.score = Math.max(0, s.score - 10); gmSnd("whistle"); gmShake(d.kid); gmFloat(ar, d.p.x, d.p.y - 30, gt("dribble.steal"), "#fecaca"); gmHud(true);
+        d.p = { ...d.home }; d.t = null; held = false;
+      };
       gmLoop(dt => {
-        t += dt;
-        const cx = W / 2 + (W / 2 - 40) * Math.sin(t * .35), dir = Math.cos(t * .35) >= 0 ? 1 : -1;
-        gmPut(d.croc, cx, H - 96 + 4 * Math.sin(t * 2.2)); d.croc.firstChild.style.transform = `scaleX(${gmRTL() ? -dir : dir})`;
-        gmPut(d.fly, W / 2 + (W / 2 - 50) * Math.sin(t * .9 + 1), 64 + 18 * Math.sin(t * 2.7));
+        if (d.kx || d.ky) { d.t = clampP({ x: d.p.x + d.kx * 40, y: d.p.y + d.ky * 40 }); d.kt -= dt; if (d.kt <= 0) d.kx = d.ky = 0; }
+        let moving = false;
+        if (d.t) {
+          const dx = d.t.x - d.p.x, dy = d.t.y - d.p.y, L = Math.hypot(dx, dy), sp = 200 * dt;
+          if (L <= sp) { d.p.x = d.t.x; d.p.y = d.t.y; if (!held && !d.kx && !d.ky) d.t = null; } else { d.p.x += dx / L * sp; d.p.y += dy / L * sp; moving = true; }
+          if (Math.abs(dx) > 3) d.face = dx < 0 ? -1 : 1;
+        }
+        gmPut(d.kid, d.p.x, d.p.y); d.kid.firstElementChild.style.transform = `scaleX(${d.face})`; d.kid.classList.toggle("go", moving); d.kid.classList.toggle("blink", d.inv > 0);
+        gmPut(d.ball, d.p.x + d.face * 12, d.p.y + 16, 1, (d.ball._r || 0) + (moving ? 540 * dt * d.face : 0));
+        d.inv -= dt;
+        d.def.forEach(f => {
+          f.x += f.v * dt; if (Math.abs(f.y - d.p.y) < 70) f.x += Math.sign(d.p.x - f.x) * 26 * dt;
+          if (f.x < 22 || f.x > W - 22) { f.v *= -1; f.x = Math.max(22, Math.min(W - 22, f.x)); }
+          gmPut(f.el, f.x, f.y); f.el.firstElementChild.style.transform = `scaleX(${f.v < 0 ? -1 : 1})`;
+          if (d.inv <= 0 && Math.hypot(f.x - d.p.x, f.y - d.p.y) < 30) steal();
+        });
+        for (let i = d.stars.length - 1; i >= 0; i--) { const t = d.stars[i]; if (Math.hypot(t.x - d.p.x, t.y - d.p.y) < 26) { t.el.remove(); d.stars.splice(i, 1); s.score += 10; gmSnd("coin"); gmFloat(ar, t.x, t.y - 16, gt("dribble.star"), "#fde047"); gmHud(true); } }
+        if (d.p.y <= d.line - 2) { const G = d.goals.find(g => d.p.x >= g.x0 && d.p.x <= g.x1); if (G) { gmChoose(G.k); return false; } }
       });
     },
-    ring(ar, x, y) { const r = document.createElement("div"); r.className = "rv-ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.transform = "translate(-50%,-50%)"; ar.appendChild(r); GM.timers.push(setTimeout(() => r.remove(), 850)); },
-    async tongue(ar, d) {
-      const f = { x: d.frog._x, y: d.frog._y - 6 }, b = { x: d.fly._x, y: d.fly._y }, L = Math.hypot(b.x - f.x, b.y - f.y);
-      const tg = document.createElement("div"); tg.className = "rv-tongue"; tg.style.left = f.x + "px"; tg.style.top = f.y + "px"; tg.style.transform = `rotate(${Math.atan2(b.y - f.y, b.x - f.x) * 180 / Math.PI}deg)`; ar.appendChild(tg);
-      try { await tg.animate([{ width: "0px" }, { width: L + "px" }, { width: "0px" }], { duration: 380, easing: "ease-in-out" }).finished; } catch (e) { await gmWait(380); }
-      tg.remove(); d.fly.remove(); d.fly = null;
+    key(e, s) {
+      const d = s.d, m = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+      if (m) { d.kx = m[0]; d.ky = m[1]; d.kt = .16; return true; }
+      if (/^[1-5]$/.test(e.key)) { const G = d.goals.find(g => g.k === +e.key - 1); if (G) { d.t = { x: G.x, y: d.line - 14 }; return true; } }
+      return false;
     },
     async resolve(ar, s, k, ok) {
-      const d = s.d; gmStop(); ar.querySelector(".rv-pads").classList.add("still");
-      const pad = gmOptEl(ar, k), p = gmPos(pad, ar), W = ar.clientWidth, H = ar.clientHeight;
-      gmSnd("whoosh"); await gmFly(d.frog, p.x, p.y - p.h * .28, 560, { arc: 90 }); this.ring(ar, p.x, p.y);
+      const d = s.d; gmStop(); const G = d.goals.find(g => g.k === k), card = gmOptEl(ar, k);
+      gmSnd("kick"); await gmFly(d.ball, G.x, G.y, 380, { arc: 24, scale: .8, rot: 720 });
       if (ok) {
-        d.n++; gmSnd("ok"); pad.classList.add("ok"); gmBanner(ar, gt("river.safe")); gmFloat(ar, p.x, p.y - 30, `+${s.gain}`, "#fde047");
-        if (d.fly) { await gmWait(250); gmSnd("pop"); await this.tongue(ar, d); s.score += 15; s.gain += 15; gmFloat(ar, d.frog._x, d.frog._y - 50, gt("river.fly"), "#bef264"); gmHud(true); }
-        const pct = Math.round(100 * d.n / s.qs.length), tr = ar.querySelector(".rv-trip"); if (tr) { tr.querySelector("i").style.width = pct + "%"; tr.querySelector("b").style.insetInlineStart = pct + "%"; }
-        await gmWait(350); gmSnd("whoosh"); await gmFly(d.frog, W / 2, 20, 560, { arc: 60, scale: .8 });
+        d.n++; card.classList.add("goal"); gmSnd("win"); gmSnd("cheer"); gmBanner(ar, gt("dribble.goal")); gmFloat(ar, G.x, G.y, `+${s.gain}`, "#fde047"); gmBurst(ar, G.x, G.y, CONF, 22, 48);
+        await gmFly(d.kid, d.kid._x, d.kid._y - 10, 300, { arc: 26 });
       } else {
-        gmSnd("splash"); pad.classList.add("sink"); gmBurst(ar, p.x, p.y, ["#e0f2fe", "#7dd3fc", "#fff"], 16, 34); gmBanner(ar, gt("river.sink"));
-        await Promise.all([gmFly(d.croc, p.x, p.y + 10, 520), gmWait(120).then(() => gmFly(d.frog, W / 2, H - 44, 620, { arc: 110 }))]);
-        gmSnd("hit"); gmShake(d.croc.firstChild);
+        gmSnd("hit"); gmShake(card); gmBanner(ar, gt("dribble.miss"));
+        await gmFly(d.ball, G.x + (Math.random() < .5 ? -90 : 90), ar.clientHeight + 40, 600, { rot: 1000, ease: "ease-in" });
       }
-      await gmWait(450);
+      await gmWait(500);
     },
-    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "🐸" : "🐊", title: gt("river.total", n) }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🏆" : r >= .6 ? "⚽" : "🥅", title: gt("dribble.total", n) }; }
+  },
+
+  /* 🏃 run down the jungle track, jump logs, dodge rocks, enter the answer's door */
+  runner: {
+    bg: () => `<div class="rn-trees"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="rn-doors" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-door" data-door="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "rn-card")}</div>`).join("")}</div>
+      <div class="rn-track" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-lane" data-lane="${i}"></div>`).join("")}</div><div class="rn-prog"><i></i></div>
+      <div class="rn-btns"><button type="button" class="rn-btn" data-rn="jump">${gt("runner.jump")}</button><button type="button" class="rn-btn hot" data-rn="dash">${gt("runner.dash")}</button></div><div class="gm-tip">${gt("games.runner.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, track = ar.querySelector(".rn-track"), tp = gmPos(track, ar);
+      const lanes = [...ar.querySelectorAll(".rn-lane")].map(l => gmPos(l, ar).x), order = lanes.map((x, i) => i).sort((a, b) => lanes[a] - lanes[b]);
+      const lw = gmPos(ar.querySelector(".rn-lane"), ar).w; d.lanes = lanes; d.order = order; d.top = tp.y - tp.h / 2; d.ky0 = H - (W < 600 ? 104 : 74); d.lane = order[Math.floor(n / 2)];
+      d.x = lanes[d.lane]; d.p = 0; d.jump = 0; d.dash = false; d.inv = 0; d.obs = []; d.spawn = 1.4; d.off = 0;
+      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12"), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
+      const osz = { log: [Math.min(lw * .7, 110), Math.min(lw * .7, 110) * .43], rock: [Math.min(lw * .45, 64), Math.min(lw * .45, 64)], coin: [26, 26] };
+      const mk = (kind, ln, y) => { const el = gmActor(ar, "rn-ob " + kind, kind === "log" ? gmLog : kind === "rock" ? gmRock : gmCoin, lanes[ln], y); el.style.width = osz[kind][0] + "px"; el.style.height = osz[kind][1] + "px"; return el; };
+      const T = gmReadT(q), prog = ar.querySelector(".rn-prog i"), doors = ar.querySelector(".rn-doors");
+      d.move = dir => { const at = order.indexOf(d.lane), nx = order[Math.max(0, Math.min(n - 1, at + dir))]; if (nx !== d.lane) { d.lane = nx; gmSnd("tap"); } };
+      d.hop = () => { if (d.jump <= 0) { d.jump = .62; gmSnd("jump"); } };
+      d.go = () => { if (!d.dash) { d.dash = true; gmSnd("boost"); } };
+      ar.querySelector('[data-rn="jump"]').onclick = e => { e.stopPropagation(); d.hop(); };
+      ar.querySelector('[data-rn="dash"]').onclick = e => { e.stopPropagation(); d.go(); };
+      let down = null;
+      ar.onpointerdown = e => { if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet,.rn-btn")) return; down = gmPt(e, ar); down.door = e.target.closest(".rn-door"); };
+      ar.onpointerup = e => {
+        if (!down || s.busy || s.ans[s.i] != null) { down = null; return; }
+        const p = gmPt(e, ar), dx = p.x - down.x, dy = p.y - down.y, door = down.door; down = null;
+        if (Math.abs(dx) > 28 && Math.abs(dx) > Math.abs(dy)) return d.move(dx > 0 ? 1 : -1);
+        if (dy < -28) return d.hop();
+        if (door) { d.lane = +door.dataset.door; d.go(); return; }
+        let b = 0, bd = 1e9; lanes.forEach((x, i) => { const dd = Math.abs(x - p.x); if (dd < bd) { bd = dd; b = i; } }); if (b !== d.lane) { d.lane = b; gmSnd("tap"); }
+      };
+      gmLoop(dt => {
+        const v = d.dash ? 380 : 170;
+        d.p = Math.min(1, d.p + dt * (d.dash ? 1.15 : 1 / T)); prog.style.width = d.p * 100 + "%"; doors.style.transform = `scale(${1 + d.p * .05})`;
+        d.off = (d.off + v * dt) % 80; track.style.setProperty("--off", d.off + "px");
+        d.x += (lanes[d.lane] - d.x) * Math.min(1, dt * 14);
+        if (d.jump > 0) d.jump -= dt; const jh = d.jump > 0 ? Math.sin((1 - d.jump / .62) * Math.PI) : 0;
+        gmPut(d.kid, d.x, d.ky0 - jh * 34, 1 + jh * .3); d.kid.classList.toggle("blink", d.inv > 0); d.inv -= dt;
+        d.spawn -= dt;
+        if (d.spawn <= 0 && d.p < .82 && !d.dash) {
+          d.spawn = 1.1 + Math.random() * 1.1; const ln = (Math.random() * n) | 0, r = Math.random();
+          if (r < .62) { const kind = r < .36 ? "log" : "rock"; d.obs.push({ ln, y: d.top + 10, kind, el: mk(kind, ln, d.top + 10) }); }
+          else for (let c = 0; c < 3; c++) d.obs.push({ ln, y: d.top + 10 - c * 34, kind: "coin", el: mk("coin", ln, d.top + 10 - c * 34) });
+        }
+        for (let i = d.obs.length - 1; i >= 0; i--) {
+          const o = d.obs[i]; o.y += v * dt; gmPut(o.el, lanes[o.ln], o.y, .7 + .5 * Math.max(0, (o.y - d.top) / (H - d.top)));
+          o.el.style.opacity = o.y < d.top ? 0 : 1;
+          if (o.ln === d.lane && Math.abs(o.y - d.ky0) < 28) {
+            if (o.kind === "coin") { s.score += 5; gmSnd("coin"); gmFloat(ar, d.x, d.ky0 - 40, gt("runner.coin"), "#fde047"); gmHud(true); o.el.remove(); d.obs.splice(i, 1); continue; }
+            if ((o.kind === "rock" || jh < .35) && d.inv <= 0) { d.inv = 1.1; s.score = Math.max(0, s.score - 10); d.p = Math.max(0, d.p - .03); gmSnd("hit"); gmShake(d.kid); gmFloat(ar, d.x, d.ky0 - 40, gt("runner.trip"), "#fecaca"); gmHud(true); }
+          }
+          if (o.y > H + 30) { o.el.remove(); d.obs.splice(i, 1); }
+        }
+        if (d.p >= 1) { gmChoose(d.lane); return false; }
+      });
+    },
+    key(e, s) {
+      const d = s.d;
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") { d.move(e.key === "ArrowRight" ? 1 : -1); return true; }
+      if (e.key === "ArrowUp" || e.key === " ") { d.hop(); return true; }
+      if (e.key === "Enter") { d.go(); return true; }
+      if (/^[1-5]$/.test(e.key) && +e.key <= d.lanes.length) { d.lane = +e.key - 1; return true; }
+      return false;
+    },
+    async resolve(ar, s, k, ok) {
+      const d = s.d; gmStop(); d.obs.forEach(o => o.el.remove()); d.obs = [];
+      const door = ar.querySelectorAll(".rn-door")[k], p = gmPos(door, ar);
+      gmSnd("whoosh"); await gmFly(d.kid, p.x, p.y + p.h / 2 - 6, 420, { scale: .8 });
+      if (ok) { d.n++; door.classList.add("open"); gmSnd("win"); gmBanner(ar, gt("runner.open")); gmFloat(ar, p.x, p.y, `+${s.gain}`, "#fde047"); gmBurst(ar, p.x, p.y, CONF, 20, 46); }
+      else { gmSnd("no"); gmShake(door); gmBanner(ar, gt("runner.locked")); await gmFly(d.kid, p.x, d.ky0, 520, { arc: 30, scale: 1 }); }
+      await gmWait(500);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🏅" : r >= .6 ? "🏃" : "🌴", title: gt("runner.total", n) }; }
+  },
+
+  /* 🛸 move the ship, laser the saucer that carries the answer, blast meteors */
+  shooter: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="sh-ufos" style="--n:${n}">${q.o.map((o, i) => `<div class="sh-ufo" data-ufo="${i}" style="--bc:${GM_COLS[i]}"><span class="sh-saucer">${gmUfo(GM_COLS[i])}</span>${gmOpt(q, i, "sh-card")}</div>`).join("")}</div>
+      <button type="button" class="sh-fire">${gt("shooter.fire")}</button><div class="gm-tip">${gt("games.shooter.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, row = ar.querySelector(".sh-ufos"), ufos = [...ar.querySelectorAll(".sh-ufo")];
+      d.x = W / 2; d.y = H - 40; d.tx = null; d.cool = 0; d.las = []; d.met = []; d.spawn = 2.2; d.dy = 0; d.auto = -1; d.t = 0; d.inv = 0;
+      d.ship = gmActor(ar, "sh-ship", gmRocket("#fde047", "#f59e0b"), d.x, d.y); gmPut(d.ship, d.x, d.y, 1, -90);
+      const rb = gmPos(row, ar), maxDy = Math.max(0, (H - 120) - (rb.y + rb.h / 2)), T = gmReadT(q);
+      d.fire = () => { if (s.busy || s.ans[s.i] != null || d.cool > 0) return; d.cool = .3; gmSnd("laser"); const l = { x: d.x, y: d.y - 34, el: gmActor(ar, "sh-laser", "", d.x, d.y - 34) }; d.las.push(l); };
+      ar.querySelector(".sh-fire").onclick = e => { e.stopPropagation(); d.fire(); };
+      let drag = false, down = null;
+      ar.onpointerdown = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet,.sh-fire")) return;
+        const u = e.target.closest(".sh-ufo"); if (u) { const p = gmPos(u, ar); d.tx = p.x; d.auto = +u.dataset.ufo; return; }
+        drag = true; down = gmPt(e, ar); d.tx = down.x; d.auto = -1; try { ar.setPointerCapture(e.pointerId); } catch (_) { }
+      };
+      ar.onpointermove = e => { if (drag) d.tx = gmPt(e, ar).x; };
+      ar.onpointerup = ar.onpointercancel = e => { if (drag && down && e.type === "pointerup") { const p = gmPt(e, ar); if (Math.hypot(p.x - down.x, p.y - down.y) < 10) d.fire(); } drag = false; down = null; };
+      gmLoop(dt => {
+        d.t += dt; d.cool -= dt; d.inv -= dt;
+        d.dy = Math.min(maxDy, d.dy + maxDy * dt / T); row.style.transform = `translateY(${d.dy}px)`;
+        ufos.forEach((u, i) => u.style.translate = `${Math.sin(d.t * 1.3 + i * 1.7) * 6}px ${Math.sin(d.t * 2 + i) * 3}px`);
+        if (d.kv) { d.tx = Math.max(24, Math.min(W - 24, d.x + d.kv * 50)); d.kt -= dt; if (d.kt <= 0) d.kv = 0; }
+        if (d.tx != null) { const dx = d.tx - d.x, sp = 420 * dt; d.x = Math.abs(dx) <= sp ? d.tx : d.x + Math.sign(dx) * sp; }
+        d.x = Math.max(24, Math.min(W - 24, d.x)); gmPut(d.ship, d.x, d.y, 1, -90 + (d.tx != null ? Math.max(-12, Math.min(12, (d.tx - d.x) * .2)) : 0));
+        if (d.auto >= 0 && Math.abs(d.tx - d.x) < 4) { d.cool = 0; d.fire(); d.auto = -1; }
+        d.spawn -= dt;
+        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmRock, x, y0) }); }
+        for (let i = d.met.length - 1; i >= 0; i--) {
+          const m = d.met[i]; m.y += m.vy * dt; m.r += 120 * dt; gmPut(m.el, m.x, m.y, 1, m.r);
+          if (d.inv <= 0 && Math.hypot(m.x - d.x, m.y - d.y) < 28) { d.inv = 1; s.score = Math.max(0, s.score - 10); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, d.x, d.y - 40, gt("shooter.crash"), "#fecaca"); gmHud(true); m.el.remove(); d.met.splice(i, 1); continue; }
+          if (m.y > H + 30) { m.el.remove(); d.met.splice(i, 1); }
+        }
+        for (let i = d.las.length - 1; i >= 0; i--) {
+          const l = d.las[i]; l.y -= 640 * dt; gmPut(l.el, l.x, l.y);
+          const mi = d.met.findIndex(m => Math.abs(m.x - l.x) < 20 && Math.abs(m.y - l.y) < 22);
+          if (mi >= 0) { const m = d.met.splice(mi, 1)[0]; gmBurst(ar, m.x, m.y, ["#a8a29e", "#f97316", "#fde047"], 10, 22); m.el.remove(); l.el.remove(); d.las.splice(i, 1); s.score += 5; gmSnd("pop"); gmFloat(ar, m.x, m.y - 10, gt("shooter.meteor"), "#fde047"); gmHud(true); continue; }
+          for (const u of ufos) { const p = gmPos(u, ar); if (Math.abs(l.x - p.x) <= p.w / 2 && l.y <= p.y + p.h / 2 && l.y >= p.y - p.h / 2) { d.las.forEach(z => z.el.remove()); d.las = []; d.hitY = l.y; gmChoose(+u.dataset.ufo); return false; } }
+          if (l.y < -20) { l.el.remove(); d.las.splice(i, 1); }
+        }
+      });
+    },
+    key(e, s) {
+      const d = s.d;
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") { d.kv = e.key === "ArrowRight" ? 1 : -1; d.kt = .16; d.auto = -1; return true; }
+      if (e.key === " " || e.key === "ArrowUp" || e.key === "Enter") { d.fire(); return true; }
+      return false;
+    },
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d; gmStop(); d.met.forEach(m => m.el.remove()); d.met = [];
+      const u = ar.querySelectorAll(".sh-ufo")[k], p = gmPos(u.querySelector(".sh-saucer"), ar);
+      gmBurst(ar, d.x, d.hitY || p.y, ["#f472b6", "#fff"], 8, 16);
+      if (ok) {
+        d.n++; gmSnd("boom"); u.classList.add("down"); gmBurst(ar, p.x, p.y, ["#f97316", "#facc15", "#ef4444", "#fff"], 22, 50); gmBanner(ar, gt("shooter.hit")); gmFloat(ar, p.x, p.y, `+${s.gain}`, "#fde047");
+        ar.querySelectorAll(".sh-ufo").forEach((x, i) => { if (i !== k) x.classList.add("away"); }); gmSnd("win");
+      } else {
+        gmSnd("hit"); gmShake(u);
+        const z = document.createElement("div"); z.className = "sh-zap"; const L = Math.hypot(d.x - p.x, d.y - p.y); z.style.left = p.x + "px"; z.style.top = p.y + "px"; z.style.width = L + "px"; z.style.transform = `rotate(${Math.atan2(d.y - p.y, d.x - p.x) * 180 / Math.PI}deg)`; ar.appendChild(z);
+        GM.timers.push(setTimeout(() => z.remove(), 500)); await gmWait(250); gmShake(d.ship); gmBanner(ar, gt("shooter.wrong"));
+        const c = ar.querySelectorAll(".sh-ufo")[q.a]; if (c) c.classList.add("glow");
+      }
+      await gmWait(700);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🛸" : "☄️", title: gt("shooter.total", n) }; }
   },
 
   /* 🏰 monsters march on the castle carrying the answers — blast the right one */
@@ -7649,7 +7743,7 @@ const GMG = {
       }
       walls += `M${P} ${P}H${W - P}V${H - P}H${P}Z`;
       ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path d="${walls}" stroke-linecap="round"/></svg>
-      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}`;
+      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
       d.coins = [];
       const free = [...Array(C * R).keys()].filter(i => M.roomOf[i] < 0 && i !== start && M.open[i].size);
       for (let k = 0; k < 5 && free.length; k++) { const i = free.splice((Math.random() * free.length) | 0, 1)[0]; d.coins.push({ i, el: gmActor(ar, "mz-coin", gmCoin, X(i), Y(i)) }); }
@@ -7731,75 +7825,6 @@ const GMG = {
       await gmWait(600);
     },
     final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "💰" : "🗺️", title: gt("maze.total", n) }; }
-  },
-
-  /* 🚀 fly toward the gates, steer into the answer's lane, dodge meteors */
-  space: {
-    round(ar, s, q) {
-      const d = s.d; d.n = d.n || 0; d.lane = Math.min(1, q.o.length - 1); d.p = 0; d.nitro = false;
-      ar.innerHTML = `<div class="sp-bar"><div class="sp-fuel"><i></i></div><button type="button" class="sp-go">${gt("space.go")}</button></div>
-      <div class="sp-lanes">${q.o.map((o, i) => `<div class="sp-lane" data-lane="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "sp-gate")}</div>`).join("")}</div><div class="gm-tip">${gt("games.space.tip")}</div>`;
-      const W = ar.clientWidth, rtl = gmRTL(), lanes = [...ar.querySelectorAll(".sp-lane")];
-      d.ship = gmActor(ar, "sp-ship", gmRocket("#fde047", "#f59e0b"), 0, 0);
-      const ly = i => gmPos(lanes[i], ar).y;
-      const g0 = gmPos(lanes[0].querySelector(".sp-gate"), ar), sw = d.ship.offsetWidth || 60;
-      d.x0 = rtl ? W - sw / 2 - 10 : sw / 2 + 10; d.x1 = rtl ? g0.x + g0.w / 2 + sw / 2 : g0.x - g0.w / 2 - sw / 2; d.y = ly(d.lane);
-      const mark = () => lanes.forEach(l => l.classList.toggle("on", +l.dataset.lane === d.lane));
-      d.steer = i => { if (s.busy || s.ans[s.i] != null || i === d.lane) return; d.lane = i; gmSnd("tap"); mark(); };
-      d.go = () => { if (s.busy || s.ans[s.i] != null) return; d.nitro = true; d.ship.classList.add("turbo"); gmSnd("boost"); };
-      mark(); gmPut(d.ship, d.x0, d.y);
-      lanes.forEach(l => l.onclick = e => { const i = +l.dataset.lane; if (e.target.closest(".gx-opt")) { d.steer(i); d.go(); } else d.steer(i); });
-      ar.querySelector(".sp-go").onclick = () => d.go();
-      let drag = false;
-      ar.onpointerdown = e => { if (e.target.closest(".gx-opt,.sp-go,.gm-sheet")) return; drag = true; };
-      ar.onpointermove = e => { if (!drag) return; const y = gmPt(e, ar).y; let b = 0, bd = 1e9; lanes.forEach((l, i) => { const dd = Math.abs(ly(i) - y); if (dd < bd) { bd = dd; b = i; } }); d.steer(b); };
-      ar.onpointerup = ar.onpointercancel = () => { drag = false; };
-      const T = gmReadT(q), fuel = ar.querySelector(".sp-fuel i"), rocks = [];
-      let spawn = 2.5, hitT = 0;
-      gmLoop(dt => {
-        d.p = Math.min(1, d.p + dt * (d.nitro ? 1 / .6 : 1 / T)); fuel.style.width = (100 - d.p * 100) + "%";
-        const ty = ly(d.lane); d.y += (ty - d.y) * Math.min(1, dt * 9);
-        const x = d.x0 + (d.x1 - d.x0) * d.p; gmPut(d.ship, x, d.y, 1, (ty - d.y) * .25);
-        spawn -= dt;
-        if (spawn <= 0 && d.p < .8 && !d.nitro) {
-          spawn = 2.6 + Math.random() * 2; const lo = Math.min(x, d.x1), hi = Math.max(x, d.x1);
-          if (hi - lo > 70) { const rx = lo + 40 + Math.random() * (hi - lo - 70), down = Math.random() < .5, H = ar.clientHeight; rocks.push({ el: gmActor(ar, "sp-rock", gmRock, rx, down ? -20 : H + 20), x: rx, y: down ? -20 : H + 20, vy: (down ? 1 : -1) * (55 + Math.random() * 45), r: 0 }); }
-        }
-        for (let i = rocks.length - 1; i >= 0; i--) {
-          const r = rocks[i]; r.y += r.vy * dt; r.r += 90 * dt; gmPut(r.el, r.x, r.y, 1, r.r);
-          if (Math.hypot(r.x - x, r.y - d.y) < 30 && hitT <= 0) { hitT = 1; s.score = Math.max(0, s.score - 10); d.p = Math.max(0, d.p - .05); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, x, d.y - 26, gt("space.hit"), "#fca5a5"); gmHud(true); r.el.remove(); rocks.splice(i, 1); continue; }
-          if (r.y < -40 || r.y > ar.clientHeight + 40) { r.el.remove(); rocks.splice(i, 1); }
-        }
-        hitT -= dt;
-        if (d.p >= 1) { if (!d.nitro) gmBanner(ar, gt("space.out")); gmChoose(d.lane); return false; }
-      });
-    },
-    key(e, s) {
-      const d = s.d, n = s.qs[s.i].o.length;
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") { d.steer(Math.max(0, Math.min(n - 1, d.lane + (e.key === "ArrowUp" ? -1 : 1)))); return true; }
-      if (e.key === "Enter" || e.key === " ") { d.go(); return true; }
-      if (/^[1-5]$/.test(e.key) && +e.key <= n) { d.steer(+e.key - 1); return true; }
-      return false;
-    },
-    async resolve(ar, s, k, ok) {
-      const d = s.d; gmStop(); ar.querySelectorAll(".sp-rock").forEach(r => r.remove());
-      const gate = gmOptEl(ar, k), g = gmPos(gate, ar), W = ar.clientWidth, b = ar.querySelector(".sp-go"); if (b) b.remove();
-      d.lane = k; ar.querySelectorAll(".sp-lane").forEach(l => l.classList.toggle("on", +l.dataset.lane === k));
-      d.ship.classList.add("turbo"); gmSnd("boost");
-      const edge = gmRTL() ? g.x + g.w / 2 - 30 : g.x - g.w / 2 + 30;
-      await gmFly(d.ship, edge, g.y, 360, { ease: "ease-in", rot: 0 });
-      const w = gm$("#gmWorld");
-      if (ok) {
-        d.n++; gate.classList.add("warp"); gmSnd("win"); gmBanner(ar, gt("space.warp")); gmFloat(ar, g.x, g.y - 10, `+${s.gain}`, "#fde047");
-        if (w) { w.classList.add("warp"); GM.timers.push(setTimeout(() => w.classList.remove("warp"), 1300)); }
-        await gmFly(d.ship, gmRTL() ? -90 : W + 90, g.y, 420, { ease: "ease-in", scale: 1.3 });
-      } else {
-        gate.classList.add("boom"); gmSnd("boom"); gmBurst(ar, edge, g.y, ["#f97316", "#facc15", "#ef4444", "#fff"], 18, 40); gmBanner(ar, gt("space.boom"));
-        await gmFly(d.ship, d.x0, g.y, 620, { rot: gmRTL() ? 360 : -360 }); gmPut(d.ship, d.x0, g.y, 1, 0);
-      }
-      d.ship.classList.remove("turbo"); await gmWait(400);
-    },
-    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🚀" : "🛰️", title: gt("space.total", n) }; }
   }
 };
 /* ---- end ---- */
@@ -8757,64 +8782,73 @@ html.gm-open,html.gm-open body{overflow:hidden}
 
 /* shared bits */
 .gx-bit{position:absolute;z-index:7;width:9px;height:9px;border-radius:50%;pointer-events:none}
+.kd svg{display:block;width:100%;height:100%;overflow:visible;transition:transform .12s}
+.kd .lg1,.kd .lg2{transform-box:fill-box;transform-origin:50% 0}
+.kd.go .lg1{animation:kdLeg .26s ease-in-out infinite alternate}.kd.go .lg2{animation:kdLeg .26s ease-in-out infinite alternate-reverse}
+.kd.go .kd-arms{animation:kdArm .26s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 0}
+@keyframes kdLeg{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+@keyframes kdArm{to{transform:translateY(2px)}}
+.kd.blink{animation:kdBlink .2s steps(2) infinite}
+@keyframes kdBlink{50%{opacity:.35}}
 
-/* ⚽ penalty */
-.g-penalty{background:linear-gradient(180deg,#0c4a6e 0,#0369a1 26%,#15803d 26.2%,#16a34a 100%);--gc:#15803d}
-.g-penalty .gm-bg{background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 60px,transparent 60px 120px)}
-.pk-crowd{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(circle at 10px 10px,rgba(255,255,255,.4) 2.6px,transparent 3px) 0 0/22px 18px,radial-gradient(circle at 10px 10px,rgba(253,224,71,.45) 2.6px,transparent 3px) 11px 9px/22px 18px,radial-gradient(circle at 10px 10px,rgba(248,113,113,.4) 2.4px,transparent 3px) 5px 4px/26px 20px;opacity:.55;animation:pkCrowd 1.6s ease-in-out infinite alternate}
-@keyframes pkCrowd{to{background-position:0 2px,11px 7px,5px 6px}}
-.gm-world.cheer .pk-crowd{animation:pkCheer .22s ease-in-out 6 alternate;opacity:.9}
-@keyframes pkCheer{to{transform:translateY(-6px)}}
-.pk-lights{position:absolute;inset:0 0 auto 0;height:26%;background:radial-gradient(60px 30px at 12% 10%,rgba(255,255,255,.35),transparent 70%),radial-gradient(60px 30px at 88% 10%,rgba(255,255,255,.35),transparent 70%)}
-.pk-goal{position:absolute;inset:8px 12px 104px;border:7px solid #f8fafc;border-bottom:0;border-radius:10px 10px 0 0;padding:8px 8px 58px;background:repeating-linear-gradient(45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 2px,transparent 2px 14px),rgba(2,44,34,.35);box-shadow:0 10px 0 -4px rgba(0,0,0,.18)}
-.pk-goal .opts-grid{height:100%}
-.pk-zone{background:rgba(255,255,255,.93)}
-.pk-zone.aim{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047!important;transform:scale(1.04)}
-.pk-zone.goal{animation:pkNet .7s}
+/* ⚽ dribble */
+.g-dribble{background:#16a34a;--gc:#15803d}
+.db-stripes{position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0 60px,transparent 60px 120px)}
+.db-mark{position:absolute;left:50%;bottom:-60px;width:180px;height:180px;margin-left:-90px;border-radius:50%;border:3px solid rgba(255,255,255,.45);pointer-events:none}
+.db-goals{position:absolute;top:6px;inset-inline:8px;height:clamp(84px,30%,170px);display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px}
+.db-goal{position:relative;display:flex;padding:6px 6px 8px;border:5px solid #fff;border-bottom:0;border-radius:8px 8px 0 0;background:repeating-linear-gradient(45deg,rgba(255,255,255,.2) 0 2px,transparent 2px 12px),repeating-linear-gradient(-45deg,rgba(255,255,255,.2) 0 2px,transparent 2px 12px),rgba(2,44,34,.35);cursor:pointer}
+.db-goal::after{content:"";position:absolute;inset-inline:-5px;bottom:-4px;height:4px;background:#fff}
+.db-card{flex:1;box-shadow:0 0 0 3px var(--bc)}
+.db-card.goal{animation:pkNet .7s}
 @keyframes pkNet{25%{transform:scale(.9) translateY(-8px)}55%{transform:scale(1.05)}80%{transform:scale(.98)}}
-.pk-spot{position:absolute;left:50%;bottom:34px;width:120px;height:26px;transform:translateX(-50%);border-radius:50%;border:3px solid rgba(255,255,255,.55)}
-.pk-aim{position:absolute;z-index:4;height:0;border-top:4px dashed #fde047;transform-origin:0 50%;pointer-events:none;filter:drop-shadow(0 0 4px rgba(0,0,0,.5))}
-.pk-board{position:absolute;bottom:10px;inset-inline-end:12px;z-index:6;display:flex;flex-direction:column;align-items:center;gap:4px;background:#0f172a;color:#fff;border-radius:12px;padding:6px 12px;font:800 13px var(--f-display);box-shadow:0 6px 14px rgba(0,0,0,.35)}
-.pk-board b{font-size:20px;color:#fde047;min-width:16px;text-align:center;display:inline-block}
-.pk-hist{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;max-width:150px}
-.pk-hist i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25)}
-.pk-hist i.g{background:#22c55e}.pk-hist i.m{background:#ef4444}.pk-hist i.now{background:#fde047;animation:gmPulse 1s infinite}
-.pk-keeper{width:64px;height:74px}.pk-keeper svg{width:100%;height:100%;overflow:visible;animation:pkSway 1.3s ease-in-out infinite alternate}
-@keyframes pkSway{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
-.pk-keeper.dive svg{animation:none}
-.pk-ball{font-size:40px;line-height:1;filter:drop-shadow(0 6px 5px rgba(0,0,0,.4));z-index:6}
-.pk-shadow{width:34px;height:10px;border-radius:50%;background:rgba(0,0,0,.3);z-index:3}
+.db-kid,.db-def{width:42px;height:54px;z-index:5}
+.db-def{z-index:4}
+.db-ball{font-size:22px;line-height:1;z-index:6;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.db-star{font-size:24px;line-height:1;z-index:3;animation:gmPulse 1s infinite}
 
-/* 🐸 river */
-.g-river{background:linear-gradient(180deg,#0e7490,#0891b2 50%,#0e7490);--gc:#0e7490}
-.g-river .gm-bg{background:repeating-radial-gradient(ellipse 70px 16px at 50% 0,rgba(255,255,255,.2) 0 2px,transparent 3px 30px);animation:rvFlow 7s linear infinite}
-@keyframes rvFlow{to{background-position:140px 0}}
-.rv-far,.rv-near{position:absolute;inset-inline:0;background:linear-gradient(180deg,#65a30d,#3f6212);display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font:800 13px var(--f-display)}
-.rv-far{top:0;height:40px;border-radius:0 0 50% 50%/0 0 14px 14px;box-shadow:0 6px 0 #a16207;padding:0 14px}
-.rv-near{bottom:0;height:74px;border-radius:50% 50% 0 0/16px 16px 0 0;box-shadow:0 -6px 0 #a16207}
-.rv-trip{position:relative;flex:1;max-width:420px;height:10px;border-radius:999px;background:rgba(0,0,0,.25)}
-.rv-trip i{position:absolute;inset-block:0;inset-inline-start:0;border-radius:999px;background:linear-gradient(90deg,#fde047,#facc15);transition:width .8s}
-.rv-trip b{position:absolute;top:50%;translate:-50% -50%;font-size:20px;transition:inset-inline-start .8s;line-height:1}
-[dir="rtl"] .rv-trip b{translate:50% -50%}
-.rv-trip span{position:absolute;top:50%;inset-inline-end:-6px;translate:0 -50%;font-size:20px;line-height:1}
-.rv-pads{position:absolute;inset:56px 12px 92px;animation:rvIn .5s ease-out}
-@keyframes rvIn{from{opacity:0;transform:translateY(-16px)}}
-.rv-pad{align-self:center;height:min(100%,200px);background:radial-gradient(ellipse at 30% 25%,#d9f99d,#84cc16 70%);border-radius:38% 42% 40% 44%/46% 40% 48% 42%;padding:8px 14px;box-shadow:0 8px 0 -2px rgba(6,78,59,.55),inset 0 0 0 3px rgba(63,98,18,.35);animation:rvDrift 6s ease-in-out infinite}
-.rv-pad:nth-child(2){animation-duration:7.2s;animation-delay:-1.4s}.rv-pad:nth-child(3){animation-duration:5.4s;animation-delay:-2.6s}.rv-pad:nth-child(4){animation-duration:6.6s;animation-delay:-3.8s}.rv-pad:nth-child(5){animation-duration:5.8s;animation-delay:-.6s}
-@keyframes rvDrift{0%,100%{translate:-12px 0;rotate:-1.5deg}50%{translate:12px 5px;rotate:1.5deg}}
-.rv-pads.still .rv-pad{animation-play-state:paused}
-.rv-pad .val{background:rgba(255,255,255,.9);border-radius:10px;padding:3px 8px;text-align:center}
-.rv-pad.sink{animation:rvSink .9s forwards!important}
-@keyframes rvSink{to{translate:0 26px;scale:.8;opacity:.35;filter:saturate(.3)}}
-.rv-pad.ok{background:radial-gradient(ellipse at 30% 25%,#fef9c3,#facc15 75%)!important}
-.rv-frog{font-size:46px;line-height:1;filter:drop-shadow(0 6px 4px rgba(0,0,0,.35));z-index:6}
-.rv-croc{font-size:40px;line-height:1;z-index:4}
-.rv-croc span{display:inline-block}
-.rv-fly{font-size:22px;line-height:1;z-index:5;animation:rvBuzz .12s linear infinite alternate}
-@keyframes rvBuzz{to{margin-top:-2px}}
-.rv-tongue{position:absolute;z-index:6;height:5px;width:0;border-radius:3px;background:#f472b6;transform-origin:0 50%;pointer-events:none;margin-top:-2px}
-.rv-ring{position:absolute;z-index:4;width:20px;height:20px;border-radius:50%;border:3px solid #fff;pointer-events:none;animation:rvRing .8s ease-out forwards}
-@keyframes rvRing{to{transform:translate(-50%,-50%) scale(6);opacity:0}}
+/* 🏃 runner */
+.g-runner{background:#14532d;--gc:#a16207}
+.rn-trees{position:absolute;inset:0;background:radial-gradient(circle at 20px 30px,#166534 14px,transparent 15px) 0 0/60px 70px,radial-gradient(circle at 40px 60px,#15803d 12px,transparent 13px) 10px 0/70px 80px}
+.rn-doors{position:absolute;top:6px;inset-inline:8px;height:clamp(80px,28%,160px);display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;transform-origin:50% 0;z-index:3}
+.rn-door{display:flex;padding:6px;border-radius:14px 14px 4px 4px;background:linear-gradient(180deg,#78350f,#451a03);box-shadow:0 0 0 3px var(--bc),0 8px 14px -6px rgba(0,0,0,.6)}
+.rn-card{flex:1}
+.rn-door.open{box-shadow:0 0 0 4px #fde047,0 0 30px #fde047}
+.rn-track{position:absolute;inset:calc(clamp(80px,28%,160px) + 12px) 8px 0;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.08) 0 40px,transparent 40px 80px)}
+.rn-lane{border-radius:10px 10px 0 0;background:repeating-linear-gradient(180deg,rgba(0,0,0,.12) 0 40px,transparent 40px 80px) 0 var(--off,0px),linear-gradient(180deg,#a16207,#ca8a04);box-shadow:inset 0 0 0 2px rgba(0,0,0,.15)}
+.rn-prog{position:absolute;top:calc(clamp(80px,28%,160px) + 6px);inset-inline:8px;height:5px;border-radius:999px;background:rgba(0,0,0,.3);z-index:4}
+.rn-prog i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#fde047,#f97316)}
+.rn-kid{width:44px;height:56px;z-index:6}
+.rn-ob{z-index:5;pointer-events:none}
+
+.rn-ob svg{display:block;width:100%;height:100%}
+.rn-btns{position:absolute;bottom:10px;inset-inline-end:10px;display:flex;flex-direction:column;gap:8px;z-index:7}
+.rn-btn{border:0;border-radius:999px;padding:9px 14px;font:900 14px var(--f-display);color:#fff;background:rgba(15,23,42,.8);box-shadow:0 4px 10px rgba(0,0,0,.35)}
+.rn-btn.hot{background:linear-gradient(135deg,#f97316,#ef4444)}
+.g-runner .gm-tip{bottom:auto;top:calc(clamp(80px,28%,160px) + 14px)}
+
+/* 🛸 shooter */
+.g-shooter{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
+.g-shooter .gm-bg,.g-shooter .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:shStars 9s linear infinite}
+.g-shooter .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:4s}
+@keyframes shStars{to{background-position:0 200px}}
+.sh-ufos{position:absolute;top:4px;inset-inline:8px;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:8px;z-index:3}
+.sh-ufo{display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:transform .8s ease-in,opacity .8s}
+.sh-saucer{display:block;width:min(100%,92px)}.sh-saucer svg{display:block;width:100%;height:auto}
+.sh-saucer .uf-l{animation:shBlink .5s steps(2) infinite}
+@keyframes shBlink{50%{opacity:.3}}
+.sh-card{width:100%;height:clamp(54px,16vh,130px);margin-top:-4px;box-shadow:0 0 0 3px var(--bc),0 0 16px var(--bc)}
+.sh-ufo.down{transform:scale(.2) rotate(200deg)!important;opacity:0}
+.sh-ufo.away{transform:translateY(-140%)!important;opacity:0}
+.sh-ufo.glow .sh-card{box-shadow:0 0 0 4px #22c55e,0 0 26px #4ade80}
+.sh-ship{width:58px;z-index:6}.sh-ship svg{display:block;width:100%;overflow:visible}
+.sh-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
+@keyframes gmFl{to{opacity:.7}}
+.sh-laser{width:5px;height:22px;border-radius:3px;background:linear-gradient(#fff,#f472b6);box-shadow:0 0 10px #f472b6;z-index:5}
+.sh-met{width:34px;height:34px;z-index:4}.sh-met svg{display:block;width:100%;height:100%}
+.sh-fire{position:absolute;bottom:12px;inset-inline-end:12px;z-index:7;border:0;border-radius:999px;padding:12px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7)}
+.sh-zap{position:absolute;z-index:6;height:4px;background:#fde047;box-shadow:0 0 12px #fde047;transform-origin:0 50%;pointer-events:none;animation:shZap .5s steps(4)}
+@keyframes shZap{50%{opacity:.3}}
+.g-shooter .gm-tip{bottom:58px}
 
 /* 🏰 castle */
 .g-castle{background:linear-gradient(180deg,#7dd3fc 0,#bae6fd 55%,#86efac 55.2%,#4ade80 100%);--gc:#b45309}
@@ -8869,38 +8903,7 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .mz-coin{z-index:3;animation:mzSpin 1.6s linear infinite}
 @keyframes mzSpin{50%{scale:.35 1}}
 
-/* 🚀 space */
-.g-space{background:radial-gradient(700px 300px at 70% 0,#4c1d95 0,transparent 70%),linear-gradient(180deg,#0b1030,#151a46);--gc:#4f46e5}
-.g-space .gm-bg,.g-space .gm-bg::after{background-image:radial-gradient(1.6px 1.6px at 20px 30px,#fff,transparent),radial-gradient(1.2px 1.2px at 80px 120px,#cfe3ff,transparent),radial-gradient(1px 1px at 150px 60px,#fff,transparent),radial-gradient(1.4px 1.4px at 220px 160px,#ffe9b0,transparent),radial-gradient(1px 1px at 300px 90px,#fff,transparent);background-size:320px 200px;animation:spStars 7s linear infinite}
-.g-space .gm-bg::after{content:"";position:absolute;inset:0;background-size:200px 140px;opacity:.5;animation-duration:3s}
-.gm-world.warp .gm-bg,.gm-world.warp .gm-bg::after{animation-duration:.5s;filter:blur(1px) brightness(1.6)}
-@keyframes spStars{to{background-position:-320px 0}}
-[dir="rtl"] .g-space .gm-bg,[dir="rtl"] .g-space .gm-bg::after{animation-name:spStarsR}
-@keyframes spStarsR{to{background-position:320px 0}}
-.g-space .gm-tip{bottom:auto;top:46px}
-.sp-bar{position:absolute;inset:6px 10px auto;height:40px;display:flex;align-items:center;gap:10px;z-index:6}
-.sp-fuel{flex:1;height:12px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;border:1px solid rgba(255,255,255,.25)}
-.sp-fuel i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#f97316,#fde047,#4ade80);border-radius:999px}
-.sp-go{border:0;border-radius:999px;padding:8px 18px;font:900 15px var(--f-display);color:#fff;background:linear-gradient(135deg,#f97316,#ef4444);box-shadow:0 0 18px rgba(249,115,22,.7);animation:gmPulse 1.1s infinite}
-.sp-lanes{position:absolute;inset:66px 8px 10px;display:flex;flex-direction:column;gap:7px}
-.sp-lane{flex:1 1 0;min-height:0;position:relative;border-radius:14px;cursor:pointer}
-.sp-lane::before{content:"";position:absolute;inset-inline:0;top:50%;border-top:2px dashed rgba(255,255,255,.13)}
-.sp-lane.on{background:linear-gradient(90deg,rgba(253,224,71,.18),transparent 70%)}
-[dir="rtl"] .sp-lane.on{background:linear-gradient(270deg,rgba(253,224,71,.18),transparent 70%)}
-.sp-gate{background:linear-gradient(90deg,rgba(30,27,75,.92),rgba(49,46,129,.82));color:#fff;position:absolute;top:0;bottom:0;max-height:120px;margin-block:auto;width:min(56%,520px);inset-inline-end:0;border-radius:999px 18px 18px 999px;padding-inline-start:16px;box-shadow:0 0 0 3px var(--bc),0 0 18px var(--bc)}
-[dir="rtl"] .sp-gate{border-radius:18px 999px 999px 18px}
-.sp-gate .bub{background:var(--bc)}.sp-gate.fig .val{background:#fff;border-radius:10px;padding:3px;color:#1f2937}.sp-gate.ok,.sp-gate.no{color:#1f2937}
-.sp-lane.on .sp-gate{box-shadow:0 0 0 4px #fde047,0 0 24px #fde047}
-.sp-gate.warp{animation:spWarp .6s}
-@keyframes spWarp{40%{transform:scale(1.06);filter:brightness(1.4)}}
-.sp-gate.boom{animation:gmShake .45s}
-.sp-ship{width:66px;z-index:6}.sp-ship svg{display:block;width:100%;overflow:visible}
-[dir="rtl"] .sp-ship svg{transform:scaleX(-1)}
-.sp-ship .fl{transform-origin:14px 16px;animation:gmFl .12s ease-in-out infinite alternate}
-@keyframes gmFl{to{opacity:.7}}
-.sp-ship.turbo .fl{transform:scale(2.6,1.5)}
-.sp-rock{width:38px;height:38px;z-index:5}.sp-rock svg{display:block;width:100%;height:100%}
-@media (max-width:560px){.sp-gate{width:62%}.sp-ship{width:50px}.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}.cs-wall{width:54px}.cs-field{inset-inline-start:60px}.cs-hp{inset-inline-start:60px}.cs-mob{width:76%}.pk-board{font-size:12px}}
+@media (max-width:560px){.gm-row{padding-inline-start:118px}.gm-next{padding:10px 16px}.gm-mission{max-height:36%}.cs-wall{width:54px}.cs-field{inset-inline-start:60px}.cs-hp{inset-inline-start:60px}.cs-mob{width:76%}.db-goals,.rn-doors,.sh-ufos{gap:5px;inset-inline:5px}.rn-track{gap:5px;inset-inline:5px}.db-goal{border-width:4px;padding:4px 4px 6px}.gx-opt .bub{width:22px;height:22px;font-size:12px}.rn-btn{padding:8px 11px;font-size:13px}}
 
 /* toasts & floating numbers */
 .gm-float{position:absolute;font:900 22px var(--f-display);color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35),0 0 18px rgba(0,0,0,.4);pointer-events:none;z-index:6;white-space:nowrap;animation:gmFloat 1.2s ease-out forwards}
@@ -8943,6 +8946,9 @@ html.gm-open,html.gm-open body{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
+.db-card,.rn-card,.sh-card{flex-direction:column;justify-content:center;text-align:center;gap:4px;padding:6px 5px}
+.db-card .val,.rn-card .val,.sh-card .val{flex:0 1 auto;overflow-wrap:normal;word-break:normal;hyphens:none}
+
 
 
 .qfig .seq,.val .seq{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}
@@ -9651,45 +9657,45 @@ function finishExam() { stopTimer(); const r = RUN; if (r.done) return; const c 
 /* ---------- game mode: the answer itself is the move ---------- */
 const GM_TX = {
   ar: {
-    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تسدّدها، تقفز عليها، تقصفها بالمدفع، تصل إليها في المتاهة أو تطير نحوها!",
+    play: "🎮 حوّلها للعبة", pick: "اختر مغامرتك", sub: "هنا لا تضغط على الإجابة… أنت تراوغ إليها، تجري نحوها، تطلق الليزر عليها، تقصفها بالمدفع أو تصل إليها في المتاهة!",
     len: "عدد الأسئلة:", qn: (i, n) => `سؤال ${i} / ${n}`, next: "التالي", finish: "النتيجة", sol: "الشرح",
     again: "🔁 العب مرة أخرى", other: "🎲 مغامرة أخرى", back: "رجوع للفكرة", sure: "تخرج من اللعبة؟ لن تُحفظ هذه الجولة.", yes: "نعم، اخرج", no: "أكمل اللعب",
     praise: ["ممتاز!", "رائع!", "أحسنت!", "عبقري!", "مذهل!", "يا سلام!"], rightIs: l => `الإجابة الصحيحة (${l})`, wrongSub: "اقرأ الشرح ثم تابع",
     acc: "الدقة", best: "أفضل متتالية", time: "الوقت", pts: "النقاط", rec: "🏅 رقم قياسي جديد!", recOld: s => `أفضل نتيجة لك: ${s}`, saved: "حُفظت الجولة في نتائجك ✓", saveFail: "تعذّر حفظ الجولة",
     streak: n => `${n} متتالية 🔥`, noQs: "لا توجد أسئلة كافية لهذه الفكرة.",
     games: {
-      penalty: { n: "ركلات الترجيح", d: "المرمى مقسوم على الإجابات. اسحب الكرة وسدّدها في خانة الإجابة الصحيحة… والجمهور ينتظر الهدف!", tag: "كرة قدم", task: "⚽ سدّد في خانة الإجابة الصحيحة", tip: "اسحب الكرة نحو الخانة أو اضغط على الخانة" },
-      river: { n: "عبور النهر", d: "أوراق اللوتس تطفو وتتحرك وعليها الإجابات. اقفز بالضفدع على الصحيحة، والتقط الذباب، واحذر التمساح!", tag: "مغامرة", task: "🐸 اقفز على ورقة الإجابة الصحيحة", tip: "اضغط على الورقة لتقفز" },
+      dribble: { n: "مراوغة الأبطال", d: "راوغ المدافعين بالكرة واجمع النجوم، ثم سدّد في مرمى الإجابة الصحيحة… لا تدعهم يخطفون الكرة!", tag: "كرة قدم", task: "⚽ راوغ وادخل مرمى الإجابة الصحيحة", tip: "اضغط أو اسحب ليجري اللاعب • أو الأسهم" },
+      runner: { n: "عدّاء الغابة", d: "اجرِ في الغابة، اقفز فوق الجذوع وتفادَ الصخور واجمع العملات، ثم ادخل باب الإجابة الصحيحة!", tag: "جري", task: "🏃 اجرِ إلى باب الإجابة الصحيحة", tip: "اسحب يمينًا ويسارًا لتغيير المسار • اسحب لأعلى للقفز" },
+      shooter: { n: "غزو الفضاء", d: "أطباق فضائية تهبط وكل طبق يحمل إجابة. حرّك مركبتك وأطلق الليزر على طبق الإجابة الصحيحة، وفجّر النيازك!", tag: "فضاء", task: "🛸 أطلق الليزر على طبق الإجابة الصحيحة", tip: "اسحب لتحريك المركبة • زر الإطلاق أو اضغط على الطبق" },
       castle: { n: "حارس القلعة", d: "وحوش تزحف نحو قلعتك وكل وحش يحمل إجابة. صوّب المدفع على الوحش الصحيح قبل أن يصل إلى الأسوار!", tag: "دفاع", task: "🏰 أطلق المدفع على وحش الإجابة الصحيحة", tip: "اضغط على الوحش لتطلق المدفع" },
-      maze: { n: "متاهة الكنز", d: "تجوّل في المتاهة، اجمع العملات واهرب من الشبح، ثم ادخل غرفة الكنز التي فيها الإجابة الصحيحة!", tag: "استكشاف", task: "🗺️ ادخل غرفة الإجابة الصحيحة", tip: "اسحب للجري • اضغط على أي مكان للذهاب إليه • أو استخدم الأسهم" },
-      space: { n: "بوابات المجرّة", d: "مركبتك تنطلق نحو البوابات! وجّهها إلى مسار الإجابة الصحيحة، وتفادَ النيازك، واستخدم النيترو إذا كنت واثقًا!", tag: "فضاء", task: "🚀 وجّه المركبة إلى بوابة الإجابة الصحيحة", tip: "اضغط على المسار أو اسحب للتوجيه • النيترو للانطلاق فورًا" }
+      maze: { n: "متاهة الكنز", d: "تجوّل في المتاهة، اجمع العملات واهرب من الشبح، ثم ادخل غرفة الكنز التي فيها الإجابة الصحيحة!", tag: "استكشاف", task: "🗺️ ادخل غرفة الإجابة الصحيحة", tip: "اسحب للجري • اضغط على أي مكان للذهاب إليه • أو استخدم الأسهم" }
     },
-    penalty: { goal: "جوووول! ⚽", save: "تصدّى الحارس! 🧤", you: "أنت", keeper: "الحارس", win: (g, v) => `فزت ${g} – ${v} 🏆`, draw: (g, v) => `تعادل ${g} – ${v}`, lose: (g, v) => `الحارس فاز ${v} – ${g}` },
-    river: { safe: "قفزة آمنة! 🌿", sink: "غرقت الورقة! 💦", fly: "ذبابة! +15", total: n => `عبرت النهر ${n} مرة` },
+    dribble: { goal: "جوووول! ⚽", miss: "مرمى خطأ! 🙈", steal: "خطف المدافع الكرة! -10", star: "+10 ⭐", total: n => `سجّلت ${n} أهداف` },
+    runner: { open: "الباب الصحيح! 🎉", locked: "باب مغلق! 🔒", trip: "تعثّرت! -10", coin: "+5", jump: "⬆ قفز", dash: "⚡ انطلق", total: n => `فتحت ${n} أبواب` },
+    shooter: { fire: "🔥 إطلاق", hit: "إصابة! 💥", wrong: "طبق خطأ! ⚡", meteor: "+5", crash: "نيزك! -10", total: n => `أسقطت ${n} أطباق صحيحة` },
     castle: { hit: "إصابة مباشرة! 🎯", wrong: "وحش خاطئ! الوحش الحقيقي هاجم الأسوار", wall: "الوحوش عند الأسوار! اختر بسرعة", hp: "القلعة", win: "حميت القلعة! 🏰", hold: "صمدت القلعة 🛡️", lose: "سقطت الأسوار… حاول مجددًا" },
     maze: { treasure: "كنز! 💰", locked: "باب مغلق! 🔒", ghost: "👻 بووو! -10", coin: "+10", total: n => `وجدت ${n} كنوز` },
-    space: { go: "🔥 نيترو", warp: "قفزة ضوئية! ✨", boom: "بوابة خاطئة! 💥", hit: "نيزك! -10", total: n => `${n} قفزات ضوئية ناجحة`, out: "وصلت إلى البوابات!" },
     end: { great: "أداء أبطال!", good: "أداء رائع!", ok: "بداية جيدة!", try: "حاول مرة أخرى!" }
   },
   en: {
-    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you kick it, jump on it, blast it, reach it in a maze or fly into it!",
+    play: "🎮 Play it as a game", pick: "Choose your adventure", sub: "You don't click the answer here… you dribble to it, run to it, laser it, blast it or reach it in a maze!",
     len: "Questions:", qn: (i, n) => `Q ${i} / ${n}`, next: "Next", finish: "Results", sol: "Solution",
     again: "🔁 Play again", other: "🎲 Another adventure", back: "Back to the idea", sure: "Leave the game? This round won't be saved.", yes: "Yes, leave", no: "Keep playing",
     praise: ["Excellent!", "Great!", "Well done!", "Genius!", "Amazing!", "Superb!"], rightIs: l => `Correct answer (${l})`, wrongSub: "Read the solution, then go on",
     acc: "Accuracy", best: "Best streak", time: "Time", pts: "Points", rec: "🏅 New personal best!", recOld: s => `Your best: ${s}`, saved: "Round saved to your results ✓", saveFail: "Could not save this round",
     streak: n => `${n} in a row 🔥`, noQs: "Not enough questions for this idea.",
     games: {
-      penalty: { n: "Penalty Shootout", d: "The goal is split into the answers. Drag the ball and shoot it into the right answer — the crowd is waiting!", tag: "Football", task: "⚽ Shoot into the correct answer", tip: "Drag the ball toward a zone, or tap the zone" },
-      river: { n: "River Crossing", d: "Floating, drifting lily pads carry the answers. Jump the frog onto the right one, catch flies, and watch out for the crocodile!", tag: "Adventure", task: "🐸 Jump onto the correct answer", tip: "Tap a pad to jump" },
+      dribble: { n: "Dribble Stars", d: "Dribble past the defenders, collect stars, then score in the goal with the right answer — don't let them steal the ball!", tag: "Football", task: "⚽ Dribble into the correct answer's goal", tip: "Tap or drag to run • or use the arrows" },
+      runner: { n: "Jungle Runner", d: "Run through the jungle, jump the logs, dodge the rocks, grab coins, then run through the door with the right answer!", tag: "Run", task: "🏃 Run to the correct answer's door", tip: "Swipe left/right to change lane • swipe up to jump" },
+      shooter: { n: "Space Invaders", d: "Saucers are landing, each carrying an answer. Move your ship and laser the right saucer — and blast the meteors!", tag: "Space", task: "🛸 Laser the saucer with the correct answer", tip: "Drag to move the ship • Fire button or tap a saucer" },
       castle: { n: "Castle Guard", d: "Monsters march on your castle, each carrying an answer. Fire the cannon at the right monster before it reaches the walls!", tag: "Defence", task: "🏰 Fire at the monster with the correct answer", tip: "Tap a monster to fire the cannon" },
-      maze: { n: "Treasure Maze", d: "Explore the maze, collect coins, escape the ghost, then enter the treasure room with the right answer!", tag: "Explore", task: "🗺️ Enter the room with the correct answer", tip: "Swipe to run • tap anywhere to walk there • or use the arrows" },
-      space: { n: "Galaxy Gates", d: "Your ship is flying toward the gates! Steer into the right answer's lane, dodge meteors, and hit nitro when you're sure!", tag: "Space", task: "🚀 Steer into the gate with the correct answer", tip: "Tap or drag to steer • Nitro to launch now" }
+      maze: { n: "Treasure Maze", d: "Explore the maze, collect coins, escape the ghost, then enter the treasure room with the right answer!", tag: "Explore", task: "🗺️ Enter the room with the correct answer", tip: "Swipe to run • tap anywhere to walk there • or use the arrows" }
     },
-    penalty: { goal: "GOAL! ⚽", save: "Saved by the keeper! 🧤", you: "You", keeper: "Keeper", win: (g, v) => `You won ${g} – ${v} 🏆`, draw: (g, v) => `Draw ${g} – ${v}`, lose: (g, v) => `Keeper won ${v} – ${g}` },
-    river: { safe: "Safe jump! 🌿", sink: "The pad sank! 💦", fly: "A fly! +15", total: n => `You crossed the river ${n} times` },
+    dribble: { goal: "GOAL! ⚽", miss: "Wrong goal! 🙈", steal: "Ball stolen! -10", star: "+10 ⭐", total: n => `You scored ${n} goals` },
+    runner: { open: "Right door! 🎉", locked: "Locked door! 🔒", trip: "Tripped! -10", coin: "+5", jump: "⬆ Jump", dash: "⚡ Dash", total: n => `You opened ${n} doors` },
+    shooter: { fire: "🔥 Fire", hit: "Hit! 💥", wrong: "Wrong saucer! ⚡", meteor: "+5", crash: "Meteor! -10", total: n => `You downed ${n} correct saucers` },
     castle: { hit: "Direct hit! 🎯", wrong: "Wrong monster! The real one hit the walls", wall: "Monsters at the walls! Choose fast", hp: "Castle", win: "You defended the castle! 🏰", hold: "The castle held 🛡️", lose: "The walls fell… try again" },
     maze: { treasure: "Treasure! 💰", locked: "Locked door! 🔒", ghost: "👻 Boo! -10", coin: "+10", total: n => `You found ${n} treasures` },
-    space: { go: "🔥 Nitro", warp: "Light jump! ✨", boom: "Wrong gate! 💥", hit: "Meteor! -10", total: n => `${n} successful light jumps`, out: "You reached the gates!" },
     end: { great: "Champion play!", good: "Great play!", ok: "Good start!", try: "Try again!" }
   }
 };
@@ -9699,7 +9705,7 @@ const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
 /* ---- sound ---- */
-const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]], cheer: [[1400, .9, "noise", .09]], ooh: [[700, .5, "noise", .06]], cannon: [[180, .25, "noise", .22], [70, .2, "sine", .2]], boom: [[120, .45, "noise", .2]], ghost: [[440, .18, "sine", .08], [330, .18, "sine", .08], [220, .3, "sine", .08]] };
+const GSND = { ok: [[660, .1], [990, .2]], no: [[196, .28, "square", .06]], tap: [[520, .05, "triangle", .07]], boost: [[300, .07, "sawtooth", .05], [500, .07, "sawtooth", .05], [800, .07, "sawtooth", .05], [1200, .18, "sawtooth", .05]], win: [[523, .14], [659, .14], [784, .14], [1047, .4]], lose: [[392, .2], [330, .2], [262, .45]], hit: [[110, .2, "square", .09]], coin: [[988, .07], [1319, .22]], whoosh: [[900, .12, "triangle", .05], [500, .12, "triangle", .05]], kick: [[170, .09, "square", .1], [90, .12, "sine", .12]], pop: [[1000, .04, "square", .08], [320, .09, "square", .06]], splash: [[520, .08, "triangle", .07], [260, .22, "triangle", .07]], cheer: [[1400, .9, "noise", .09]], ooh: [[700, .5, "noise", .06]], cannon: [[180, .25, "noise", .22], [70, .2, "sine", .2]], boom: [[120, .45, "noise", .2]], ghost: [[440, .18, "sine", .08], [330, .18, "sine", .08], [220, .3, "sine", .08]], whistle: [[2300, .12, "sine", .1], [2000, .3, "sine", .1]], laser: [[1400, .07, "square", .045], [700, .09, "square", .035]], jump: [[420, .08, "triangle", .1], [760, .12, "triangle", .1]] };
 function gmSnd(k) {
   if (GM.mute) return;
   try {
@@ -9713,7 +9719,6 @@ function gmSnd(k) {
 
 /* ---- art ---- */
 const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmKeeper = `<svg viewBox="0 0 64 74" aria-hidden="true"><path d="M20 30 L6 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><path d="M44 30 L58 8" stroke="#facc15" stroke-width="9" stroke-linecap="round"/><circle cx="6" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><circle cx="58" cy="7" r="7" fill="#f97316" stroke="#fff" stroke-width="2"/><rect x="18" y="26" width="28" height="28" rx="9" fill="#facc15"/><path d="M24 54 L22 70 M40 54 L42 70" stroke="#1e293b" stroke-width="8" stroke-linecap="round"/><circle cx="32" cy="16" r="11" fill="#fcd9b6"/><path d="M21 14 Q32 0 43 14 Q32 8 21 14Z" fill="#1e293b"/><circle cx="28" cy="17" r="1.6" fill="#1e293b"/><circle cx="36" cy="17" r="1.6" fill="#1e293b"/><path d="M28 21.5 Q32 24 36 21.5" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><text x="32" y="46" font-size="13" font-weight="900" text-anchor="middle" fill="#1e293b">1</text></svg>`;
 const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><rect class="lg2" x="34" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/></g><g class="mo-body"><path d="M16 15 L11 2 L24 11Z M44 15 L49 2 L36 11Z" fill="#fef3c7" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><path d="M8 38 Q6 10 30 9 Q54 10 52 38 Q52 54 30 54 Q8 54 8 38Z" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="2"/><ellipse cx="30" cy="44" rx="13" ry="6" fill="rgba(255,255,255,.18)"/><circle cx="22" cy="27" r="7.5" fill="#fff"/><circle cx="38" cy="27" r="7.5" fill="#fff"/><circle class="mo-eye" cx="22" cy="28" r="3.6" fill="#111"/><circle class="mo-eye" cx="38" cy="28" r="3.6" fill="#111"/><path d="M20 39 Q30 47 40 39" stroke="#111" stroke-width="2.6" fill="#7f1d1d" stroke-linecap="round"/><path d="M24 40 l2.2 3.4 l2.2 -3 M32 40.5 l2.2 3 l2.2 -3.4" fill="#fff"/></g></svg>`;
 const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="20" height="12" patternUnits="userSpaceOnUse"><rect width="20" height="12" fill="#a8a29e"/><path d="M0 0H20M0 6H20M10 0V6M0 6V12M20 6V12" stroke="#78716c" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V0 H12 V8 H24 V0 H36 V8 H48 V0 H60 V8 H70 V16Z" fill="#a8a29e" stroke="#78716c" stroke-width="1.5"/><rect x="62" y="16" width="8" height="184" fill="#57534e" opacity=".35"/></svg>`;
 const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><circle cx="20" cy="18" r="11" fill="#7c2d12" stroke="#431407" stroke-width="2"/><circle cx="20" cy="18" r="3" fill="#fbbf24"/><path d="M9 18 H31 M20 7 V29" stroke="#431407" stroke-width="2"/></svg>`;
@@ -9722,12 +9727,15 @@ const gmGhost = `<svg viewBox="0 0 40 44" aria-hidden="true"><path d="M5 40 V20 
 const gmCoin = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#facc15" stroke="#b45309" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fde68a" stroke-width="2"/><path d="M8 8 l3 -2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
 const gmRock = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 14 L16 5 L28 6 L36 16 L33 30 L20 36 L8 30 L4 21Z" fill="#78716c" stroke="#44403c" stroke-width="2"/><circle cx="15" cy="16" r="3.5" fill="#57534e"/><circle cx="25" cy="25" r="4.5" fill="#57534e"/><circle cx="27" cy="13" r="2" fill="#57534e"/></svg>`;
 const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
+const gmKid = (sh, pa) => `<svg viewBox="0 0 40 52" aria-hidden="true"><ellipse cx="20" cy="49" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><g class="kd-legs"><rect class="lg1" x="13" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect class="lg2" x="21" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect x="12" y="44" width="8" height="5" rx="2" fill="#111827"/><rect x="20" y="44" width="8" height="5" rx="2" fill="#111827"/></g><rect x="11" y="29" width="18" height="8" rx="3" fill="${pa}"/><g class="kd-arms"><path d="M11 20 l-6 9 M29 20 l6 9" stroke="${sh}" stroke-width="5" stroke-linecap="round"/></g><rect x="10" y="17" width="20" height="15" rx="6" fill="${sh}"/><circle cx="20" cy="10.5" r="8" fill="#fcd9b6"/><path d="M12 9 Q20 -1 28 9 Q24 5.5 20 5.5 Q16 5.5 12 9Z" fill="#3f2a14"/><circle cx="17" cy="11.5" r="1.4" fill="#1e293b"/><circle cx="23" cy="11.5" r="1.4" fill="#1e293b"/><path d="M17 14.5 Q20 16.5 23 14.5" stroke="#1e293b" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>`;
+const gmUfo = c => `<svg viewBox="0 0 80 40" aria-hidden="true"><ellipse cx="40" cy="15" rx="15" ry="12" fill="#bae6fd" stroke="#0ea5e9" stroke-width="2" opacity=".92"/><ellipse cx="36" cy="11" rx="4" ry="3" fill="#fff" opacity=".7"/><ellipse cx="40" cy="24" rx="37" ry="10" fill="${c}" stroke="rgba(0,0,0,.3)" stroke-width="2"/><g class="uf-l" fill="#fde047"><circle cx="18" cy="25" r="2.8"/><circle cx="31" cy="27.5" r="2.8"/><circle cx="49" cy="27.5" r="2.8"/><circle cx="62" cy="25" r="2.8"/></g><path d="M27 33 L21 40 M53 33 L59 40" stroke="${c}" stroke-width="3" stroke-linecap="round"/></svg>`;
+const gmLog = `<svg viewBox="0 0 60 26" aria-hidden="true"><rect x="4" y="5" width="52" height="16" rx="8" fill="#92400e" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="5" ry="8" fill="#d6a46b" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="2" ry="3.5" fill="none" stroke="#92400e" stroke-width="1.5"/><path d="M12 10 H34 M16 16 H40" stroke="#78350f" stroke-width="2" stroke-linecap="round"/></svg>`;
 const GM_GAMES = [
-  { id: "penalty", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0369a1"/><g fill="rgba(255,255,255,.35)"><circle cx="20" cy="10" r="3"/><circle cx="40" cy="14" r="3"/><circle cx="60" cy="9" r="3"/><circle cx="250" cy="12" r="3"/><circle cx="270" cy="9" r="3"/><circle cx="290" cy="14" r="3"/></g><rect y="70" width="300" height="58" fill="#16a34a"/><rect x="60" y="14" width="180" height="78" fill="rgba(255,255,255,.14)" stroke="#fff" stroke-width="6"/><path d="M150 17 V90 M63 53 H237" stroke="#fff" stroke-width="2" opacity=".7"/><g font-size="20" font-weight="900" fill="#fff" text-anchor="middle"><text x="105" y="42">أ</text><text x="195" y="42">ب</text><text x="105" y="80">ج</text><text x="195" y="80">د</text></g><g transform="translate(118 44) scale(.9)">${gmIn(gmKeeper)}</g><path d="M214 116 Q200 90 190 64" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/><text x="216" y="122" font-size="30" text-anchor="middle">⚽</text></svg>` },
-  { id: "river", c1: "#0891b2", c2: "#164e63", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#0891b2"/><rect width="300" height="20" fill="#65a30d"/><rect y="108" width="300" height="20" fill="#65a30d"/><g fill="#a3e635" stroke="#3f6212" stroke-width="3"><ellipse cx="60" cy="62" rx="36" ry="22"/><ellipse cx="150" cy="70" rx="36" ry="22"/><ellipse cx="240" cy="58" rx="36" ry="22"/></g><g font-size="20" font-weight="900" fill="#14532d" text-anchor="middle"><text x="60" y="69">أ</text><text x="240" y="65">ج</text></g><text x="150" y="80" font-size="34" text-anchor="middle">🐸</text><text x="196" y="38" font-size="18" text-anchor="middle">🪰</text><text x="262" y="110" font-size="30" text-anchor="middle">🐊</text></svg>` },
+  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#16a34a"/><g fill="#15803d"><rect x="0" y="0" width="50" height="128"/><rect x="100" y="0" width="50" height="128"/><rect x="200" y="0" width="50" height="128"/></g><g fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="4"><rect x="16" y="4" width="78" height="34" rx="3"/><rect x="111" y="4" width="78" height="34" rx="3"/><rect x="206" y="4" width="78" height="34" rx="3"/></g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="55" y="28">أ</text><text x="150" y="28">ب</text><text x="245" y="28">ج</text></g><circle cx="150" cy="80" r="26" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/><g transform="translate(70 54) scale(.95)">${gmIn(gmKid("#dc2626", "#111827"))}</g><g transform="translate(196 62) scale(1.1)">${gmIn(gmKid("#2563eb", "#1e3a8a"))}</g><text x="232" y="122" font-size="20" text-anchor="middle">⚽</text><path d="M226 104 Q220 70 245 42" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
+  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#14532d"/><path d="M60 0 L0 128 H300 L240 0Z" fill="#a16207"/><path d="M120 0 L100 128 M180 0 L200 128" stroke="#fde68a" stroke-width="3" stroke-dasharray="10 8"/><g stroke-width="4"><rect x="66" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#ef4444"/><rect x="124" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#f59e0b"/><rect x="182" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#22c55e"/></g><g font-size="17" font-weight="900" text-anchor="middle"><text x="92" y="25" fill="#ef4444">أ</text><text x="150" y="25" fill="#f59e0b">ب</text><text x="208" y="25" fill="#22c55e">ج</text></g><g transform="translate(118 52) scale(.7)">${gmIn(gmLog)}</g><g transform="translate(184 64) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(184 86) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(130 76) scale(1.05)">${gmIn(gmKid("#f59e0b", "#7c2d12"))}</g><text x="20" y="60" font-size="34">🌴</text><text x="252" y="80" font-size="34">🌴</text></svg>` },
+  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="90" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="40" r="1"/></g><g transform="translate(30 8) scale(.9)">${gmIn(gmUfo("#ef4444"))}</g><g transform="translate(114 16) scale(.9)">${gmIn(gmUfo("#22c55e"))}</g><g transform="translate(198 6) scale(.9)">${gmIn(gmUfo("#8b5cf6"))}</g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="66" y="56">أ</text><text x="150" y="64">ب</text><text x="234" y="54">ج</text></g><rect x="148" y="72" width="4" height="24" rx="2" fill="#f472b6"/><g transform="translate(166 98) rotate(-90) scale(1.1)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g><g transform="translate(232 76) scale(.5)">${gmIn(gmRock)}</g></svg>` },
   { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="96" width="300" height="32" fill="#65a30d"/><g transform="translate(236 0) scale(.9 .64)">${gmIn(gmCastle)}</g><circle cx="226" cy="70" r="8" fill="#7c2d12"/><rect x="190" y="66" width="34" height="8" rx="3" fill="#292524"/><circle cx="160" cy="58" r="5" fill="#111"/><g transform="translate(30 52) scale(.8)">${gmIn(gmMonster("#a855f7"))}</g><g transform="translate(90 40) scale(.9)">${gmIn(gmMonster("#22c55e"))}</g><text x="120" y="54" font-size="22" text-anchor="middle">💥</text></svg>` },
-  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` },
-  { id: "space", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="14" r="1"/><circle cx="270" cy="70" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="150" cy="116" r="1"/></g><g fill="none" stroke-width="5"><ellipse cx="226" cy="26" rx="12" ry="18" stroke="#f472b6"/><ellipse cx="226" cy="64" rx="12" ry="18" stroke="#fde047"/><ellipse cx="226" cy="102" rx="12" ry="18" stroke="#34d399"/></g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="226" y="31">أ</text><text x="226" y="69">ب</text><text x="226" y="107">ج</text></g><g transform="translate(150 84) scale(.6)">${gmIn(gmRock)}</g><g transform="translate(56 40) scale(1.5)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g></svg>` }
+  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` }
 ];
 /* ---- shell ---- */
 function openGame(ideaId) {
@@ -9872,110 +9880,221 @@ const CONF = ["#ef4444", "#f59e0b", "#22c55e", "#3b82f6", "#a855f7", "#fde047", 
 const gmPt = (e, ar) => { const R = ar.getBoundingClientRect(); return { x: e.clientX - R.left, y: e.clientY - R.top }; };
 
 const GMG = {
-  /* ⚽ drag the ball (or tap a zone) and shoot into the answer */
-  penalty: {
-    bg: () => `<div class="pk-crowd"></div><div class="pk-lights"></div>`,
+  /* ⚽ dribble past the defenders and score in the answer's goal */
+  dribble: {
+    bg: () => `<div class="db-stripes"></div>`,
     round(ar, s, q) {
-      const d = s.d; d.g = d.g || 0; d.v = d.v || 0;
-      const hist = s.qs.map((x, i) => `<i class="${i < s.i ? (s.ans[i] === s.qs[i].a ? "g" : "m") : i === s.i ? "now" : ""}"></i>`).join("");
-      ar.innerHTML = `<div class="pk-goal"><div class="${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "pk-zone")).join("")}</div></div><div class="pk-spot"></div><div class="pk-aim" hidden></div>
-      <div class="pk-board"><span class="pk-hist">${hist}</span><span>${gt("penalty.you")} <b id="pkG">${d.g}</b>–<b id="pkV">${d.v}</b> ${gt("penalty.keeper")}</span></div><div class="gm-tip">${gt("games.penalty.tip")}</div>`;
-      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
-      const g = gmPos(ar.querySelector(".pk-goal"), ar);
-      d.kp = gmActor(ar, "pk-keeper", gmKeeper, g.x, g.y + g.h / 2 - 36);
-      d.bx = ar.clientWidth / 2; d.by = ar.clientHeight - 48;
-      d.shadow = gmActor(ar, "pk-shadow", "", d.bx, d.by + 18);
-      d.ball = gmActor(ar, "pk-ball", "⚽", d.bx, d.by);
-      const aim = ar.querySelector(".pk-aim");
-      const zoneAt = p => {
-        const dx = p.x - d.bx, dy = p.y - d.by, L = Math.hypot(dx, dy); if (L < 18 || dy > -8) return -1;
-        let best = -1, bs = 1e9;
-        ar.querySelectorAll(".pk-zone").forEach(z => { const c = gmPos(z, ar), vx = c.x - d.bx, vy = c.y - d.by, t = (vx * dx + vy * dy) / L; if (t <= 0) return; const perp = Math.abs(vx * dy - vy * dx) / L, lim = Math.max(c.w, c.h) * .75; if (perp < lim && perp < bs) { bs = perp; best = +z.dataset.opt; } });
-        return best;
-      };
-      const mark = k => ar.querySelectorAll(".pk-zone").forEach(z => z.classList.toggle("aim", +z.dataset.opt === k));
-      ar.onpointerdown = e => {
-        if (s.busy || s.ans[s.i] != null || e.target.closest(".gx-opt,.gm-sheet")) return;
-        const p = gmPt(e, ar); if (Math.hypot(p.x - d.bx, p.y - d.by) > 90) return;
-        d.drag = true; d.aimK = -1; try { ar.setPointerCapture(e.pointerId); } catch (_) { } e.preventDefault();
-      };
-      ar.onpointermove = e => {
-        if (!d.drag) return; const p = gmPt(e, ar), dx = p.x - d.bx, dy = p.y - d.by, L = Math.hypot(dx, dy);
-        aim.hidden = false; aim.style.left = d.bx + "px"; aim.style.top = d.by + "px"; aim.style.width = Math.min(L, 400) + "px"; aim.style.transform = `rotate(${Math.atan2(dy, dx) * 180 / Math.PI}deg)`;
-        d.aimK = zoneAt(p); mark(d.aimK);
-      };
-      ar.onpointerup = ar.onpointercancel = e => {
-        if (!d.drag) return; d.drag = false; aim.hidden = true; mark(-1);
-        if (e.type === "pointerup" && d.aimK >= 0) gmChoose(d.aimK);
-      };
-    },
-    async resolve(ar, s, k, ok, q) {
-      const d = s.d, el = gmOptEl(ar, k), z = gmPos(el, ar); let t = z;
-      if (ok) { const o = pick([...ar.querySelectorAll(".gx-opt")].filter(b => +b.dataset.opt !== k)); if (o) t = gmPos(o, ar); }
-      d.kp.classList.add("dive"); gmSnd("kick");
-      const side = t.x < d.kp._x ? -1 : 1;
-      gmFly(d.shadow, z.x, d.by + 18, 520, { scale: .4 });
-      await Promise.all([gmFly(d.ball, z.x, z.y, 520, { arc: 56, scale: .6, rot: 720 }), gmWait(150).then(() => gmFly(d.kp, t.x, t.y, 340, { rot: side * 62 }))]);
-      if (ok) {
-        d.g++; el.classList.add("goal"); gmSnd("win"); gmSnd("cheer"); gmBanner(ar, gt("penalty.goal")); gmFloat(ar, z.x, z.y - 20, `+${s.gain}`, "#fde047");
-        gmBurst(ar, z.x, z.y, CONF, 22, 50); const w = gm$("#gmWorld"); if (w) { w.classList.remove("cheer"); void w.offsetWidth; w.classList.add("cheer"); }
-      } else {
-        d.v++; gmSnd("hit"); gmSnd("ooh"); gmBanner(ar, gt("penalty.save")); gmShake(ar.querySelector(".pk-goal"));
-        await gmFly(d.ball, d.kp._x, d.kp._y - 8, 160, { scale: .55 });
-        await gmFly(d.ball, z.x + (Math.random() < .5 ? -120 : 120), ar.clientHeight + 60, 560, { scale: 1, rot: 1100, ease: "ease-in" });
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="db-mark"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, gr = gmPos(ar.querySelector(".db-goals"), ar);
+      d.line = gr.y + gr.h / 2;
+      d.goals = [...ar.querySelectorAll(".db-goal")].map(g => { const p = gmPos(g, ar); return { k: +g.dataset.goal, x0: p.x - p.w / 2, x1: p.x + p.w / 2, x: p.x, y: p.y }; });
+      d.home = { x: W / 2, y: H - 34 }; d.p = { ...d.home }; d.t = null; d.face = 1; d.inv = 1; d.kx = d.ky = 0;
+      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#1e3a8a"), d.p.x, d.p.y);
+      d.ball = gmActor(ar, "db-ball", "⚽", d.p.x + 12, d.p.y + 16);
+      const span = H - 110 - (d.line + 46), rows = span > 300 ? 3 : 2; d.def = [];
+      for (let r = 0; r < rows; r++) {
+        const y = d.line + 46 + span * (rows > 1 ? r / (rows - 1) : .5), x = 40 + Math.random() * (W - 80), v = (Math.min(W, 900) / 900 * 40 + 34 + Math.random() * 36 + s.i * 3) * (Math.random() < .5 ? -1 : 1);
+        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827"), x, y) });
       }
-      ar.querySelector("#pkG").textContent = d.g; ar.querySelector("#pkV").textContent = d.v;
-      const dot = ar.querySelector(".pk-hist .now"); if (dot) { dot.className = ok ? "g" : "m"; }
-      arabize(ar.querySelector(".pk-board"));
-      await gmWait(650);
-    },
-    final(s) { const g = s.d.g || 0, v = s.d.v || 0; return g > v ? { win: true, medal: "🏆", title: gt("penalty.win", g, v) } : g === v ? { win: false, medal: "🤝", title: gt("penalty.draw", g, v) } : { win: false, medal: "🧤", title: gt("penalty.lose", g, v) }; }
-  },
-
-  /* 🐸 jump onto the drifting pad with the answer */
-  river: {
-    round(ar, s, q) {
-      const d = s.d; d.n = d.n || 0;
-      const pct = Math.round(100 * d.n / s.qs.length);
-      ar.innerHTML = `<div class="rv-far"><div class="rv-trip"><i style="width:${pct}%"></i><b style="inset-inline-start:${pct}%">🐸</b><span>🏠</span></div></div>
-      <div class="rv-pads ${gmGrid(q)}">${q.o.map((o, i) => gmOpt(q, i, "rv-pad")).join("")}</div><div class="rv-near"></div><div class="gm-tip">${gt("games.river.tip")}</div>`;
-      ar.querySelectorAll(".gx-opt").forEach(b => b.onclick = () => gmChoose(+b.dataset.opt));
-      const W = ar.clientWidth, H = ar.clientHeight;
-      d.frog = gmActor(ar, "rv-frog", "🐸", W / 2, H - 44);
-      d.croc = gmActor(ar, "rv-croc", "<span>🐊</span>", 40, H - 96);
-      d.fly = gmActor(ar, "rv-fly", "🪰", W / 2, 70);
-      let t = Math.random() * 10;
+      d.stars = [];
+      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", "⭐", x, y) }); }
+      const clampP = p => ({ x: Math.max(16, Math.min(W - 16, p.x)), y: Math.max(d.line - 14, Math.min(H - 22, p.y)) });
+      let held = false;
+      ar.onpointerdown = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet")) return;
+        const g = e.target.closest(".db-goal"); if (g) { const G = d.goals.find(x => x.k === +g.dataset.goal); d.t = { x: G.x, y: d.line - 14 }; return; }
+        held = true; d.t = clampP(gmPt(e, ar)); try { ar.setPointerCapture(e.pointerId); } catch (_) { }
+      };
+      ar.onpointermove = e => { if (held) d.t = clampP(gmPt(e, ar)); };
+      ar.onpointerup = ar.onpointercancel = () => { held = false; };
+      const steal = () => {
+        d.inv = 1.4; s.score = Math.max(0, s.score - 10); gmSnd("whistle"); gmShake(d.kid); gmFloat(ar, d.p.x, d.p.y - 30, gt("dribble.steal"), "#fecaca"); gmHud(true);
+        d.p = { ...d.home }; d.t = null; held = false;
+      };
       gmLoop(dt => {
-        t += dt;
-        const cx = W / 2 + (W / 2 - 40) * Math.sin(t * .35), dir = Math.cos(t * .35) >= 0 ? 1 : -1;
-        gmPut(d.croc, cx, H - 96 + 4 * Math.sin(t * 2.2)); d.croc.firstChild.style.transform = `scaleX(${gmRTL() ? -dir : dir})`;
-        gmPut(d.fly, W / 2 + (W / 2 - 50) * Math.sin(t * .9 + 1), 64 + 18 * Math.sin(t * 2.7));
+        if (d.kx || d.ky) { d.t = clampP({ x: d.p.x + d.kx * 40, y: d.p.y + d.ky * 40 }); d.kt -= dt; if (d.kt <= 0) d.kx = d.ky = 0; }
+        let moving = false;
+        if (d.t) {
+          const dx = d.t.x - d.p.x, dy = d.t.y - d.p.y, L = Math.hypot(dx, dy), sp = 200 * dt;
+          if (L <= sp) { d.p.x = d.t.x; d.p.y = d.t.y; if (!held && !d.kx && !d.ky) d.t = null; } else { d.p.x += dx / L * sp; d.p.y += dy / L * sp; moving = true; }
+          if (Math.abs(dx) > 3) d.face = dx < 0 ? -1 : 1;
+        }
+        gmPut(d.kid, d.p.x, d.p.y); d.kid.firstElementChild.style.transform = `scaleX(${d.face})`; d.kid.classList.toggle("go", moving); d.kid.classList.toggle("blink", d.inv > 0);
+        gmPut(d.ball, d.p.x + d.face * 12, d.p.y + 16, 1, (d.ball._r || 0) + (moving ? 540 * dt * d.face : 0));
+        d.inv -= dt;
+        d.def.forEach(f => {
+          f.x += f.v * dt; if (Math.abs(f.y - d.p.y) < 70) f.x += Math.sign(d.p.x - f.x) * 26 * dt;
+          if (f.x < 22 || f.x > W - 22) { f.v *= -1; f.x = Math.max(22, Math.min(W - 22, f.x)); }
+          gmPut(f.el, f.x, f.y); f.el.firstElementChild.style.transform = `scaleX(${f.v < 0 ? -1 : 1})`;
+          if (d.inv <= 0 && Math.hypot(f.x - d.p.x, f.y - d.p.y) < 30) steal();
+        });
+        for (let i = d.stars.length - 1; i >= 0; i--) { const t = d.stars[i]; if (Math.hypot(t.x - d.p.x, t.y - d.p.y) < 26) { t.el.remove(); d.stars.splice(i, 1); s.score += 10; gmSnd("coin"); gmFloat(ar, t.x, t.y - 16, gt("dribble.star"), "#fde047"); gmHud(true); } }
+        if (d.p.y <= d.line - 2) { const G = d.goals.find(g => d.p.x >= g.x0 && d.p.x <= g.x1); if (G) { gmChoose(G.k); return false; } }
       });
     },
-    ring(ar, x, y) { const r = document.createElement("div"); r.className = "rv-ring"; r.style.left = x + "px"; r.style.top = y + "px"; r.style.transform = "translate(-50%,-50%)"; ar.appendChild(r); GM.timers.push(setTimeout(() => r.remove(), 850)); },
-    async tongue(ar, d) {
-      const f = { x: d.frog._x, y: d.frog._y - 6 }, b = { x: d.fly._x, y: d.fly._y }, L = Math.hypot(b.x - f.x, b.y - f.y);
-      const tg = document.createElement("div"); tg.className = "rv-tongue"; tg.style.left = f.x + "px"; tg.style.top = f.y + "px"; tg.style.transform = `rotate(${Math.atan2(b.y - f.y, b.x - f.x) * 180 / Math.PI}deg)`; ar.appendChild(tg);
-      try { await tg.animate([{ width: "0px" }, { width: L + "px" }, { width: "0px" }], { duration: 380, easing: "ease-in-out" }).finished; } catch (e) { await gmWait(380); }
-      tg.remove(); d.fly.remove(); d.fly = null;
+    key(e, s) {
+      const d = s.d, m = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+      if (m) { d.kx = m[0]; d.ky = m[1]; d.kt = .16; return true; }
+      if (/^[1-5]$/.test(e.key)) { const G = d.goals.find(g => g.k === +e.key - 1); if (G) { d.t = { x: G.x, y: d.line - 14 }; return true; } }
+      return false;
     },
     async resolve(ar, s, k, ok) {
-      const d = s.d; gmStop(); ar.querySelector(".rv-pads").classList.add("still");
-      const pad = gmOptEl(ar, k), p = gmPos(pad, ar), W = ar.clientWidth, H = ar.clientHeight;
-      gmSnd("whoosh"); await gmFly(d.frog, p.x, p.y - p.h * .28, 560, { arc: 90 }); this.ring(ar, p.x, p.y);
+      const d = s.d; gmStop(); const G = d.goals.find(g => g.k === k), card = gmOptEl(ar, k);
+      gmSnd("kick"); await gmFly(d.ball, G.x, G.y, 380, { arc: 24, scale: .8, rot: 720 });
       if (ok) {
-        d.n++; gmSnd("ok"); pad.classList.add("ok"); gmBanner(ar, gt("river.safe")); gmFloat(ar, p.x, p.y - 30, `+${s.gain}`, "#fde047");
-        if (d.fly) { await gmWait(250); gmSnd("pop"); await this.tongue(ar, d); s.score += 15; s.gain += 15; gmFloat(ar, d.frog._x, d.frog._y - 50, gt("river.fly"), "#bef264"); gmHud(true); }
-        const pct = Math.round(100 * d.n / s.qs.length), tr = ar.querySelector(".rv-trip"); if (tr) { tr.querySelector("i").style.width = pct + "%"; tr.querySelector("b").style.insetInlineStart = pct + "%"; }
-        await gmWait(350); gmSnd("whoosh"); await gmFly(d.frog, W / 2, 20, 560, { arc: 60, scale: .8 });
+        d.n++; card.classList.add("goal"); gmSnd("win"); gmSnd("cheer"); gmBanner(ar, gt("dribble.goal")); gmFloat(ar, G.x, G.y, `+${s.gain}`, "#fde047"); gmBurst(ar, G.x, G.y, CONF, 22, 48);
+        await gmFly(d.kid, d.kid._x, d.kid._y - 10, 300, { arc: 26 });
       } else {
-        gmSnd("splash"); pad.classList.add("sink"); gmBurst(ar, p.x, p.y, ["#e0f2fe", "#7dd3fc", "#fff"], 16, 34); gmBanner(ar, gt("river.sink"));
-        await Promise.all([gmFly(d.croc, p.x, p.y + 10, 520), gmWait(120).then(() => gmFly(d.frog, W / 2, H - 44, 620, { arc: 110 }))]);
-        gmSnd("hit"); gmShake(d.croc.firstChild);
+        gmSnd("hit"); gmShake(card); gmBanner(ar, gt("dribble.miss"));
+        await gmFly(d.ball, G.x + (Math.random() < .5 ? -90 : 90), ar.clientHeight + 40, 600, { rot: 1000, ease: "ease-in" });
       }
-      await gmWait(450);
+      await gmWait(500);
     },
-    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "🐸" : "🐊", title: gt("river.total", n) }; }
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🏆" : r >= .6 ? "⚽" : "🥅", title: gt("dribble.total", n) }; }
+  },
+
+  /* 🏃 run down the jungle track, jump logs, dodge rocks, enter the answer's door */
+  runner: {
+    bg: () => `<div class="rn-trees"></div>`,
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="rn-doors" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-door" data-door="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "rn-card")}</div>`).join("")}</div>
+      <div class="rn-track" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-lane" data-lane="${i}"></div>`).join("")}</div><div class="rn-prog"><i></i></div>
+      <div class="rn-btns"><button type="button" class="rn-btn" data-rn="jump">${gt("runner.jump")}</button><button type="button" class="rn-btn hot" data-rn="dash">${gt("runner.dash")}</button></div><div class="gm-tip">${gt("games.runner.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, track = ar.querySelector(".rn-track"), tp = gmPos(track, ar);
+      const lanes = [...ar.querySelectorAll(".rn-lane")].map(l => gmPos(l, ar).x), order = lanes.map((x, i) => i).sort((a, b) => lanes[a] - lanes[b]);
+      const lw = gmPos(ar.querySelector(".rn-lane"), ar).w; d.lanes = lanes; d.order = order; d.top = tp.y - tp.h / 2; d.ky0 = H - (W < 600 ? 104 : 74); d.lane = order[Math.floor(n / 2)];
+      d.x = lanes[d.lane]; d.p = 0; d.jump = 0; d.dash = false; d.inv = 0; d.obs = []; d.spawn = 1.4; d.off = 0;
+      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12"), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
+      const osz = { log: [Math.min(lw * .7, 110), Math.min(lw * .7, 110) * .43], rock: [Math.min(lw * .45, 64), Math.min(lw * .45, 64)], coin: [26, 26] };
+      const mk = (kind, ln, y) => { const el = gmActor(ar, "rn-ob " + kind, kind === "log" ? gmLog : kind === "rock" ? gmRock : gmCoin, lanes[ln], y); el.style.width = osz[kind][0] + "px"; el.style.height = osz[kind][1] + "px"; return el; };
+      const T = gmReadT(q), prog = ar.querySelector(".rn-prog i"), doors = ar.querySelector(".rn-doors");
+      d.move = dir => { const at = order.indexOf(d.lane), nx = order[Math.max(0, Math.min(n - 1, at + dir))]; if (nx !== d.lane) { d.lane = nx; gmSnd("tap"); } };
+      d.hop = () => { if (d.jump <= 0) { d.jump = .62; gmSnd("jump"); } };
+      d.go = () => { if (!d.dash) { d.dash = true; gmSnd("boost"); } };
+      ar.querySelector('[data-rn="jump"]').onclick = e => { e.stopPropagation(); d.hop(); };
+      ar.querySelector('[data-rn="dash"]').onclick = e => { e.stopPropagation(); d.go(); };
+      let down = null;
+      ar.onpointerdown = e => { if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet,.rn-btn")) return; down = gmPt(e, ar); down.door = e.target.closest(".rn-door"); };
+      ar.onpointerup = e => {
+        if (!down || s.busy || s.ans[s.i] != null) { down = null; return; }
+        const p = gmPt(e, ar), dx = p.x - down.x, dy = p.y - down.y, door = down.door; down = null;
+        if (Math.abs(dx) > 28 && Math.abs(dx) > Math.abs(dy)) return d.move(dx > 0 ? 1 : -1);
+        if (dy < -28) return d.hop();
+        if (door) { d.lane = +door.dataset.door; d.go(); return; }
+        let b = 0, bd = 1e9; lanes.forEach((x, i) => { const dd = Math.abs(x - p.x); if (dd < bd) { bd = dd; b = i; } }); if (b !== d.lane) { d.lane = b; gmSnd("tap"); }
+      };
+      gmLoop(dt => {
+        const v = d.dash ? 380 : 170;
+        d.p = Math.min(1, d.p + dt * (d.dash ? 1.15 : 1 / T)); prog.style.width = d.p * 100 + "%"; doors.style.transform = `scale(${1 + d.p * .05})`;
+        d.off = (d.off + v * dt) % 80; track.style.setProperty("--off", d.off + "px");
+        d.x += (lanes[d.lane] - d.x) * Math.min(1, dt * 14);
+        if (d.jump > 0) d.jump -= dt; const jh = d.jump > 0 ? Math.sin((1 - d.jump / .62) * Math.PI) : 0;
+        gmPut(d.kid, d.x, d.ky0 - jh * 34, 1 + jh * .3); d.kid.classList.toggle("blink", d.inv > 0); d.inv -= dt;
+        d.spawn -= dt;
+        if (d.spawn <= 0 && d.p < .82 && !d.dash) {
+          d.spawn = 1.1 + Math.random() * 1.1; const ln = (Math.random() * n) | 0, r = Math.random();
+          if (r < .62) { const kind = r < .36 ? "log" : "rock"; d.obs.push({ ln, y: d.top + 10, kind, el: mk(kind, ln, d.top + 10) }); }
+          else for (let c = 0; c < 3; c++) d.obs.push({ ln, y: d.top + 10 - c * 34, kind: "coin", el: mk("coin", ln, d.top + 10 - c * 34) });
+        }
+        for (let i = d.obs.length - 1; i >= 0; i--) {
+          const o = d.obs[i]; o.y += v * dt; gmPut(o.el, lanes[o.ln], o.y, .7 + .5 * Math.max(0, (o.y - d.top) / (H - d.top)));
+          o.el.style.opacity = o.y < d.top ? 0 : 1;
+          if (o.ln === d.lane && Math.abs(o.y - d.ky0) < 28) {
+            if (o.kind === "coin") { s.score += 5; gmSnd("coin"); gmFloat(ar, d.x, d.ky0 - 40, gt("runner.coin"), "#fde047"); gmHud(true); o.el.remove(); d.obs.splice(i, 1); continue; }
+            if ((o.kind === "rock" || jh < .35) && d.inv <= 0) { d.inv = 1.1; s.score = Math.max(0, s.score - 10); d.p = Math.max(0, d.p - .03); gmSnd("hit"); gmShake(d.kid); gmFloat(ar, d.x, d.ky0 - 40, gt("runner.trip"), "#fecaca"); gmHud(true); }
+          }
+          if (o.y > H + 30) { o.el.remove(); d.obs.splice(i, 1); }
+        }
+        if (d.p >= 1) { gmChoose(d.lane); return false; }
+      });
+    },
+    key(e, s) {
+      const d = s.d;
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") { d.move(e.key === "ArrowRight" ? 1 : -1); return true; }
+      if (e.key === "ArrowUp" || e.key === " ") { d.hop(); return true; }
+      if (e.key === "Enter") { d.go(); return true; }
+      if (/^[1-5]$/.test(e.key) && +e.key <= d.lanes.length) { d.lane = +e.key - 1; return true; }
+      return false;
+    },
+    async resolve(ar, s, k, ok) {
+      const d = s.d; gmStop(); d.obs.forEach(o => o.el.remove()); d.obs = [];
+      const door = ar.querySelectorAll(".rn-door")[k], p = gmPos(door, ar);
+      gmSnd("whoosh"); await gmFly(d.kid, p.x, p.y + p.h / 2 - 6, 420, { scale: .8 });
+      if (ok) { d.n++; door.classList.add("open"); gmSnd("win"); gmBanner(ar, gt("runner.open")); gmFloat(ar, p.x, p.y, `+${s.gain}`, "#fde047"); gmBurst(ar, p.x, p.y, CONF, 20, 46); }
+      else { gmSnd("no"); gmShake(door); gmBanner(ar, gt("runner.locked")); await gmFly(d.kid, p.x, d.ky0, 520, { arc: 30, scale: 1 }); }
+      await gmWait(500);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🏅" : r >= .6 ? "🏃" : "🌴", title: gt("runner.total", n) }; }
+  },
+
+  /* 🛸 move the ship, laser the saucer that carries the answer, blast meteors */
+  shooter: {
+    round(ar, s, q) {
+      const d = s.d; d.n = d.n || 0; const n = q.o.length;
+      ar.innerHTML = `<div class="sh-ufos" style="--n:${n}">${q.o.map((o, i) => `<div class="sh-ufo" data-ufo="${i}" style="--bc:${GM_COLS[i]}"><span class="sh-saucer">${gmUfo(GM_COLS[i])}</span>${gmOpt(q, i, "sh-card")}</div>`).join("")}</div>
+      <button type="button" class="sh-fire">${gt("shooter.fire")}</button><div class="gm-tip">${gt("games.shooter.tip")}</div>`;
+      const W = ar.clientWidth, H = ar.clientHeight, row = ar.querySelector(".sh-ufos"), ufos = [...ar.querySelectorAll(".sh-ufo")];
+      d.x = W / 2; d.y = H - 40; d.tx = null; d.cool = 0; d.las = []; d.met = []; d.spawn = 2.2; d.dy = 0; d.auto = -1; d.t = 0; d.inv = 0;
+      d.ship = gmActor(ar, "sh-ship", gmRocket("#fde047", "#f59e0b"), d.x, d.y); gmPut(d.ship, d.x, d.y, 1, -90);
+      const rb = gmPos(row, ar), maxDy = Math.max(0, (H - 120) - (rb.y + rb.h / 2)), T = gmReadT(q);
+      d.fire = () => { if (s.busy || s.ans[s.i] != null || d.cool > 0) return; d.cool = .3; gmSnd("laser"); const l = { x: d.x, y: d.y - 34, el: gmActor(ar, "sh-laser", "", d.x, d.y - 34) }; d.las.push(l); };
+      ar.querySelector(".sh-fire").onclick = e => { e.stopPropagation(); d.fire(); };
+      let drag = false, down = null;
+      ar.onpointerdown = e => {
+        if (s.busy || s.ans[s.i] != null || e.target.closest(".gm-sheet,.sh-fire")) return;
+        const u = e.target.closest(".sh-ufo"); if (u) { const p = gmPos(u, ar); d.tx = p.x; d.auto = +u.dataset.ufo; return; }
+        drag = true; down = gmPt(e, ar); d.tx = down.x; d.auto = -1; try { ar.setPointerCapture(e.pointerId); } catch (_) { }
+      };
+      ar.onpointermove = e => { if (drag) d.tx = gmPt(e, ar).x; };
+      ar.onpointerup = ar.onpointercancel = e => { if (drag && down && e.type === "pointerup") { const p = gmPt(e, ar); if (Math.hypot(p.x - down.x, p.y - down.y) < 10) d.fire(); } drag = false; down = null; };
+      gmLoop(dt => {
+        d.t += dt; d.cool -= dt; d.inv -= dt;
+        d.dy = Math.min(maxDy, d.dy + maxDy * dt / T); row.style.transform = `translateY(${d.dy}px)`;
+        ufos.forEach((u, i) => u.style.translate = `${Math.sin(d.t * 1.3 + i * 1.7) * 6}px ${Math.sin(d.t * 2 + i) * 3}px`);
+        if (d.kv) { d.tx = Math.max(24, Math.min(W - 24, d.x + d.kv * 50)); d.kt -= dt; if (d.kt <= 0) d.kv = 0; }
+        if (d.tx != null) { const dx = d.tx - d.x, sp = 420 * dt; d.x = Math.abs(dx) <= sp ? d.tx : d.x + Math.sign(dx) * sp; }
+        d.x = Math.max(24, Math.min(W - 24, d.x)); gmPut(d.ship, d.x, d.y, 1, -90 + (d.tx != null ? Math.max(-12, Math.min(12, (d.tx - d.x) * .2)) : 0));
+        if (d.auto >= 0 && Math.abs(d.tx - d.x) < 4) { d.cool = 0; d.fire(); d.auto = -1; }
+        d.spawn -= dt;
+        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmRock, x, y0) }); }
+        for (let i = d.met.length - 1; i >= 0; i--) {
+          const m = d.met[i]; m.y += m.vy * dt; m.r += 120 * dt; gmPut(m.el, m.x, m.y, 1, m.r);
+          if (d.inv <= 0 && Math.hypot(m.x - d.x, m.y - d.y) < 28) { d.inv = 1; s.score = Math.max(0, s.score - 10); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, d.x, d.y - 40, gt("shooter.crash"), "#fecaca"); gmHud(true); m.el.remove(); d.met.splice(i, 1); continue; }
+          if (m.y > H + 30) { m.el.remove(); d.met.splice(i, 1); }
+        }
+        for (let i = d.las.length - 1; i >= 0; i--) {
+          const l = d.las[i]; l.y -= 640 * dt; gmPut(l.el, l.x, l.y);
+          const mi = d.met.findIndex(m => Math.abs(m.x - l.x) < 20 && Math.abs(m.y - l.y) < 22);
+          if (mi >= 0) { const m = d.met.splice(mi, 1)[0]; gmBurst(ar, m.x, m.y, ["#a8a29e", "#f97316", "#fde047"], 10, 22); m.el.remove(); l.el.remove(); d.las.splice(i, 1); s.score += 5; gmSnd("pop"); gmFloat(ar, m.x, m.y - 10, gt("shooter.meteor"), "#fde047"); gmHud(true); continue; }
+          for (const u of ufos) { const p = gmPos(u, ar); if (Math.abs(l.x - p.x) <= p.w / 2 && l.y <= p.y + p.h / 2 && l.y >= p.y - p.h / 2) { d.las.forEach(z => z.el.remove()); d.las = []; d.hitY = l.y; gmChoose(+u.dataset.ufo); return false; } }
+          if (l.y < -20) { l.el.remove(); d.las.splice(i, 1); }
+        }
+      });
+    },
+    key(e, s) {
+      const d = s.d;
+      if (e.key === "ArrowLeft" || e.key === "ArrowRight") { d.kv = e.key === "ArrowRight" ? 1 : -1; d.kt = .16; d.auto = -1; return true; }
+      if (e.key === " " || e.key === "ArrowUp" || e.key === "Enter") { d.fire(); return true; }
+      return false;
+    },
+    async resolve(ar, s, k, ok, q) {
+      const d = s.d; gmStop(); d.met.forEach(m => m.el.remove()); d.met = [];
+      const u = ar.querySelectorAll(".sh-ufo")[k], p = gmPos(u.querySelector(".sh-saucer"), ar);
+      gmBurst(ar, d.x, d.hitY || p.y, ["#f472b6", "#fff"], 8, 16);
+      if (ok) {
+        d.n++; gmSnd("boom"); u.classList.add("down"); gmBurst(ar, p.x, p.y, ["#f97316", "#facc15", "#ef4444", "#fff"], 22, 50); gmBanner(ar, gt("shooter.hit")); gmFloat(ar, p.x, p.y, `+${s.gain}`, "#fde047");
+        ar.querySelectorAll(".sh-ufo").forEach((x, i) => { if (i !== k) x.classList.add("away"); }); gmSnd("win");
+      } else {
+        gmSnd("hit"); gmShake(u);
+        const z = document.createElement("div"); z.className = "sh-zap"; const L = Math.hypot(d.x - p.x, d.y - p.y); z.style.left = p.x + "px"; z.style.top = p.y + "px"; z.style.width = L + "px"; z.style.transform = `rotate(${Math.atan2(d.y - p.y, d.x - p.x) * 180 / Math.PI}deg)`; ar.appendChild(z);
+        GM.timers.push(setTimeout(() => z.remove(), 500)); await gmWait(250); gmShake(d.ship); gmBanner(ar, gt("shooter.wrong"));
+        const c = ar.querySelectorAll(".sh-ufo")[q.a]; if (c) c.classList.add("glow");
+      }
+      await gmWait(700);
+    },
+    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🛸" : "☄️", title: gt("shooter.total", n) }; }
   },
 
   /* 🏰 monsters march on the castle carrying the answers — blast the right one */
@@ -10063,7 +10182,7 @@ const GMG = {
       }
       walls += `M${P} ${P}H${W - P}V${H - P}H${P}Z`;
       ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path d="${walls}" stroke-linecap="round"/></svg>
-      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}`;
+      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
       d.coins = [];
       const free = [...Array(C * R).keys()].filter(i => M.roomOf[i] < 0 && i !== start && M.open[i].size);
       for (let k = 0; k < 5 && free.length; k++) { const i = free.splice((Math.random() * free.length) | 0, 1)[0]; d.coins.push({ i, el: gmActor(ar, "mz-coin", gmCoin, X(i), Y(i)) }); }
@@ -10145,75 +10264,6 @@ const GMG = {
       await gmWait(600);
     },
     final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "👑" : r >= .6 ? "💰" : "🗺️", title: gt("maze.total", n) }; }
-  },
-
-  /* 🚀 fly toward the gates, steer into the answer's lane, dodge meteors */
-  space: {
-    round(ar, s, q) {
-      const d = s.d; d.n = d.n || 0; d.lane = Math.min(1, q.o.length - 1); d.p = 0; d.nitro = false;
-      ar.innerHTML = `<div class="sp-bar"><div class="sp-fuel"><i></i></div><button type="button" class="sp-go">${gt("space.go")}</button></div>
-      <div class="sp-lanes">${q.o.map((o, i) => `<div class="sp-lane" data-lane="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "sp-gate")}</div>`).join("")}</div><div class="gm-tip">${gt("games.space.tip")}</div>`;
-      const W = ar.clientWidth, rtl = gmRTL(), lanes = [...ar.querySelectorAll(".sp-lane")];
-      d.ship = gmActor(ar, "sp-ship", gmRocket("#fde047", "#f59e0b"), 0, 0);
-      const ly = i => gmPos(lanes[i], ar).y;
-      const g0 = gmPos(lanes[0].querySelector(".sp-gate"), ar), sw = d.ship.offsetWidth || 60;
-      d.x0 = rtl ? W - sw / 2 - 10 : sw / 2 + 10; d.x1 = rtl ? g0.x + g0.w / 2 + sw / 2 : g0.x - g0.w / 2 - sw / 2; d.y = ly(d.lane);
-      const mark = () => lanes.forEach(l => l.classList.toggle("on", +l.dataset.lane === d.lane));
-      d.steer = i => { if (s.busy || s.ans[s.i] != null || i === d.lane) return; d.lane = i; gmSnd("tap"); mark(); };
-      d.go = () => { if (s.busy || s.ans[s.i] != null) return; d.nitro = true; d.ship.classList.add("turbo"); gmSnd("boost"); };
-      mark(); gmPut(d.ship, d.x0, d.y);
-      lanes.forEach(l => l.onclick = e => { const i = +l.dataset.lane; if (e.target.closest(".gx-opt")) { d.steer(i); d.go(); } else d.steer(i); });
-      ar.querySelector(".sp-go").onclick = () => d.go();
-      let drag = false;
-      ar.onpointerdown = e => { if (e.target.closest(".gx-opt,.sp-go,.gm-sheet")) return; drag = true; };
-      ar.onpointermove = e => { if (!drag) return; const y = gmPt(e, ar).y; let b = 0, bd = 1e9; lanes.forEach((l, i) => { const dd = Math.abs(ly(i) - y); if (dd < bd) { bd = dd; b = i; } }); d.steer(b); };
-      ar.onpointerup = ar.onpointercancel = () => { drag = false; };
-      const T = gmReadT(q), fuel = ar.querySelector(".sp-fuel i"), rocks = [];
-      let spawn = 2.5, hitT = 0;
-      gmLoop(dt => {
-        d.p = Math.min(1, d.p + dt * (d.nitro ? 1 / .6 : 1 / T)); fuel.style.width = (100 - d.p * 100) + "%";
-        const ty = ly(d.lane); d.y += (ty - d.y) * Math.min(1, dt * 9);
-        const x = d.x0 + (d.x1 - d.x0) * d.p; gmPut(d.ship, x, d.y, 1, (ty - d.y) * .25);
-        spawn -= dt;
-        if (spawn <= 0 && d.p < .8 && !d.nitro) {
-          spawn = 2.6 + Math.random() * 2; const lo = Math.min(x, d.x1), hi = Math.max(x, d.x1);
-          if (hi - lo > 70) { const rx = lo + 40 + Math.random() * (hi - lo - 70), down = Math.random() < .5, H = ar.clientHeight; rocks.push({ el: gmActor(ar, "sp-rock", gmRock, rx, down ? -20 : H + 20), x: rx, y: down ? -20 : H + 20, vy: (down ? 1 : -1) * (55 + Math.random() * 45), r: 0 }); }
-        }
-        for (let i = rocks.length - 1; i >= 0; i--) {
-          const r = rocks[i]; r.y += r.vy * dt; r.r += 90 * dt; gmPut(r.el, r.x, r.y, 1, r.r);
-          if (Math.hypot(r.x - x, r.y - d.y) < 30 && hitT <= 0) { hitT = 1; s.score = Math.max(0, s.score - 10); d.p = Math.max(0, d.p - .05); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, x, d.y - 26, gt("space.hit"), "#fca5a5"); gmHud(true); r.el.remove(); rocks.splice(i, 1); continue; }
-          if (r.y < -40 || r.y > ar.clientHeight + 40) { r.el.remove(); rocks.splice(i, 1); }
-        }
-        hitT -= dt;
-        if (d.p >= 1) { if (!d.nitro) gmBanner(ar, gt("space.out")); gmChoose(d.lane); return false; }
-      });
-    },
-    key(e, s) {
-      const d = s.d, n = s.qs[s.i].o.length;
-      if (e.key === "ArrowUp" || e.key === "ArrowDown") { d.steer(Math.max(0, Math.min(n - 1, d.lane + (e.key === "ArrowUp" ? -1 : 1)))); return true; }
-      if (e.key === "Enter" || e.key === " ") { d.go(); return true; }
-      if (/^[1-5]$/.test(e.key) && +e.key <= n) { d.steer(+e.key - 1); return true; }
-      return false;
-    },
-    async resolve(ar, s, k, ok) {
-      const d = s.d; gmStop(); ar.querySelectorAll(".sp-rock").forEach(r => r.remove());
-      const gate = gmOptEl(ar, k), g = gmPos(gate, ar), W = ar.clientWidth, b = ar.querySelector(".sp-go"); if (b) b.remove();
-      d.lane = k; ar.querySelectorAll(".sp-lane").forEach(l => l.classList.toggle("on", +l.dataset.lane === k));
-      d.ship.classList.add("turbo"); gmSnd("boost");
-      const edge = gmRTL() ? g.x + g.w / 2 - 30 : g.x - g.w / 2 + 30;
-      await gmFly(d.ship, edge, g.y, 360, { ease: "ease-in", rot: 0 });
-      const w = gm$("#gmWorld");
-      if (ok) {
-        d.n++; gate.classList.add("warp"); gmSnd("win"); gmBanner(ar, gt("space.warp")); gmFloat(ar, g.x, g.y - 10, `+${s.gain}`, "#fde047");
-        if (w) { w.classList.add("warp"); GM.timers.push(setTimeout(() => w.classList.remove("warp"), 1300)); }
-        await gmFly(d.ship, gmRTL() ? -90 : W + 90, g.y, 420, { ease: "ease-in", scale: 1.3 });
-      } else {
-        gate.classList.add("boom"); gmSnd("boom"); gmBurst(ar, edge, g.y, ["#f97316", "#facc15", "#ef4444", "#fff"], 18, 40); gmBanner(ar, gt("space.boom"));
-        await gmFly(d.ship, d.x0, g.y, 620, { rot: gmRTL() ? 360 : -360 }); gmPut(d.ship, d.x0, g.y, 1, 0);
-      }
-      d.ship.classList.remove("turbo"); await gmWait(400);
-    },
-    final(s) { const n = s.d.n || 0, r = n / s.qs.length; return { win: r >= .7, medal: r >= .9 ? "🌟" : r >= .6 ? "🚀" : "🛰️", title: gt("space.total", n) }; }
   }
 };
 /* ---- end ---- */
