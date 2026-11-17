@@ -4552,11 +4552,15 @@ window.RGT={
   addAttempt:rec=>{const m=TRN.me;return window.RG.trAdd(trPlain(Object.assign({},rec,{uid:m.code,code:m.code,studentCode:m.code,byCode:m.code,parentCode:m.parentCode||''})));},
   attempts:async code=>{const m=TRN.me;if(!window.RG||!m||m.role==='guest')return [];
     const [l,ex]=await Promise.all([window.RG.trList(code||null,m.role==='parent'?m.parentCode:null),window.RG.exResults?window.RG.exResults(code||null).catch(e=>{console.warn('examResults',e);return [];}):Promise.resolve([])]);
-    const mx=ex.map(r=>({id:r.id,mode:'model',modelName:r.modelName||'',partName:r.partName||'',level:r.level,correct:r.right||0,total:r.total||0,pct:r.percent||0,secs:r.usedSec,limit:r.totalSec,atMs:r.timestamp||0,uid:r.studentCode,code:r.studentCode,name:r.studentName||'',ideaIds:[]}));
+    const mx=ex.map(r=>({id:r.id,mode:'model',model:r.model,modelName:r.modelName||'',partName:r.partName||'',level:r.level,correct:r.right||0,total:r.total||0,pct:r.percent||0,secs:r.usedSec,limit:r.totalSec,atMs:r.timestamp||0,uid:r.studentCode,code:r.studentCode,name:r.studentName||'',ideaIds:[]}));
     return l.map(a=>Object.assign({},a,{uid:a.studentCode})).concat(mx).sort((a,b)=>(b.atMs||0)-(a.atMs||0));},
-  listStudents:async()=>{const r=await window.RG.trStudents();return r.students.sort((a,b)=>(a.name||'').localeCompare(b.name||'','ar')).map(s=>{const x=r.tu[s.code]||{};return {uid:s.code,code:s.code,name:s.name||s.code,levels:(x.levels&&x.levels.length)?x.levels:(x.progress&&+x.progress._lvl?[+x.progress._lvl]:[1,2,3]),active:x.active!==false,progress:x.progress||{},lastSeen:x.lastSeen?{toMillis:()=>x.lastSeen}:null,createdMs:0};});},
+  listStudents:async()=>{const r=await window.RG.trStudents();return r.students.sort((a,b)=>(a.name||'').localeCompare(b.name||'','ar')).map(s=>{const x=r.tu[s.code]||{};return {uid:s.code,code:s.code,name:s.name||s.code,levels:(x.levels&&x.levels.length)?x.levels:(x.progress&&+x.progress._lvl?[+x.progress._lvl]:[1,2,3]),active:x.active!==false,progress:x.progress||{},shareToken:x.shareToken||"",lastSeen:x.lastSeen?{toMillis:()=>x.lastSeen}:null,createdMs:0};});},
   updateTraining:(code,patch)=>window.RG.trSet(String(code),trPlain(Object.assign({code:String(code)},patch))),
-  examAnswers:id=>window.RG.trAnswers(id)
+  examAnswers:id=>window.RG.trAnswers(id),
+  isPlus:()=>!!TRN.plus, shareBase:()=>location.origin+location.pathname,
+  sharePut:(id,data)=>window.RG.pubSet(String(id),trPlain(data)),
+  shareGet:id=>{if(!window.RG||!window.RG.pubGet)return Promise.reject(new Error('wait'));return window.RG.pubGet(String(id));},
+  publicId:()=>PUBLIC.id
 };
 function openTraining(plus){plus=plus===true;TRN.plus=plus;
   TRN.me=trMe();if(!TRN.me){alert(lang==='en'?'Choose the student first.':'اختر الطالب أولًا.');return;}
@@ -4570,8 +4574,20 @@ function openTraining(plus){plus=plus===true;TRN.plus=plus;
   ov.hidden=false;ov.style.display='flex';if(window.mrPen)mrPen(true);window.scrollTo(0,0);document.body.style.overflow='hidden';document.getElementById('trainBack').onclick=closeTraining;{const to=document.getElementById('trainOut');if(to)to.onclick=()=>document.getElementById('outBtn').onclick();}
   }catch(e){console.error(e);alert((lang==='en'?'Could not open the training: ':'تعذر فتح التدريب: ')+(e&&e.message||e));}
 }
-function closeTraining(){const ov=document.getElementById('trainOv');if(!ov||ov.hidden)return;ov.hidden=true;ov.style.display='none';ov.innerHTML='';if(window.mrPen)mrPen(true);document.body.style.overflow='';TRN.me=null;}
+function closeTraining(){if(PUBLIC.id)return;const ov=document.getElementById('trainOv');if(!ov||ov.hidden)return;ov.hidden=true;ov.style.display='none';ov.innerHTML='';if(window.mrPen)mrPen(true);document.body.style.overflow='';TRN.me=null;}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTraining();});
+// ================= رابط ولي الأمر: ?r=<token> يفتح تقرير الطالب بدون تسجيل دخول =================
+const PUBLIC=(()=>{try{const q=new URLSearchParams(location.search),r=q.get('r'),p=q.get('k')==='p';if(r&&/^[a-z0-9]{10,40}$/.test(r))return {id:r+(p?'_p':''),plus:p};}catch(e){}return {id:null,plus:false};})();
+function openPublic(){
+  TRN.plus=PUBLIC.plus;TRN.me={role:'public',code:'',name:''};
+  const src=PUBLIC.plus?'trainingPlusSrc':'trainingSrc';TRN.htmls=TRN.htmls||{};if(!TRN.htmls[src])TRN.htmls[src]=document.getElementById(src).textContent.replace(/<\\\/script/g,'</script');
+  const en=lang==='en';let ov=document.getElementById('trainOv');if(!ov){ov=document.createElement('div');ov.id='trainOv';ov.className='train-ov';document.body.appendChild(ov);}
+  ov.innerHTML=`<div class="train-bar"><div class="tb-t"><b>${en?'Parent progress report':'تقرير متابعة ولي الأمر'}</b><small>${PUBLIC.plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</small></div></div>`;
+  const f=document.createElement('iframe');f.title=en?'Progress report':'تقرير المتابعة';f.srcdoc=TRN.htmls[src];ov.appendChild(f);
+  ov.hidden=false;ov.style.display='flex';window.scrollTo(0,0);document.body.style.overflow='hidden';
+  if(window.mrPen){try{mrPen(false);}catch(e){}window.mrPen=()=>{};}
+}
+if(PUBLIC.id){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',openPublic);else setTimeout(openPublic,0);}
 
 // ================= حسابات منصة الاختبارات فقط (لا تظهر في منصة الأستاذ محمد رجب) =================
 const ACC={list:null,msg:'',err:false,show:{}};
@@ -5251,6 +5267,8 @@ window.RG={signIn:(code,pass)=>A.signInWithEmailAndPassword(auth,code+DOMAIN,pas
   trStudents:async()=>{const [a,b]=await Promise.all([F.getDocs(F.collection(db,"students")),F.getDocs(F.collection(db,"trainingUsers"))]);let ex=[];try{ex=(await F.getDocs(F.collection(db,"examStudents"))).docs.map(d=>({code:d.id,name:d.data().name||""}));}catch(_){}
     return {students:a.docs.map(d=>({code:d.data().code||d.id,name:d.data().name||""})).concat(ex),tu:Object.fromEntries(b.docs.map(d=>[d.id,d.data()]))};},
   trAnswers:id=>F.getDoc(F.doc(db,"examAnswers",id)).then(x=>x.exists()?x.data():null),
+  pubSet:(id,data)=>F.setDoc(F.doc(db,"publicReports",id),data),
+  pubGet:id=>F.getDoc(F.doc(db,"publicReports",id)).then(x=>x.exists()?x.data():null),
   exResults:async code=>{const c=F.collection(db,"examResults");const x=await F.getDocs(code?F.query(c,F.where("studentCode","==",code)):c);return x.docs.map(d=>Object.assign({id:d.id},d.data()));},
   exList:async()=>{const x=await F.getDocs(F.collection(db,"examStudents"));return x.docs.map(d=>Object.assign({code:d.id},d.data())).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));},
   exAdd:async({code,name,pass})=>{
@@ -6002,6 +6020,19 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
 
 </style>
+<style>
+.sharebox{display:grid;gap:10px;border:1.5px dashed color-mix(in srgb,var(--acc) 55%,var(--line));background:color-mix(in srgb,var(--acc) 6%,var(--surface));border-radius:16px;padding:14px 16px;margin:0 0 14px}
+.sharebox b{font-size:16px}.sharebox p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.shrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.shurl{flex:1 1 240px;min-width:0;font:600 14px/1.4 ui-monospace,Menlo,monospace;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.sharebox .btn.wa{background:#16a34a;border-color:#16a34a;color:#fff}
+.pubbar{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:space-between;align-items:center;background:linear-gradient(120deg,#0b5d68,#0e7a86);color:#fff;border-radius:14px;padding:10px 16px;margin:0 0 14px}
+.pubbar span{opacity:.9;font-size:14px}
+b.tries{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:999px;background:#fff1e6;color:#c2410c}
+.pubview #tabs,.pubview #penWrap,.pubview #penBtn{display:none!important}
+.report,.report>*,.report .rcard,.report .two>*{min-width:0;max-width:100%}
+@media print{.sharebox,.pubbar{display:none!important}}
+</style>
 </head>
 <body>
 
@@ -6303,7 +6334,7 @@ const FirebaseBackend = {
     if (d.active === false && me.role === "student") throw new AppError("disabled");
     if (me.role === "student") h.touch(me.code);
     const lv = (d.levels || []).map(Number).filter(l => l >= 1 && l <= 3);
-    return { uid: me.code, role: me.role, code: me.code, name: me.name || me.code, levels: lv.length ? lv : [1, 2, 3], active: true, progress: d.progress || {} };
+    return { uid: me.code, role: me.role, code: me.code, name: me.name || me.code, levels: lv.length ? lv : [1, 2, 3], active: true, progress: d.progress || {}, shareToken: d.shareToken || "" };
   },
   saveProgress(uid, id, val) { return HOST().saveProgress(uid, id, val); },
   saveAttempt(rec) { return HOST().addAttempt(rec); },
@@ -6349,6 +6380,10 @@ const TX = {
   ar: {
     brand: "منصة الحل السريع", tag: "تدريب على أفكار مقياس موهبة — أ. محمد رجب", lv: ["", "المستوى الأول", "المستوى الثاني", "المستوى الثالث"], lvShort: ["", "الأول", "الثاني", "الثالث"],
     tabReport: "تقرير ولي الأمر", trBtn: "ترجمة للعربية", trHide: "إخفاء الترجمة", hello: n => `مرحباً ${n}`, helloAdmin: "مرحباً أ. محمد", continueAt: t => `تابع: ${t}`, startFirst: "ابدأ الفكرة الأولى", completion: "من أفكار المستوى", mastered: "فكرة متقنة", masteredChip: "متقنة", inProgress: "قيد التدريب", notStarted: "لم تبدأ", ofIdeas: (a, n) => `${a} من ${n} فكرة`, avgShort: "متوسط", domainsH: "المجالات الأربعة",
+    shareH: "رابط متابعة ولي الأمر", shareP: "رابط ثابت يفتح هذا التقرير بدون تسجيل دخول، ويتحدّث تلقائيًا مع كل تدريب أو اختبار.", shareCopy: "نسخ الرابط", shareCopied: "تم النسخ ✓", shareWa: "إرسال واتساب", shareMake: "إنشاء رابط ولي الأمر", shareWait: "جاري تجهيز الرابط…", shareErr: "تعذّر تجهيز الرابط الآن. تأكد من قواعد Firebase.",
+    shareMsg: (n, u) => `السلام عليكم، هذا رابط متابعة تقرير الطالب ${n} (يتحدّث تلقائيًا ولا يحتاج تسجيل دخول):\n${u}`,
+    pubBadge: "تقرير متابعة مباشر لولي الأمر", pubUpd: d => `آخر تحديث: ${d}`, pubNone: "الرابط غير صحيح أو لم يعد متاحًا. اطلب رابطًا جديدًا من المدرب.", pubLoading: "جاري تحميل التقرير…",
+    triesH: "عدد المحاولات لكل اختبار", triesP: "كم مرة حاول الطالب كل اختبار قبل أن يصل لأعلى درجة.", cTest: "الاختبار", cTries: "المحاولات", cFirst: "أول درجة", cLast: "آخر درجة", cBest: "أعلى درجة", cBestAt: "وصل لها في", tryN: n => `المحاولة ${n}`, customN: n => `اختبار مخصص · ${n} أفكار`, colTry: "المحاولة", noTries: "لا توجد اختبارات بعد.",
     repTitle: "تقرير متابعة الطالب", repSub: "منصة الحل السريع لمقياس موهبة", repStudent: "الطالب", repLevels: "المستويات", repDate: "تاريخ التقرير", repTrainer: "المدرب", kIdeas: "أفكار تدرّب عليها", kAvg: "متوسط أفضل نتيجة", kMastered: "أفكار متقنة (٨٠٪ فأكثر)", kTests: "تدريبات واختبارات منجزة", kTime: "وقت التدريب", kLast: "آخر نشاط", byDomain: "الأداء حسب المجال", strengths: "نقاط القوة", focus: "تحتاج تركيزاً", notStartedN: n => `${n} فكرة لم يبدأ التدريب عليها بعد.`, noneYet: "لا يوجد بعد — ابدأ التدريب لتظهر هنا.", recent: "آخر النتائج", print: "طباعة التقرير / حفظ PDF", repNote: "نصيحة المدرب: ١٥–٢٠ دقيقة يومياً على فكرة أو فكرتين أفضل من جلسة طويلة أسبوعياً. ابدأ بالأفكار التي تحتاج تركيزاً ثم أعد التدريب حتى تصل إلى ٨٠٪.", parentReport: "تقرير ولي الأمر", hrs: (h, m) => h ? `${h} س ${m} د` : `${m} د`, never: "—",
     loginPerks: ["١٢٠ فكرة من كتب الحل السريع للمستويات الثلاثة", "تدريب فوري مع الحل خطوة بخطوة", "اختبارات بمؤقت ونماذج شاملة وتجميعات", "تقرير متابعة واضح لولي الأمر"], loginSide: "طريقك الأسرع إلى درجة أعلى في مقياس موهبة",
     tabModels: "الاختبارات والتجميعات", modelsSub: "النماذج الشاملة والتجميعات بمؤقت مثل الاختبار الحقيقي، ونتائجها تظهر هنا في «نتائجي».", modelsGo: "افتح النماذج", model: "نموذج شامل", answers: "الإجابات", ansTitle: "إجابات النموذج", close: "إغلاق", yourPick: "إجابة الطالب", unanswered: "لم يُجب", tabPath: "مسار الأفكار", tabBuild: "صمّم اختبارك", tabMine: "نتائجي", tabAdmin: "لوحة الإدارة", logout: "رجوع للاختبارات", whats: "واتساب", copied: "تم نسخ الرقم",
@@ -6374,6 +6409,10 @@ const TX = {
   en: {
     brand: "Quick Solutions Platform", tag: "Mawhiba test training — Mr. Mohamed Ragab", lv: ["", "Level 1", "Level 2", "Level 3"], lvShort: ["", "1", "2", "3"],
     tabReport: "Parent report", trBtn: "ترجمة للعربية", trHide: "إخفاء الترجمة", hello: n => `Welcome, ${n}`, helloAdmin: "Welcome, Mr. Mohamed", continueAt: t => `Continue: ${t}`, startFirst: "Start the first idea", completion: "of this level’s ideas", mastered: "ideas mastered", masteredChip: "Mastered", inProgress: "In progress", notStarted: "Not started", ofIdeas: (a, n) => `${a} of ${n} ideas`, avgShort: "avg", domainsH: "The four domains",
+    shareH: "Parent follow-up link", shareP: "A fixed link that opens this report without signing in, and updates automatically after every practice or test.", shareCopy: "Copy link", shareCopied: "Copied ✓", shareWa: "Send on WhatsApp", shareMake: "Create parent link", shareWait: "Preparing the link…", shareErr: "Could not prepare the link. Check the Firebase rules.",
+    shareMsg: (n, u) => `Hello, here is the live progress report for ${n} (updates automatically, no sign-in needed):\n${u}`,
+    pubBadge: "Live progress report for parents", pubUpd: d => `Last updated: ${d}`, pubNone: "This link is not valid any more. Ask the trainer for a new one.", pubLoading: "Loading the report…",
+    triesH: "Attempts per test", triesP: "How many times the student tried each test before reaching the best score.", cTest: "Test", cTries: "Attempts", cFirst: "First score", cLast: "Last score", cBest: "Best score", cBestAt: "Reached on", tryN: n => `attempt ${n}`, customN: n => `Custom test · ${n} ideas`, colTry: "Attempt", noTries: "No tests yet.",
     repTitle: "Student progress report", repSub: "Quick Solutions platform for the Mawhiba test", repStudent: "Student", repLevels: "Levels", repDate: "Report date", repTrainer: "Trainer", kIdeas: "ideas practised", kAvg: "average best score", kMastered: "ideas mastered (80%+)", kTests: "practices & tests done", kTime: "training time", kLast: "last activity", byDomain: "Performance by domain", strengths: "Strengths", focus: "Needs focus", notStartedN: n => `${n} idea(s) not started yet.`, noneYet: "Nothing yet — start practising to see this.", recent: "Recent results", print: "Print report / save as PDF", repNote: "Trainer’s tip: 15–20 minutes a day on one or two ideas beats one long weekly session. Start with the ideas that need focus and practise again until they reach 80%.", parentReport: "Parent report", hrs: (h, m) => h ? `${h} h ${m} min` : `${m} min`, never: "—",
     loginPerks: ["120 ideas from the Quick Solutions books, all three levels", "Instant practice with step-by-step solutions", "Timed tests, full models and compilations", "A clear progress report for parents"], loginSide: "The fastest route to a higher Mawhiba score",
     tabModels: "Tests & compilations", modelsSub: "Full timed models and compilations like the real test; their results appear here in My results.", modelsGo: "Open the models", model: "Full model", answers: "Answers", ansTitle: "Model answers", close: "Close", yourPick: "Student answer", unanswered: "Not answered", tabPath: "Ideas path", tabBuild: "Build a test", tabMine: "My results", tabAdmin: "Admin", logout: "Back to the tests", whats: "WhatsApp", copied: "Number copied",
@@ -7134,7 +7173,7 @@ async function record(r) {
   try {
     await BE.saveAttempt({ uid: USER.uid, code: USER.code, name: USER.name || USER.code, level: LEVEL, lang: LANGUI, mode: r.mode, ideaIds: Object.keys(pi), perIdea: Object.fromEntries(Object.entries(pi).map(([k, v]) => [k, { c: v[0], t: v[1] }])), correct, total: r.qs.length, pct: Math.round(100 * correct / r.qs.length), secs: r.done.used, limit: r.total || null, atMs: Date.now() });
     for (const id in upd) await BE.saveProgress(USER.uid, id, upd[id]);
-    r.saved = true;
+    r.saved = true; MINE = null; if (USER.shareToken) syncShare(true);
   } catch (e) { r.saved = false; }
   if (VIEW === "result") { const s = $("#saveNote"); if (s) { s.textContent = r.saved ? t("saved") : t("saveFail"); s.className = "note " + (r.saved ? "okc" : "errc"); } }
 }
@@ -7545,10 +7584,72 @@ bind.build = () => {
 };
 
 /* ---------- my results ---------- */
-function attemptsTable(list, withStudent) {
+function attemptsTable(list, withStudent, tryNo) {
   if (!list.length) return `<p class="empty">${withStudent ? t("noResults") : t("mineEmpty")}</p>`;
-  return `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("colDate")}</th>${withStudent ? `<th>${t("colName")}</th>` : ""}<th>${t("colLevel")}</th><th>${t("colType")}</th><th>${t("colIdeas")}</th><th>${t("colScore")}</th><th>${t("colTime")}</th></tr></thead><tbody>` +
-    list.map(a => { const ids = a.ideaIds || []; const first = ids.length ? ideaById(ids[0]) : null; const label = a.mode === "model" ? `${esc(a.modelName || "")}${a.partName ? ` <small class="muted">· ${esc(a.partName)}</small>` : ""} <button type="button" class="link" data-ans="${a.id}">${t("answers")}</button>` : ids.length === 1 && first ? `${first.n}. ${first.t}` : `${ids.length} ${LANGUI === "en" ? "ideas" : "أفكار"}`; return `<tr data-att="${a.id}"><td class="n">${fmtDate(a.atMs)}</td>${withStudent ? `<td><button type="button" class="link" data-stu="${a.uid}">${esc(a.name || a.code)}</button> <small class="muted keepdig">${esc(a.code)}</small></td>` : ""}<td class="n">${t("lv")[a.level] || a.level}</td><td>${a.mode === "model" ? t("model") : a.mode === "exam" ? t("exam") : t("practiceW")}</td><td>${label}</td><td class="n">${a.correct}/${a.total} ${pill(a.pct)}</td><td class="n">${a.secs != null ? fmtClock(a.secs) : "—"}</td></tr>`; }).join("") + `</tbody></table></div>`;
+  return `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("colDate")}</th>${withStudent ? `<th>${t("colName")}</th>` : ""}<th>${t("colLevel")}</th><th>${t("colType")}</th><th>${t("colIdeas")}</th>${tryNo ? `<th>${t("colTry")}</th>` : ""}<th>${t("colScore")}</th><th>${t("colTime")}</th></tr></thead><tbody>` +
+    list.map(a => { const label = testLabel(a) + (a.mode === "model" && !PUB_MODE && a.id ? ` <button type="button" class="link" data-ans="${a.id}">${t("answers")}</button>` : ""); return `<tr data-att="${a.id}"><td class="n">${fmtDate(a.atMs)}</td>${withStudent ? `<td><button type="button" class="link" data-stu="${a.uid}">${esc(a.name || a.code)}</button> <small class="muted keepdig">${esc(a.code)}</small></td>` : ""}<td class="n">${t("lv")[a.level] || a.level || "—"}</td><td>${a.mode === "model" ? t("model") : a.mode === "exam" ? t("exam") : t("practiceW")}</td><td>${label}</td>${tryNo ? `<td class="n">${tryNo.get(a) || "—"}</td>` : ""}<td class="n">${a.correct}/${a.total} ${pill(a.pct)}</td><td class="n">${a.secs != null ? fmtClock(a.secs) : "—"}</td></tr>`; }).join("") + `</tbody></table></div>`;
+}
+/* the same test = same model (and part) or the same set of ideas in the same mode */
+function testKey(a) { if (a.mode === "model") return "m|" + (a.model != null ? a.model : a.modelName || "") + "|" + (a.partName || ""); return (a.mode === "exam" ? "e|" : "p|") + (a.ideaIds || []).slice().sort().join(","); }
+function testLabel(a) {
+  if (a.mode === "model") return `${esc(a.modelName || "")}${a.partName ? ` <small class="muted">· ${esc(a.partName)}</small>` : ""}`;
+  const ids = a.ideaIds || []; const first = ids.length ? ideaById(ids[0]) : null;
+  return ids.length === 1 && first ? `${first.n}. ${first.t}` : t("customN", ids.length);
+}
+function triesHTML(atts) {
+  const groups = new Map(); const tryNo = new Map();
+  atts.slice().sort((a, b) => (a.atMs || 0) - (b.atMs || 0)).forEach(a => { const k = testKey(a); if (!groups.has(k)) groups.set(k, []); const g = groups.get(k); g.push(a); tryNo.set(a, g.length); });
+  const rows = [...groups.values()].sort((x, y) => (y[y.length - 1].atMs || 0) - (x[x.length - 1].atMs || 0)).slice(0, 40).map(g => {
+    const ps = g.map(a => a.pct || 0), best = Math.max(...ps), at = ps.indexOf(best) + 1, a0 = g[g.length - 1];
+    return `<tr><td>${testLabel(a0)}</td><td>${a0.mode === "model" ? t("model") : a0.mode === "exam" ? t("exam") : t("practiceW")}</td><td class="n"><b class="tries">${g.length}</b></td><td class="n">${pill(ps[0])}</td><td class="n">${pill(ps[ps.length - 1])}</td><td class="n">${pill(best)}</td><td class="n">${t("tryN", at)}</td></tr>`;
+  });
+  const html = rows.length ? `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("cTest")}</th><th>${t("colType")}</th><th>${t("cTries")}</th><th>${t("cFirst")}</th><th>${t("cLast")}</th><th>${t("cBest")}</th><th>${t("cBestAt")}</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>` : `<p class="muted">${t("noTries")}</p>`;
+  return { html, tryNo };
+}
+/* ---------- parent link (public, read-only copy of the report, stored by the host page) ---------- */
+const PUB_MODE = (() => { try { const h = HOST(); const m = h && h.me(); return !!(m && m.role === "public"); } catch (e) { return false; } })();
+const SHARE = { at: 0, busy: false, err: false };
+const newToken = () => { const a = new Uint8Array(15); crypto.getRandomValues(a); return Array.from(a, b => "abcdefghijkmnpqrstuvwxyz23456789"[b % 32]).join(""); };
+const shareKind = () => { try { return HOST().isPlus() ? "p" : ""; } catch (e) { return ""; } };
+const shareUrl = tok => { let base = ""; try { base = HOST().shareBase(); } catch (e) { } return `${base}?r=${tok}${shareKind() ? "&k=p" : ""}`; };
+const pubAtts = atts => atts.slice(0, 400).map(a => { const o = {}; ["id", "atMs", "mode", "level", "ideaIds", "correct", "total", "pct", "secs", "model", "modelName", "partName"].forEach(k => { if (a[k] !== undefined && a[k] !== null && a[k] !== "") o[k] = a[k]; }); return o; });
+async function writeShare(stu, prog, atts) {
+  const h = HOST(); if (!h || !h.sharePut) throw new AppError("setup");
+  let tok = stu.shareToken;
+  if (!tok) { tok = newToken(); await h.updateTraining(stu.code || stu.uid, { shareToken: tok }); stu.shareToken = tok; }
+  await h.sharePut(tok + (shareKind() ? "_p" : ""), { code: String(stu.code || stu.uid || ""), name: stu.name || stu.code || "", levels: (stu.levels || [1]).map(Number), prog: prog || {}, atts: pubAtts(atts), updatedMs: Date.now() });
+  return tok;
+}
+/* student / parent: refresh the parent copy (after each test and when the report opens) */
+async function syncShare(force) {
+  if (!USER || !["student", "parent"].includes(USER.role) || SHARE.busy) return;
+  if (!force && Date.now() - SHARE.at < 60000) return;
+  SHARE.busy = true; SHARE.at = Date.now();
+  try { const atts = await BE.myAttempts(USER.uid); await writeShare(USER, progress, atts); SHARE.err = false; } catch (e) { console.warn("share", e); SHARE.err = true; } finally { SHARE.busy = false; }
+}
+function shareBox(stu) {
+  const tok = stu.shareToken;
+  if (!tok) return `<div class="sharebox noprint"><div><b>${t("shareH")}</b><p>${t("shareP")}</p></div><div class="shrow">${USER && USER.role === "admin" ? `<button type="button" class="btn pri" id="shareMake">${t("shareMake")}</button>` : ""}<span class="muted">${SHARE.err ? t("shareErr") : USER && USER.role === "admin" ? "" : t("shareWait")}</span></div></div>`;
+  const url = shareUrl(tok), msg = t("shareMsg", stu.name || stu.code || "", url);
+  return `<div class="sharebox noprint"><div><b>${t("shareH")}</b><p>${t("shareP")}</p></div><div class="shrow"><input class="shurl" dir="ltr" readonly value="${url}" aria-label="${t("shareH")}"><button type="button" class="btn" data-shcopy="${url}">${t("shareCopy")}</button><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">${t("shareWa")}</a></div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-shcopy]"); if (!b) return;
+  const v = b.dataset.shcopy, done = () => { const o = b.textContent; b.textContent = t("shareCopied"); setTimeout(() => b.textContent = o, 1800); };
+  const fb = () => { const i = b.parentNode.querySelector(".shurl"); if (i) { i.select(); try { document.execCommand("copy"); } catch (x) { } } done(); };
+  try { navigator.clipboard.writeText(v).then(done, fb); } catch (x) { fb(); }
+});
+let PUB = null;
+async function showPublic() {
+  const app = $("#app"); document.documentElement.classList.add("pubview");
+  app.innerHTML = `<p class="empty">${t("pubLoading")}</p>`;
+  const h = HOST(); let id = "";
+  try { id = h.publicId(); } catch (e) { }
+  for (let i = 0; i < 40 && !PUB; i++) { try { PUB = await h.shareGet(id); if (!PUB) break; } catch (e) { await new Promise(r => setTimeout(r, 400)); } }
+  if (!PUB) { app.innerHTML = `<div class="panel"><p class="empty">${t("pubNone")}</p></div>`; return; }
+  app.innerHTML = reportHTML({ name: PUB.name, code: PUB.code, levels: PUB.levels, updatedMs: PUB.updatedMs }, PUB.prog || {}, (PUB.atts || []).slice().sort((a, b) => (b.atMs || 0) - (a.atMs || 0)));
+  const b = $("#printRep"); if (b) b.onclick = () => window.print();
+  try { arabize(app); } catch (e) { }
 }
 let MINE = null;
 function viewMine() { if (!MINE) { loadMine(); return `<p class="empty">${t("loading")}</p>`; } return `<div class="panel"><h1 class="h2">${t("mineH")}</h1>${USER.role === "admin" ? `<p class="note">${t("adminBadge")}</p>` : attemptsTable(MINE, false)}</div>`; }
@@ -7565,7 +7666,8 @@ function reportHTML(stu, prog, atts) {
   const notStarted = all.length - done.length;
   const lvTxt = levels.map(l => t("lv")[l]).join("، ");
   const item = I => `<li><span>${I._l !== levels[0] || levels.length > 1 ? `<small class="muted">${t("lvShort")[I._l]} · </small>` : ""}${I.t}</span>${pill(prog[I.id])}</li>`;
-  let h = `<article class="report"><div class="rtools noprint"><button type="button" class="btn pri" id="printRep">${ICONS.report}${t("print")}</button></div><header class="rhead"><div class="rbrand">${LOGO}<div><b>${t("repTitle")}</b><small>${t("repSub")}</small></div></div>
+  const TR = triesHTML(atts);
+  let h = `<article class="report">${PUB_MODE ? `<div class="pubbar"><b>${t("pubBadge")}</b>${stu.updatedMs ? `<span>${t("pubUpd", fmtDate(stu.updatedMs))}</span>` : ""}</div>` : shareBox(stu)}<div class="rtools noprint"><button type="button" class="btn pri" id="printRep">${ICONS.report}${t("print")}</button></div><header class="rhead"><div class="rbrand">${LOGO}<div><b>${t("repTitle")}</b><small>${t("repSub")}</small></div></div>
   <dl><div><dt>${t("repStudent")}</dt><dd>${esc(stu.name || stu.code)} <small class="muted keepdig">${esc(stu.code || "")}</small></dd></div><div><dt>${t("repLevels")}</dt><dd>${lvTxt}</dd></div><div><dt>${t("repDate")}</dt><dd>${fmtDate(Date.now())}</dd></div><div><dt>${t("repTrainer")}</dt><dd>${t("adminName")}</dd></div></dl></header>
   <div class="kpis"><div><b>${S.done}<small>/${S.n}</small></b><span>${t("kIdeas")}</span></div><div><b>${pc(S.avg)}</b><span>${t("kAvg")}</span></div><div><b>${S.mastered}</b><span>${t("kMastered")}</span></div><div><b>${atts.length}</b><span>${t("kTests")}</span></div><div><b>${t("hrs", hh, mm)}</b><span>${t("kTime")}</span></div><div><b class="sm">${last}</b><span>${t("kLast")}</span></div></div>
   <section class="rcard"><h3>${t("byDomain")}</h3>`;
@@ -7575,7 +7677,8 @@ function reportHTML(stu, prog, atts) {
   }
   h += `</section><div class="two"><section class="rcard"><h3 class="okc">${t("strengths")}</h3>${strong.length ? `<ul class="rlist">${strong.map(item).join("")}</ul>` : `<p class="muted">${t("noneYet")}</p>`}</section>
   <section class="rcard"><h3 class="warnc">${t("focus")}</h3>${weak.length ? `<ul class="rlist">${weak.map(item).join("")}</ul>` : `<p class="muted">${t("noneYet")}</p>`}${notStarted ? `<p class="note">${t("notStartedN", notStarted)}</p>` : ""}</section></div>
-  <section class="rcard"><h3>${t("recent")}</h3>${attemptsTable(atts.slice(0, 10), false)}</section>
+  <section class="rcard"><h3>${t("triesH")}</h3><p class="muted">${t("triesP")}</p>${TR.html}</section>
+  <section class="rcard"><h3>${t("recent")}</h3>${attemptsTable(atts.slice(0, 10), false, TR.tryNo)}</section>
   <p class="rnote">${t("repNote")}</p>
   <footer class="rfoot"><span>${t("footer")} <span class="phone keepdig">0564826388</span></span></footer>
 </article>`;
@@ -7583,7 +7686,8 @@ function reportHTML(stu, prog, atts) {
 }
 function viewReport() {
   if (!MINE) { loadMine(); return `<p class="empty">${t("loading")}</p>`; }
-  return reportHTML({ name: USER.name, code: USER.code, levels: allowedLevels() }, progress, MINE);
+  if (["student", "parent"].includes(USER.role) && !SHARE.busy && (!USER.shareToken || Date.now() - SHARE.at > 60000)) { const had = !!USER.shareToken; syncShare(true).then(() => { if (VIEW === "report" && (!had || SHARE.err)) go("report", null, true); }); }
+  return reportHTML({ name: USER.name, code: USER.code, uid: USER.uid, levels: allowedLevels(), shareToken: USER.shareToken }, progress, MINE);
 }
 bind.report = () => { const b = $("#printRep"); if (b) b.onclick = () => window.print(); };
 
@@ -7633,9 +7737,16 @@ function viewAdmin() {
   }).join("") + `</tbody></table></div>`;
   return h + `</div>`;
 }
+async function adminShare(s, create) {
+  if (!s || (!s.shareToken && !create) || ADM.shareBusy === s.uid) return;
+  if (!create && ADM.shareDone === s.uid) return;
+  ADM.shareBusy = s.uid;
+  try { const atts = await BE.listAttempts(s.uid); const had = !!s.shareToken; await writeShare(s, s.progress || {}, atts.filter(a => a.uid === s.uid)); ADM.shareDone = s.uid; SHARE.err = false; if (!had && VIEW === "admin" && ADM.rep) go("admin", null, true); }
+  catch (e) { console.warn("share", e); SHARE.err = true; if (VIEW === "admin" && ADM.rep) go("admin", null, true); } finally { ADM.shareBusy = null; }
+}
 function viewStudentFile() {
   const s = ADM.students.find(x => x.uid === ADM.file); if (!s) return "";
-  if (ADM.rep) return `<div class="panel noprint"><button type="button" class="btn" id="closeRep">‹ ${t("back")}</button></div>` + reportHTML(s, s.progress || {}, ADM.attempts.filter(a => a.uid === s.uid));
+  if (ADM.rep) { adminShare(s, false); return `<div class="panel noprint"><button type="button" class="btn" id="closeRep">‹ ${t("back")}</button></div>` + reportHTML(s, s.progress || {}, ADM.attempts.filter(a => a.uid === s.uid)); }
   const atts = ADM.attempts.filter(a => a.uid === s.uid); const prog = s.progress || {};
   let h = `<div class="panel"><div class="row wrap"><button type="button" class="btn" id="closeFile">‹ ${t("back")}</button><h2 class="h2">${t("studentFile")}: ${esc(s.name)} <small class="muted keepdig">${esc(s.code)}</small></h2><button type="button" class="btn pri" id="openRep">${ICONS.report}${t("parentReport")}</button></div></div>`;
   h += `<div class="panel"><h3 class="h3">${t("attempts")} (${atts.length})</h3>${attemptsTable(atts, false)}</div><div class="panel"><h3 class="h3">${t("progressBy")}</h3>`;
@@ -7659,7 +7770,8 @@ bind.admin = () => {
   $("#asStudent").onclick = () => go("path");
   const on = (id, ev, f) => { const e = $("#" + id); if (e) e[ev] = f; };
   on("closeFile", "onclick", () => { ADM.file = null; go("admin", null, true); });
-  on("openRep", "onclick", () => { ADM.rep = true; go("admin"); });
+  on("openRep", "onclick", () => { ADM.rep = true; ADM.shareDone = null; go("admin"); });
+  on("shareMake", "onclick", () => { const s = ADM.students.find(x => x.uid === ADM.file); const b = $("#shareMake"); if (b) { b.disabled = true; b.textContent = t("shareWait"); } adminShare(s, true); });
   on("closeRep", "onclick", () => { ADM.rep = false; go("admin"); });
   on("printRep", "onclick", () => window.print());
   on("fStu", "onchange", e => { ADM.filterUid = e.target.value; go("admin", null, true); });
@@ -7754,7 +7866,8 @@ bind.admin = () => {
 try { const h = HOST(); const th = h && h.theme && h.theme(); if (th) document.documentElement.dataset.theme = th; } catch (e) { }
 applyLang(); renderTop(); renderFooter();
 $("#app").innerHTML = `<p class="empty">${t("loading")}</p>`;
-try { BE.init(onAuth); } catch (e) { $("#app").innerHTML = `<p class="empty">${esc(t("errors").net)}</p>`; }
+if (PUB_MODE) showPublic();
+else try { BE.init(onAuth); } catch (e) { $("#app").innerHTML = `<p class="empty">${esc(t("errors").net)}</p>`; }
 <\/script>
 
 </body>
@@ -8476,6 +8589,19 @@ html.gm-open,html.gm-open body{overflow:hidden}
 .passage{background:#f8f5ec;border:1px solid #e8e2d3;border-radius:10px;padding:10px 12px;margin-bottom:8px;font-weight:500;line-height:1.9}
 .qfig svg,.val svg{max-width:100%;height:auto}
 </style>
+<style>
+.sharebox{display:grid;gap:10px;border:1.5px dashed color-mix(in srgb,var(--acc) 55%,var(--line));background:color-mix(in srgb,var(--acc) 6%,var(--surface));border-radius:16px;padding:14px 16px;margin:0 0 14px}
+.sharebox b{font-size:16px}.sharebox p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.shrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.shurl{flex:1 1 240px;min-width:0;font:600 14px/1.4 ui-monospace,Menlo,monospace;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
+.sharebox .btn.wa{background:#16a34a;border-color:#16a34a;color:#fff}
+.pubbar{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:space-between;align-items:center;background:linear-gradient(120deg,#0b5d68,#0e7a86);color:#fff;border-radius:14px;padding:10px 16px;margin:0 0 14px}
+.pubbar span{opacity:.9;font-size:14px}
+b.tries{display:inline-grid;place-items:center;min-width:30px;height:30px;border-radius:999px;background:#fff1e6;color:#c2410c}
+.pubview #tabs,.pubview #penWrap,.pubview #penBtn{display:none!important}
+.report,.report>*,.report .rcard,.report .two>*{min-width:0;max-width:100%}
+@media print{.sharebox,.pubbar{display:none!important}}
+</style>
 </head>
 <body>
 
@@ -8748,7 +8874,7 @@ const FirebaseBackend = {
     if (d.active === false && me.role === "student") throw new AppError("disabled");
     if (me.role === "student") h.touch(me.code);
     const lv = (d.levels || []).map(Number).filter(l => l >= 1 && l <= 3);
-    return { uid: me.code, role: me.role, code: me.code, name: me.name || me.code, levels: lv.length ? lv : [1, 2, 3], active: true, progress: d.progress || {} };
+    return { uid: me.code, role: me.role, code: me.code, name: me.name || me.code, levels: lv.length ? lv : [1, 2, 3], active: true, progress: d.progress || {}, shareToken: d.shareToken || "" };
   },
   saveProgress(uid, id, val) { return HOST().saveProgress(uid, id, val); },
   saveAttempt(rec) { return HOST().addAttempt(rec); },
@@ -8794,6 +8920,10 @@ const TX = {
   ar: {
     brand: "تدريب بلس", tag: "أسئلة كتب موهبة مقسّمة حسب الأفكار — أ. محمد رجب", lv: ["", "المستوى الأول", "المستوى الثاني", "المستوى الثالث"], lvShort: ["", "الأول", "الثاني", "الثالث"],
     tabReport: "تقرير ولي الأمر", trBtn: "ترجمة للعربية", trHide: "إخفاء الترجمة", hello: n => `مرحباً ${n}`, helloAdmin: "مرحباً أ. محمد", continueAt: t => `تابع: ${t}`, startFirst: "ابدأ الفكرة الأولى", completion: "من أفكار المستوى", mastered: "فكرة متقنة", masteredChip: "متقنة", inProgress: "قيد التدريب", notStarted: "لم تبدأ", ofIdeas: (a, n) => `${a} من ${n} فكرة`, avgShort: "متوسط", domainsH: "المجالات الأربعة",
+    shareH: "رابط متابعة ولي الأمر", shareP: "رابط ثابت يفتح هذا التقرير بدون تسجيل دخول، ويتحدّث تلقائيًا مع كل تدريب أو اختبار.", shareCopy: "نسخ الرابط", shareCopied: "تم النسخ ✓", shareWa: "إرسال واتساب", shareMake: "إنشاء رابط ولي الأمر", shareWait: "جاري تجهيز الرابط…", shareErr: "تعذّر تجهيز الرابط الآن. تأكد من قواعد Firebase.",
+    shareMsg: (n, u) => `السلام عليكم، هذا رابط متابعة تقرير الطالب ${n} (يتحدّث تلقائيًا ولا يحتاج تسجيل دخول):\n${u}`,
+    pubBadge: "تقرير متابعة مباشر لولي الأمر", pubUpd: d => `آخر تحديث: ${d}`, pubNone: "الرابط غير صحيح أو لم يعد متاحًا. اطلب رابطًا جديدًا من المدرب.", pubLoading: "جاري تحميل التقرير…",
+    triesH: "عدد المحاولات لكل اختبار", triesP: "كم مرة حاول الطالب كل اختبار قبل أن يصل لأعلى درجة.", cTest: "الاختبار", cTries: "المحاولات", cFirst: "أول درجة", cLast: "آخر درجة", cBest: "أعلى درجة", cBestAt: "وصل لها في", tryN: n => `المحاولة ${n}`, customN: n => `اختبار مخصص · ${n} أفكار`, colTry: "المحاولة", noTries: "لا توجد اختبارات بعد.",
     repTitle: "تقرير متابعة الطالب", repSub: "منصة الحل السريع لمقياس موهبة", repStudent: "الطالب", repLevels: "المستويات", repDate: "تاريخ التقرير", repTrainer: "المدرب", kIdeas: "أفكار تدرّب عليها", kAvg: "متوسط أفضل نتيجة", kMastered: "أفكار متقنة (٨٠٪ فأكثر)", kTests: "تدريبات واختبارات منجزة", kTime: "وقت التدريب", kLast: "آخر نشاط", byDomain: "الأداء حسب المجال", strengths: "نقاط القوة", focus: "تحتاج تركيزاً", notStartedN: n => `${n} فكرة لم يبدأ التدريب عليها بعد.`, noneYet: "لا يوجد بعد — ابدأ التدريب لتظهر هنا.", recent: "آخر النتائج", print: "طباعة التقرير / حفظ PDF", repNote: "نصيحة المدرب: ١٥–٢٠ دقيقة يومياً على فكرة أو فكرتين أفضل من جلسة طويلة أسبوعياً. ابدأ بالأفكار التي تحتاج تركيزاً ثم أعد التدريب حتى تصل إلى ٨٠٪.", parentReport: "تقرير ولي الأمر", hrs: (h, m) => h ? `${h} س ${m} د` : `${m} د`, never: "—",
     loginPerks: ["١٢٠ فكرة من كتب الحل السريع للمستويات الثلاثة", "تدريب فوري مع الحل خطوة بخطوة", "اختبارات بمؤقت ونماذج شاملة وتجميعات", "تقرير متابعة واضح لولي الأمر"], loginSide: "طريقك الأسرع إلى درجة أعلى في مقياس موهبة",
     tabModels: "الاختبارات والتجميعات", modelsSub: "النماذج الشاملة والتجميعات بمؤقت مثل الاختبار الحقيقي، ونتائجها تظهر هنا في «نتائجي».", modelsGo: "افتح النماذج", model: "نموذج شامل", answers: "الإجابات", ansTitle: "إجابات النموذج", close: "إغلاق", yourPick: "إجابة الطالب", unanswered: "لم يُجب", tabPath: "مسار الأفكار", tabBuild: "صمّم اختبارك", tabMine: "نتائجي", tabAdmin: "لوحة الإدارة", logout: "رجوع للاختبارات", whats: "واتساب", copied: "تم نسخ الرقم",
@@ -8819,6 +8949,10 @@ const TX = {
   en: {
     brand: "Training Plus", tag: "Mawhiba book questions by idea — Mr. Mohamed Ragab", lv: ["", "Level 1", "Level 2", "Level 3"], lvShort: ["", "1", "2", "3"],
     tabReport: "Parent report", trBtn: "ترجمة للعربية", trHide: "إخفاء الترجمة", hello: n => `Welcome, ${n}`, helloAdmin: "Welcome, Mr. Mohamed", continueAt: t => `Continue: ${t}`, startFirst: "Start the first idea", completion: "of this level’s ideas", mastered: "ideas mastered", masteredChip: "Mastered", inProgress: "In progress", notStarted: "Not started", ofIdeas: (a, n) => `${a} of ${n} ideas`, avgShort: "avg", domainsH: "The four domains",
+    shareH: "Parent follow-up link", shareP: "A fixed link that opens this report without signing in, and updates automatically after every practice or test.", shareCopy: "Copy link", shareCopied: "Copied ✓", shareWa: "Send on WhatsApp", shareMake: "Create parent link", shareWait: "Preparing the link…", shareErr: "Could not prepare the link. Check the Firebase rules.",
+    shareMsg: (n, u) => `Hello, here is the live progress report for ${n} (updates automatically, no sign-in needed):\n${u}`,
+    pubBadge: "Live progress report for parents", pubUpd: d => `Last updated: ${d}`, pubNone: "This link is not valid any more. Ask the trainer for a new one.", pubLoading: "Loading the report…",
+    triesH: "Attempts per test", triesP: "How many times the student tried each test before reaching the best score.", cTest: "Test", cTries: "Attempts", cFirst: "First score", cLast: "Last score", cBest: "Best score", cBestAt: "Reached on", tryN: n => `attempt ${n}`, customN: n => `Custom test · ${n} ideas`, colTry: "Attempt", noTries: "No tests yet.",
     repTitle: "Student progress report", repSub: "Quick Solutions platform for the Mawhiba test", repStudent: "Student", repLevels: "Levels", repDate: "Report date", repTrainer: "Trainer", kIdeas: "ideas practised", kAvg: "average best score", kMastered: "ideas mastered (80%+)", kTests: "practices & tests done", kTime: "training time", kLast: "last activity", byDomain: "Performance by domain", strengths: "Strengths", focus: "Needs focus", notStartedN: n => `${n} idea(s) not started yet.`, noneYet: "Nothing yet — start practising to see this.", recent: "Recent results", print: "Print report / save as PDF", repNote: "Trainer’s tip: 15–20 minutes a day on one or two ideas beats one long weekly session. Start with the ideas that need focus and practise again until they reach 80%.", parentReport: "Parent report", hrs: (h, m) => h ? `${h} h ${m} min` : `${m} min`, never: "—",
     loginPerks: ["120 ideas from the Quick Solutions books, all three levels", "Instant practice with step-by-step solutions", "Timed tests, full models and compilations", "A clear progress report for parents"], loginSide: "The fastest route to a higher Mawhiba score",
     tabModels: "Tests & compilations", modelsSub: "Full timed models and compilations like the real test; their results appear here in My results.", modelsGo: "Open the models", model: "Full model", answers: "Answers", ansTitle: "Model answers", close: "Close", yourPick: "Student answer", unanswered: "Not answered", tabPath: "Ideas path", tabBuild: "Build a test", tabMine: "My results", tabAdmin: "Admin", logout: "Back to the tests", whats: "WhatsApp", copied: "Number copied",
@@ -9143,7 +9277,7 @@ async function record(r) {
   try {
     await BE.saveAttempt({ uid: USER.uid, code: USER.code, name: USER.name || USER.code, level: LEVEL, lang: LANGUI, mode: r.mode, ideaIds: Object.keys(pi), perIdea: Object.fromEntries(Object.entries(pi).map(([k, v]) => [k, { c: v[0], t: v[1] }])), correct, total: r.qs.length, pct: Math.round(100 * correct / r.qs.length), secs: r.done.used, limit: r.total || null, atMs: Date.now() });
     for (const id in upd) await BE.saveProgress(USER.uid, id, upd[id]);
-    r.saved = true;
+    r.saved = true; MINE = null; if (USER.shareToken) syncShare(true);
   } catch (e) { r.saved = false; }
   if (VIEW === "result") { const s = $("#saveNote"); if (s) { s.textContent = r.saved ? t("saved") : t("saveFail"); s.className = "note " + (r.saved ? "okc" : "errc"); } }
 }
@@ -9554,10 +9688,72 @@ bind.build = () => {
 };
 
 /* ---------- my results ---------- */
-function attemptsTable(list, withStudent) {
+function attemptsTable(list, withStudent, tryNo) {
   if (!list.length) return `<p class="empty">${withStudent ? t("noResults") : t("mineEmpty")}</p>`;
-  return `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("colDate")}</th>${withStudent ? `<th>${t("colName")}</th>` : ""}<th>${t("colLevel")}</th><th>${t("colType")}</th><th>${t("colIdeas")}</th><th>${t("colScore")}</th><th>${t("colTime")}</th></tr></thead><tbody>` +
-    list.map(a => { const ids = a.ideaIds || []; const first = ids.length ? ideaById(ids[0]) : null; const label = a.mode === "model" ? `${esc(a.modelName || "")}${a.partName ? ` <small class="muted">· ${esc(a.partName)}</small>` : ""} <button type="button" class="link" data-ans="${a.id}">${t("answers")}</button>` : ids.length === 1 && first ? `${first.n}. ${first.t}` : `${ids.length} ${LANGUI === "en" ? "ideas" : "أفكار"}`; return `<tr data-att="${a.id}"><td class="n">${fmtDate(a.atMs)}</td>${withStudent ? `<td><button type="button" class="link" data-stu="${a.uid}">${esc(a.name || a.code)}</button> <small class="muted keepdig">${esc(a.code)}</small></td>` : ""}<td class="n">${t("lv")[a.level] || a.level}</td><td>${a.mode === "model" ? t("model") : a.mode === "exam" ? t("exam") : t("practiceW")}</td><td>${label}</td><td class="n">${a.correct}/${a.total} ${pill(a.pct)}</td><td class="n">${a.secs != null ? fmtClock(a.secs) : "—"}</td></tr>`; }).join("") + `</tbody></table></div>`;
+  return `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("colDate")}</th>${withStudent ? `<th>${t("colName")}</th>` : ""}<th>${t("colLevel")}</th><th>${t("colType")}</th><th>${t("colIdeas")}</th>${tryNo ? `<th>${t("colTry")}</th>` : ""}<th>${t("colScore")}</th><th>${t("colTime")}</th></tr></thead><tbody>` +
+    list.map(a => { const label = testLabel(a) + (a.mode === "model" && !PUB_MODE && a.id ? ` <button type="button" class="link" data-ans="${a.id}">${t("answers")}</button>` : ""); return `<tr data-att="${a.id}"><td class="n">${fmtDate(a.atMs)}</td>${withStudent ? `<td><button type="button" class="link" data-stu="${a.uid}">${esc(a.name || a.code)}</button> <small class="muted keepdig">${esc(a.code)}</small></td>` : ""}<td class="n">${t("lv")[a.level] || a.level || "—"}</td><td>${a.mode === "model" ? t("model") : a.mode === "exam" ? t("exam") : t("practiceW")}</td><td>${label}</td>${tryNo ? `<td class="n">${tryNo.get(a) || "—"}</td>` : ""}<td class="n">${a.correct}/${a.total} ${pill(a.pct)}</td><td class="n">${a.secs != null ? fmtClock(a.secs) : "—"}</td></tr>`; }).join("") + `</tbody></table></div>`;
+}
+/* the same test = same model (and part) or the same set of ideas in the same mode */
+function testKey(a) { if (a.mode === "model") return "m|" + (a.model != null ? a.model : a.modelName || "") + "|" + (a.partName || ""); return (a.mode === "exam" ? "e|" : "p|") + (a.ideaIds || []).slice().sort().join(","); }
+function testLabel(a) {
+  if (a.mode === "model") return `${esc(a.modelName || "")}${a.partName ? ` <small class="muted">· ${esc(a.partName)}</small>` : ""}`;
+  const ids = a.ideaIds || []; const first = ids.length ? ideaById(ids[0]) : null;
+  return ids.length === 1 && first ? `${first.n}. ${first.t}` : t("customN", ids.length);
+}
+function triesHTML(atts) {
+  const groups = new Map(); const tryNo = new Map();
+  atts.slice().sort((a, b) => (a.atMs || 0) - (b.atMs || 0)).forEach(a => { const k = testKey(a); if (!groups.has(k)) groups.set(k, []); const g = groups.get(k); g.push(a); tryNo.set(a, g.length); });
+  const rows = [...groups.values()].sort((x, y) => (y[y.length - 1].atMs || 0) - (x[x.length - 1].atMs || 0)).slice(0, 40).map(g => {
+    const ps = g.map(a => a.pct || 0), best = Math.max(...ps), at = ps.indexOf(best) + 1, a0 = g[g.length - 1];
+    return `<tr><td>${testLabel(a0)}</td><td>${a0.mode === "model" ? t("model") : a0.mode === "exam" ? t("exam") : t("practiceW")}</td><td class="n"><b class="tries">${g.length}</b></td><td class="n">${pill(ps[0])}</td><td class="n">${pill(ps[ps.length - 1])}</td><td class="n">${pill(best)}</td><td class="n">${t("tryN", at)}</td></tr>`;
+  });
+  const html = rows.length ? `<div class="scroll-x"><table class="rtable"><thead><tr><th>${t("cTest")}</th><th>${t("colType")}</th><th>${t("cTries")}</th><th>${t("cFirst")}</th><th>${t("cLast")}</th><th>${t("cBest")}</th><th>${t("cBestAt")}</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>` : `<p class="muted">${t("noTries")}</p>`;
+  return { html, tryNo };
+}
+/* ---------- parent link (public, read-only copy of the report, stored by the host page) ---------- */
+const PUB_MODE = (() => { try { const h = HOST(); const m = h && h.me(); return !!(m && m.role === "public"); } catch (e) { return false; } })();
+const SHARE = { at: 0, busy: false, err: false };
+const newToken = () => { const a = new Uint8Array(15); crypto.getRandomValues(a); return Array.from(a, b => "abcdefghijkmnpqrstuvwxyz23456789"[b % 32]).join(""); };
+const shareKind = () => { try { return HOST().isPlus() ? "p" : ""; } catch (e) { return ""; } };
+const shareUrl = tok => { let base = ""; try { base = HOST().shareBase(); } catch (e) { } return `${base}?r=${tok}${shareKind() ? "&k=p" : ""}`; };
+const pubAtts = atts => atts.slice(0, 400).map(a => { const o = {}; ["id", "atMs", "mode", "level", "ideaIds", "correct", "total", "pct", "secs", "model", "modelName", "partName"].forEach(k => { if (a[k] !== undefined && a[k] !== null && a[k] !== "") o[k] = a[k]; }); return o; });
+async function writeShare(stu, prog, atts) {
+  const h = HOST(); if (!h || !h.sharePut) throw new AppError("setup");
+  let tok = stu.shareToken;
+  if (!tok) { tok = newToken(); await h.updateTraining(stu.code || stu.uid, { shareToken: tok }); stu.shareToken = tok; }
+  await h.sharePut(tok + (shareKind() ? "_p" : ""), { code: String(stu.code || stu.uid || ""), name: stu.name || stu.code || "", levels: (stu.levels || [1]).map(Number), prog: prog || {}, atts: pubAtts(atts), updatedMs: Date.now() });
+  return tok;
+}
+/* student / parent: refresh the parent copy (after each test and when the report opens) */
+async function syncShare(force) {
+  if (!USER || !["student", "parent"].includes(USER.role) || SHARE.busy) return;
+  if (!force && Date.now() - SHARE.at < 60000) return;
+  SHARE.busy = true; SHARE.at = Date.now();
+  try { const atts = await BE.myAttempts(USER.uid); await writeShare(USER, progress, atts); SHARE.err = false; } catch (e) { console.warn("share", e); SHARE.err = true; } finally { SHARE.busy = false; }
+}
+function shareBox(stu) {
+  const tok = stu.shareToken;
+  if (!tok) return `<div class="sharebox noprint"><div><b>${t("shareH")}</b><p>${t("shareP")}</p></div><div class="shrow">${USER && USER.role === "admin" ? `<button type="button" class="btn pri" id="shareMake">${t("shareMake")}</button>` : ""}<span class="muted">${SHARE.err ? t("shareErr") : USER && USER.role === "admin" ? "" : t("shareWait")}</span></div></div>`;
+  const url = shareUrl(tok), msg = t("shareMsg", stu.name || stu.code || "", url);
+  return `<div class="sharebox noprint"><div><b>${t("shareH")}</b><p>${t("shareP")}</p></div><div class="shrow"><input class="shurl" dir="ltr" readonly value="${url}" aria-label="${t("shareH")}"><button type="button" class="btn" data-shcopy="${url}">${t("shareCopy")}</button><a class="btn wa" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">${t("shareWa")}</a></div></div>`;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest && e.target.closest("[data-shcopy]"); if (!b) return;
+  const v = b.dataset.shcopy, done = () => { const o = b.textContent; b.textContent = t("shareCopied"); setTimeout(() => b.textContent = o, 1800); };
+  const fb = () => { const i = b.parentNode.querySelector(".shurl"); if (i) { i.select(); try { document.execCommand("copy"); } catch (x) { } } done(); };
+  try { navigator.clipboard.writeText(v).then(done, fb); } catch (x) { fb(); }
+});
+let PUB = null;
+async function showPublic() {
+  const app = $("#app"); document.documentElement.classList.add("pubview");
+  app.innerHTML = `<p class="empty">${t("pubLoading")}</p>`;
+  const h = HOST(); let id = "";
+  try { id = h.publicId(); } catch (e) { }
+  for (let i = 0; i < 40 && !PUB; i++) { try { PUB = await h.shareGet(id); if (!PUB) break; } catch (e) { await new Promise(r => setTimeout(r, 400)); } }
+  if (!PUB) { app.innerHTML = `<div class="panel"><p class="empty">${t("pubNone")}</p></div>`; return; }
+  app.innerHTML = reportHTML({ name: PUB.name, code: PUB.code, levels: PUB.levels, updatedMs: PUB.updatedMs }, PUB.prog || {}, (PUB.atts || []).slice().sort((a, b) => (b.atMs || 0) - (a.atMs || 0)));
+  const b = $("#printRep"); if (b) b.onclick = () => window.print();
+  try { arabize(app); } catch (e) { }
 }
 let MINE = null;
 function viewMine() { if (!MINE) { loadMine(); return `<p class="empty">${t("loading")}</p>`; } return `<div class="panel"><h1 class="h2">${t("mineH")}</h1>${USER.role === "admin" ? `<p class="note">${t("adminBadge")}</p>` : attemptsTable(MINE, false)}</div>`; }
@@ -9574,7 +9770,8 @@ function reportHTML(stu, prog, atts) {
   const notStarted = all.length - done.length;
   const lvTxt = levels.map(l => t("lv")[l]).join("، ");
   const item = I => `<li><span>${I._l !== levels[0] || levels.length > 1 ? `<small class="muted">${t("lvShort")[I._l]} · </small>` : ""}${I.t}</span>${pill(prog[I.id])}</li>`;
-  let h = `<article class="report"><div class="rtools noprint"><button type="button" class="btn pri" id="printRep">${ICONS.report}${t("print")}</button></div><header class="rhead"><div class="rbrand">${LOGO}<div><b>${t("repTitle")}</b><small>${t("repSub")}</small></div></div>
+  const TR = triesHTML(atts);
+  let h = `<article class="report">${PUB_MODE ? `<div class="pubbar"><b>${t("pubBadge")}</b>${stu.updatedMs ? `<span>${t("pubUpd", fmtDate(stu.updatedMs))}</span>` : ""}</div>` : shareBox(stu)}<div class="rtools noprint"><button type="button" class="btn pri" id="printRep">${ICONS.report}${t("print")}</button></div><header class="rhead"><div class="rbrand">${LOGO}<div><b>${t("repTitle")}</b><small>${t("repSub")}</small></div></div>
   <dl><div><dt>${t("repStudent")}</dt><dd>${esc(stu.name || stu.code)} <small class="muted keepdig">${esc(stu.code || "")}</small></dd></div><div><dt>${t("repLevels")}</dt><dd>${lvTxt}</dd></div><div><dt>${t("repDate")}</dt><dd>${fmtDate(Date.now())}</dd></div><div><dt>${t("repTrainer")}</dt><dd>${t("adminName")}</dd></div></dl></header>
   <div class="kpis"><div><b>${S.done}<small>/${S.n}</small></b><span>${t("kIdeas")}</span></div><div><b>${pc(S.avg)}</b><span>${t("kAvg")}</span></div><div><b>${S.mastered}</b><span>${t("kMastered")}</span></div><div><b>${atts.length}</b><span>${t("kTests")}</span></div><div><b>${t("hrs", hh, mm)}</b><span>${t("kTime")}</span></div><div><b class="sm">${last}</b><span>${t("kLast")}</span></div></div>
   <section class="rcard"><h3>${t("byDomain")}</h3>`;
@@ -9584,7 +9781,8 @@ function reportHTML(stu, prog, atts) {
   }
   h += `</section><div class="two"><section class="rcard"><h3 class="okc">${t("strengths")}</h3>${strong.length ? `<ul class="rlist">${strong.map(item).join("")}</ul>` : `<p class="muted">${t("noneYet")}</p>`}</section>
   <section class="rcard"><h3 class="warnc">${t("focus")}</h3>${weak.length ? `<ul class="rlist">${weak.map(item).join("")}</ul>` : `<p class="muted">${t("noneYet")}</p>`}${notStarted ? `<p class="note">${t("notStartedN", notStarted)}</p>` : ""}</section></div>
-  <section class="rcard"><h3>${t("recent")}</h3>${attemptsTable(atts.slice(0, 10), false)}</section>
+  <section class="rcard"><h3>${t("triesH")}</h3><p class="muted">${t("triesP")}</p>${TR.html}</section>
+  <section class="rcard"><h3>${t("recent")}</h3>${attemptsTable(atts.slice(0, 10), false, TR.tryNo)}</section>
   <p class="rnote">${t("repNote")}</p>
   <footer class="rfoot"><span>${t("footer")} <span class="phone keepdig">0564826388</span></span></footer>
 </article>`;
@@ -9592,7 +9790,8 @@ function reportHTML(stu, prog, atts) {
 }
 function viewReport() {
   if (!MINE) { loadMine(); return `<p class="empty">${t("loading")}</p>`; }
-  return reportHTML({ name: USER.name, code: USER.code, levels: allowedLevels() }, progress, MINE);
+  if (["student", "parent"].includes(USER.role) && !SHARE.busy && (!USER.shareToken || Date.now() - SHARE.at > 60000)) { const had = !!USER.shareToken; syncShare(true).then(() => { if (VIEW === "report" && (!had || SHARE.err)) go("report", null, true); }); }
+  return reportHTML({ name: USER.name, code: USER.code, uid: USER.uid, levels: allowedLevels(), shareToken: USER.shareToken }, progress, MINE);
 }
 bind.report = () => { const b = $("#printRep"); if (b) b.onclick = () => window.print(); };
 
@@ -9642,9 +9841,16 @@ function viewAdmin() {
   }).join("") + `</tbody></table></div>`;
   return h + `</div>`;
 }
+async function adminShare(s, create) {
+  if (!s || (!s.shareToken && !create) || ADM.shareBusy === s.uid) return;
+  if (!create && ADM.shareDone === s.uid) return;
+  ADM.shareBusy = s.uid;
+  try { const atts = await BE.listAttempts(s.uid); const had = !!s.shareToken; await writeShare(s, s.progress || {}, atts.filter(a => a.uid === s.uid)); ADM.shareDone = s.uid; SHARE.err = false; if (!had && VIEW === "admin" && ADM.rep) go("admin", null, true); }
+  catch (e) { console.warn("share", e); SHARE.err = true; if (VIEW === "admin" && ADM.rep) go("admin", null, true); } finally { ADM.shareBusy = null; }
+}
 function viewStudentFile() {
   const s = ADM.students.find(x => x.uid === ADM.file); if (!s) return "";
-  if (ADM.rep) return `<div class="panel noprint"><button type="button" class="btn" id="closeRep">‹ ${t("back")}</button></div>` + reportHTML(s, s.progress || {}, ADM.attempts.filter(a => a.uid === s.uid));
+  if (ADM.rep) { adminShare(s, false); return `<div class="panel noprint"><button type="button" class="btn" id="closeRep">‹ ${t("back")}</button></div>` + reportHTML(s, s.progress || {}, ADM.attempts.filter(a => a.uid === s.uid)); }
   const atts = ADM.attempts.filter(a => a.uid === s.uid); const prog = s.progress || {};
   let h = `<div class="panel"><div class="row wrap"><button type="button" class="btn" id="closeFile">‹ ${t("back")}</button><h2 class="h2">${t("studentFile")}: ${esc(s.name)} <small class="muted keepdig">${esc(s.code)}</small></h2><button type="button" class="btn pri" id="openRep">${ICONS.report}${t("parentReport")}</button></div></div>`;
   h += `<div class="panel"><h3 class="h3">${t("attempts")} (${atts.length})</h3>${attemptsTable(atts, false)}</div><div class="panel"><h3 class="h3">${t("progressBy")}</h3>`;
@@ -9668,7 +9874,8 @@ bind.admin = () => {
   $("#asStudent").onclick = () => go("path");
   const on = (id, ev, f) => { const e = $("#" + id); if (e) e[ev] = f; };
   on("closeFile", "onclick", () => { ADM.file = null; go("admin", null, true); });
-  on("openRep", "onclick", () => { ADM.rep = true; go("admin"); });
+  on("openRep", "onclick", () => { ADM.rep = true; ADM.shareDone = null; go("admin"); });
+  on("shareMake", "onclick", () => { const s = ADM.students.find(x => x.uid === ADM.file); const b = $("#shareMake"); if (b) { b.disabled = true; b.textContent = t("shareWait"); } adminShare(s, true); });
   on("closeRep", "onclick", () => { ADM.rep = false; go("admin"); });
   on("printRep", "onclick", () => window.print());
   on("fStu", "onchange", e => { ADM.filterUid = e.target.value; go("admin", null, true); });
@@ -9727,7 +9934,8 @@ bind.admin = () => {
 try { const h = HOST(); const th = h && h.theme && h.theme(); if (th) document.documentElement.dataset.theme = th; } catch (e) { }
 applyLang(); renderTop(); renderFooter();
 $("#app").innerHTML = `<p class="empty">${t("loading")}</p>`;
-try { BE.init(onAuth); } catch (e) { $("#app").innerHTML = `<p class="empty">${esc(t("errors").net)}</p>`; }
+if (PUB_MODE) showPublic();
+else try { BE.init(onAuth); } catch (e) { $("#app").innerHTML = `<p class="empty">${esc(t("errors").net)}</p>`; }
 <\/script>
 
 </body>
