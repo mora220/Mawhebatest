@@ -123,6 +123,17 @@ html.fx-on,html.fx-on body{overflow:hidden}
   .fx-bot{padding-inline-start:124px;gap:6px}.fx-b{padding:9px 12px;font-size:14px}
   .hub-card.hub-fx{flex-wrap:wrap}.hub-card.hub-fx .fx-tagl{margin-inline-start:0}
 }
+
+/* ===== free trial (guest) ===== */
+.gbanner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;margin:14px 0;padding:14px 18px;border-radius:16px;border:2px dashed #e0a01b;background:#fff8e6;color:#3a2c00}
+.gbanner b{display:block;font:700 17px var(--f-disp)}.gbanner span{display:block;font-size:14px;margin-top:2px}
+.gbanner .row{display:flex;gap:8px;flex-wrap:wrap}
+.btn.subbtn{background:#1f9d57;color:#fff;border-color:#1f9d57}
+.modes button.lockedm{opacity:.62}.modes button.lockedm b{display:inline-flex;align-items:center}
+.freem{font-style:normal;font-weight:700;color:#1f9d57}
+.submw{max-width:520px;text-align:start}.submw h2{margin:0 0 6px}.submw ul{margin:10px 0;padding-inline-start:22px;line-height:2}
+.submw .wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#fff;font:700 17px var(--f-disp);padding:13px 18px;border-radius:14px;text-decoration:none;margin:14px 0 6px}
+.submw .ph{text-align:center;color:#55607a;font-size:14px}
 </style>
 <title>محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4414,10 +4425,25 @@ function setLang(l){lang=l;try{localStorage.setItem('mr_lang',l)}catch(e){};appl
 function updChrome(){
   const T=t(), sc=st.screen;
   document.getElementById('langBtn').hidden=!['start','res','login','boot','level'].includes(sc);
-  const ob=document.getElementById('outBtn'); ob.textContent=T.logout; ob.hidden=!(st.user&&['start','res','exam'].includes(sc));
+  const ob=document.getElementById('outBtn'); ob.textContent=isGuestE()?gt().login:T.logout; ob.hidden=!(st.user&&['start','res','exam'].includes(sc));
   document.getElementById('homeBtn').hidden=!(st.user&&['start','res','exam'].includes(sc));
 }
 const NAME_EDIT_CODES=['28','1','ragab'];
+/* ---------- free trial: no account = guest ---------- */
+const GUEST_U={code:'guest',role:'guest',kids:[],levels:[1,2,3]};
+const isGuestE=()=>!!(st.user&&st.user.role==='guest');
+const freeModel=n=>{const m=modelOf(n);return MODELS.filter(x=>x.p===m.p)[0].n===n;};
+const LOCKI='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px;margin-inline-end:4px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const GT={ar:{bannerH:'أنت في التجربة المجانية',bannerP:'مفتوح لك: أول نموذج في كل مجموعة، وأول فكرة في كل جانب من التدريب، والقسم الأول من الاختبار المحاكي النهائي. اشترك لفتح كل شيء.',sub:'اشترك الآن',login:'دخول المشتركين',back:'تصفّح التجربة المجانية',lockS:'للمشتركين',freeS:'مجاني',close:'إغلاق',
+  subT:'اشترك في محاكاة مقياس موهبة',subP:'الاشتراك يفتح لك كل محتوى الموقع:',feats:['كل نماذج التجميعات وتجميعات اكسترا وبلس','كل أفكار «تدرب حسب الأفكار» و«تدريب بلس» مع الألعاب','الاختبار المحاكي النهائي كاملًا بأقسامه الأربعة، مع الدرجة من 2000 والتقييم والشهادة','حفظ نتائجك ومراجعة إجاباتك ومتابعة المدرب لمستواك'],wa:'للاشتراك تواصل واتساب',waText:'السلام عليكم، أريد الاشتراك في موقع محاكاة مقياس موهبة.',trainer:'المدرب: أ. محمد رجب'},
+ en:{bannerH:'You are in the free trial',bannerP:'Open to you: the first model in every group, the first idea in every training aspect, and section one of the final simulated test. Subscribe to unlock everything.',sub:'Subscribe now',login:'Subscriber login',back:'Browse the free trial',lockS:'Subscribers',freeS:'Free',close:'Close',
+  subT:'Subscribe to Mawhiba Test Practice',subP:'A subscription unlocks the whole site:',feats:['Every model in Compilations, Extra and Plus','Every idea in “Practice by idea” and “Training Plus”, with the games','The full final simulated test with its four sections, the score out of 2000, the rating and the certificate','Saved results, answer review and follow-up from the trainer'],wa:'Subscribe on WhatsApp',waText:'Hello, I would like to subscribe to the Mawhiba Test Practice site.',trainer:'Trainer: Mr. Mohamed Ragab'}};
+const gt=()=>GT[lang==='en'?'en':'ar'];
+function subHTML(){const g=gt();return `<div class="submw"><h2>${g.subT}</h2><p class="muted">${g.subP}</p><ul>${g.feats.map(f=>`<li>${f}</li>`).join('')}</ul><a class="wa" href="https://wa.me/966564826388?text=${encodeURIComponent(g.waText)}" target="_blank" rel="noopener">${g.wa}</a><p class="ph">${g.trainer} · <b dir="ltr">0564826388</b></p></div>`;}
+function showSub(){gm.innerHTML=`<div class="modal" id="subModal"><div class="sheet">${subHTML()}<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn gold" data-gologin="1">${gt().login}</button><button type="button" class="btn line" id="subClose">${gt().close}</button></div></div></div>`;document.getElementById('subClose').onclick=()=>gm.innerHTML='';document.getElementById('subModal').onclick=e=>{if(e.target.id==='subModal')gm.innerHTML='';};}
+function guestBanner(){const g=gt();return `<div class="gbanner"><div><b>${g.bannerH}</b><span>${g.bannerP}</span></div><div class="row"><button type="button" class="btn subbtn" data-showsub="1">${g.sub}</button><button type="button" class="btn line" data-gologin="1">${g.login}</button></div></div>`;}
+document.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('[data-showsub]');if(s){showSub();return;}const l=e.target.closest&&e.target.closest('[data-gologin]');if(l){gm.innerHTML='';clearInterval(timer);try{closeTraining()}catch(_){}renderLogin();window.scrollTo(0,0);}});
+
 const nameEditable=()=>!!(st.user&&st.user.role==='student'&&NAME_EDIT_CODES.includes(String(st.user.code)));
 function selectKid(code){
   st.kid=st.user.kids.find(k=>String(k.code)===String(code))||null;
@@ -4473,8 +4499,9 @@ function renderLogin(){
       <p class="err" id="lerr" role="alert" ${st.loginErr?'':'hidden'}>${st.loginErr?T.errs[st.loginErr]:''}</p>
       <button class="btn gold" id="lb" type="submit">${T.loginBtn}</button>
     </form>
-    <p class="muted small">${T.loginHint}</p>
+    <p class="muted small">${T.loginHint}</p>${isGuestE()?`<button type="button" class="btn line" id="backTrial">${gt().back}</button>`:''}
   </div></section>`;
+  {const bt=document.getElementById('backTrial');if(bt)bt.onclick=()=>{st.loginErr=null;renderStart();window.scrollTo(0,0);};}
   const lc=document.getElementById('lc'),lp=document.getElementById('lp'),lb=document.getElementById('lb'),le=document.getElementById('lerr');
   const showErr=k=>{st.loginErr=k;le.textContent=T.errs[k];le.hidden=false;};
   document.getElementById('eye').onclick=e=>{const v=lp.type==='password';lp.type=v?'text':'password';e.target.textContent=v?T.hidePw:T.showPw;};
@@ -4492,7 +4519,7 @@ function renderLogin(){
 window.MR={
   onUser(p,reason){
     st.authKnown=true; if(reason)st.loginErr=reason;
-    if(!p){stopWatch();st.user=null;clearInterval(timer);gm.innerHTML='';if(!['lang','level'].includes(st.screen))renderLogin();return;}
+    if(!p){stopWatch();clearInterval(timer);gm.innerHTML='';st.user=GUEST_U;selectKid(null);if(reason){if(!['lang','level'].includes(st.screen))renderLogin();return;}if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}return;}
     st.user=p;st.loginErr=null;selectKid(p.kids[0]?p.kids[0].code:null);
     (st.lvP||Promise.resolve()).then(()=>{if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}else if(st.screen==='level')renderLevel();});
   },
@@ -4539,13 +4566,13 @@ const TRN={me:null,html:null};
 // objects coming from the training frame belong to another JS realm; Firestore only accepts plain objects of this page, so copy them here
 const trPlain=o=>JSON.parse(JSON.stringify(o));
 function trMe(){
-  if(!st.user)return {role:'guest',code:'',name:st.name||''};
+  if(!st.user||st.user.role==='guest')return {role:'guest',code:'',name:st.name||''};
   if(st.user.role==='admin')return {role:'admin',code:String(st.user.code),name:'أ. محمد رجب'};
   const k=st.kid;if(!k)return null;
   return {role:st.user.role,code:String(k.code),name:k.name||String(k.code),parentCode:st.user.role==='parent'?String(st.user.code):String(k.parentCode||'')};
 }
 window.RGT={
-  me:()=>TRN.me, lang:()=>lang||'ar', level:()=>st.level, theme:()=>document.documentElement.dataset.theme||'', close:()=>closeTraining(),
+  me:()=>TRN.me, lang:()=>lang||'ar', level:()=>st.level, theme:()=>document.documentElement.dataset.theme||'', close:()=>closeTraining(), sub:()=>showSub(),
   getTraining:code=>window.RG.trGet(code).then(d=>{if(d&&!(d.levels&&d.levels.length)&&d.progress&&+d.progress._lvl)d.levels=[+d.progress._lvl];return d;}),
   touch:code=>window.RG.trSet(String(code),{code:String(code),lastSeen:Date.now()}).catch(()=>{}),
   saveProgress:(code,id,val)=>window.RG.trSet(String(code),trPlain({code:String(code),progress:{[String(id)]:Number(val)}})),
@@ -4569,7 +4596,7 @@ function openTraining(plus){plus=plus===true;TRN.plus=plus;
   const en=lang==='en', m=TRN.me;
   const who=m.role==='admin'?(en?'Training dashboard':'لوحة متابعة التدريب'):m.role==='parent'?(en?'Progress report: ':'تقرير التدريب: ')+m.name:(m.name||'');
   let ov=document.getElementById('trainOv');if(!ov){ov=document.createElement('div');ov.id='trainOv';ov.className='train-ov';document.body.appendChild(ov);}
-  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div>${st.user?`<button type="button" class="btn line" id="trainOut">${en?'Sign out':'خروج'}</button>`:''}</div>`;
+  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div>${st.user?`<button type="button" class="btn line" id="trainOut">${isGuestE()?gt().login:(en?'Sign out':'خروج')}</button>`:''}</div>`;
   const f=document.createElement('iframe');f.title=plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار');f.onload=()=>{try{const w=f.contentWindow;if(w&&w.penShow){w.penShow(false);w.penShow=()=>{};}}catch(e){}};f.srcdoc=TRN.html;ov.appendChild(f);
   ov.hidden=false;ov.style.display='flex';if(window.mrPen)mrPen(true);window.scrollTo(0,0);document.body.style.overflow='hidden';document.getElementById('trainBack').onclick=closeTraining;{const to=document.getElementById('trainOut');if(to)to.onclick=()=>document.getElementById('outBtn').onclick();}
   }catch(e){console.error(e);alert((lang==='en'?'Could not open the training: ':'تعذر فتح التدريب: ')+(e&&e.message||e));}
@@ -4642,7 +4669,7 @@ function renderHub(){
   const kids=st.user&&st.user.role!=='admin'&&st.user.kids&&st.user.kids.length>1?`<div class="sheet who-box"><span class="muted">${T.chooseKid}</span><div class="kids">${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div></div>`:'';
   app.innerHTML=`<section class="start">
     <div class="hero"><h1>${T.levels[st.level].name}</h1><p>${en?'Choose how you want to practise today.':'اختر طريقة التدريب التي تريدها اليوم.'}</p><span class="by">${T.by}</span></div>
-    ${kids}${progBanner()}
+    ${isGuestE()?guestBanner():''}${kids}${progBanner()}
     <div class="hub">
       ${C('hubMain','📘','#2b3a68','تجميعات','Compilations','النماذج التجريبية وتجميعات 27 والتجميعات الجديدة','Practice models, Compilations 27 and the new compilations')}
       ${C('hubXP','✚','#2f9e6b','تجميعات اكسترا وبلس','Compilations Extra & Plus','نماذج كتب موهبة كما هي واختبارات إضافية على أفكارها','The model-book tests as printed plus extra tests on their ideas','exams.html')}
@@ -4674,13 +4701,14 @@ function renderStart(){
       <span class="by">${T.by}</span>
     </div>
     <div class="facts">${T.levels[st.level].facts.map(f=>`<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>
+    ${isGuestE()?guestBanner():''}
     <button type="button" class="train-card" id="trainGo"><span class="tc-ico">⚡</span><span class="tc-txt"><b>${lang==='en'?'Quick Solutions platform':(st.user&&st.user.role==='parent'?'منصة الحل السريع · تقرير المتابعة':'منصة الحل السريع')}</b><small>${lang==='en'?'Practice by idea: learn the quick solution for each Mawhiba idea and practise with instant marking. Your test and compilation results appear there too.':'التدريب حسب الأفكار: تعلّم «الحل السريع» لكل فكرة وتدرّب عليها بتصحيح فوري، وتجد فيها نتائج اختباراتك وتجميعاتك أيضًا.'}</small></span><span class="tc-go">${lang==='en'?'›':'‹'}</span></button>
     <a class="train-card plus-card" id="plusGo" href="exams.html"><span class="tc-ico">✚</span><span class="tc-txt"><b>${lang==='en'?'Compilations Plus':'تجميعات بلس'}</b><small>${lang==='en'?'Extra tests for every level with the same account; results are saved to the platform and to “My results”.':'اختبارات إضافية لكل مستوى بنفس حسابك، وتُحفظ نتائجها في المنصة وفي «نتائجي».'}</small></span><span class="tc-go">${lang==='en'?'›':'‹'}</span></a>
     ${progBanner()}
     <div class="sheet" style="display:flex;flex-direction:column;gap:18px">
-      ${st.user&&st.user.role!=='admin'&&!nameEditable()?`<div class="field namebox who-box"><span class="muted">${T.studentLbl}</span><b>${esc(st.name)}</b>${st.user.kids.length>1?`<div class="kids"><span class="muted">${T.chooseKid}</span>${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div>`:''}</div>`
+      ${st.user&&st.user.role!=='admin'&&st.user.role!=='guest'&&!nameEditable()?`<div class="field namebox who-box"><span class="muted">${T.studentLbl}</span><b>${esc(st.name)}</b>${st.user.kids.length>1?`<div class="kids"><span class="muted">${T.chooseKid}</span>${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div>`:''}</div>`
       :`<div class="field namebox"><label for="nm">${st.user&&st.user.role==='admin'?T.adminLabel:T.nameLabel}</label><input id="nm" type="text" autocomplete="name" placeholder="${T.namePh}" value="${esc(st.name)}"><span class="err" id="nmErr" hidden>${T.nameErr}</span></div>`}
-      <div class="parts">${LEVELS[st.level].parts.map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" aria-pressed="${st.model===m.n}"><b>${mName(m.n)}</b><span>${done[m.n]!==undefined?T.last(done[m.n]):T.levels[st.level].msub}</span></button>`).join('')}</div></div>`).join('')}</div>
+      <div class="parts">${LEVELS[st.level].parts.map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" ${isGuestE()&&!freeModel(m.n)?'data-lock="1" class="lockedm"':''} aria-pressed="${st.model===m.n}"><b>${isGuestE()&&!freeModel(m.n)?LOCKI:''}${mName(m.n)}</b><span>${isGuestE()?(freeModel(m.n)?`<em class="freem">${gt().freeS}</em> `:gt().lockS+' · '):''}${done[m.n]!==undefined?T.last(done[m.n]):T.levels[st.level].msub}</span></button>`).join('')}</div></div>`).join('')}</div>
       <ul class="rules">${T.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
       <div class="row"><button class="btn gold" id="go">${T.start(mFull(st.model))}</button>${HUB_ON?`<button class="btn line" id="toHub">${lang==='en'?'‹ Main page':'الرئيسية ›'}</button>`:''}<button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${lang==='en'?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}${ORDERS[st.level].some(n=>done[n]!==undefined)?`<button class="btn line" id="certAll">${T.certAll}</button>`:''}</div>
     </div>
@@ -4688,7 +4716,7 @@ function renderStart(){
   const nmIn=document.getElementById('nm');
   const needName=()=>{if(!nmIn)return true;const v=nmIn.value.trim();if(v.length<2){nmIn.classList.add('bad');document.getElementById('nmErr').hidden=false;nmIn.focus();return false;}st.name=v;try{localStorage.setItem(nameEditable()?'mr_name_'+st.user.code:'mr_name',v)}catch(e){};return true;};
   if(nmIn)nmIn.oninput=()=>{nmIn.classList.remove('bad');document.getElementById('nmErr').hidden=true;};
-  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{st.model=+b.dataset.m;if(nmIn)st.name=nmIn.value;renderStart()});
+  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{if(b.dataset.lock){showSub();return;}st.model=+b.dataset.m;if(nmIn)st.name=nmIn.value;renderStart()});
   app.querySelectorAll('[data-kid]').forEach(b=>b.onclick=()=>{selectKid(b.dataset.kid);renderStart()});
   document.getElementById('trainGo').onclick=openTraining;
   if(!window.__trAuto&&/[?&]train=1/.test(location.search)&&st.user){window.__trAuto=1;try{history.replaceState(null,'',location.pathname)}catch(e){};setTimeout(openTraining,80);}
@@ -4699,7 +4727,7 @@ function renderStart(){
   const ca=document.getElementById('certAll');if(ca)ca.onclick=()=>{if(needName())showCert(null);};
   const pg=document.getElementById('progGo');if(pg)pg.onclick=resumeProg;
   const pd=document.getElementById('progDrop');if(pd)pd.onclick=()=>{clearProg();renderStart();};
-  document.getElementById('go').onclick=()=>{
+  document.getElementById('go').onclick=()=>{if(isGuestE()&&!freeModel(st.model)){showSub();return;}
     if(!needName())return;
     st.list=Q.filter(q=>q.m===st.model).map(q=>q.id);
     st.ans={};st.flag={};st.cur=0;st.left=LEVELS[st.level].mins*60;st.total=st.left;st.screen='exam';
@@ -4727,6 +4755,7 @@ function progBanner(){
 }
 function resumeProg(){
   const p=loadProg();if(!p)return;
+  if(isGuestE()&&!freeModel(p.model)){showSub();return;}
   if(p.level!==st.level){st.level=p.level;try{localStorage.setItem('mr_level',p.level)}catch(e){}}
   st.model=p.model;st.list=Q.filter(q=>q.m===st.model).map(q=>q.id);
   st.ans={};Object.keys(p.ans||{}).forEach(k=>{if(st.list.includes(+k)&&p.ans[k]>=0&&p.ans[k]<4)st.ans[k]=p.ans[k];});
@@ -4882,7 +4911,7 @@ function renderRes(){
   document.getElementById('cert').onclick=()=>showCert(st.model);
   document.getElementById('cert2').onclick=()=>showCert(st.model);
   drawSync();
-  const nm=document.getElementById('nextm'); if(nm)nm.onclick=()=>{st.model=nextM.n;renderStart();document.getElementById('go').click()};
+  const nm=document.getElementById('nextm'); if(nm)nm.onclick=()=>{if(isGuestE()&&!freeModel(nextM.n)){showSub();return;}st.model=nextM.n;renderStart();document.getElementById('go').click()};
 }
 
 // ---------- home & language ----------
@@ -4904,6 +4933,7 @@ document.getElementById('langBtn').onclick=()=>{
   if(st.screen==='res')renderRes(); else if(st.screen==='login')renderLogin(); else if(st.screen==='boot')renderBoot(); else if(st.screen==='level')renderLevel(); else renderStart();
 };
 document.getElementById('outBtn').onclick=()=>{
+  if(isGuestE()){clearInterval(timer);gm.innerHTML='';try{closeTraining()}catch(_){}renderLogin();window.scrollTo(0,0);return;}
   const T=t();
   gm.innerHTML=`<div class="modal"><div class="sheet"><h2>${T.outTitle}</h2><p class="muted">${st.screen==='exam'?T.outBodyExam:T.outBody}</p><div class="row"><button class="btn bad" id="oYes">${T.outYes}</button><button class="btn line" id="oNo">${T.outNo}</button></div></div></div>`;
   document.getElementById('oNo').onclick=()=>gm.innerHTML='';
@@ -5033,7 +5063,7 @@ window.FX=(function(){
   const $=s=>el.querySelector(s);
   function mount(){
     if(el)return;el=document.createElement('div');el.id='fx';document.body.appendChild(el);document.documentElement.classList.add('fx-on');
-    el.addEventListener('click',e=>{const b=e.target.closest('[data-fx]');if(b&&ACT[b.dataset.fx])ACT[b.dataset.fx](b);});
+    el.addEventListener('click',e=>{if(e.target.closest('[data-gologin]')){close();return;}const b=e.target.closest('[data-fx]');if(b&&ACT[b.dataset.fx])ACT[b.dataset.fx](b);});
   }
   function close(){clearInterval(tm);tm=null;if(el){el.remove();el=null;}F=null;document.documentElement.classList.remove('fx-on');try{renderHub();}catch(e){}}
   function modal(title,body,btns){const m=document.createElement('div');m.className='fx-modal';m.innerHTML=`<div><b>${title}</b><p>${body}</p><div class="row">${btns.map((b,i)=>`<button type="button" class="fx-b ${b[1]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;el.appendChild(m);m.querySelectorAll('[data-i]').forEach(x=>x.onclick=()=>{m.remove();const f=btns[+x.dataset.i][2];if(f)f();});}
@@ -5050,7 +5080,7 @@ window.FX=(function(){
   }
   function intro(){
     const lv=F.lv,c=CFG[lv],per=c.n/4,secMin=c.min/4,P=pool(lv),seen=new Set(LS.get(seenKey(lv),[])),done_=P.filter(it=>seen.has(it.key)).length,h=LS.get(histKey(lv),{n:0,best:0});
-    const pr=LS.get(progKey(),null),canRes=pr&&pr.lv===lv&&Date.now()-pr.ts<12*3600*1000&&pr.secs.every(s=>s.keys.every(k=>BANK.by[k]));
+    const pr=LS.get(progKey(),null),canRes=pr&&pr.lv===lv&&(!isG()||pr.sec===0)&&Date.now()-pr.ts<12*3600*1000&&pr.secs.every(s=>s.keys.every(k=>BANK.by[k]));
     const short=ASP.some(a=>P.filter(it=>it.asp===a).length<per);
     el.innerHTML=top(lvName(lv))+`<div class="fx-body"><div class="fx-card">
       <h2>${X('تعليمات الاختبار','Test instructions')}</h2>
@@ -5068,7 +5098,8 @@ window.FX=(function(){
         <li>${X('الأسئلة تتغير في كل محاولة حتى تحل كل أسئلة المستوى.','Questions change every attempt until you have solved all the questions of the level.')}</li>
       </ul>
       <div class="fx-note">${X(`حللت حتى الآن <b>${done_}</b> من <b>${P.length}</b> سؤالًا في بنك هذا المستوى`,`So far you have solved <b>${done_}</b> of <b>${P.length}</b> questions in this level's bank`)}${h.n?X(` · عدد محاولاتك: <b>${h.n}</b> · أفضل درجة: <b>${h.best}</b>`,` · attempts: <b>${h.n}</b> · best score: <b>${h.best}</b>`):''}.${extraOK?'':X('<br>تنبيه: تعذّر تحميل أسئلة «اكسترا وبلس» الآن، فسيُسحب الاختبار من «التجميعات» فقط.','<br>Note: the “Extra & Plus” questions could not be loaded now, so this test draws from “Compilations” only.')}</div>
-      ${st.name?`<p>${X('المتقدم','Candidate')}: <b>${esc(st.name)}</b></p>`:`<p><label>${X('اسم الطالب (يظهر في الشهادة)','Student name (shown on the certificate)')}<br><input class="fx-in" id="fxName" maxlength="60"></label></p>`}
+      ${isG()?`<div class="fx-note">${X('<b>التجربة المجانية:</b> القسم الأول مفتوح لك كاملًا بوقته وأسئلته.','<b>Free trial:</b> section one is fully open to you with its time and questions.')}</div>`:''}
+      ${st.name||isG()?`<p>${X('المتقدم','Candidate')}: <b>${esc(st.name||X('زائر','Guest'))}</b></p>`:`<p><label>${X('اسم الطالب (يظهر في الشهادة)','Student name (shown on the certificate)')}<br><input class="fx-in" id="fxName" maxlength="60"></label></p>`}
       ${short?`<div class="fx-note">${X('عدد الأسئلة المتاحة في أحد الأقسام أقل من المطلوب.','One section has fewer questions than required.')}</div>`:''}
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
         ${canRes?`<button type="button" class="fx-b gold" data-fx="resume">${X('متابعة الاختبار غير المكتمل','Resume the unfinished test')}</button>`:''}
@@ -5130,8 +5161,20 @@ window.FX=(function(){
       <div class="fx-bot"><button type="button" class="fx-b" data-fx="back">${X('العودة للأسئلة','Back to questions')}</button><span class="fx-sp"></span><button type="button" class="fx-b red" data-fx="endAsk">${F.sec<3?X('إنهاء القسم','End section'):X('إنهاء الاختبار','End test')}</button></div>`;
   }
   function go(i){F.cur=i;F.view='q';wipePen();draw();saveProg();}
+  const isG=()=>isGuestE();
+  function paywall(){
+    clearInterval(tm);tm=null;F.phase='pay';LS.del(progKey());wipePen();
+    const s=F.secs[0],n=s.keys.length,ansd=s.keys.filter(k=>F.ans[k]!==undefined).length;
+    el.innerHTML=top(`${lvName(F.lv)}`)+`<div class="fx-body"><div class="fx-card">
+      <div style="text-align:center"><div style="font-size:46px">🎓</div><h2>${X('أتممت القسم الأول التجريبي','You finished the trial section')}</h2>
+      <p class="fx-msg">${X(`أجبت عن <b>${ansd}</b> من <b>${n}</b> سؤالًا. هذا القسم الأول تجريبي؛ لإكمال <b>الأقسام الثلاثة الأخرى</b> والحصول على <b>درجتك من ${FULL}</b> و<b>تقييمك</b> (واعد بالموهبة / موهوب / موهبة استثنائية) و<b>شهادة الدرجات</b> ومراجعة الإجابات مع الشرح، اشترك في الموقع.`,`You answered <b>${ansd}</b> of <b>${n}</b> questions. Section one is a trial; to complete the <b>other three sections</b> and get <b>your score out of ${FULL}</b>, <b>your rating</b>, the <b>score certificate</b> and the answer review with explanations, subscribe to the site.`)}</p></div>
+      <div style="display:flex;justify-content:center">${subHTML()}</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:16px"><button type="button" class="fx-b pri" data-gologin="1">${gt().login}</button><button type="button" class="fx-b" data-fx="home">${X('رجوع','Back')}</button></div>
+    </div></div>`;
+  }
   function endSec(){
     wipePen();
+    if(isG()&&F.sec===0)return paywall();
     if(F.sec<3){F.sec++;F.cur=0;F.left=F.secT;F.view='q';secGate();}else finish();
   }
   const ACT={
@@ -5409,7 +5452,7 @@ main{padding-block:18px 64px}
 .btn.pri:hover{filter:brightness(1.06)}
 .btn.big{padding:11px 20px;font-size:16px;border-radius:12px}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
-@media (max-width:560px){.idea{grid-template-columns:auto 1fr}.idea .acts{grid-column:1/-1}.idea .acts .btn{flex:1;justify-content:center}}
+@media (max-width:560px){.idea{grid-template-columns:auto 1fr}.idea.glocked{opacity:.7}.idea .acts{grid-column:1/-1}.idea .acts .btn{flex:1;justify-content:center}}
 
 /* learn view */
 .crumb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px;margin-bottom:12px;flex-wrap:wrap}
@@ -6488,7 +6531,8 @@ const fmtDate = ms => { try { return new Date(ms).toLocaleString(LANGUI === "en"
 /* ---------- state ---------- */
 const BE = window.QS_MOCK ? MockBackend : FirebaseBackend;
 let USER = null, LEVEL = 1, VIEW = "path", CUR = null, RUN = null, TIMER = null, ADM = { tab: "students", students: [], attempts: [], filterUid: "", filterLv: "", q: "", file: null, msg: "" };
-let progress = {};
+let progress = {}; const isGuest = () => !!USER && USER.role === "guest"; const isFree = id => content().some(P => P.ideas[0] && P.ideas[0].id === id); const hostSub = () => { try { window.parent.RGT.sub(); } catch (e) { } }; const GLOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`; document.addEventListener("click", e => { const b = e.target.closest && e.target.closest("[data-gsub]"); if (b) { e.preventDefault(); e.stopPropagation(); hostSub(); } }, true);
+
 let builder = { sel: {}, n: store.get("qs-n", 20) };
 
 const content = () => DATA[LANGUI][LEVEL];
@@ -6642,7 +6686,7 @@ const XP = (() => {
     const a = keyOf(id, LANGUI), b = keyOf(id, LANGUI === "en" ? "ar" : "en");
     return IDX[a] ? { key: a, e: IDX[a] } : IDX[b] ? { key: b, e: IDX[b] } : null;
   }
-  const isFree = () => false; const canSee = id => !!USER;
+  const canSee = id => !!USER && (!isGuest() || isFree(id));
   const isAdmin = () => false;
 
   /* ---------- buttons (slots in the learn and practice pages, chips in the path) ---------- */
@@ -7025,6 +7069,7 @@ html.xplock,html.xplock body{overflow:hidden}
   return { loadIndex, fill, _mem: MEM, _decode: decodeInk };
 })();
 function go(v, arg, keep) {
+  if (isGuest() && ((v === "learn" && !isFree(arg)) || v === "build")) { hostSub(); return; }
   VIEW = v; if (v !== "exam") stopTimer(); renderTabs();
   const app = $("#app");
   const fn = { path: viewPath, learn: viewLearn, practice: viewQuiz, build: viewBuild, exam: viewQuiz, result: viewResult, mine: viewMine, report: viewReport, admin: viewAdmin }[v];
@@ -7096,9 +7141,9 @@ function viewPath() {
   for (const P of content()) {
     h += `<section class="domain" id="dom-${P.key}" style="--dc:${P.color}"><div class="dhead"><i></i><h2>${P.title}</h2><span>${t("ideasN", P.ideas.length)}</span></div><div class="ideas">`;
     for (const I of P.ideas) {
-      const p = progress[I.id];
-      h += `<div class="idea ${p != null ? (p >= 80 ? "done good" : "done") : ""}"><div class="num">${p != null && p >= 80 ? ICONS.check : I.n}</div><div class="t"><b>${I.t}</b><small>${statusChip(p)}${p != null ? `<span class="bar"><i style="width:${p}%"></i></span> ${t("best", p)}` : ""}</small></div>
-      <div class="acts"><button type="button" class="btn" data-learn="${I.id}">${t("quick")}</button><button type="button" class="btn pri" data-train="${I.id}">${t("train")}</button></div></div>`;
+      const p = progress[I.id]; const lockd = isGuest() && !isFree(I.id);
+      h += `<div class="idea ${lockd ? "glocked" : p != null ? (p >= 80 ? "done good" : "done") : ""}"><div class="num">${lockd ? GLOCK : p != null && p >= 80 ? ICONS.check : I.n}</div><div class="t"><b>${I.t}</b><small>${isGuest() ? (lockd ? `<span class="st">${GLOCK} ${LANGUI === "en" ? "Subscribers" : "للمشتركين"}</span>` : `<span class="st good">${LANGUI === "en" ? "Free" : "مجاني"}</span>`) : ""}${lockd ? "" : statusChip(p)}${p != null ? `<span class="bar"><i style="width:${p}%"></i></span> ${t("best", p)}` : ""}</small></div>
+      <div class="acts">${lockd ? `<button type="button" class="btn" data-gsub="1">${GLOCK} ${LANGUI === "en" ? "Subscribe" : "اشترك"}</button>` : `<button type="button" class="btn" data-learn="${I.id}">${t("quick")}</button><button type="button" class="btn pri" data-train="${I.id}">${t("train")}</button>`}</div></div>`;
     }
     h += `</div></section>`;
   }
@@ -7150,7 +7195,7 @@ function qHTML(q, { reveal = null, mark = null, pickable = false, chosen = null 
 }
 
 /* ---------- practice & exam ---------- */
-function startPractice(id) { const I = ideaById(id); RUN = { mode: "practice", ideaId: id, qs: draw(I, PRACTICE_N), i: 0, ans: [], start: Date.now() }; go("practice"); }
+function startPractice(id) { if (isGuest() && !isFree(id)) { hostSub(); return; } const I = ideaById(id); RUN = { mode: "practice", ideaId: id, qs: draw(I, PRACTICE_N), i: 0, ans: [], start: Date.now() }; go("practice"); }
 function startExam() {
   const ideas = allIdeas().filter(I => builder.sel[I.id]); const alloc = distribute(ideas, builder.n);
   let qs = []; ideas.forEach((I, k) => { if (alloc[k]) qs = qs.concat(draw(I, alloc[k])); });
@@ -7300,6 +7345,7 @@ const GM_GAMES = [
 ];
 /* ---- shell ---- */
 function openGame(ideaId) {
+  if (isGuest() && !isFree(ideaId)) { hostSub(); return; }
   GM.idea = ideaId; gmClose(true);
   const d = document.createElement("div"); d.id = "gm"; d.dir = LANGUI === "en" ? "ltr" : "rtl"; d.lang = LANGUI;
   document.body.appendChild(d); GM.el = d; document.documentElement.classList.add("gm-open");
@@ -8317,7 +8363,7 @@ main{padding-block:18px 64px}
 .btn.pri:hover{filter:brightness(1.06)}
 .btn.big{padding:11px 20px;font-size:16px;border-radius:12px}
 .btn[disabled]{opacity:.45;cursor:not-allowed}
-@media (max-width:560px){.idea{grid-template-columns:auto 1fr}.idea .acts{grid-column:1/-1}.idea .acts .btn{flex:1;justify-content:center}}
+@media (max-width:560px){.idea{grid-template-columns:auto 1fr}.idea.glocked{opacity:.7}.idea .acts{grid-column:1/-1}.idea .acts .btn{flex:1;justify-content:center}}
 
 /* learn view */
 .crumb{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px;margin-bottom:12px;flex-wrap:wrap}
@@ -9363,7 +9409,8 @@ const fmtDate = ms => { try { return new Date(ms).toLocaleString(LANGUI === "en"
 /* ---------- state ---------- */
 const BE = window.QS_MOCK ? MockBackend : FirebaseBackend;
 let USER = null, LEVEL = 1, VIEW = "path", CUR = null, RUN = null, TIMER = null, ADM = { tab: "students", students: [], attempts: [], filterUid: "", filterLv: "", q: "", file: null, msg: "" };
-let progress = {};
+let progress = {}; const isGuest = () => !!USER && USER.role === "guest"; const isFree = id => content().some(P => P.ideas[0] && P.ideas[0].id === id); const hostSub = () => { try { window.parent.RGT.sub(); } catch (e) { } }; const GLOCK = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>`; document.addEventListener("click", e => { const b = e.target.closest && e.target.closest("[data-gsub]"); if (b) { e.preventDefault(); e.stopPropagation(); hostSub(); } }, true);
+
 let builder = { sel: {}, n: store.get("qs-n", 20) };
 
 const content = () => DATA[LANGUI][LEVEL];
@@ -9465,6 +9512,7 @@ function setLevel(l) {
 }
 function defaultSel() { const s = {}; const P = DATA[LANGUI][LEVEL][1] || DATA[LANGUI][LEVEL][0]; for (const I of P.ideas) s[I.id] = true; return s; }
 function go(v, arg, keep) {
+  if (isGuest() && ((v === "learn" && !isFree(arg)) || v === "build")) { hostSub(); return; }
   VIEW = v; if (v !== "exam") stopTimer(); renderTabs();
   const app = $("#app");
   const fn = { path: viewPath, learn: viewLearn, practice: viewQuiz, build: viewBuild, exam: viewQuiz, result: viewResult, mine: viewMine, report: viewReport, admin: viewAdmin }[v];
@@ -9535,9 +9583,9 @@ function viewPath() {
   for (const P of content()) {
     h += `<section class="domain" id="dom-${P.key}" style="--dc:${P.color}"><div class="dhead"><i></i><h2>${P.title}</h2><span>${t("ideasN", P.ideas.length)}</span></div><div class="ideas">`;
     for (const I of P.ideas) {
-      const p = progress[I.id];
-      h += `<div class="idea ${p != null ? (p >= 80 ? "done good" : "done") : ""}"><div class="num">${p != null && p >= 80 ? ICONS.check : I.n}</div><div class="t"><b>${I.t}</b><small>${statusChip(p)}${p != null ? `<span class="bar"><i style="width:${p}%"></i></span> ${t("best", p)}` : ""}</small></div>
-      <div class="acts"><button type="button" class="btn" data-learn="${I.id}">${t("quick")}</button><button type="button" class="btn pri" data-train="${I.id}">${t("train")}</button></div></div>`;
+      const p = progress[I.id]; const lockd = isGuest() && !isFree(I.id);
+      h += `<div class="idea ${lockd ? "glocked" : p != null ? (p >= 80 ? "done good" : "done") : ""}"><div class="num">${lockd ? GLOCK : p != null && p >= 80 ? ICONS.check : I.n}</div><div class="t"><b>${I.t}</b><small>${isGuest() ? (lockd ? `<span class="st">${GLOCK} ${LANGUI === "en" ? "Subscribers" : "للمشتركين"}</span>` : `<span class="st good">${LANGUI === "en" ? "Free" : "مجاني"}</span>`) : ""}${lockd ? "" : statusChip(p)}${p != null ? `<span class="bar"><i style="width:${p}%"></i></span> ${t("best", p)}` : ""}</small></div>
+      <div class="acts">${lockd ? `<button type="button" class="btn" data-gsub="1">${GLOCK} ${LANGUI === "en" ? "Subscribe" : "اشترك"}</button>` : `<button type="button" class="btn" data-learn="${I.id}">${t("quick")}</button><button type="button" class="btn pri" data-train="${I.id}">${t("train")}</button>`}</div></div>`;
     }
     h += `</div></section>`;
   }
@@ -9589,7 +9637,7 @@ function qHTML(q, { reveal = null, mark = null, pickable = false, chosen = null 
 }
 
 /* ---------- practice & exam ---------- */
-function startPractice(id) { const I = ideaById(id); RUN = { mode: "practice", ideaId: id, qs: draw(I, PRACTICE_N), i: 0, ans: [], start: Date.now() }; go("practice"); }
+function startPractice(id) { if (isGuest() && !isFree(id)) { hostSub(); return; } const I = ideaById(id); RUN = { mode: "practice", ideaId: id, qs: draw(I, PRACTICE_N), i: 0, ans: [], start: Date.now() }; go("practice"); }
 function startExam() {
   const ideas = allIdeas().filter(I => builder.sel[I.id]); const alloc = distribute(ideas, builder.n);
   let qs = []; ideas.forEach((I, k) => { if (alloc[k]) qs = qs.concat(draw(I, alloc[k])); });
@@ -9739,6 +9787,7 @@ const GM_GAMES = [
 ];
 /* ---- shell ---- */
 function openGame(ideaId) {
+  if (isGuest() && !isFree(ideaId)) { hostSub(); return; }
   GM.idea = ideaId; gmClose(true);
   const d = document.createElement("div"); d.id = "gm"; d.dir = LANGUI === "en" ? "ltr" : "rtl"; d.lang = LANGUI;
   document.body.appendChild(d); GM.el = d; document.documentElement.classList.add("gm-open");
