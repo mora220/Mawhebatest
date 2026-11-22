@@ -24,17 +24,6 @@
 .pencv.hand{pointer-events:none!important;background:transparent!important}
 .pentools .pt-range{writing-mode:vertical-lr;direction:rtl;width:26px;height:110px;margin:2px 0;accent-color:#1d2b53}
 .pentools .pt-val{font:700 11px sans-serif;color:#475569}
-
-/* ===== free trial (guest) ===== */
-.gbanner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;margin:14px 0;padding:14px 18px;border-radius:16px;border:2px dashed #e0a01b;background:#fff8e6;color:#3a2c00}
-.gbanner b{display:block;font:700 17px var(--f-disp)}.gbanner span{display:block;font-size:14px;margin-top:2px}
-.gbanner .row{display:flex;gap:8px;flex-wrap:wrap}
-.btn.subbtn{background:#1f9d57;color:#fff;border-color:#1f9d57}
-.modes button.lockedm{opacity:.62}.modes button.lockedm b{display:inline-flex;align-items:center}
-.freem{font-style:normal;font-weight:700;color:#1f9d57}
-.submw{max-width:520px;text-align:start}.submw h2{margin:0 0 6px}.submw ul{margin:10px 0;padding-inline-start:22px;line-height:2}
-.submw .wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25d366;color:#fff;font:700 17px var(--f-disp);padding:13px 18px;border-radius:14px;text-decoration:none;margin:14px 0 6px}
-.submw .ph{text-align:center;color:#55607a;font-size:14px}
 </style>
 <title>تجميعات اكسترا وبلس · محاكاة مقياس موهبة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -4879,25 +4868,10 @@ function setLang(l){lang=l;try{localStorage.setItem('mr_lang',l)}catch(e){};appl
 function updChrome(){
   const T=t(), sc=st.screen;
   document.getElementById('langBtn').hidden=!['start','res','login','boot','level'].includes(sc);
-  const ob=document.getElementById('outBtn'); ob.textContent=isGuestE()?gt().login:T.logout; ob.hidden=!(st.user&&['start','res','exam'].includes(sc));
+  const ob=document.getElementById('outBtn'); ob.textContent=T.logout; ob.hidden=!(st.user&&['start','res','exam'].includes(sc));
   document.getElementById('homeBtn').hidden=!(st.user&&['start','res','exam'].includes(sc));
 }
 const NAME_EDIT_CODES=['28','1','ragab'];
-/* ---------- free trial: no account = guest ---------- */
-const GUEST_U={code:'guest',role:'guest',kids:[],levels:[1,2,3]};
-const isGuestE=()=>!!(st.user&&st.user.role==='guest');
-const freeModel=n=>{const m=modelOf(n);return MODELS.filter(x=>x.p===m.p)[0].n===n;};
-const LOCKI='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" style="vertical-align:-2px;margin-inline-end:4px"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
-const GT={ar:{bannerH:'أنت في التجربة المجانية',bannerP:'مفتوح لك: أول نموذج في كل مجموعة، وأول فكرة في كل جانب من التدريب، والقسم الأول من الاختبار المحاكي النهائي. اشترك لفتح كل شيء.',sub:'اشترك الآن',login:'دخول المشتركين',back:'تصفّح التجربة المجانية',lockS:'للمشتركين',freeS:'مجاني',close:'إغلاق',
-  subT:'اشترك في محاكاة مقياس موهبة',subP:'الاشتراك يفتح لك كل محتوى الموقع:',feats:['كل نماذج التجميعات وتجميعات اكسترا وبلس','كل أفكار «تدرب حسب الأفكار» و«تدريب بلس» مع الألعاب','الاختبار المحاكي النهائي كاملًا بأقسامه الأربعة، مع الدرجة من 2000 والتقييم والشهادة','حفظ نتائجك ومراجعة إجاباتك ومتابعة المدرب لمستواك'],wa:'للاشتراك تواصل واتساب',waText:'السلام عليكم، أريد الاشتراك في موقع محاكاة مقياس موهبة.',trainer:'المدرب: أ. محمد رجب'},
- en:{bannerH:'You are in the free trial',bannerP:'Open to you: the first model in every group, the first idea in every training aspect, and section one of the final simulated test. Subscribe to unlock everything.',sub:'Subscribe now',login:'Subscriber login',back:'Browse the free trial',lockS:'Subscribers',freeS:'Free',close:'Close',
-  subT:'Subscribe to Mawhiba Test Practice',subP:'A subscription unlocks the whole site:',feats:['Every model in Compilations, Extra and Plus','Every idea in “Practice by idea” and “Training Plus”, with the games','The full final simulated test with its four sections, the score out of 2000, the rating and the certificate','Saved results, answer review and follow-up from the trainer'],wa:'Subscribe on WhatsApp',waText:'Hello, I would like to subscribe to the Mawhiba Test Practice site.',trainer:'Trainer: Mr. Mohamed Ragab'}};
-const gt=()=>GT[lang==='en'?'en':'ar'];
-function subHTML(){const g=gt();return `<div class="submw"><h2>${g.subT}</h2><p class="muted">${g.subP}</p><ul>${g.feats.map(f=>`<li>${f}</li>`).join('')}</ul><a class="wa" href="https://wa.me/966564826388?text=${encodeURIComponent(g.waText)}" target="_blank" rel="noopener">${g.wa}</a><p class="ph">${g.trainer} · <b dir="ltr">0564826388</b></p></div>`;}
-function showSub(){gm.innerHTML=`<div class="modal" id="subModal"><div class="sheet">${subHTML()}<div class="row" style="justify-content:center;margin-top:12px"><button type="button" class="btn gold" data-gologin="1">${gt().login}</button><button type="button" class="btn line" id="subClose">${gt().close}</button></div></div></div>`;document.getElementById('subClose').onclick=()=>gm.innerHTML='';document.getElementById('subModal').onclick=e=>{if(e.target.id==='subModal')gm.innerHTML='';};}
-function guestBanner(){const g=gt();return `<div class="gbanner"><div><b>${g.bannerH}</b><span>${g.bannerP}</span></div><div class="row"><button type="button" class="btn subbtn" data-showsub="1">${g.sub}</button><button type="button" class="btn line" data-gologin="1">${g.login}</button></div></div>`;}
-document.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('[data-showsub]');if(s){showSub();return;}const l=e.target.closest&&e.target.closest('[data-gologin]');if(l){gm.innerHTML='';clearInterval(timer);try{closeTraining()}catch(_){}renderLogin();window.scrollTo(0,0);}});
-
 const nameEditable=()=>!!(st.user&&st.user.role==='student'&&NAME_EDIT_CODES.includes(String(st.user.code)));
 function selectKid(code){
   st.kid=st.user.kids.find(k=>String(k.code)===String(code))||null;
@@ -4953,9 +4927,8 @@ function renderLogin(){
       <p class="err" id="lerr" role="alert" ${st.loginErr?'':'hidden'}>${st.loginErr?T.errs[st.loginErr]:''}</p>
       <button class="btn gold" id="lb" type="submit">${T.loginBtn}</button>
     </form>
-    <p class="muted small">${T.loginHint}</p>${isGuestE()?`<button type="button" class="btn line" id="backTrial">${gt().back}</button>`:''}
+    <p class="muted small">${T.loginHint}</p>
   </div></section>`;
-  {const bt=document.getElementById('backTrial');if(bt)bt.onclick=()=>{st.loginErr=null;renderStart();window.scrollTo(0,0);};}
   const lc=document.getElementById('lc'),lp=document.getElementById('lp'),lb=document.getElementById('lb'),le=document.getElementById('lerr');
   const showErr=k=>{st.loginErr=k;le.textContent=T.errs[k];le.hidden=false;};
   document.getElementById('eye').onclick=e=>{const v=lp.type==='password';lp.type=v?'text':'password';e.target.textContent=v?T.hidePw:T.showPw;};
@@ -4973,7 +4946,7 @@ function renderLogin(){
 window.MR={
   onUser(p,reason){
     st.authKnown=true; if(reason)st.loginErr=reason;
-    if(!p){stopWatch();clearInterval(timer);gm.innerHTML='';st.user=GUEST_U;selectKid(null);if(reason){if(!['lang','level'].includes(st.screen))renderLogin();return;}if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}return;}
+    if(!p){stopWatch();st.user=null;clearInterval(timer);gm.innerHTML='';if(!['lang','level'].includes(st.screen))renderLogin();return;}
     st.user=p;st.loginErr=null;selectKid(p.kids[0]?p.kids[0].code:null);
     (st.lvP||Promise.resolve()).then(()=>{if(!['lang','level'].includes(st.screen)){renderStart();window.scrollTo(0,0);}else if(st.screen==='level')renderLevel();});
   },
@@ -5020,13 +4993,13 @@ const TRN={me:null,html:null};
 // objects coming from the training frame belong to another JS realm; Firestore only accepts plain objects of this page, so copy them here
 const trPlain=o=>JSON.parse(JSON.stringify(o));
 function trMe(){
-  if(!st.user||st.user.role==='guest')return {role:'guest',code:'',name:st.name||''};
+  if(!st.user)return {role:'guest',code:'',name:st.name||''};
   if(st.user.role==='admin')return {role:'admin',code:String(st.user.code),name:'أ. محمد رجب'};
   const k=st.kid;if(!k)return null;
   return {role:st.user.role,code:String(k.code),name:k.name||String(k.code),parentCode:st.user.role==='parent'?String(st.user.code):String(k.parentCode||'')};
 }
 window.RGT={
-  me:()=>TRN.me, lang:()=>lang||'ar', level:()=>st.level, theme:()=>document.documentElement.dataset.theme||'', close:()=>closeTraining(), sub:()=>showSub(),
+  me:()=>TRN.me, lang:()=>lang||'ar', level:()=>st.level, theme:()=>document.documentElement.dataset.theme||'', close:()=>closeTraining(),
   getTraining:code=>window.RG.trGet(code).then(d=>{if(d&&!(d.levels&&d.levels.length)&&d.progress&&+d.progress._lvl)d.levels=[+d.progress._lvl];return d;}),
   touch:code=>window.RG.trSet(String(code),{code:String(code),lastSeen:Date.now()}).catch(()=>{}),
   saveProgress:(code,id,val)=>window.RG.trSet(String(code),trPlain({code:String(code),progress:{[String(id)]:Number(val)}})),
@@ -5046,7 +5019,7 @@ function openTraining(plus){location.href='index.html?train=1';return;plus=plus=
   const en=lang==='en', m=TRN.me;
   const who=m.role==='admin'?(en?'Training dashboard':'لوحة متابعة التدريب'):m.role==='parent'?(en?'Progress report: ':'تقرير التدريب: ')+m.name:(m.name||'');
   let ov=document.getElementById('trainOv');if(!ov){ov=document.createElement('div');ov.id='trainOv';ov.className='train-ov';document.body.appendChild(ov);}
-  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div>${st.user?`<button type="button" class="btn line" id="trainOut">${isGuestE()?gt().login:(en?'Sign out':'خروج')}</button>`:''}</div>`;
+  ov.innerHTML=`<div class="train-bar"><button type="button" class="btn line" id="trainBack">${en?'‹ Tests & compilations':'الاختبارات والتجميعات ›'}</button><div class="tb-t"><b>${plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار')}</b>${who?`<small>${esc(who)}</small>`:''}</div>${st.user?`<button type="button" class="btn line" id="trainOut">${en?'Sign out':'خروج'}</button>`:''}</div>`;
   const f=document.createElement('iframe');f.title=plus?(en?'Training Plus':'تدريب بلس'):(en?'Practice by idea':'تدرب حسب الأفكار');f.onload=()=>{try{const w=f.contentWindow;if(w&&w.penShow){w.penShow(false);w.penShow=()=>{};}}catch(e){}};f.srcdoc=TRN.html;ov.appendChild(f);
   ov.hidden=false;ov.style.display='flex';if(window.mrPen)mrPen(true);window.scrollTo(0,0);document.body.style.overflow='hidden';document.getElementById('trainBack').onclick=closeTraining;{const to=document.getElementById('trainOut');if(to)to.onclick=()=>document.getElementById('outBtn').onclick();}
   }catch(e){console.error(e);alert((lang==='en'?'Could not open the training: ':'تعذر فتح التدريب: ')+(e&&e.message||e));}
@@ -5137,14 +5110,13 @@ function renderStart(){
       <span class="by">${T.by}</span>
     </div>
     <div class="facts">${T.levels[st.level].facts.map(f=>`<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>
-    ${isGuestE()?guestBanner():''}
     <button type="button" class="train-card" id="trainGo"><span class="tc-ico">⚡</span><span class="tc-txt"><b>${lang==='en'?'Quick Solutions platform':(st.user&&st.user.role==='parent'?'منصة الحل السريع · تقرير المتابعة':'منصة الحل السريع')}</b><small>${lang==='en'?'Practice by idea: learn the quick solution for each Mawhiba idea and practise with instant marking. Your test and compilation results appear there too.':'التدريب حسب الأفكار: تعلّم «الحل السريع» لكل فكرة وتدرّب عليها بتصحيح فوري، وتجد فيها نتائج اختباراتك وتجميعاتك أيضًا.'}</small></span><span class="tc-go">${lang==='en'?'›':'‹'}</span></button>
     <a class="train-card plus-card" id="plusGo" href="index.html"><span class="tc-ico">↩</span><span class="tc-txt"><b>${lang==='en'?'Main page':'الصفحة الرئيسية'}</b><small>${lang==='en'?'Back to the main page: compilations, Compilations Plus and practice by idea.':'ارجع إلى الواجهة الرئيسية: التجميعات، تجميعات بلس، والتدريب حسب الأفكار.'}</small></span><span class="tc-go">${lang==='en'?'›':'‹'}</span></a>
     ${progBanner()}
     <div class="sheet" style="display:flex;flex-direction:column;gap:18px">
-      ${st.user&&st.user.role!=='admin'&&st.user.role!=='guest'&&!nameEditable()?`<div class="field namebox who-box"><span class="muted">${T.studentLbl}</span><b>${esc(st.name)}</b>${st.user.kids.length>1?`<div class="kids"><span class="muted">${T.chooseKid}</span>${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div>`:''}</div>`
+      ${st.user&&st.user.role!=='admin'&&!nameEditable()?`<div class="field namebox who-box"><span class="muted">${T.studentLbl}</span><b>${esc(st.name)}</b>${st.user.kids.length>1?`<div class="kids"><span class="muted">${T.chooseKid}</span>${st.user.kids.map(k=>`<button type="button" data-kid="${esc(k.code)}" aria-pressed="${st.kid&&st.kid.code===k.code}">${esc(k.name||k.code)}</button>`).join('')}</div>`:''}</div>`
       :`<div class="field namebox"><label for="nm">${st.user&&st.user.role==='admin'?T.adminLabel:T.nameLabel}</label><input id="nm" type="text" autocomplete="name" placeholder="${T.namePh}" value="${esc(st.name)}"><span class="err" id="nmErr" hidden>${T.nameErr}</span></div>`}
-      <div class="parts">${LEVELS[st.level].parts.map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" ${isGuestE()&&!freeModel(m.n)?'data-lock="1" class="lockedm"':''} aria-pressed="${st.model===m.n}"><b>${isGuestE()&&!freeModel(m.n)?LOCKI:''}${mName(m.n)}</b><span>${isGuestE()?(freeModel(m.n)?`<em class="freem">${gt().freeS}</em> `:gt().lockS+' · '):''}${done[m.n]!==undefined?T.last(done[m.n]):T.levels[st.level].msub}</span></button>`).join('')}</div></div>`).join('')}</div>
+      <div class="parts">${LEVELS[st.level].parts.map(p=>`<div class="part"><h3>${T.parts[p]}</h3><div class="modes">${MODELS.filter(m=>m.p===p).map(m=>`<button type="button" data-m="${m.n}" aria-pressed="${st.model===m.n}"><b>${mName(m.n)}</b><span>${done[m.n]!==undefined?T.last(done[m.n]):T.levels[st.level].msub}</span></button>`).join('')}</div></div>`).join('')}</div>
       <ul class="rules">${T.rules.map(r=>`<li>${r}</li>`).join('')}</ul>
       <div class="row"><button class="btn gold" id="go">${T.start(mFull(st.model))}</button>${HUB_ON?`<button class="btn line" id="toHub">${lang==='en'?'‹ Main page':'الرئيسية ›'}</button>`:''}<button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${lang==='en'?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}${ORDERS[st.level].some(n=>done[n]!==undefined)?`<button class="btn line" id="certAll">${T.certAll}</button>`:''}</div>
     </div>
@@ -5152,7 +5124,7 @@ function renderStart(){
   const nmIn=document.getElementById('nm');
   const needName=()=>{if(!nmIn)return true;const v=nmIn.value.trim();if(v.length<2){nmIn.classList.add('bad');document.getElementById('nmErr').hidden=false;nmIn.focus();return false;}st.name=v;try{localStorage.setItem(nameEditable()?'mr_name_'+st.user.code:'mr_name',v)}catch(e){};return true;};
   if(nmIn)nmIn.oninput=()=>{nmIn.classList.remove('bad');document.getElementById('nmErr').hidden=true;};
-  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{if(b.dataset.lock){showSub();return;}st.model=+b.dataset.m;if(nmIn)st.name=nmIn.value;renderStart()});
+  app.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{st.model=+b.dataset.m;if(nmIn)st.name=nmIn.value;renderStart()});
   app.querySelectorAll('[data-kid]').forEach(b=>b.onclick=()=>{selectKid(b.dataset.kid);renderStart()});
   document.getElementById('trainGo').onclick=openTraining;
   const ab=document.getElementById('accBtn');if(ab)ab.onclick=()=>{renderAccounts();window.scrollTo(0,0)};
@@ -5162,7 +5134,7 @@ function renderStart(){
   const ca=document.getElementById('certAll');if(ca)ca.onclick=()=>{if(needName())showCert(null);};
   const pg=document.getElementById('progGo');if(pg)pg.onclick=resumeProg;
   const pd=document.getElementById('progDrop');if(pd)pd.onclick=()=>{clearProg();renderStart();};
-  document.getElementById('go').onclick=()=>{if(isGuestE()&&!freeModel(st.model)){showSub();return;}
+  document.getElementById('go').onclick=()=>{
     if(!needName())return;
     st.list=Q.filter(q=>q.m===st.model).map(q=>q.id);
     st.ans={};st.flag={};st.cur=0;st.left=LEVELS[st.level].mins*60;st.total=st.left;st.screen='exam';
@@ -5190,7 +5162,6 @@ function progBanner(){
 }
 function resumeProg(){
   const p=loadProg();if(!p)return;
-  if(isGuestE()&&!freeModel(p.model)){showSub();return;}
   if(p.level!==st.level){st.level=p.level;try{localStorage.setItem('mr_level',p.level)}catch(e){}}
   st.model=p.model;st.list=Q.filter(q=>q.m===st.model).map(q=>q.id);
   st.ans={};Object.keys(p.ans||{}).forEach(k=>{if(st.list.includes(+k)&&p.ans[k]>=0&&p.ans[k]<4)st.ans[k]=p.ans[k];});
@@ -5346,7 +5317,7 @@ function renderRes(){
   document.getElementById('cert').onclick=()=>showCert(st.model);
   document.getElementById('cert2').onclick=()=>showCert(st.model);
   drawSync();
-  const nm=document.getElementById('nextm'); if(nm)nm.onclick=()=>{if(isGuestE()&&!freeModel(nextM.n)){showSub();return;}st.model=nextM.n;renderStart();document.getElementById('go').click()};
+  const nm=document.getElementById('nextm'); if(nm)nm.onclick=()=>{st.model=nextM.n;renderStart();document.getElementById('go').click()};
 }
 
 // ---------- home & language ----------
@@ -5368,7 +5339,6 @@ document.getElementById('langBtn').onclick=()=>{
   if(st.screen==='res')renderRes(); else if(st.screen==='login')renderLogin(); else if(st.screen==='boot')renderBoot(); else if(st.screen==='level')renderLevel(); else renderStart();
 };
 document.getElementById('outBtn').onclick=()=>{
-  if(isGuestE()){clearInterval(timer);gm.innerHTML='';try{closeTraining()}catch(_){}renderLogin();window.scrollTo(0,0);return;}
   const T=t();
   gm.innerHTML=`<div class="modal"><div class="sheet"><h2>${T.outTitle}</h2><p class="muted">${st.screen==='exam'?T.outBodyExam:T.outBody}</p><div class="row"><button class="btn bad" id="oYes">${T.outYes}</button><button class="btn line" id="oNo">${T.outNo}</button></div></div></div>`;
   document.getElementById('oNo').onclick=()=>gm.innerHTML='';
