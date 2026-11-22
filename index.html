@@ -7257,7 +7257,7 @@ function viewQuiz() {
       const okA = picked === q.a;
       h += `<div class="explain ${okA ? "ok" : "no"}"><h4>${okA ? t("right") : t("rightIs", L[q.a])}</h4>${q.s && q.s.length ? q.s.map(s => `<p>${s}</p>`).join("") : `<p>${t("reviewStep", I.fast[0])}</p>`}</div>`;
     }
-    h += `<div class="qnav">${r.i > 0 ? `<button type="button" class="btn big" id="pprev">${t("prev")}</button>` : `<span></span>`}${picked != null ? `<button type="button" class="btn pri big" id="next">${r.i + 1 < r.qs.length ? t("nextQ") : t("showRes")}</button>` : `<button type="button" class="btn pri big" id="pconfirm" ${r.sel == null ? "disabled" : ""}>${LANGUI === "en" ? "✔ Confirm answer" : "✔ تأكيد الإجابة"}</button>`}</div>${picked == null ? `<p class="note" style="text-align:center;margin:6px 0 0">${r.sel == null ? (LANGUI === "en" ? "Choose an answer, then press Confirm." : "اختر إجابة ثم اضغط «تأكيد الإجابة».") : (LANGUI === "en" ? "You can still change your choice before confirming." : "يمكنك تغيير اختيارك قبل التأكيد.")}</p>` : ""}`;
+    h += `<div class="qnav">${r.i > 0 ? `<button type="button" class="btn big" id="pprev">${t("prev")}</button>` : `<span></span>`}${picked != null ? `<button type="button" class="btn pri big" id="next">${r.i + 1 < r.qs.length ? t("nextQ") : t("showRes")}</button>` : `${r.i + 1 < r.qs.length ? `<button type="button" class="btn big" id="pskip" title="${LANGUI === "en" ? "Move this question to the end" : "انقل هذا السؤال إلى آخر التدريب"}">${LANGUI === "en" ? "⏭ Skip for now" : "⏭ تخطَّ للآخر"}</button>` : ""}<button type="button" class="btn pri big" id="pconfirm" ${r.sel == null ? "disabled" : ""}>${LANGUI === "en" ? "✔ Confirm answer" : "✔ تأكيد الإجابة"}</button>`}</div>${picked == null ? `<p class="note" style="text-align:center;margin:6px 0 0">${r.sel == null ? (LANGUI === "en" ? "Choose an answer, then press Confirm." : "اختر إجابة ثم اضغط «تأكيد الإجابة».") : (LANGUI === "en" ? "You can still change your choice before confirming." : "يمكنك تغيير اختيارك قبل التأكيد.")}</p>` : ""}`;
     return h + `</div>`;
   }
   const answered = r.ans.filter(a => a != null).length;
@@ -7272,6 +7272,7 @@ bind.practice = () => {
   const r = RUN; $("#back").onclick = () => go("path"); $("#toLearn").onclick = () => go("learn", r.ideaId);
   $$("[data-opt]").forEach(b => b.onclick = () => { if (r.ans[r.i] != null) return; r.sel = +b.dataset.opt; go("practice", null, true); const cf = $("#pconfirm"); if (cf) cf.focus({ preventScroll: true }); });
   const cf = $("#pconfirm"); if (cf) cf.onclick = () => { if (r.ans[r.i] != null || r.sel == null) return; r.ans[r.i] = r.sel; r.sel = null; go("practice", null, true); const nx = $("#next"); if (nx) nx.focus({ preventScroll: true }); };
+  const sk = $("#pskip"); if (sk) sk.onclick = () => { if (r.ans[r.i] != null || r.i + 1 >= r.qs.length) return; r.qs.push(r.qs.splice(r.i, 1)[0]); r.ans.splice(r.i, 1); r.sel = null; go("practice"); };
   const pp = $("#pprev"); if (pp) pp.onclick = () => { if (r.i > 0) { r.i--; r.sel = null; go("practice"); } };
   const nx = $("#next"); if (nx) nx.onclick = () => { r.sel = null; if (r.i + 1 < r.qs.length) { r.i++; go("practice"); } else finishPractice(); };
 };
@@ -9742,7 +9743,7 @@ function viewQuiz() {
       const okA = picked === q.a;
       h += `<div class="explain ${okA ? "ok" : "no"}"><h4>${okA ? t("right") : t("rightIs", L[q.a])}</h4>${q.s && q.s.length ? q.s.map(s => `<p>${s}</p>`).join("") : `<p>${t("reviewStep", I.fast[0])}</p>`}</div>`;
     }
-    h += `<div class="qnav">${r.i > 0 ? `<button type="button" class="btn big" id="pprev">${t("prev")}</button>` : `<span></span>`}${picked != null ? `<button type="button" class="btn pri big" id="next">${r.i + 1 < r.qs.length ? t("nextQ") : t("showRes")}</button>` : `<button type="button" class="btn pri big" id="pconfirm" ${r.sel == null ? "disabled" : ""}>${LANGUI === "en" ? "✔ Confirm answer" : "✔ تأكيد الإجابة"}</button>`}</div>${picked == null ? `<p class="note" style="text-align:center;margin:6px 0 0">${r.sel == null ? (LANGUI === "en" ? "Choose an answer, then press Confirm." : "اختر إجابة ثم اضغط «تأكيد الإجابة».") : (LANGUI === "en" ? "You can still change your choice before confirming." : "يمكنك تغيير اختيارك قبل التأكيد.")}</p>` : ""}`;
+    h += `<div class="qnav">${r.i > 0 ? `<button type="button" class="btn big" id="pprev">${t("prev")}</button>` : `<span></span>`}${picked != null ? `<button type="button" class="btn pri big" id="next">${r.i + 1 < r.qs.length ? t("nextQ") : t("showRes")}</button>` : `${r.i + 1 < r.qs.length ? `<button type="button" class="btn big" id="pskip" title="${LANGUI === "en" ? "Move this question to the end" : "انقل هذا السؤال إلى آخر التدريب"}">${LANGUI === "en" ? "⏭ Skip for now" : "⏭ تخطَّ للآخر"}</button>` : ""}<button type="button" class="btn pri big" id="pconfirm" ${r.sel == null ? "disabled" : ""}>${LANGUI === "en" ? "✔ Confirm answer" : "✔ تأكيد الإجابة"}</button>`}</div>${picked == null ? `<p class="note" style="text-align:center;margin:6px 0 0">${r.sel == null ? (LANGUI === "en" ? "Choose an answer, then press Confirm." : "اختر إجابة ثم اضغط «تأكيد الإجابة».") : (LANGUI === "en" ? "You can still change your choice before confirming." : "يمكنك تغيير اختيارك قبل التأكيد.")}</p>` : ""}`;
     return h + `</div>`;
   }
   const answered = r.ans.filter(a => a != null).length;
@@ -9757,6 +9758,7 @@ bind.practice = () => {
   const r = RUN; $("#back").onclick = () => go("path"); $("#toLearn").onclick = () => go("learn", r.ideaId);
   $$("[data-opt]").forEach(b => b.onclick = () => { if (r.ans[r.i] != null) return; r.sel = +b.dataset.opt; go("practice", null, true); const cf = $("#pconfirm"); if (cf) cf.focus({ preventScroll: true }); });
   const cf = $("#pconfirm"); if (cf) cf.onclick = () => { if (r.ans[r.i] != null || r.sel == null) return; r.ans[r.i] = r.sel; r.sel = null; go("practice", null, true); const nx = $("#next"); if (nx) nx.focus({ preventScroll: true }); };
+  const sk = $("#pskip"); if (sk) sk.onclick = () => { if (r.ans[r.i] != null || r.i + 1 >= r.qs.length) return; r.qs.push(r.qs.splice(r.i, 1)[0]); r.ans.splice(r.i, 1); r.sel = null; go("practice"); };
   const pp = $("#pprev"); if (pp) pp.onclick = () => { if (r.i > 0) { r.i--; r.sel = null; go("practice"); } };
   const nx = $("#next"); if (nx) nx.onclick = () => { r.sel = null; if (r.i + 1 < r.qs.length) { r.i++; go("practice"); } else finishPractice(); };
 };
