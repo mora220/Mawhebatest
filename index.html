@@ -5073,11 +5073,13 @@ window.FX=(function(){
   /* ---------- state ---------- */
   let F=null,tm=null,el=null;
   const progKey=()=>`mr_fx_prog_${who()}`;
-  const saveProg=()=>{if(F&&F.phase==='run')LS.set(progKey(),{lv:F.lv,secs:F.secs,sec:F.sec,cur:F.cur,ans:F.ans,flag:F.flag,left:F.left,used:F.used,secT:F.secT,ts:Date.now(),name:F.name});};
+  const saveProg=()=>{if(F&&F.phase==='run')LS.set(progKey(),{lv:F.lv,secs:F.secs,sec:F.sec,cur:F.cur,ans:F.ans,flag:F.flag,left:F.left,used:F.used,secT:F.secT,ts:Date.now(),name:F.name,exits:F.exits||0});};
   const item=k=>BANK.by[k];
   const $=s=>el.querySelector(s);
   function mount(){
     if(el)return;el=document.createElement('div');el.id='fx';document.body.appendChild(el);document.documentElement.classList.add('fx-on');
+    if(!document.getElementById('fxGuardCss')){const g=document.createElement('style');g.id='fxGuardCss';g.textContent=`#fx .fx-q{position:relative;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}#fx .fx-wm{position:absolute;inset:0;pointer-events:none;background-repeat:repeat;z-index:2;border-radius:inherit}#fx.fx-away .fx-body{filter:blur(18px)}`;document.head.appendChild(g);}
+    ['copy','cut','contextmenu','dragstart'].forEach(t=>el.addEventListener(t,e=>{if(running())e.preventDefault();}));
     el.addEventListener('click',e=>{const b=e.target.closest('[data-fx]');if(b&&ACT[b.dataset.fx])ACT[b.dataset.fx](b);});
   }
   function close(){clearInterval(tm);tm=null;if(el){el.remove();el=null;}F=null;document.documentElement.classList.remove('fx-on');try{renderHub();}catch(e){}}
@@ -5109,6 +5111,7 @@ window.FX=(function(){
         <li>${X('لكل قسم زمنه الخاص، وعند انتهاء الزمن ينتقل الاختبار تلقائيًا للقسم التالي.','Each section has its own time; when it ends the test moves to the next section automatically.')}</li>
         <li>${X('داخل القسم يمكنك التنقل بين الأسئلة وتمييز أي سؤال للمراجعة، ولا يمكن الرجوع لقسم بعد إنهائه.','Inside a section you can move between questions and flag any for review; you cannot return to a finished section.')}</li>
         <li>${X('لا يوجد خصم على الإجابة الخاطئة، فلا تترك سؤالًا بلا إجابة.','There is no penalty for wrong answers, so do not leave a question blank.')}</li>
+        <li>${X('إذا خرجت من شاشة الاختبار (تطبيق أو تبويب آخر) يُستبدل السؤال المفتوح بسؤال جديد، ويُسجَّل عدد مرات الخروج في نتيجتك. ونسخ نص الأسئلة غير متاح.','If you leave the test screen (another app or tab), the open question is replaced with a new one and the number of exits is recorded in your result. Copying the question text is not available.')}</li>
         <li>${X('القلم متاح طوال الاختبار للحل والتظليل، وتُمسح الكتابة عند الانتقال لسؤال آخر.','The pen is available throughout; your writing is cleared when you move to another question.')}</li>
         <li>${X('الأسئلة تتغير في كل محاولة حتى تحل كل أسئلة المستوى.','Questions change every attempt until you have solved all the questions of the level.')}</li>
       </ul>
@@ -5124,12 +5127,12 @@ window.FX=(function(){
   function needName(){const i=$('#fxName');if(!i)return true;const v=i.value.trim();if(v.length<2){i.focus();i.style.borderColor='#b42318';return false;}F.name=v;return true;}
   function start(){
     if(!needName())return;const lv=F.lv;
-    Object.assign(F,{phase:'run',secs:pickQs(lv),sec:0,cur:0,ans:{},flag:{},used:0,secT:Math.round(CFG[lv].min*60/4)});F.left=F.secT;
+    Object.assign(F,{phase:'run',secs:pickQs(lv),sec:0,cur:0,ans:{},flag:{},used:0,exits:0,secT:Math.round(CFG[lv].min*60/4)});F.left=F.secT;
     secGate();
   }
   function resume(){
     if(!needName())return;const p=LS.get(progKey(),null);if(!p)return intro();
-    Object.assign(F,{phase:'run',secs:p.secs,sec:p.sec,cur:p.cur,ans:p.ans||{},flag:p.flag||{},left:p.left,used:p.used||0,secT:p.secT});if(p.name&&!F.name)F.name=p.name;
+    Object.assign(F,{phase:'run',secs:p.secs,sec:p.sec,cur:p.cur,ans:p.ans||{},flag:p.flag||{},left:p.left,used:p.used||0,secT:p.secT,exits:p.exits||0});if(p.name&&!F.name)F.name=p.name;
     run();
   }
   /* ---------- section gate ---------- */
@@ -5156,7 +5159,7 @@ window.FX=(function(){
     el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`,clock())+
       `<div class="fx-sub"><span class="sec">${X(`القسم ${F.sec+1} من 4`,`Section ${F.sec+1} of 4`)}</span><span class="qn">${X(`السؤال ${F.cur+1} من ${n}`,`Question ${F.cur+1} of ${n}`)}</span></div>
       <div class="fx-bar"><i style="width:${(F.cur+1)/n*100}%"></i></div>
-      <div class="fx-body" id="fxBody"><div class="fx-card">
+      <div class="fx-body" id="fxBody"><div class="fx-card fx-q">${wm()}
         <div class="fx-qh"><b>${X('السؤال','Question')} ${F.cur+1}</b><button type="button" class="fx-flag" data-fx="flag" aria-pressed="${!!F.flag[key]}">⚑ ${F.flag[key]?X('مميّز للمراجعة','Flagged for review'):X('تمييز للمراجعة','Flag for review')}</button></div>
         <div class="fx-stem">${Lq.pass?`<div class="passage"><b>${t().readLbl}</b>${Lq.pass}</div>`:''}<p>${q.html?Lq.q:esc(Lq.q)}</p>${Lq.fig?`<div class="fig">${Lq.fig}</div>`:''}${typeof trBoxHTML==='function'?trBoxHTML(q,key):''}</div>
         <div class="fx-opts ${q.figOpts?'grid':''}" role="radiogroup">${q.order.map((k,pos)=>`<button type="button" class="fx-opt" role="radio" data-fx="pick" data-p="${pos}" aria-checked="${a===pos}"><span class="r"></span><span class="L">${t().let[pos]}</span><span class="c">${q.figOpts?Lq.o[k]:esc(Lq.o[k])}</span></button>`).join('')}</div>
@@ -5218,9 +5221,9 @@ window.FX=(function(){
     if(st.user&&st.user.role!=='admin'&&st.kid&&window.RG&&window.RG.saveResult){
       const keys=F.secs.flatMap(s=>s.keys);F.sync='saving';
       const data={studentCode:String(st.kid.code),studentName:F.name||st.kid.name||'',nameEdited:false,byCode:String(st.user.code),role:st.user.role,level:lv,model:9000+lv,hasAnswers:true,lang:lang||'ar',
-        modelName:'الاختبار المحاكي النهائي',partName:`الدرجة ${R.score} من ${FULL} · ${R.gradeAr}`,levelName:I18N.ar.levels[lv].short,
+        modelName:'الاختبار المحاكي النهائي',partName:`الدرجة ${R.score} من ${FULL} · ${R.gradeAr}${F.exits?` · خرج من شاشة الاختبار ${F.exits} مرة`:''}`,levelName:I18N.ar.levels[lv].short,
         percent:R.pct,right:R.right,wrong:R.wrong,blank:R.blank,total:R.total,usedSec:F.used,totalSec:CFG[lv].min*60,timestamp:F.ts,
-        fx:true,score:R.score,grade:R.gradeAr,aspects:Object.fromEntries(ASP.map(a=>[a,R.asp[a]])),fxKeys:keys,fxPicks:keys.map(k=>F.ans[k]===undefined?-1:F.ans[k])};
+        fx:true,fxExits:F.exits||0,score:R.score,grade:R.gradeAr,aspects:Object.fromEntries(ASP.map(a=>[a,R.asp[a]])),fxKeys:keys,fxPicks:keys.map(k=>F.ans[k]===undefined?-1:F.ans[k])};
       const answers=F.secs.flatMap(s=>s.keys).map((k,i)=>{const q=item(k).q,a=q.ar,p=F.ans[k];return {n:i+1,skill:a.skill,q:a.q,html:!!q.html,pass:a.pass||'',fig:a.fig||'',figOpts:!!q.figOpts,opts:q.order.map(o=>a.o[o]),pick:p===undefined?-1:p,ans:q.ans,flag:!!F.flag[k],e:a.e};});
       window.RG.saveResult(JSON.parse(JSON.stringify(data)),JSON.parse(JSON.stringify({studentCode:data.studentCode,byCode:data.byCode,timestamp:data.timestamp,answers}))).then(()=>{F.sync='ok';syncNote();}).catch(e=>{console.warn('FX save',e);F.sync='fail';syncNote();});
     }
@@ -5238,6 +5241,7 @@ window.FX=(function(){
       <div class="fxbig">${R.score} <small>/ ${FULL}</small></div><div class="fxgr">${X('التقييم','Rating')}: ${R.grade}</div>
       <p>${msg(R)}</p>${aspTable(R)}
       <div class="sig"><div><span class="sub">${T.cDate}</span><b>${date}</b></div><div><span class="sub">${T.cTrainer}</span><b>${T.cTrainerName}</b></div></div>
+      ${F.exits?`<div class="fxnote">${X(`مرات الخروج من شاشة الاختبار: ${F.exits}`,`Times the test screen was left: ${F.exits}`)}</div>`:''}
       <div class="fxnote">${X('شهادة تدريبية غير رسمية؛ الدرجة تقديرية على غرار سلّم مقياس موهبة ولا تمثّل نتيجة المقياس الرسمي.','Unofficial practice certificate; the score is an estimate modelled on the Mawhiba scale and is not an official result.')}</div></div>`;
   }
   function drawResult(){
@@ -5248,7 +5252,7 @@ window.FX=(function(){
         <p class="fx-msg ${R.score>=PASS?'pass':'near'}">${msg(R)}</p>
         <div class="fx-meter" dir="ltr"><i style="left:${pos(R.score)}"></i><span style="left:0">1000</span><span style="left:${pos(PASS)}">${PASS}</span><span style="left:${pos(TOP)}">${TOP}</span><span style="left:100%">${FULL}</span></div></div>
       ${aspTable(R)}
-      <p style="color:#55607a;font-size:14px">${X(`الوقت المستغرق: <b dir="ltr">${mmss(F.used)}</b> · صحيحة ${R.right} · خاطئة ${R.wrong} · بلا إجابة ${R.blank}`,`Time used: <b dir="ltr">${mmss(F.used)}</b> · correct ${R.right} · wrong ${R.wrong} · blank ${R.blank}`)}</p>
+      <p style="color:#55607a;font-size:14px">${X(`الوقت المستغرق: <b dir="ltr">${mmss(F.used)}</b> · صحيحة ${R.right} · خاطئة ${R.wrong} · بلا إجابة ${R.blank}${F.exits?` · مرات الخروج من شاشة الاختبار ${F.exits}`:''}`,`Time used: <b dir="ltr">${mmss(F.used)}</b> · correct ${R.right} · wrong ${R.wrong} · blank ${R.blank}${F.exits?` · times the test screen was left ${F.exits}`:''}`)}</p>
       <p id="fxSync" style="font-size:14px;color:#146c43"></p>
       <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:10px 0 18px"><button type="button" class="fx-b gold" data-fx="print">${X('طباعة الشهادة / حفظ PDF','Print certificate / save PDF')}</button><button type="button" class="fx-b pri" data-fx="answers">${X('مراجعة الإجابات والشرح','Review answers & explanations')}</button><button type="button" class="fx-b" data-fx="again">${X('اختبار جديد','New test')}</button><button type="button" class="fx-b" data-fx="home">${X('الرئيسية','Home')}</button></div>
       ${cert()}
@@ -5265,6 +5269,30 @@ window.FX=(function(){
           ${Lq.e?`<div class="ex"><b>${X('التوضيح','Explanation')}:</b> ${Lq.e}</div>`:''}</div>`;});});
     el.innerHTML=top(`${lvName(F.lv)} · ${esc(F.name)}`)+`<div class="fx-body"><div class="fx-card"><h2>${X('مراجعة الإجابات','Answer review')}</h2>${h}</div></div><div class="fx-bot"><button type="button" class="fx-b pri" data-fx="result">${X('رجوع للنتيجة','Back to the result')}</button></div>`;
   }
+
+  /* ---------- leaving the test screen: the open question is replaced and the exits are counted (no penalty) ---------- */
+  const running=()=>!!(F&&F.phase==='run'&&tm&&el);
+  let away=false;
+  function swapQ(){
+    const s=F.secs[F.sec];if(!s)return false;const old=s.keys[F.cur],it=item(old);if(!it)return false;
+    const used=new Set(F.secs.flatMap(x=>x.keys)),seen=new Set(LS.get(seenKey(F.lv),[]));
+    const P=pool(F.lv).filter(x=>x.asp===it.asp&&!used.has(x.key)),fresh=P.filter(x=>!seen.has(x.key)),from=fresh.length?fresh:P;
+    if(!from.length)return false;const nw=from[(Math.random()*from.length)|0];
+    s.keys[F.cur]=nw.key;delete F.ans[old];delete F.flag[old];seen.add(nw.key);LS.set(seenKey(F.lv),[...seen]);return true;
+  }
+  const goAway=()=>{if(!running()||away)return;away=true;el.classList.add('fx-away');};
+  const comeBack=()=>{
+    if(!away)return;away=false;if(!el)return;el.classList.remove('fx-away');if(!running())return;
+    F.exits=(F.exits||0)+1;const changed=swapQ();saveProg();draw();wipePen();
+    el.querySelectorAll('.fx-modal.fx-gm').forEach(x=>x.remove());
+    modal(X('خرجت من شاشة الاختبار','You left the test screen'),(changed?X('تم تغيير السؤال الذي كان مفتوحًا بسؤال جديد. ','The question that was open has been replaced with a new one. '):'')+X(`عدد مرات الخروج: <b>${F.exits}</b>، وسيظهر في نتيجتك.`,`Times you left: <b>${F.exits}</b>; this will appear in your result.`),[[X('متابعة الاختبار','Continue the test'),'pri']]);const lm=el.lastElementChild;if(lm&&lm.classList.contains('fx-modal'))lm.classList.add('fx-gm');
+  };
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)goAway();else if(document.hasFocus())comeBack();});
+  window.addEventListener('blur',goAway);
+  window.addEventListener('focus',()=>{if(!document.hidden)comeBack();});
+  const wm=()=>{const nm=String(F.name||'').trim(),cd=st.kid?String(st.kid.code||''):'';if(!nm&&!cd)return '';
+    const tx=esc([nm,cd].filter(Boolean).join(' · ')),svg=`<svg xmlns='http://www.w3.org/2000/svg' width='280' height='150'><text x='140' y='80' font-size='16' font-family='sans-serif' font-weight='700' fill='#0f4c5c' fill-opacity='.10' text-anchor='middle' transform='rotate(-22 140 75)'>${tx}</text></svg>`;
+    return `<div class="fx-wm" aria-hidden="true" style="background-image:url(&quot;data:image/svg+xml,${encodeURIComponent(svg)}&quot;)"></div>`;};
   window.addEventListener('beforeunload',()=>saveProg());
   return {open,close,_dbg:()=>({F,BANK})};
 })();
