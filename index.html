@@ -6122,6 +6122,66 @@ html.gm-open,html.gm-open body{overflow:hidden}
   .gm-top{gap:6px;padding-inline:10px}.gm-chip{padding:4px 8px;font-size:12.5px}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* ===== pro art layer ===== */
+.gm-lot{display:inline-block}
+.gm-lot>svg{display:block}
+.gm-owl{width:46px;height:46px;margin:-10px 0 -12px;flex:none;align-self:center}
+.gm-owlpick{width:104px;height:104px;display:block;margin:0 auto -8px}
+.gm-ck{width:34px;height:34px;vertical-align:middle;margin-inline-end:4px;margin-block:-8px}
+.gm-big{width:170px;height:170px;display:block;margin:-26px auto -16px;font-size:78px;line-height:170px}
+.gm-conf{position:absolute;inset:0;pointer-events:none;z-index:9}
+.gm-card .art{background:#0b1026}
+.gm-card .art svg{transition:transform .5s}
+.gm-card:hover .art svg,.gm-card:focus-visible .art svg{transform:scale(1.06)}
+.gm-mission{border:3px solid rgba(255,255,255,.9);box-shadow:0 12px 0 -6px rgba(0,0,0,.25),0 14px 28px -12px rgba(0,0,0,.6)}
+.gx-opt{box-shadow:0 5px 0 rgba(43,29,58,.35)}
+.gm-banner{border:3px solid #fde047;background:linear-gradient(180deg,#7c3aed,#4c1d95);box-shadow:0 8px 0 rgba(0,0,0,.3)}
+.kd svg{filter:drop-shadow(0 2px 0 rgba(0,0,0,.15))}
+/* dribble */
+.g-dribble{background:repeating-linear-gradient(180deg,#25a84f 0 56px,#1f9645 56px 112px)}
+.db-stripes{background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 80px,transparent 80px 160px)}
+.db-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,40,10,.35))}
+.db-box{position:absolute;top:0;inset-inline:7%;height:calc(clamp(84px,30%,170px) + 54px);border:3px solid rgba(255,255,255,.5);border-top:0;pointer-events:none}
+.db-goal{border-color:#fff;box-shadow:inset 0 0 0 2px rgba(0,0,0,.12),0 6px 10px -4px rgba(0,0,0,.4)}
+.db-kid,.db-def{width:46px;height:60px}
+.db-ball{width:24px;height:24px;font-size:0}
+.db-ball svg,.db-star svg,.rn-ob svg,.sh-met svg,.mz-chest svg{display:block;width:100%;height:100%}
+.db-star{width:30px;height:30px;font-size:0;filter:drop-shadow(0 0 8px rgba(253,224,71,.8))}
+/* runner */
+.g-runner{background:linear-gradient(180deg,#0f3d22,#14532d 45%,#166534)}
+.rn-canopy{position:absolute;top:0;left:0;width:100%;height:90px}
+.rn-lane{border-radius:12px 12px 0 0;background:radial-gradient(circle at 25% 30%,rgba(60,30,0,.28) 2.5px,transparent 3.5px) 0 var(--off,0px)/38px 38px,radial-gradient(circle at 70% 70%,rgba(255,240,200,.22) 2px,transparent 3px) 0 var(--off,0px)/46px 46px,repeating-linear-gradient(180deg,rgba(0,0,0,.09) 0 40px,transparent 40px 80px) 0 var(--off,0px),linear-gradient(90deg,#8d5a10,#c58b2b 18%,#d39a38 50%,#c58b2b 82%,#8d5a10);border-inline:4px solid #4d7c0f;box-shadow:inset 0 0 0 2px rgba(43,29,58,.25)}
+.rn-door{border-radius:999px 999px 6px 6px/60px 60px 6px 6px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,transparent 2px 20px),linear-gradient(180deg,#9a5a24,#5b3312);border:4px solid #a8a29e;box-shadow:0 0 0 3px var(--bc),0 10px 16px -6px rgba(0,0,0,.6);padding-top:12px}
+.rn-ob.coin{width:26px!important;height:26px!important;animation:mzSpin 1.2s linear infinite}
+.rn-kid svg{display:block;width:100%;height:100%}
+/* shooter */
+.sh-neb{position:absolute;inset:0;background:radial-gradient(420px 260px at 85% 75%,rgba(124,58,237,.35),transparent 70%),radial-gradient(360px 240px at 10% 20%,rgba(219,39,119,.22),transparent 70%)}
+.sh-pl{position:absolute;width:150px;right:-30px;bottom:14%;animation:shDrift 26s ease-in-out infinite alternate}
+.sh-moon{position:absolute;width:44px;left:6%;top:44%;animation:shDrift 18s ease-in-out infinite alternate-reverse}
+@keyframes shDrift{to{transform:translate(-18px,14px) rotate(6deg)}}
+.sh-ship{width:68px;filter:drop-shadow(0 0 10px rgba(251,146,60,.5))}
+.sh-saucer{width:min(100%,104px)}
+.sh-met{width:40px;height:56px}
+.sh-met .mt-rock{transform-box:fill-box;transform-origin:50% 50%;animation:mtSpin 1.6s linear infinite}
+@keyframes mtSpin{to{transform:rotate(360deg)}}
+/* castle */
+.g-castle{background:linear-gradient(180deg,#38bdf8 0,#7dd3fc 40%,#e0f2fe 70%,#bbf7d0 100%)}
+.cs-sun{position:absolute;top:32%;inset-inline-end:8%;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#fff7c2 0 40%,#fde047 41% 62%,rgba(253,224,71,0) 63%);box-shadow:0 0 60px 20px rgba(253,224,71,.45);animation:gmPulse 4s ease-in-out infinite}
+.cs-hills{position:absolute;left:0;bottom:0;width:100%;height:58%}
+.cs-mon{width:clamp(72px,16vw,116px);aspect-ratio:1;margin-block:-22px;margin-inline:-8px;filter:drop-shadow(0 6px 3px rgba(0,0,0,.28))}
+.cs-mon .gm-lot{display:block;width:100%;height:100%;filter:hue-rotate(var(--hue,0deg)) saturate(1.1)}
+.cs-mon .gm-lot:not(.on) svg{width:80%;margin:10%}
+.cs-barrel i{width:40px;height:16px;top:-8px;background:linear-gradient(180deg,#78716c,#292524 55%,#0c0a09);border:2px solid #2b1d3a;border-radius:4px 8px 8px 4px;box-shadow:inset -6px 0 0 #44403c}
+.cs-ball{box-shadow:0 0 0 2px #2b1d3a}
+/* maze */
+.g-maze{background-color:#231d36;background-image:radial-gradient(300px 220px at 15% 20%,rgba(251,146,60,.16),transparent 70%),radial-gradient(300px 220px at 85% 80%,rgba(251,146,60,.14),transparent 70%),linear-gradient(rgba(0,0,0,.28) 2px,transparent 2px),linear-gradient(90deg,rgba(0,0,0,.28) 2px,transparent 2px),linear-gradient(135deg,#2c2544,#221c35);background-size:auto,auto,34px 34px,34px 34px,auto}
+.mz-walls path{stroke:#b9acd8;stroke-width:6;stroke-linecap:round;filter:none}
+.mz-walls path.mz-sh{stroke:#120e1f;stroke-width:8;opacity:.7}
+.mz-chest{position:absolute;width:30px;height:24px;top:-12px;inset-inline-end:-8px;z-index:3;filter:drop-shadow(0 3px 2px rgba(0,0,0,.5))}
+.mz-room{position:absolute}
+.mz-room.open .mz-chest{animation:pkNet .7s 2}
+.mz-ghost{filter:drop-shadow(0 0 10px rgba(196,181,253,.85))}
+@media (max-width:560px){.gm-owl{width:38px;height:38px}.gm-owlpick{width:84px;height:84px}.db-kid,.db-def{width:40px;height:52px}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
 .db-card,.rn-card,.sh-card{flex-direction:column;justify-content:center;text-align:center;gap:4px;padding:6px 5px}
 .db-card .val,.rn-card .val,.sh-card .val{flex:0 1 auto;overflow-wrap:normal;word-break:normal;hyphens:none}
@@ -7336,7 +7396,7 @@ const GM_TX = {
   }
 };
 const gt = (k, ...a) => { const v = k.split(".").reduce((o, x) => o && o[x], GM_TX[LANGUI === "en" ? "en" : "ar"]); return typeof v === "function" ? v(...a) : v; };
-const GM = { el: null, st: null, raf: 0, mute: !!store.get("gm-mute", false), n: store.get("gm-len", 10), timers: [] };
+const GM = { el: null, st: null, raf: 0, mute: !!store.get("gm-mute", false), n: store.get("gm-len", 10), timers: [], lots: [] };
 const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
@@ -7354,25 +7414,102 @@ function gmSnd(k) {
 }
 
 /* ---- art ---- */
-const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><rect class="lg2" x="34" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/></g><g class="mo-body"><path d="M16 15 L11 2 L24 11Z M44 15 L49 2 L36 11Z" fill="#fef3c7" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><path d="M8 38 Q6 10 30 9 Q54 10 52 38 Q52 54 30 54 Q8 54 8 38Z" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="2"/><ellipse cx="30" cy="44" rx="13" ry="6" fill="rgba(255,255,255,.18)"/><circle cx="22" cy="27" r="7.5" fill="#fff"/><circle cx="38" cy="27" r="7.5" fill="#fff"/><circle class="mo-eye" cx="22" cy="28" r="3.6" fill="#111"/><circle class="mo-eye" cx="38" cy="28" r="3.6" fill="#111"/><path d="M20 39 Q30 47 40 39" stroke="#111" stroke-width="2.6" fill="#7f1d1d" stroke-linecap="round"/><path d="M24 40 l2.2 3.4 l2.2 -3 M32 40.5 l2.2 3 l2.2 -3.4" fill="#fff"/></g></svg>`;
-const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="20" height="12" patternUnits="userSpaceOnUse"><rect width="20" height="12" fill="#a8a29e"/><path d="M0 0H20M0 6H20M10 0V6M0 6V12M20 6V12" stroke="#78716c" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V0 H12 V8 H24 V0 H36 V8 H48 V0 H60 V8 H70 V16Z" fill="#a8a29e" stroke="#78716c" stroke-width="1.5"/><rect x="62" y="16" width="8" height="184" fill="#57534e" opacity=".35"/></svg>`;
-const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><circle cx="20" cy="18" r="11" fill="#7c2d12" stroke="#431407" stroke-width="2"/><circle cx="20" cy="18" r="3" fill="#fbbf24"/><path d="M9 18 H31 M20 7 V29" stroke="#431407" stroke-width="2"/></svg>`;
-const gmExplorer = `<svg viewBox="0 0 40 46" aria-hidden="true"><ellipse cx="20" cy="43" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><rect x="11" y="24" width="18" height="15" rx="6" fill="#16a34a"/><rect x="13" y="37" width="5" height="7" rx="2.5" fill="#78350f"/><rect x="22" y="37" width="5" height="7" rx="2.5" fill="#78350f"/><circle cx="20" cy="17" r="9" fill="#fcd9b6"/><path d="M6 13 Q20 10 34 13 Q32 15 20 15 Q8 15 6 13Z" fill="#92400e"/><path d="M12 13 Q12 2 20 2 Q28 2 28 13Z" fill="#b45309"/><rect x="12" y="10" width="16" height="3" fill="#451a03"/><circle cx="16.5" cy="18" r="1.6" fill="#1e293b"/><circle cx="23.5" cy="18" r="1.6" fill="#1e293b"/><path d="M16.5 22 Q20 24.5 23.5 22" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M29 27 l5 -6" stroke="#fcd9b6" stroke-width="4" stroke-linecap="round"/><circle cx="35" cy="19" r="3.4" fill="#facc15" stroke="#b45309" stroke-width="1.2"/></svg>`;
-const gmGhost = `<svg viewBox="0 0 40 44" aria-hidden="true"><path d="M5 40 V20 Q5 4 20 4 Q35 4 35 20 V40 L30 35 L25 40 L20 35 L15 40 L10 35Z" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/><ellipse cx="14.5" cy="19" rx="3.6" ry="5" fill="#1e293b"/><ellipse cx="25.5" cy="19" rx="3.6" ry="5" fill="#1e293b"/><ellipse cx="20" cy="29" rx="4" ry="3" fill="#1e293b"/></svg>`;
-const gmCoin = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#facc15" stroke="#b45309" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fde68a" stroke-width="2"/><path d="M8 8 l3 -2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
-const gmRock = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 14 L16 5 L28 6 L36 16 L33 30 L20 36 L8 30 L4 21Z" fill="#78716c" stroke="#44403c" stroke-width="2"/><circle cx="15" cy="16" r="3.5" fill="#57534e"/><circle cx="25" cy="25" r="4.5" fill="#57534e"/><circle cx="27" cy="13" r="2" fill="#57534e"/></svg>`;
+/* ---- pro art: outlined sticker-style sprites (one outline colour, base + shade + highlight) ---- */
+const GO = "#2b1d3a";
+const gmStarPath = (cx, cy, R, r) => { let p = ""; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r : R; p += (i ? "L" : "M") + (cx + Math.cos(a) * q).toFixed(1) + " " + (cy + Math.sin(a) * q).toFixed(1); } return p + "Z"; };
+const gmAt = (svg, x, y, w, h, extra = "") => svg.replace("<svg ", `<svg x="${x}" y="${y}" width="${w}" height="${h}" ${extra} `);
 const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
-const gmKid = (sh, pa) => `<svg viewBox="0 0 40 52" aria-hidden="true"><ellipse cx="20" cy="49" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><g class="kd-legs"><rect class="lg1" x="13" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect class="lg2" x="21" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect x="12" y="44" width="8" height="5" rx="2" fill="#111827"/><rect x="20" y="44" width="8" height="5" rx="2" fill="#111827"/></g><rect x="11" y="29" width="18" height="8" rx="3" fill="${pa}"/><g class="kd-arms"><path d="M11 20 l-6 9 M29 20 l6 9" stroke="${sh}" stroke-width="5" stroke-linecap="round"/></g><rect x="10" y="17" width="20" height="15" rx="6" fill="${sh}"/><circle cx="20" cy="10.5" r="8" fill="#fcd9b6"/><path d="M12 9 Q20 -1 28 9 Q24 5.5 20 5.5 Q16 5.5 12 9Z" fill="#3f2a14"/><circle cx="17" cy="11.5" r="1.4" fill="#1e293b"/><circle cx="23" cy="11.5" r="1.4" fill="#1e293b"/><path d="M17 14.5 Q20 16.5 23 14.5" stroke="#1e293b" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>`;
-const gmUfo = c => `<svg viewBox="0 0 80 40" aria-hidden="true"><ellipse cx="40" cy="15" rx="15" ry="12" fill="#bae6fd" stroke="#0ea5e9" stroke-width="2" opacity=".92"/><ellipse cx="36" cy="11" rx="4" ry="3" fill="#fff" opacity=".7"/><ellipse cx="40" cy="24" rx="37" ry="10" fill="${c}" stroke="rgba(0,0,0,.3)" stroke-width="2"/><g class="uf-l" fill="#fde047"><circle cx="18" cy="25" r="2.8"/><circle cx="31" cy="27.5" r="2.8"/><circle cx="49" cy="27.5" r="2.8"/><circle cx="62" cy="25" r="2.8"/></g><path d="M27 33 L21 40 M53 33 L59 40" stroke="${c}" stroke-width="3" stroke-linecap="round"/></svg>`;
-const gmLog = `<svg viewBox="0 0 60 26" aria-hidden="true"><rect x="4" y="5" width="52" height="16" rx="8" fill="#92400e" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="5" ry="8" fill="#d6a46b" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="2" ry="3.5" fill="none" stroke="#92400e" stroke-width="1.5"/><path d="M12 10 H34 M16 16 H40" stroke="#78350f" stroke-width="2" stroke-linecap="round"/></svg>`;
+const gmKid = (sh, pa, mood = "happy", o = {}) => {
+  const sk = o.sk || "#f6c7a1", hr = o.hair || "#3b2416", num = o.num == null ? "" : o.num, sock = o.sock || "#fff", S = `stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"`;
+  const brow = mood === "angry" ? `M29.5 13.5 L37 16.5 M50.5 13.5 L43 16.5` : `M30 15.5 Q33.5 13 37 15 M43 15 Q46.5 13 50 15.5`;
+  const mouth = mood === "angry" ? `<path d="M35 28.6 Q40 25.4 45 28.6" stroke="${GO}" stroke-width="2" fill="none" stroke-linecap="round"/>` : `<path d="M34.6 26.6 Q40 32.5 45.4 26.6 Z" fill="#8a1c2c" ${S} stroke-width="1.5"/><path d="M37.5 29.4 Q40 31 42.5 29.4" stroke="#f08a8a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  const hat = o.hat ? `<path d="M17 15.5 Q40 7 63 15.5 Q61 19.5 40 19.5 Q19 19.5 17 15.5Z" fill="#c8913f" ${S}/><path d="M26 14.5 Q26 1.5 40 1.5 Q54 1.5 54 14.5 Q40 17 26 14.5Z" fill="#dba552" ${S}/><path d="M26.4 11.5 Q40 14 53.6 11.5 L54 14.5 Q40 17 26 14.5Z" fill="#7c3f12"/><path d="M31 6 Q35 3 40 3" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none" stroke-linecap="round"/>`
+    : `<path d="M24.6 20 Q22.5 4 40 4 Q57.5 4 55.4 20 Q53 13 47.5 11.5 Q44 15 38 14 Q32.5 13 31 10.5 Q26.5 13.5 24.6 20Z" fill="${hr}" ${S} stroke-width="2"/><path d="M31 8 Q35 5.6 40 5.4" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  const pack = o.pack ? `<path d="M18 37 Q16 52 22 58 L27 56 L26 36Z" fill="#b45309" ${S}/>` : "";
+  return `<svg viewBox="0 0 80 104" aria-hidden="true"><ellipse cx="40" cy="100" rx="19" ry="3.6" fill="rgba(0,0,0,.28)"/>${pack}
+<g class="kd-legs"><g class="lg1"><rect x="27.5" y="63" width="10.5" height="24" rx="5" fill="${sk}" ${S}/><rect x="27.5" y="75" width="10.5" height="12" rx="3" fill="${sock}" ${S}/><path d="M23 86.5 H38.5 V92 Q38.5 95 35.5 95 H22.5 Q19.5 95 20.5 91.5 Q21 86.5 23 86.5Z" fill="#1f2937" ${S}/><path d="M23 89 H36" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/></g>
+<g class="lg2"><rect x="42" y="63" width="10.5" height="24" rx="5" fill="${sk}" ${S}/><rect x="42" y="75" width="10.5" height="12" rx="3" fill="${sock}" ${S}/><path d="M41.5 86.5 H57 Q59 86.5 59.5 91.5 Q60.5 95 57.5 95 H44.5 Q41.5 95 41.5 92Z" fill="#1f2937" ${S}/><path d="M44 89 H57" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/></g></g>
+<path d="M23.5 55 H56.5 L59 71 Q50 74.5 42 71.5 L40 66 L38 71.5 Q30 74.5 21 71Z" fill="${pa}" ${S}/><path d="M48 56 H56.5 L59 71 Q54 73 49 72.5Z" fill="rgba(0,0,0,.18)"/>
+<g class="kd-arms"><path d="M24 39 Q15 47 14 60 M56 39 Q65 47 66 60" stroke="${GO}" stroke-width="10.6" stroke-linecap="round" fill="none"/><path d="M24 39 Q15 47 14 60 M56 39 Q65 47 66 60" stroke="${sk}" stroke-width="6.2" stroke-linecap="round" fill="none"/><circle cx="14" cy="61" r="4.6" fill="${sk}" ${S}/><circle cx="66" cy="61" r="4.6" fill="${sk}" ${S}/></g>
+<rect x="35" y="27" width="10" height="7" fill="${sk}" ${S}/>
+<path d="M24.5 33.5 Q15.5 36.5 13.5 46 L21.5 49 Q23.5 43 26 41Z M55.5 33.5 Q64.5 36.5 66.5 46 L58.5 49 Q56.5 43 54 41Z" fill="${sh}" ${S}/>
+<path d="M22.5 38 Q23 31.5 31 31 H49 Q57 31.5 57.5 38 L58.5 58 Q40 62 21.5 58Z" fill="${sh}" ${S}/><path d="M49 31.4 Q56.8 32 57.4 38 L58.4 57.6 Q53 59 48 59.4Z" fill="rgba(0,0,0,.17)"/><path d="M27 36 Q25.5 39 25.5 46" stroke="rgba(255,255,255,.45)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+<path d="M34 31.2 Q40 37.5 46 31.2" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2.6" stroke-linecap="round"/>
+${num !== "" ? `<text x="40" y="52.5" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="13" text-anchor="middle" fill="#fff" stroke="${GO}" stroke-width=".9" paint-order="stroke">${num}</text>` : ""}
+<circle cx="24.6" cy="21.5" r="3.6" fill="${sk}" ${S} stroke-width="1.8"/><circle cx="55.4" cy="21.5" r="3.6" fill="${sk}" ${S} stroke-width="1.8"/>
+<circle cx="40" cy="20" r="15.2" fill="${sk}" ${S}/><path d="M49 8.5 Q55.5 13.5 55 22 Q53.5 31 45 34 Q51 27 49 8.5Z" fill="rgba(0,0,0,.08)"/>
+${hat}
+<ellipse cx="34" cy="21.4" rx="3.4" ry="4" fill="#fff" stroke="${GO}" stroke-width="1.2"/><ellipse cx="46" cy="21.4" rx="3.4" ry="4" fill="#fff" stroke="${GO}" stroke-width="1.2"/>
+<circle cx="34.7" cy="22.1" r="2.15" fill="#1b1230"/><circle cx="46.7" cy="22.1" r="2.15" fill="#1b1230"/><circle cx="35.5" cy="21" r=".85" fill="#fff"/><circle cx="47.5" cy="21" r=".85" fill="#fff"/>
+<path d="${brow}" stroke="${GO}" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+<circle cx="29.2" cy="26.2" r="2.6" fill="#ff7b8a" opacity=".45"/><circle cx="50.8" cy="26.2" r="2.6" fill="#ff7b8a" opacity=".45"/>${mouth}</svg>`;
+};
+const gmExplorer = gmKid("#15803d", "#a16207", "happy", { hat: 1, pack: 1, sock: "#a16207" });
+const gmBall = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17.5" fill="#fff" stroke="${GO}" stroke-width="2.2"/><path d="M20 12.5 L27 17.6 L24.4 25.8 H15.6 L13 17.6Z" fill="#1f2937"/><path d="M20 12.5 V3 M27 17.6 L36 14.5 M24.4 25.8 L30 33.5 M15.6 25.8 L10 33.5 M13 17.6 L4 14.5" stroke="#1f2937" stroke-width="1.6"/><path d="M13.5 3.6 L20 3 L26.5 3.6 L20 6.6Z M36.6 22 L37.3 14 L33 19Z M3.4 22 L2.7 14 L7 19Z M23 37 L31 33 L26 31.5Z M17 37 L9 33 L14 31.5Z" fill="#1f2937"/><path d="M8 13 Q11 7 17 5" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".9"/><path d="M34 26 Q30 34 21 36.5 Q30 30 34 26Z" fill="rgba(0,0,0,.12)"/></svg>`;
+const gmStar = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="${gmStarPath(20, 21, 17, 7.6)}" fill="#fbbf24" stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"/><path d="${gmStarPath(20, 21, 10, 4.5)}" fill="#fde68a"/><path d="M13 14 Q15 10 18 9" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+const gmCoin = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21.5" r="16" fill="#c27c0e" stroke="${GO}" stroke-width="2.2"/><circle cx="20" cy="19.5" r="16" fill="#f5b301" stroke="${GO}" stroke-width="2.2"/><circle cx="20" cy="19.5" r="11.5" fill="#ffd23f" stroke="#c27c0e" stroke-width="1.6"/><path d="${gmStarPath(20, 20, 7.2, 3.1)}" fill="#f5b301" stroke="#c27c0e" stroke-width="1.2" stroke-linejoin="round"/><path d="M9.5 14 Q12.5 8.5 19 7.2" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"/></svg>`;
+const gmRock = `<svg viewBox="0 0 60 54" aria-hidden="true"><ellipse cx="31" cy="49" rx="25" ry="4.5" fill="rgba(0,0,0,.28)"/><path d="M6 45 L4 30 L12 14 L26 6 L42 8 L54 19 L57 36 L50 46Z" fill="#8f94a0" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M42 8 L54 19 L57 36 L50 46 L35 47 L40 30Z" fill="#6c717d"/><path d="M12 14 L26 6 L31 16 L17 24Z" fill="#b8bdc8"/><path d="M26 6 L42 8 L40 30 L31 16Z" fill="#a0a5b0"/><path d="M20 30 l7 4 l3 8 M44 22 l-4 6" stroke="${GO}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".6"/><path d="M6 45 Q14 38 25 42 Q18 47 6 45Z M44 46.5 Q49 42 55 40 Q54 45 50 46Z" fill="#65a30d" stroke="${GO}" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
+const gmLog = `<svg viewBox="0 0 120 52" aria-hidden="true"><ellipse cx="60" cy="46" rx="54" ry="5" fill="rgba(0,0,0,.28)"/><rect x="8" y="10" width="100" height="32" rx="16" fill="#8a4b1c" stroke="${GO}" stroke-width="2.4"/><path d="M14 33 Q60 40 100 33 V38 Q60 46 14 38Z" fill="rgba(0,0,0,.2)"/><path d="M22 18 H62 M30 26 H80 M18 33 H44 M70 18 H88" stroke="#5b2e0e" stroke-width="2.4" stroke-linecap="round"/><path d="M20 15 H50" stroke="rgba(255,255,255,.28)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="102" cy="26" rx="10" ry="16" fill="#e4b47a" stroke="${GO}" stroke-width="2.4"/><ellipse cx="102" cy="26" rx="6" ry="10" fill="none" stroke="#b07a3e" stroke-width="1.8"/><ellipse cx="102" cy="26" rx="2.4" ry="4.2" fill="#b07a3e"/><path d="M48 10 Q44 2 52 0 Q54 7 48 10Z" fill="#22c55e" stroke="${GO}" stroke-width="1.6"/></svg>`;
+const gmMeteor = `<svg viewBox="0 0 60 84" aria-hidden="true"><path d="M30 2 Q50 36 44 60 L16 60 Q10 36 30 2Z" fill="#f97316" opacity=".88"/><path d="M30 18 Q42 42 38 60 L22 60 Q18 42 30 18Z" fill="#fde047" opacity=".95"/><g class="mt-rock"><circle cx="30" cy="62" r="17" fill="#8b6f5c" stroke="${GO}" stroke-width="2.4"/><path d="M41 51 Q49 62 42 73 Q35 79 25 78 Q40 71 41 51Z" fill="rgba(0,0,0,.22)"/><circle cx="24" cy="58" r="4.4" fill="#6b5444" stroke="${GO}" stroke-width="1.4"/><circle cx="35" cy="68" r="3.2" fill="#6b5444" stroke="${GO}" stroke-width="1.2"/><circle cx="35" cy="55" r="2" fill="#6b5444"/><path d="M19 54 Q22 49 27 48" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none" stroke-linecap="round"/></g></svg>`;
+const gmRocket = (c1, c2) => `<svg viewBox="0 0 100 60" aria-hidden="true"><g class="fl"><path d="M17 22 Q-8 30 17 38 Q6 30 17 22Z" fill="#fb923c"/><path d="M17 25 Q2 30 17 35Z" fill="#fef08a"/></g><rect x="11" y="23" width="9" height="14" rx="2.5" fill="#475569" stroke="${GO}" stroke-width="2.2"/>
+<path d="M38 22 L27 4 Q26 1 30 1 H45 Q49 1.5 51 5.5 L60 22Z M38 38 L27 56 Q26 59 30 59 H45 Q49 58.5 51 54.5 L60 38Z" fill="${c2}" stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"/><circle cx="34" cy="6" r="2.4" fill="#f87171" stroke="${GO}" stroke-width="1.2"/><circle cx="34" cy="54" r="2.4" fill="#4ade80" stroke="${GO}" stroke-width="1.2"/>
+<path d="M17 21.5 H62 Q90 23.5 98.5 30 Q90 36.5 62 38.5 H17 Q13 30 17 21.5Z" fill="${c1}" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M15.5 31 H98.5 Q90 36.5 62 38.5 H17 Q14 35 15.5 31Z" fill="rgba(0,0,0,.18)"/><path d="M22 25 H58" stroke="rgba(255,255,255,.5)" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M85 25.6 Q94 27.6 98.5 30 Q94 32.4 85 34.4Z" fill="#ef4444" stroke="${GO}" stroke-width="1.8" stroke-linejoin="round"/><path d="M38 22 V38 M44 22 V38" stroke="${c2}" stroke-width="3"/>
+<ellipse cx="67" cy="29.5" rx="11" ry="5.6" fill="#7dd3fc" stroke="${GO}" stroke-width="2.2"/><path d="M60.5 28 Q64 25.6 70 25.6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+const gmUfo = c => `<svg viewBox="0 0 100 62" aria-hidden="true"><ellipse cx="50" cy="23" rx="9.5" ry="10.5" fill="#86efac" stroke="${GO}" stroke-width="1.8"/><path d="M45 13.5 L42 7 M55 13.5 L58 7" stroke="${GO}" stroke-width="1.6"/><circle cx="42" cy="6.5" r="2.2" fill="#fde047" stroke="${GO}" stroke-width="1.2"/><circle cx="58" cy="6.5" r="2.2" fill="#fde047" stroke="${GO}" stroke-width="1.2"/><ellipse cx="46" cy="22" rx="2.8" ry="3.6" fill="#111827"/><ellipse cx="54" cy="22" rx="2.8" ry="3.6" fill="#111827"/><circle cx="46.8" cy="20.8" r=".9" fill="#fff"/><circle cx="54.8" cy="20.8" r=".9" fill="#fff"/><path d="M47 28 Q50 30 53 28" stroke="${GO}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<path d="M29 32 Q29 6 50 6 Q71 6 71 32Z" fill="#bae6fd" fill-opacity=".45" stroke="${GO}" stroke-width="2.2"/><path d="M35 22 Q37 12 45 9.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".85"/>
+<ellipse cx="50" cy="38" rx="46" ry="12.5" fill="${c}" stroke="${GO}" stroke-width="2.4"/><path d="M4.4 39.5 Q50 62 95.6 39.5 Q90 49 50 51 Q10 49 4.4 39.5Z" fill="rgba(0,0,0,.25)"/><ellipse cx="50" cy="32.5" rx="30" ry="5.5" fill="rgba(255,255,255,.3)"/><ellipse cx="50" cy="31.5" rx="21" ry="3.4" fill="#64748b" stroke="${GO}" stroke-width="1.6"/>
+<g class="uf-l" fill="#fde047" stroke="${GO}" stroke-width="1.2"><circle cx="16" cy="40" r="3"/><circle cx="32" cy="44" r="3"/><circle cx="50" cy="45.5" r="3"/><circle cx="68" cy="44" r="3"/><circle cx="84" cy="40" r="3"/></g></svg>`;
+const gmGhost = `<svg viewBox="0 0 60 66" aria-hidden="true"><path d="M8 60 V28 Q8 6 30 6 Q52 6 52 28 V60 L45 53.5 L37.5 61 L30 54 L22.5 61 L15 53.5Z" fill="#f8fafc" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M39 8.5 Q52 13 52 28 V60 L45 53.5 L43.5 29 Q43.5 15 39 8.5Z" fill="#c7d2fe" opacity=".6"/><path d="M8 34 Q1 35 1.5 43 M52 34 Q59 33 60 26" stroke="${GO}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M15 17 Q18 11 24 10" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse cx="22.5" cy="27" rx="4.4" ry="5.6" fill="#1b1230"/><ellipse cx="37.5" cy="27" rx="4.4" ry="5.6" fill="#1b1230"/><circle cx="24" cy="25" r="1.5" fill="#fff"/><circle cx="39" cy="25" r="1.5" fill="#fff"/><ellipse cx="30" cy="39" rx="4.4" ry="5" fill="#1b1230"/><ellipse cx="30" cy="41" rx="2.4" ry="2" fill="#f472b6"/><circle cx="16.5" cy="35" r="3" fill="#f9a8d4" opacity=".6"/><circle cx="43.5" cy="35" r="3" fill="#f9a8d4" opacity=".6"/></svg>`;
+const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="47" width="10" height="16" rx="5" fill="${c}" stroke="${GO}" stroke-width="2.2"/><rect class="lg2" x="33" y="47" width="10" height="16" rx="5" fill="${c}" stroke="${GO}" stroke-width="2.2"/></g><g class="mo-body"><path d="M16 15 L10 1.5 L25 10.5Z M44 15 L50 1.5 L35 10.5Z" fill="#fef3c7" stroke="${GO}" stroke-width="2" stroke-linejoin="round"/><path d="M7 37 Q5 9 30 8.5 Q55 9 53 37 Q53 54 30 54 Q7 54 7 37Z" fill="${c}" stroke="${GO}" stroke-width="2.4"/><path d="M42 11.5 Q54 18 53 37 Q53 51 38 53.5 Q48 44 42 11.5Z" fill="rgba(0,0,0,.16)"/><path d="M14 22 Q16 14 23 12" stroke="rgba(255,255,255,.5)" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="21.5" cy="27" r="7.6" fill="#fff" stroke="${GO}" stroke-width="1.6"/><circle cx="38.5" cy="27" r="7.6" fill="#fff" stroke="${GO}" stroke-width="1.6"/><circle class="mo-eye" cx="22.5" cy="28" r="3.7" fill="#1b1230"/><circle class="mo-eye" cx="37.5" cy="28" r="3.7" fill="#1b1230"/><circle cx="23.6" cy="26.6" r="1.3" fill="#fff"/><circle cx="38.6" cy="26.6" r="1.3" fill="#fff"/><path d="M19 39 Q30 48 41 39 Q30 43 19 39Z" fill="#7f1d1d" stroke="${GO}" stroke-width="2" stroke-linejoin="round"/><path d="M23.5 40.6 l2.2 3.2 l2.2 -2.6 M32.3 41.2 l2.2 2.6 l2.2 -3.2" fill="#fff"/></g></svg>`;
+const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="22" height="14" patternUnits="userSpaceOnUse"><rect width="22" height="14" fill="#bdb2a6"/><path d="M0 .7H22M0 7.7H22M11 .7V7.7M.7 7.7V14M21.3 7.7V14" stroke="#857a6e" stroke-width="1.4"/><path d="M2 2.4H9M13 9.4H20" stroke="#d9d0c6" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V1 H12 V8 H24 V1 H36 V8 H48 V1 H60 V8 H70 V16Z" fill="#cfc6bb" stroke="${GO}" stroke-width="2"/><rect x="0" y="16" width="70" height="5" fill="#9b9084"/><rect x="58" y="16" width="12" height="184" fill="rgba(43,29,58,.28)"/><path d="M26 64 Q32 54 38 64 V84 H26Z M26 134 Q32 124 38 134 V154 H26Z" fill="#2b1d3a" stroke="#6b5f54" stroke-width="2"/></svg>`;
+const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><path d="M6 20 L14 9 H28 L34 20Z" fill="#8a4b1c" stroke="${GO}" stroke-width="2"/><circle cx="20" cy="20" r="9" fill="#5b2e0e" stroke="${GO}" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="none" stroke="#c08a3e" stroke-width="1.6"/><path d="M14 20 H26 M20 14 V26" stroke="#c08a3e" stroke-width="1.6"/><circle cx="20" cy="20" r="2.2" fill="#fbbf24" stroke="${GO}" stroke-width="1"/></svg>`;
+const gmChest = `<svg viewBox="0 0 60 48" aria-hidden="true"><path d="M6 20 Q6 4 30 4 Q54 4 54 20Z" fill="#b45309" stroke="${GO}" stroke-width="2.2"/><rect x="6" y="20" width="48" height="24" rx="3" fill="#92400e" stroke="${GO}" stroke-width="2.2"/><path d="M6 20 H54" stroke="#fbbf24" stroke-width="4"/><path d="M14 5.5 V44 M46 5.5 V44" stroke="#fbbf24" stroke-width="4"/><rect x="25" y="16" width="10" height="12" rx="2" fill="#fde047" stroke="${GO}" stroke-width="1.8"/><circle cx="30" cy="22" r="1.8" fill="${GO}"/><path d="M12 10 Q20 6 28 6" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+
+/* ---- picker art (scenes built from the same sprites) ---- */
+const gmSky = (a, b) => `<defs><linearGradient id="sk${a.slice(1)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="300" height="128" fill="url(#sk${a.slice(1)})"/>`;
 const GM_GAMES = [
-  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#16a34a"/><g fill="#15803d"><rect x="0" y="0" width="50" height="128"/><rect x="100" y="0" width="50" height="128"/><rect x="200" y="0" width="50" height="128"/></g><g fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="4"><rect x="16" y="4" width="78" height="34" rx="3"/><rect x="111" y="4" width="78" height="34" rx="3"/><rect x="206" y="4" width="78" height="34" rx="3"/></g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="55" y="28">أ</text><text x="150" y="28">ب</text><text x="245" y="28">ج</text></g><circle cx="150" cy="80" r="26" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/><g transform="translate(70 54) scale(.95)">${gmIn(gmKid("#dc2626", "#111827"))}</g><g transform="translate(196 62) scale(1.1)">${gmIn(gmKid("#2563eb", "#1e3a8a"))}</g><text x="232" y="122" font-size="20" text-anchor="middle">⚽</text><path d="M226 104 Q220 70 245 42" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
-  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#14532d"/><path d="M60 0 L0 128 H300 L240 0Z" fill="#a16207"/><path d="M120 0 L100 128 M180 0 L200 128" stroke="#fde68a" stroke-width="3" stroke-dasharray="10 8"/><g stroke-width="4"><rect x="66" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#ef4444"/><rect x="124" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#f59e0b"/><rect x="182" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#22c55e"/></g><g font-size="17" font-weight="900" text-anchor="middle"><text x="92" y="25" fill="#ef4444">أ</text><text x="150" y="25" fill="#f59e0b">ب</text><text x="208" y="25" fill="#22c55e">ج</text></g><g transform="translate(118 52) scale(.7)">${gmIn(gmLog)}</g><g transform="translate(184 64) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(184 86) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(130 76) scale(1.05)">${gmIn(gmKid("#f59e0b", "#7c2d12"))}</g><text x="20" y="60" font-size="34">🌴</text><text x="252" y="80" font-size="34">🌴</text></svg>` },
-  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="90" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="40" r="1"/></g><g transform="translate(30 8) scale(.9)">${gmIn(gmUfo("#ef4444"))}</g><g transform="translate(114 16) scale(.9)">${gmIn(gmUfo("#22c55e"))}</g><g transform="translate(198 6) scale(.9)">${gmIn(gmUfo("#8b5cf6"))}</g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="66" y="56">أ</text><text x="150" y="64">ب</text><text x="234" y="54">ج</text></g><rect x="148" y="72" width="4" height="24" rx="2" fill="#f472b6"/><g transform="translate(166 98) rotate(-90) scale(1.1)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g><g transform="translate(232 76) scale(.5)">${gmIn(gmRock)}</g></svg>` },
-  { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="96" width="300" height="32" fill="#65a30d"/><g transform="translate(236 0) scale(.9 .64)">${gmIn(gmCastle)}</g><circle cx="226" cy="70" r="8" fill="#7c2d12"/><rect x="190" y="66" width="34" height="8" rx="3" fill="#292524"/><circle cx="160" cy="58" r="5" fill="#111"/><g transform="translate(30 52) scale(.8)">${gmIn(gmMonster("#a855f7"))}</g><g transform="translate(90 40) scale(.9)">${gmIn(gmMonster("#22c55e"))}</g><text x="120" y="54" font-size="22" text-anchor="middle">💥</text></svg>` },
-  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` }
+  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#22c55e", "#15803d")}<g fill="rgba(0,0,0,.08)"><rect y="16" width="300" height="16"/><rect y="48" width="300" height="16"/><rect y="80" width="300" height="16"/><rect y="112" width="300" height="16"/></g><g fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.5"><rect x="70" y="-2" width="160" height="40"/><path d="M120 38 Q150 56 180 38"/><circle cx="150" cy="140" r="34"/></g><g stroke="#fff" stroke-width="4" fill="rgba(255,255,255,.14)"><path d="M110 22 V2 H190 V22"/></g><path d="M120 2 V20 M130 2 V20 M140 2 V20 M150 2 V20 M160 2 V20 M170 2 V20 M180 2 V20 M110 8 H190 M110 14 H190" stroke="rgba(255,255,255,.45)" stroke-width="1"/>${gmAt(gmKid("#dc2626", "#111827", "angry", { num: 4 }), 168, 40, 42, 55)}${gmAt(gmKid("#dc2626", "#111827", "angry", { num: 5 }), 60, 52, 40, 52)}${gmAt(gmKid("#2563eb", "#f8fafc", "happy", { num: 10 }), 112, 62, 48, 62)}${gmAt(gmBall, 150, 106, 18, 18)}${gmAt(gmStar, 236, 70, 22, 22)}${gmAt(gmStar, 30, 92, 18, 18)}<path d="M160 104 Q172 60 150 24" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
+  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#86efac", "#166534")}<g fill="#14532d"><circle cx="20" cy="30" r="34"/><circle cx="70" cy="10" r="30"/><circle cx="240" cy="14" r="32"/><circle cx="290" cy="40" r="36"/></g><g fill="#166534"><circle cx="40" cy="60" r="26"/><circle cx="270" cy="70" r="28"/></g><path d="M100 0 L60 128 H240 L200 0Z" fill="#b7791f"/><path d="M100 0 L60 128 H74 L108 0Z M200 0 L240 128 H226 L192 0Z" fill="#8a5a14"/><path d="M134 0 L126 128 M166 0 L174 128" stroke="#e8c27a" stroke-width="2.5" stroke-dasharray="10 8"/><g stroke="${GO}" stroke-width="2.4"><path d="M106 4 Q118 -6 130 4 V26 H106Z" fill="#7c2d12"/><path d="M138 4 Q150 -6 162 4 V26 H138Z" fill="#7c2d12"/><path d="M170 4 Q182 -6 194 4 V26 H170Z" fill="#7c2d12"/></g><g font-size="13" font-weight="900" text-anchor="middle" fill="#fde047"><text x="118" y="21">أ</text><text x="150" y="21">ب</text><text x="182" y="21">ج</text></g>${gmAt(gmLog, 92, 46, 56, 24)}${gmAt(gmCoin, 172, 50, 16, 16)}${gmAt(gmCoin, 176, 68, 18, 18)}${gmAt(gmRock, 196, 84, 30, 27)}${gmAt(gmKid("#f59e0b", "#7c2d12", "happy", { num: 7 }), 126, 64, 48, 62)}</svg>` },
+  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#1e1b4b", "#0b1030")}<circle cx="250" cy="96" r="40" fill="#7c3aed" opacity=".35"/><circle cx="40" cy="30" r="60" fill="#db2777" opacity=".18"/><g fill="#fff"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="20" r="1.2"/><circle cx="60" cy="110" r="1.2"/><circle cx="200" cy="40" r="1"/><circle cx="160" cy="100" r="1"/></g><g transform="translate(262 92)"><circle r="16" fill="#f59e0b" stroke="${GO}" stroke-width="2"/><ellipse rx="27" ry="6" fill="none" stroke="#fde68a" stroke-width="3" transform="rotate(-18)"/></g>${gmAt(gmUfo("#ef4444"), 22, 4, 76, 47)}${gmAt(gmUfo("#22c55e"), 112, 12, 76, 47)}${gmAt(gmUfo("#8b5cf6"), 202, 2, 76, 47)}<rect x="148" y="64" width="4" height="22" rx="2" fill="#f472b6"/><g transform="translate(150 110) rotate(-90)">${gmAt(gmRocket("#fde047", "#f59e0b"), -24, -15, 50, 30)}</g>${gmAt(gmMeteor, 228, 52, 22, 31)}</svg>` },
+  { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#7dd3fc", "#e0f2fe")}<circle cx="40" cy="26" r="14" fill="#fde047" stroke="#f59e0b" stroke-width="3"/><path d="M0 100 Q60 70 130 96 Q200 74 300 98 V128 H0Z" fill="#86efac"/><path d="M0 112 Q90 94 170 110 Q240 98 300 110 V128 H0Z" fill="#4ade80"/><g transform="translate(246 2) scale(.78 .62)">${gmIn(gmCastle)}</g><path d="M262 6 V-8 M262 -8 L276 -4 L262 0" stroke="${GO}" stroke-width="2" fill="#ef4444"/>${gmAt(gmMonster("#a855f7"), 26, 60, 44, 48)}${gmAt(gmMonster("#22c55e"), 96, 46, 50, 55)}${gmAt(gmMonster("#f97316"), 162, 66, 40, 44)}<circle cx="214" cy="62" r="5" fill="#1c1917"/><path d="M222 60 Q230 56 236 62" stroke="#fde047" stroke-width="2" fill="none" stroke-dasharray="3 3"/></svg>` },
+  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#2a2440"/><g fill="#352e52"><rect x="0" y="0" width="30" height="30" rx="4"/><rect x="60" y="30" width="30" height="30" rx="4"/><rect x="120" y="60" width="30" height="30" rx="4"/><rect x="180" y="0" width="30" height="30" rx="4"/><rect x="240" y="60" width="30" height="30" rx="4"/><rect x="30" y="90" width="30" height="30" rx="4"/><rect x="210" y="90" width="30" height="30" rx="4"/></g><g stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116" stroke="#4c3f63" stroke-width="10" transform="translate(0 3)"/><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116" stroke="#a89bc2" stroke-width="8"/></g><rect x="26" y="18" width="30" height="22" rx="4" fill="#ef4444" opacity=".55"/><rect x="246" y="18" width="30" height="22" rx="4" fill="#22c55e" opacity=".55"/><rect x="26" y="90" width="30" height="22" rx="4" fill="#f59e0b" opacity=".55"/><rect x="246" y="90" width="30" height="22" rx="4" fill="#8b5cf6" opacity=".55"/>${gmAt(gmChest, 250, 20, 24, 19)}${gmAt(gmExplorer, 112, 40, 36, 47)}${gmAt(gmGhost, 196, 62, 30, 33)}${gmAt(gmCoin, 82, 92, 16, 16)}${gmAt(gmCoin, 170, 22, 16, 16)}</svg>` }
 ];
+/* ---- Lottie + GSAP kit (same character pack as BoardPlus, served from kid/) ---- */
+const GMK = { p: null, j: {} };
+function gmKit() {
+  if (GMK.p) return GMK.p;
+  const ld = f => new Promise(r => { const s = document.createElement("script"); s.src = "kid/" + f; s.onload = r; s.onerror = r; document.head.appendChild(s); });
+  GMK.p = Promise.all([window.lottie ? 1 : ld("lottie_light.min.js"), window.gsap ? 1 : ld("gsap.min.js")]);
+  return GMK.p;
+}
+const gmJson = n => GMK.j[n] || (GMK.j[n] = fetch("kid/" + n + ".json").then(r => r.ok ? r.json() : null).catch(() => null));
+function gmLot(el, name, o = {}) {
+  return gmKit().then(() => gmJson(name)).then(d => {
+    if (!d || !window.lottie || !el.isConnected) return null;
+    el.innerHTML = "";
+    const a = lottie.loadAnimation({ container: el, renderer: "svg", loop: o.loop !== false, autoplay: true, animationData: JSON.parse(JSON.stringify(d)), rendererSettings: { preserveAspectRatio: o.par || "xMidYMid meet" } });
+    if (o.speed) a.setSpeed(o.speed);
+    a.__el = el; GM.lots.push(a); el.classList.add("on"); return a;
+  }).catch(() => null);
+}
+function gmLots(root) {
+  if (!root) return;
+  root.querySelectorAll(".gm-lot[data-lot]:not(.on):not(.ld)").forEach(el => {
+    el.classList.add("ld");
+    gmLot(el, el.dataset.lot, { loop: el.dataset.loop !== "0", speed: +el.dataset.sp || 0 }).then(a => { if (a && el.dataset.rnd) a.goToAndPlay(Math.random() * a.totalFrames, true); });
+  });
+}
+function gmLotKill(scope) { GM.lots = GM.lots.filter(a => { if (scope && a.__el.isConnected && !scope.contains(a.__el)) return true; try { a.destroy(); } catch (e) { } return false; }); }
+function gmCheer(ok) {
+  const w = gm$("#gmWorld"), owl = gm$(".gm-owl"), G = window.gsap;
+  if (owl && G) { G.killTweensOf(owl); ok ? G.fromTo(owl, { y: 0 }, { y: -12, duration: .2, yoyo: true, repeat: 3, ease: "power2.out" }) : G.fromTo(owl, { rotation: -16 }, { rotation: 0, duration: .8, ease: "elastic.out(1,.3)" }); }
+  if (!ok) { if (w) gmShake(w); return; }
+  if (!w) return; const c = document.createElement("div"); c.className = "gm-conf"; w.appendChild(c);
+  gmLot(c, "confetti", { loop: false, par: "xMidYMid slice" }).then(a => { if (a) a.addEventListener("complete", () => { gmLotKill(c); c.remove(); }); else c.remove(); });
+  GM.timers.push(setTimeout(() => { if (c.isConnected) { gmLotKill(c); c.remove(); } }, 3200));
+}
+const GM_HUE = [0, 38, 115, 255, 318];
 /* ---- shell ---- */
 function openGame(ideaId) {
   GM.idea = ideaId; gmClose(true);
@@ -7383,7 +7520,7 @@ function openGame(ideaId) {
 }
 function gmClose(silent) {
   GM.timers.forEach(clearTimeout); GM.timers = []; cancelAnimationFrame(GM.raf); GM.raf = 0; if (GM.conf) { cancelAnimationFrame(GM.conf); GM.conf = 0; }
-  if (GM.el) { GM.el.remove(); GM.el = null; } GM.st = null; document.documentElement.classList.remove("gm-open");
+  gmLotKill(); if (GM.el) { GM.el.remove(); GM.el = null; } GM.st = null; document.documentElement.classList.remove("gm-open");
   if (!silent && VIEW === "learn") window.scrollTo({ top: 0 });
 }
 function gmTop(mid) {
@@ -7400,11 +7537,11 @@ function gmAsk() {
   m.querySelector("[data-y]").onclick = () => gmClose(); m.querySelector("[data-n]").onclick = () => m.remove();
 }
 function gmPicker() {
-  const I = ideaById(GM.idea); GM.st = null; cancelAnimationFrame(GM.raf);
+  const I = ideaById(GM.idea); GM.st = null; cancelAnimationFrame(GM.raf); gmLotKill();
   GM.el.innerHTML = gmTop(`<div class="gm-ttl"><small>${esc(I.t)}</small><b>${gt("pick")}</b></div>`) +
-    `<div class="gm-pick"><h2>${gt("pick")}</h2><p class="sub">${gt("sub")}</p><div class="gm-cards">${GM_GAMES.map(g => `<button type="button" class="gm-card" data-g="${g.id}" style="--c1:${g.c1};--c2:${g.c2}"><span class="art">${g.art}</span><span class="tag">${gt("games." + g.id + ".tag")}</span><span class="txt"><b>${gt("games." + g.id + ".n")}</b><span>${gt("games." + g.id + ".d")}</span></span></button>`).join("")}</div>
+    `<div class="gm-pick"><span class="gm-lot gm-owlpick" data-lot="owl"></span><h2>${gt("pick")}</h2><p class="sub">${gt("sub")}</p><div class="gm-cards">${GM_GAMES.map(g => `<button type="button" class="gm-card" data-g="${g.id}" style="--c1:${g.c1};--c2:${g.c2}"><span class="art">${g.art}</span><span class="tag">${gt("games." + g.id + ".tag")}</span><span class="txt"><b>${gt("games." + g.id + ".n")}</b><span>${gt("games." + g.id + ".d")}</span></span></button>`).join("")}</div>
     <div class="gm-len"><span>${gt("len")}</span>${[6, 10, 15].map(n => `<button type="button" data-len="${n}" aria-pressed="${GM.n === n}">${n}</button>`).join("")}</div></div>`;
-  gmBindTop(); arabize(GM.el);
+  gmBindTop(); arabize(GM.el); gmLots(GM.el);
   GM.el.querySelectorAll("[data-len]").forEach(b => b.onclick = () => { GM.n = +b.dataset.len; store.set("gm-len", GM.n); GM.el.querySelectorAll("[data-len]").forEach(x => x.setAttribute("aria-pressed", x === b)); gmSnd("tap"); });
   GM.el.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { gmSnd("tap"); gmStart(b.dataset.g); });
   const f = gm$(".gm-card"); if (f) f.focus({ preventScroll: true });
@@ -7440,11 +7577,11 @@ function gmStart(gid) {
   const I = ideaById(GM.idea); let qs = [];
   try { qs = draw(I, GM.n); } catch (e) { qs = []; }
   if (!qs.length) { alert(gt("noQs")); return; }
-  const G = GMG[gid];
+  const G = GMG[gid]; gmLotKill();
   GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, gain: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
-  GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
+  GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-lot gm-owl" data-lot="owl"></span><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
     `<div class="gm-world g-${gid}" id="gmWorld"><div class="gm-bg">${G.bg ? G.bg() : ""}</div><div class="gm-mission" id="gmMis"></div><div class="gm-arena" id="gmArena"></div><div class="gm-sheet" id="gmSheet" hidden></div></div>`;
-  gmBindTop(); gmRound();
+  gmBindTop(); gmLots(GM.el); gmRound();
 }
 function gmHud(bump) {
   const s = GM.st; if (!s || !gm$("#gmQn")) return;
@@ -7457,8 +7594,8 @@ function gmRound() {
   const s = GM.st, q = s.qs[s.i], mis = gm$("#gmMis"), ar = gm$("#gmArena"), sh = gm$("#gmSheet");
   cancelAnimationFrame(GM.raf); s.busy = false; s.ready = false; sh.hidden = true; sh.innerHTML = "";
   mis.innerHTML = `<span class="gm-task">${gt("games." + s.gid + ".task")}</span>${s.gid === "maze" ? `<span class="gm-how">${gt("games.maze.tip")}</span>` : ""}<div class="qtext">${q.q}</div>${q.f ? `<div class="qfig">${q.f}</div>` : ""}<div id="gmTr">${trHTML(q, null)}</div>`;
-  mis.scrollTop = 0; ar.innerHTML = ""; ar.onclick = ar.onpointermove = ar.onpointerdown = ar.onpointerup = ar.onpointercancel = null;
-  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmHud(); s.qT = Date.now();
+  mis.scrollTop = 0; gmLotKill(ar); ar.innerHTML = ""; ar.onclick = ar.onpointermove = ar.onpointerdown = ar.onpointerup = ar.onpointercancel = null;
+  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmLots(ar); gmHud(); s.qT = Date.now();
 }
 async function gmChoose(k) {
   const s = GM.st; if (!s || s.busy || s.ans[s.i] != null) return;
@@ -7467,14 +7604,14 @@ async function gmChoose(k) {
   ar.querySelectorAll(".gx-opt").forEach(b => b.disabled = true); const tip = ar.querySelector(".gm-tip"); if (tip) tip.remove();
   if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.gain = Math.round(100 * gmStreakMul(s) + Math.max(0, 50 - secs * 1.5)); s.score += s.gain; } else { s.streak = 0; s.gain = 0; }
   try { await s.G.resolve(ar, s, k, ok, q); } catch (e) { console.warn(e); }
-  if (GM.st !== s) return;
+  if (GM.st !== s) return; gmCheer(ok);
   ar.querySelectorAll(".gx-opt").forEach(b => { const i = +b.dataset.opt; b.classList.add(i === q.a ? "ok" : i === k ? "no" : "dim"); });
   gmHud(true);
   const sh = gm$("#gmSheet"), last = s.i + 1 >= s.qs.length, tr = gm$("#gmTr"); if (tr) { tr.innerHTML = trHTML(q, q.a); arabize(tr); }
   sh.innerHTML = `${q.s && q.s.length ? `<details class="gm-sol explain ${ok ? "ok" : "no"}" ${ok ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>` : ""}
-  <div class="gm-row">${ok ? `<span class="msg ok">${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
+  <div class="gm-row">${ok ? `<span class="msg ok"><span class="gm-lot gm-ck" data-lot="check" data-loop="0"></span>${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
   <button type="button" class="gm-next" id="gmNext">${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button></div>`;
-  sh.hidden = false; arabize(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
+  sh.hidden = false; arabize(sh); gmLots(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
   s.busy = false; s.ready = true;
 }
 function gmNext() {
@@ -7518,23 +7655,23 @@ const gmPt = (e, ar) => { const R = ar.getBoundingClientRect(); return { x: e.cl
 const GMG = {
   /* ⚽ dribble past the defenders and score in the answer's goal */
   dribble: {
-    bg: () => `<div class="db-stripes"></div>`,
+    bg: () => `<div class="db-stripes"></div><div class="db-vig"></div>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
-      ar.innerHTML = `<div class="db-mark"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
+      ar.innerHTML = `<div class="db-mark"></div><div class="db-box"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
       const W = ar.clientWidth, H = ar.clientHeight, gr = gmPos(ar.querySelector(".db-goals"), ar);
       d.line = gr.y + gr.h / 2;
       d.goals = [...ar.querySelectorAll(".db-goal")].map(g => { const p = gmPos(g, ar); return { k: +g.dataset.goal, x0: p.x - p.w / 2, x1: p.x + p.w / 2, x: p.x, y: p.y }; });
       d.home = { x: W / 2, y: H - 34 }; d.p = { ...d.home }; d.t = null; d.face = 1; d.inv = 1; d.kx = d.ky = 0;
-      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#1e3a8a"), d.p.x, d.p.y);
-      d.ball = gmActor(ar, "db-ball", "⚽", d.p.x + 12, d.p.y + 16);
+      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#f8fafc", "happy", { num: 10 }), d.p.x, d.p.y);
+      d.ball = gmActor(ar, "db-ball", gmBall, d.p.x + 12, d.p.y + 16);
       const span = H - 110 - (d.line + 46), rows = span > 300 ? 3 : 2; d.def = [];
       for (let r = 0; r < rows; r++) {
         const y = d.line + 46 + span * (rows > 1 ? r / (rows - 1) : .5), x = 40 + Math.random() * (W - 80), v = (Math.min(W, 900) / 900 * 40 + 34 + Math.random() * 36 + s.i * 3) * (Math.random() < .5 ? -1 : 1);
-        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827"), x, y) });
+        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827", "angry", { num: 2 + r * 3 }), x, y) });
       }
       d.stars = [];
-      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", "⭐", x, y) }); }
+      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", gmStar, x, y) }); }
       const clampP = p => ({ x: Math.max(16, Math.min(W - 16, p.x)), y: Math.max(d.line - 14, Math.min(H - 22, p.y)) });
       let held = false;
       ar.onpointerdown = e => {
@@ -7592,7 +7729,7 @@ const GMG = {
 
   /* 🏃 run down the jungle track, jump logs, dodge rocks, enter the answer's door */
   runner: {
-    bg: () => `<div class="rn-trees"></div>`,
+    bg: () => `<div class="rn-trees"></div><svg class="rn-canopy" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H400 V40 Q380 70 350 52 Q330 86 296 60 Q270 92 240 64 Q214 96 186 62 Q160 94 130 60 Q104 90 76 56 Q50 84 26 52 Q12 66 0 56Z" fill="#0b3b1e"/><path d="M0 0 H400 V22 Q372 46 340 30 Q310 56 280 34 Q250 58 218 34 Q190 56 160 32 Q130 56 100 30 Q70 52 40 28 Q18 44 0 30Z" fill="#14532d"/></svg>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
       ar.innerHTML = `<div class="rn-doors" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-door" data-door="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "rn-card")}</div>`).join("")}</div>
@@ -7602,7 +7739,7 @@ const GMG = {
       const lanes = [...ar.querySelectorAll(".rn-lane")].map(l => gmPos(l, ar).x), order = lanes.map((x, i) => i).sort((a, b) => lanes[a] - lanes[b]);
       const lw = gmPos(ar.querySelector(".rn-lane"), ar).w; d.lanes = lanes; d.order = order; d.top = tp.y - tp.h / 2; d.ky0 = H - (W < 600 ? 104 : 74); d.lane = order[Math.floor(n / 2)];
       d.x = lanes[d.lane]; d.p = 0; d.jump = 0; d.dash = false; d.inv = 0; d.obs = []; d.spawn = 1.4; d.off = 0;
-      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12"), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
+      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12", "happy", { num: 7 }), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
       const osz = { log: [Math.min(lw * .7, 110), Math.min(lw * .7, 110) * .43], rock: [Math.min(lw * .45, 64), Math.min(lw * .45, 64)], coin: [26, 26] };
       const mk = (kind, ln, y) => { const el = gmActor(ar, "rn-ob " + kind, kind === "log" ? gmLog : kind === "rock" ? gmRock : gmCoin, lanes[ln], y); el.style.width = osz[kind][0] + "px"; el.style.height = osz[kind][1] + "px"; return el; };
       const T = gmReadT(q), prog = ar.querySelector(".rn-prog i"), doors = ar.querySelector(".rn-doors");
@@ -7667,6 +7804,7 @@ const GMG = {
 
   /* 🛸 move the ship, laser the saucer that carries the answer, blast meteors */
   shooter: {
+    bg: () => `<div class="sh-neb"></div><svg class="sh-pl" viewBox="0 0 120 80" aria-hidden="true"><ellipse cx="60" cy="40" rx="56" ry="13" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(-16 60 40)" opacity=".8"/><circle cx="60" cy="40" r="26" fill="#f59e0b" stroke="#2b1d3a" stroke-width="2.4"/><path d="M38 34 Q60 28 82 36 M36 46 Q60 40 84 48" stroke="#c2410c" stroke-width="4" fill="none" opacity=".6"/><path d="M8 46 Q60 62 112 34" stroke="#fde68a" stroke-width="5" fill="none" transform="rotate(-6 60 40)"/></svg><svg class="sh-moon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#cbd5e1" stroke="#2b1d3a" stroke-width="2"/><circle cx="14" cy="15" r="4" fill="#94a3b8"/><circle cx="25" cy="25" r="5" fill="#94a3b8"/></svg>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
       ar.innerHTML = `<div class="sh-ufos" style="--n:${n}">${q.o.map((o, i) => `<div class="sh-ufo" data-ufo="${i}" style="--bc:${GM_COLS[i]}"><span class="sh-saucer">${gmUfo(GM_COLS[i])}</span>${gmOpt(q, i, "sh-card")}</div>`).join("")}</div>
@@ -7694,9 +7832,9 @@ const GMG = {
         d.x = Math.max(24, Math.min(W - 24, d.x)); gmPut(d.ship, d.x, d.y, 1, -90 + (d.tx != null ? Math.max(-12, Math.min(12, (d.tx - d.x) * .2)) : 0));
         if (d.auto >= 0 && Math.abs(d.tx - d.x) < 4) { d.cool = 0; d.fire(); d.auto = -1; }
         d.spawn -= dt;
-        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmRock, x, y0) }); }
+        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmMeteor, x, y0) }); }
         for (let i = d.met.length - 1; i >= 0; i--) {
-          const m = d.met[i]; m.y += m.vy * dt; m.r += 120 * dt; gmPut(m.el, m.x, m.y, 1, m.r);
+          const m = d.met[i]; m.y += m.vy * dt; gmPut(m.el, m.x, m.y, 1, 0);
           if (d.inv <= 0 && Math.hypot(m.x - d.x, m.y - d.y) < 28) { d.inv = 1; s.score = Math.max(0, s.score - 10); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, d.x, d.y - 40, gt("shooter.crash"), "#fecaca"); gmHud(true); m.el.remove(); d.met.splice(i, 1); continue; }
           if (m.y > H + 30) { m.el.remove(); d.met.splice(i, 1); }
         }
@@ -7735,11 +7873,11 @@ const GMG = {
 
   /* 🏰 monsters march on the castle carrying the answers — blast the right one */
   castle: {
-    bg: () => `<div class="cs-cloud" style="top:8%;animation-delay:-6s"></div><div class="cs-cloud" style="top:30%;animation-delay:-22s;transform:scale(.7)"></div>`,
+    bg: () => `<div class="cs-sun"></div><svg class="cs-hills" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L50 30 L90 62 L140 14 L196 66 L250 26 L300 60 L350 22 L400 56 V160 H0Z" fill="#a5b4fc" opacity=".55"/><path d="M140 14 L156 29 L146 27 L140 34 L132 26 L126 27Z M250 26 L264 39 L256 37 L250 42 L243 36 L237 37Z" fill="#fff" opacity=".85"/><path d="M0 104 Q70 68 150 98 Q230 70 310 94 Q360 82 400 92 V160 H0Z" fill="#86efac"/><path d="M0 126 Q90 104 190 124 Q280 106 400 120 V160 H0Z" fill="#4ade80"/></svg><div class="cs-cloud" style="top:8%;animation-delay:-6s"></div><div class="cs-cloud" style="top:30%;animation-delay:-22s;transform:scale(.7)"></div>`,
     round(ar, s, q) {
       const d = s.d; if (d.hp == null) d.hp = 100; d.n = d.n || 0; d.banged = false;
       ar.innerHTML = `<div class="cs-wall">${gmCastle}</div><div class="cs-hp"><span>🏰</span><b><i style="width:${d.hp}%"></i></b></div>
-      <div class="cs-field">${q.o.map((o, i) => `<div class="cs-lane"><div class="cs-mob" data-mob="${i}">${gmOpt(q, i, "cs-card")}<span class="cs-mon">${gmMonster(GM_COLS[i])}</span></div></div>`).join("")}</div><div class="gm-tip">${gt("games.castle.tip")}</div>`;
+      <div class="cs-field">${q.o.map((o, i) => `<div class="cs-lane"><div class="cs-mob" data-mob="${i}">${gmOpt(q, i, "cs-card")}<span class="cs-mon"><span class="gm-lot" data-lot="monster" data-rnd="1" style="--hue:${GM_HUE[i]}deg">${gmMonster(GM_COLS[i])}</span></span></div></div>`).join("")}</div><div class="gm-tip">${gt("games.castle.tip")}</div>`;
       ar.querySelectorAll(".cs-mob").forEach(m => m.onclick = () => gmChoose(+m.dataset.mob));
       const wall = gmPos(ar.querySelector(".cs-wall"), ar);
       d.cx = gmRTL() ? wall.x - wall.w / 2 + 8 : wall.x + wall.w / 2 - 8; d.cy = ar.clientHeight / 2;
@@ -7817,8 +7955,8 @@ const GMG = {
         if (y < R - 1 && !M.open[i].has(i + C)) walls += `M${x0} ${y0 + ch}H${x0 + cw}`;
       }
       walls += `M${P} ${P}H${W - P}V${H - P}H${P}Z`;
-      ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path d="${walls}" stroke-linecap="round"/></svg>
-      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
+      ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path class="mz-sh" d="${walls}" transform="translate(0 3)"/><path d="${walls}"/></svg>
+      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}"><span class="mz-chest">${gmChest}</span>${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
       d.coins = [];
       const free = [...Array(C * R).keys()].filter(i => M.roomOf[i] < 0 && i !== start && M.open[i].size);
       for (let k = 0; k < 5 && free.length; k++) { const i = free.splice((Math.random() * free.length) | 0, 1)[0]; d.coins.push({ i, el: gmActor(ar, "mz-coin", gmCoin, X(i), Y(i)) }); }
@@ -7904,7 +8042,7 @@ const GMG = {
 };
 /* ---- end ---- */
 function gmEnd() {
-  const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf);
+  const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf); gmLotKill();
   const n = s.ans.length, c = s.ans.filter((a, k) => a === s.qs[k].a).length, pct = Math.round(100 * c / s.qs.length);
   const stars = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 40 ? 1 : 0;
   const F = s.G.final(s); const used = Math.floor((Date.now() - s.t0) / 1000);
@@ -7912,13 +8050,14 @@ function gmEnd() {
   if (rec) store.set(key, s.score);
   const msg = pct >= 90 ? gt("end.great") : pct >= 70 ? gt("end.good") : pct >= 40 ? gt("end.ok") : gt("end.try");
   GM.el.innerHTML = gmTop(`<div class="gm-ttl"><small>${esc(ideaById(GM.idea).t)}</small><b>${gt("games." + s.gid + ".n")}</b></div>`) +
-    `<div class="gm-end" style="position:relative"><canvas id="gmConf"></canvas><div class="gm-endc"><div class="gm-medal">${F.medal}</div><h2>${F.title}</h2><p>${msg}</p>
+    `<div class="gm-end" style="position:relative"><canvas id="gmConf"></canvas><div class="gm-endc"><div class="gm-medal">${F.win || stars >= 2 ? `<span class="gm-lot gm-big" data-lot="trophy" data-loop="0">${F.medal}</span>` : stars >= 1 ? `<span class="gm-lot gm-big" data-lot="thumbs" data-loop="0">${F.medal}</span>` : F.medal}</div><h2>${F.title}</h2><p>${msg}</p>
     <div class="gm-stars">${[0, 1, 2].map(k => `<span class="${k < stars ? "on" : ""}">⭐</span>`).join("")}</div>
     ${rec && s.score > 0 ? `<div class="gm-rec">${gt("rec")}</div>` : prev != null ? `<p>${gt("recOld", prev)}</p>` : ""}
     <div class="gm-stats"><div><b>${s.score}</b><small>${gt("pts")}</small></div><div><b>${c}/${n}</b><small>${gt("acc")} ${pc(pct)}</small></div><div><b>${s.best}</b><small>${gt("best")}</small></div><div><b class="keepdig">${arN(fmtClock(used))}</b><small>${gt("time")}</small></div></div>
     <div class="gm-btns"><button type="button" class="pri" data-e="again">${gt("again")}</button><button type="button" data-e="other">${gt("other")}</button><button type="button" data-e="back">${gt("back")}</button></div>
     ${USER && USER.role === "student" && n ? `<div class="gm-save" id="gmSave">…</div>` : ""}</div></div>`;
-  gmBindTop(); arabize(GM.el);
+  gmBindTop(); arabize(GM.el); gmLots(GM.el);
+  try { if (window.gsap) gsap.from(GM.el.querySelectorAll(".gm-stats div,.gm-btns button"), { y: 24, opacity: 0, duration: .45, stagger: .07, delay: .25, ease: "back.out(2)" }); } catch (e) { }
   const gid = s.gid;
   GM.el.querySelector('[data-e="again"]').onclick = () => gmStart(gid);
   GM.el.querySelector('[data-e="other"]').onclick = () => gmPicker();
@@ -9065,6 +9204,66 @@ html.gm-open,html.gm-open body{overflow:hidden}
   .gm-top{gap:6px;padding-inline:10px}.gm-chip{padding:4px 8px;font-size:12.5px}
 }
 @media (prefers-reduced-motion:reduce){#gm *{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* ===== pro art layer ===== */
+.gm-lot{display:inline-block}
+.gm-lot>svg{display:block}
+.gm-owl{width:46px;height:46px;margin:-10px 0 -12px;flex:none;align-self:center}
+.gm-owlpick{width:104px;height:104px;display:block;margin:0 auto -8px}
+.gm-ck{width:34px;height:34px;vertical-align:middle;margin-inline-end:4px;margin-block:-8px}
+.gm-big{width:170px;height:170px;display:block;margin:-26px auto -16px;font-size:78px;line-height:170px}
+.gm-conf{position:absolute;inset:0;pointer-events:none;z-index:9}
+.gm-card .art{background:#0b1026}
+.gm-card .art svg{transition:transform .5s}
+.gm-card:hover .art svg,.gm-card:focus-visible .art svg{transform:scale(1.06)}
+.gm-mission{border:3px solid rgba(255,255,255,.9);box-shadow:0 12px 0 -6px rgba(0,0,0,.25),0 14px 28px -12px rgba(0,0,0,.6)}
+.gx-opt{box-shadow:0 5px 0 rgba(43,29,58,.35)}
+.gm-banner{border:3px solid #fde047;background:linear-gradient(180deg,#7c3aed,#4c1d95);box-shadow:0 8px 0 rgba(0,0,0,.3)}
+.kd svg{filter:drop-shadow(0 2px 0 rgba(0,0,0,.15))}
+/* dribble */
+.g-dribble{background:repeating-linear-gradient(180deg,#25a84f 0 56px,#1f9645 56px 112px)}
+.db-stripes{background:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 80px,transparent 80px 160px)}
+.db-vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,40,10,.35))}
+.db-box{position:absolute;top:0;inset-inline:7%;height:calc(clamp(84px,30%,170px) + 54px);border:3px solid rgba(255,255,255,.5);border-top:0;pointer-events:none}
+.db-goal{border-color:#fff;box-shadow:inset 0 0 0 2px rgba(0,0,0,.12),0 6px 10px -4px rgba(0,0,0,.4)}
+.db-kid,.db-def{width:46px;height:60px}
+.db-ball{width:24px;height:24px;font-size:0}
+.db-ball svg,.db-star svg,.rn-ob svg,.sh-met svg,.mz-chest svg{display:block;width:100%;height:100%}
+.db-star{width:30px;height:30px;font-size:0;filter:drop-shadow(0 0 8px rgba(253,224,71,.8))}
+/* runner */
+.g-runner{background:linear-gradient(180deg,#0f3d22,#14532d 45%,#166534)}
+.rn-canopy{position:absolute;top:0;left:0;width:100%;height:90px}
+.rn-lane{border-radius:12px 12px 0 0;background:radial-gradient(circle at 25% 30%,rgba(60,30,0,.28) 2.5px,transparent 3.5px) 0 var(--off,0px)/38px 38px,radial-gradient(circle at 70% 70%,rgba(255,240,200,.22) 2px,transparent 3px) 0 var(--off,0px)/46px 46px,repeating-linear-gradient(180deg,rgba(0,0,0,.09) 0 40px,transparent 40px 80px) 0 var(--off,0px),linear-gradient(90deg,#8d5a10,#c58b2b 18%,#d39a38 50%,#c58b2b 82%,#8d5a10);border-inline:4px solid #4d7c0f;box-shadow:inset 0 0 0 2px rgba(43,29,58,.25)}
+.rn-door{border-radius:999px 999px 6px 6px/60px 60px 6px 6px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 2px,transparent 2px 20px),linear-gradient(180deg,#9a5a24,#5b3312);border:4px solid #a8a29e;box-shadow:0 0 0 3px var(--bc),0 10px 16px -6px rgba(0,0,0,.6);padding-top:12px}
+.rn-ob.coin{width:26px!important;height:26px!important;animation:mzSpin 1.2s linear infinite}
+.rn-kid svg{display:block;width:100%;height:100%}
+/* shooter */
+.sh-neb{position:absolute;inset:0;background:radial-gradient(420px 260px at 85% 75%,rgba(124,58,237,.35),transparent 70%),radial-gradient(360px 240px at 10% 20%,rgba(219,39,119,.22),transparent 70%)}
+.sh-pl{position:absolute;width:150px;right:-30px;bottom:14%;animation:shDrift 26s ease-in-out infinite alternate}
+.sh-moon{position:absolute;width:44px;left:6%;top:44%;animation:shDrift 18s ease-in-out infinite alternate-reverse}
+@keyframes shDrift{to{transform:translate(-18px,14px) rotate(6deg)}}
+.sh-ship{width:68px;filter:drop-shadow(0 0 10px rgba(251,146,60,.5))}
+.sh-saucer{width:min(100%,104px)}
+.sh-met{width:40px;height:56px}
+.sh-met .mt-rock{transform-box:fill-box;transform-origin:50% 50%;animation:mtSpin 1.6s linear infinite}
+@keyframes mtSpin{to{transform:rotate(360deg)}}
+/* castle */
+.g-castle{background:linear-gradient(180deg,#38bdf8 0,#7dd3fc 40%,#e0f2fe 70%,#bbf7d0 100%)}
+.cs-sun{position:absolute;top:32%;inset-inline-end:8%;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#fff7c2 0 40%,#fde047 41% 62%,rgba(253,224,71,0) 63%);box-shadow:0 0 60px 20px rgba(253,224,71,.45);animation:gmPulse 4s ease-in-out infinite}
+.cs-hills{position:absolute;left:0;bottom:0;width:100%;height:58%}
+.cs-mon{width:clamp(72px,16vw,116px);aspect-ratio:1;margin-block:-22px;margin-inline:-8px;filter:drop-shadow(0 6px 3px rgba(0,0,0,.28))}
+.cs-mon .gm-lot{display:block;width:100%;height:100%;filter:hue-rotate(var(--hue,0deg)) saturate(1.1)}
+.cs-mon .gm-lot:not(.on) svg{width:80%;margin:10%}
+.cs-barrel i{width:40px;height:16px;top:-8px;background:linear-gradient(180deg,#78716c,#292524 55%,#0c0a09);border:2px solid #2b1d3a;border-radius:4px 8px 8px 4px;box-shadow:inset -6px 0 0 #44403c}
+.cs-ball{box-shadow:0 0 0 2px #2b1d3a}
+/* maze */
+.g-maze{background-color:#231d36;background-image:radial-gradient(300px 220px at 15% 20%,rgba(251,146,60,.16),transparent 70%),radial-gradient(300px 220px at 85% 80%,rgba(251,146,60,.14),transparent 70%),linear-gradient(rgba(0,0,0,.28) 2px,transparent 2px),linear-gradient(90deg,rgba(0,0,0,.28) 2px,transparent 2px),linear-gradient(135deg,#2c2544,#221c35);background-size:auto,auto,34px 34px,34px 34px,auto}
+.mz-walls path{stroke:#b9acd8;stroke-width:6;stroke-linecap:round;filter:none}
+.mz-walls path.mz-sh{stroke:#120e1f;stroke-width:8;opacity:.7}
+.mz-chest{position:absolute;width:30px;height:24px;top:-12px;inset-inline-end:-8px;z-index:3;filter:drop-shadow(0 3px 2px rgba(0,0,0,.5))}
+.mz-room{position:absolute}
+.mz-room.open .mz-chest{animation:pkNet .7s 2}
+.mz-ghost{filter:drop-shadow(0 0 10px rgba(196,181,253,.85))}
+@media (max-width:560px){.gm-owl{width:38px;height:38px}.gm-owlpick{width:84px;height:84px}.db-kid,.db-def{width:40px;height:52px}}
 .btn.game{background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;border-color:transparent}
 .db-card,.rn-card,.sh-card{flex-direction:column;justify-content:center;text-align:center;gap:4px;padding:6px 5px}
 .db-card .val,.rn-card .val,.sh-card .val{flex:0 1 auto;overflow-wrap:normal;word-break:normal;hyphens:none}
@@ -9822,7 +10021,7 @@ const GM_TX = {
   }
 };
 const gt = (k, ...a) => { const v = k.split(".").reduce((o, x) => o && o[x], GM_TX[LANGUI === "en" ? "en" : "ar"]); return typeof v === "function" ? v(...a) : v; };
-const GM = { el: null, st: null, raf: 0, mute: !!store.get("gm-mute", false), n: store.get("gm-len", 10), timers: [] };
+const GM = { el: null, st: null, raf: 0, mute: !!store.get("gm-mute", false), n: store.get("gm-len", 10), timers: [], lots: [] };
 const gmWait = ms => new Promise(r => GM.timers.push(setTimeout(r, ms)));
 const gm$ = s => GM.el && GM.el.querySelector(s);
 
@@ -9840,25 +10039,102 @@ function gmSnd(k) {
 }
 
 /* ---- art ---- */
-const gmRocket = (c1, c2) => `<svg viewBox="0 0 64 32" aria-hidden="true"><g class="fl"><path d="M15 10 Q-2 16 15 22 Q7 16 15 10Z" fill="#ffb02e"/><path d="M15 12.5 Q5 16 15 19.5Z" fill="#fff4b8"/></g><path d="M18 9 L9 2 H21 L29 9Z M18 23 L9 30 H21 L29 23Z" fill="${c2}"/><path d="M14 9 H44 Q58 11 63 16 Q58 21 44 23 H14 Q11 16 14 9Z" fill="${c1}"/><path d="M14 9 H44 Q58 11 63 16 H14 Q12 12 14 9Z" fill="rgba(255,255,255,.22)"/><circle cx="45" cy="16" r="4.6" fill="#bfe9ff" stroke="#fff" stroke-width="1.6"/></svg>`;
-const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><rect class="lg2" x="34" y="48" width="9" height="15" rx="4.5" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/></g><g class="mo-body"><path d="M16 15 L11 2 L24 11Z M44 15 L49 2 L36 11Z" fill="#fef3c7" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><path d="M8 38 Q6 10 30 9 Q54 10 52 38 Q52 54 30 54 Q8 54 8 38Z" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="2"/><ellipse cx="30" cy="44" rx="13" ry="6" fill="rgba(255,255,255,.18)"/><circle cx="22" cy="27" r="7.5" fill="#fff"/><circle cx="38" cy="27" r="7.5" fill="#fff"/><circle class="mo-eye" cx="22" cy="28" r="3.6" fill="#111"/><circle class="mo-eye" cx="38" cy="28" r="3.6" fill="#111"/><path d="M20 39 Q30 47 40 39" stroke="#111" stroke-width="2.6" fill="#7f1d1d" stroke-linecap="round"/><path d="M24 40 l2.2 3.4 l2.2 -3 M32 40.5 l2.2 3 l2.2 -3.4" fill="#fff"/></g></svg>`;
-const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="20" height="12" patternUnits="userSpaceOnUse"><rect width="20" height="12" fill="#a8a29e"/><path d="M0 0H20M0 6H20M10 0V6M0 6V12M20 6V12" stroke="#78716c" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V0 H12 V8 H24 V0 H36 V8 H48 V0 H60 V8 H70 V16Z" fill="#a8a29e" stroke="#78716c" stroke-width="1.5"/><rect x="62" y="16" width="8" height="184" fill="#57534e" opacity=".35"/></svg>`;
-const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><circle cx="20" cy="18" r="11" fill="#7c2d12" stroke="#431407" stroke-width="2"/><circle cx="20" cy="18" r="3" fill="#fbbf24"/><path d="M9 18 H31 M20 7 V29" stroke="#431407" stroke-width="2"/></svg>`;
-const gmExplorer = `<svg viewBox="0 0 40 46" aria-hidden="true"><ellipse cx="20" cy="43" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><rect x="11" y="24" width="18" height="15" rx="6" fill="#16a34a"/><rect x="13" y="37" width="5" height="7" rx="2.5" fill="#78350f"/><rect x="22" y="37" width="5" height="7" rx="2.5" fill="#78350f"/><circle cx="20" cy="17" r="9" fill="#fcd9b6"/><path d="M6 13 Q20 10 34 13 Q32 15 20 15 Q8 15 6 13Z" fill="#92400e"/><path d="M12 13 Q12 2 20 2 Q28 2 28 13Z" fill="#b45309"/><rect x="12" y="10" width="16" height="3" fill="#451a03"/><circle cx="16.5" cy="18" r="1.6" fill="#1e293b"/><circle cx="23.5" cy="18" r="1.6" fill="#1e293b"/><path d="M16.5 22 Q20 24.5 23.5 22" stroke="#1e293b" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M29 27 l5 -6" stroke="#fcd9b6" stroke-width="4" stroke-linecap="round"/><circle cx="35" cy="19" r="3.4" fill="#facc15" stroke="#b45309" stroke-width="1.2"/></svg>`;
-const gmGhost = `<svg viewBox="0 0 40 44" aria-hidden="true"><path d="M5 40 V20 Q5 4 20 4 Q35 4 35 20 V40 L30 35 L25 40 L20 35 L15 40 L10 35Z" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/><ellipse cx="14.5" cy="19" rx="3.6" ry="5" fill="#1e293b"/><ellipse cx="25.5" cy="19" rx="3.6" ry="5" fill="#1e293b"/><ellipse cx="20" cy="29" rx="4" ry="3" fill="#1e293b"/></svg>`;
-const gmCoin = `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#facc15" stroke="#b45309" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fde68a" stroke-width="2"/><path d="M8 8 l3 -2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>`;
-const gmRock = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 14 L16 5 L28 6 L36 16 L33 30 L20 36 L8 30 L4 21Z" fill="#78716c" stroke="#44403c" stroke-width="2"/><circle cx="15" cy="16" r="3.5" fill="#57534e"/><circle cx="25" cy="25" r="4.5" fill="#57534e"/><circle cx="27" cy="13" r="2" fill="#57534e"/></svg>`;
+/* ---- pro art: outlined sticker-style sprites (one outline colour, base + shade + highlight) ---- */
+const GO = "#2b1d3a";
+const gmStarPath = (cx, cy, R, r) => { let p = ""; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, q = i % 2 ? r : R; p += (i ? "L" : "M") + (cx + Math.cos(a) * q).toFixed(1) + " " + (cy + Math.sin(a) * q).toFixed(1); } return p + "Z"; };
+const gmAt = (svg, x, y, w, h, extra = "") => svg.replace("<svg ", `<svg x="${x}" y="${y}" width="${w}" height="${h}" ${extra} `);
 const gmIn = s => s.replace(/<\/?svg[^>]*>/g, "");
-const gmKid = (sh, pa) => `<svg viewBox="0 0 40 52" aria-hidden="true"><ellipse cx="20" cy="49" rx="11" ry="3" fill="rgba(0,0,0,.25)"/><g class="kd-legs"><rect class="lg1" x="13" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect class="lg2" x="21" y="33" width="6" height="15" rx="3" fill="#fcd9b6"/><rect x="12" y="44" width="8" height="5" rx="2" fill="#111827"/><rect x="20" y="44" width="8" height="5" rx="2" fill="#111827"/></g><rect x="11" y="29" width="18" height="8" rx="3" fill="${pa}"/><g class="kd-arms"><path d="M11 20 l-6 9 M29 20 l6 9" stroke="${sh}" stroke-width="5" stroke-linecap="round"/></g><rect x="10" y="17" width="20" height="15" rx="6" fill="${sh}"/><circle cx="20" cy="10.5" r="8" fill="#fcd9b6"/><path d="M12 9 Q20 -1 28 9 Q24 5.5 20 5.5 Q16 5.5 12 9Z" fill="#3f2a14"/><circle cx="17" cy="11.5" r="1.4" fill="#1e293b"/><circle cx="23" cy="11.5" r="1.4" fill="#1e293b"/><path d="M17 14.5 Q20 16.5 23 14.5" stroke="#1e293b" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>`;
-const gmUfo = c => `<svg viewBox="0 0 80 40" aria-hidden="true"><ellipse cx="40" cy="15" rx="15" ry="12" fill="#bae6fd" stroke="#0ea5e9" stroke-width="2" opacity=".92"/><ellipse cx="36" cy="11" rx="4" ry="3" fill="#fff" opacity=".7"/><ellipse cx="40" cy="24" rx="37" ry="10" fill="${c}" stroke="rgba(0,0,0,.3)" stroke-width="2"/><g class="uf-l" fill="#fde047"><circle cx="18" cy="25" r="2.8"/><circle cx="31" cy="27.5" r="2.8"/><circle cx="49" cy="27.5" r="2.8"/><circle cx="62" cy="25" r="2.8"/></g><path d="M27 33 L21 40 M53 33 L59 40" stroke="${c}" stroke-width="3" stroke-linecap="round"/></svg>`;
-const gmLog = `<svg viewBox="0 0 60 26" aria-hidden="true"><rect x="4" y="5" width="52" height="16" rx="8" fill="#92400e" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="5" ry="8" fill="#d6a46b" stroke="#451a03" stroke-width="2"/><ellipse cx="52" cy="13" rx="2" ry="3.5" fill="none" stroke="#92400e" stroke-width="1.5"/><path d="M12 10 H34 M16 16 H40" stroke="#78350f" stroke-width="2" stroke-linecap="round"/></svg>`;
+const gmKid = (sh, pa, mood = "happy", o = {}) => {
+  const sk = o.sk || "#f6c7a1", hr = o.hair || "#3b2416", num = o.num == null ? "" : o.num, sock = o.sock || "#fff", S = `stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"`;
+  const brow = mood === "angry" ? `M29.5 13.5 L37 16.5 M50.5 13.5 L43 16.5` : `M30 15.5 Q33.5 13 37 15 M43 15 Q46.5 13 50 15.5`;
+  const mouth = mood === "angry" ? `<path d="M35 28.6 Q40 25.4 45 28.6" stroke="${GO}" stroke-width="2" fill="none" stroke-linecap="round"/>` : `<path d="M34.6 26.6 Q40 32.5 45.4 26.6 Z" fill="#8a1c2c" ${S} stroke-width="1.5"/><path d="M37.5 29.4 Q40 31 42.5 29.4" stroke="#f08a8a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  const hat = o.hat ? `<path d="M17 15.5 Q40 7 63 15.5 Q61 19.5 40 19.5 Q19 19.5 17 15.5Z" fill="#c8913f" ${S}/><path d="M26 14.5 Q26 1.5 40 1.5 Q54 1.5 54 14.5 Q40 17 26 14.5Z" fill="#dba552" ${S}/><path d="M26.4 11.5 Q40 14 53.6 11.5 L54 14.5 Q40 17 26 14.5Z" fill="#7c3f12"/><path d="M31 6 Q35 3 40 3" stroke="rgba(255,255,255,.55)" stroke-width="2" fill="none" stroke-linecap="round"/>`
+    : `<path d="M24.6 20 Q22.5 4 40 4 Q57.5 4 55.4 20 Q53 13 47.5 11.5 Q44 15 38 14 Q32.5 13 31 10.5 Q26.5 13.5 24.6 20Z" fill="${hr}" ${S} stroke-width="2"/><path d="M31 8 Q35 5.6 40 5.4" stroke="rgba(255,255,255,.35)" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+  const pack = o.pack ? `<path d="M18 37 Q16 52 22 58 L27 56 L26 36Z" fill="#b45309" ${S}/>` : "";
+  return `<svg viewBox="0 0 80 104" aria-hidden="true"><ellipse cx="40" cy="100" rx="19" ry="3.6" fill="rgba(0,0,0,.28)"/>${pack}
+<g class="kd-legs"><g class="lg1"><rect x="27.5" y="63" width="10.5" height="24" rx="5" fill="${sk}" ${S}/><rect x="27.5" y="75" width="10.5" height="12" rx="3" fill="${sock}" ${S}/><path d="M23 86.5 H38.5 V92 Q38.5 95 35.5 95 H22.5 Q19.5 95 20.5 91.5 Q21 86.5 23 86.5Z" fill="#1f2937" ${S}/><path d="M23 89 H36" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/></g>
+<g class="lg2"><rect x="42" y="63" width="10.5" height="24" rx="5" fill="${sk}" ${S}/><rect x="42" y="75" width="10.5" height="12" rx="3" fill="${sock}" ${S}/><path d="M41.5 86.5 H57 Q59 86.5 59.5 91.5 Q60.5 95 57.5 95 H44.5 Q41.5 95 41.5 92Z" fill="#1f2937" ${S}/><path d="M44 89 H57" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/></g></g>
+<path d="M23.5 55 H56.5 L59 71 Q50 74.5 42 71.5 L40 66 L38 71.5 Q30 74.5 21 71Z" fill="${pa}" ${S}/><path d="M48 56 H56.5 L59 71 Q54 73 49 72.5Z" fill="rgba(0,0,0,.18)"/>
+<g class="kd-arms"><path d="M24 39 Q15 47 14 60 M56 39 Q65 47 66 60" stroke="${GO}" stroke-width="10.6" stroke-linecap="round" fill="none"/><path d="M24 39 Q15 47 14 60 M56 39 Q65 47 66 60" stroke="${sk}" stroke-width="6.2" stroke-linecap="round" fill="none"/><circle cx="14" cy="61" r="4.6" fill="${sk}" ${S}/><circle cx="66" cy="61" r="4.6" fill="${sk}" ${S}/></g>
+<rect x="35" y="27" width="10" height="7" fill="${sk}" ${S}/>
+<path d="M24.5 33.5 Q15.5 36.5 13.5 46 L21.5 49 Q23.5 43 26 41Z M55.5 33.5 Q64.5 36.5 66.5 46 L58.5 49 Q56.5 43 54 41Z" fill="${sh}" ${S}/>
+<path d="M22.5 38 Q23 31.5 31 31 H49 Q57 31.5 57.5 38 L58.5 58 Q40 62 21.5 58Z" fill="${sh}" ${S}/><path d="M49 31.4 Q56.8 32 57.4 38 L58.4 57.6 Q53 59 48 59.4Z" fill="rgba(0,0,0,.17)"/><path d="M27 36 Q25.5 39 25.5 46" stroke="rgba(255,255,255,.45)" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+<path d="M34 31.2 Q40 37.5 46 31.2" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2.6" stroke-linecap="round"/>
+${num !== "" ? `<text x="40" y="52.5" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="13" text-anchor="middle" fill="#fff" stroke="${GO}" stroke-width=".9" paint-order="stroke">${num}</text>` : ""}
+<circle cx="24.6" cy="21.5" r="3.6" fill="${sk}" ${S} stroke-width="1.8"/><circle cx="55.4" cy="21.5" r="3.6" fill="${sk}" ${S} stroke-width="1.8"/>
+<circle cx="40" cy="20" r="15.2" fill="${sk}" ${S}/><path d="M49 8.5 Q55.5 13.5 55 22 Q53.5 31 45 34 Q51 27 49 8.5Z" fill="rgba(0,0,0,.08)"/>
+${hat}
+<ellipse cx="34" cy="21.4" rx="3.4" ry="4" fill="#fff" stroke="${GO}" stroke-width="1.2"/><ellipse cx="46" cy="21.4" rx="3.4" ry="4" fill="#fff" stroke="${GO}" stroke-width="1.2"/>
+<circle cx="34.7" cy="22.1" r="2.15" fill="#1b1230"/><circle cx="46.7" cy="22.1" r="2.15" fill="#1b1230"/><circle cx="35.5" cy="21" r=".85" fill="#fff"/><circle cx="47.5" cy="21" r=".85" fill="#fff"/>
+<path d="${brow}" stroke="${GO}" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+<circle cx="29.2" cy="26.2" r="2.6" fill="#ff7b8a" opacity=".45"/><circle cx="50.8" cy="26.2" r="2.6" fill="#ff7b8a" opacity=".45"/>${mouth}</svg>`;
+};
+const gmExplorer = gmKid("#15803d", "#a16207", "happy", { hat: 1, pack: 1, sock: "#a16207" });
+const gmBall = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17.5" fill="#fff" stroke="${GO}" stroke-width="2.2"/><path d="M20 12.5 L27 17.6 L24.4 25.8 H15.6 L13 17.6Z" fill="#1f2937"/><path d="M20 12.5 V3 M27 17.6 L36 14.5 M24.4 25.8 L30 33.5 M15.6 25.8 L10 33.5 M13 17.6 L4 14.5" stroke="#1f2937" stroke-width="1.6"/><path d="M13.5 3.6 L20 3 L26.5 3.6 L20 6.6Z M36.6 22 L37.3 14 L33 19Z M3.4 22 L2.7 14 L7 19Z M23 37 L31 33 L26 31.5Z M17 37 L9 33 L14 31.5Z" fill="#1f2937"/><path d="M8 13 Q11 7 17 5" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".9"/><path d="M34 26 Q30 34 21 36.5 Q30 30 34 26Z" fill="rgba(0,0,0,.12)"/></svg>`;
+const gmStar = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="${gmStarPath(20, 21, 17, 7.6)}" fill="#fbbf24" stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"/><path d="${gmStarPath(20, 21, 10, 4.5)}" fill="#fde68a"/><path d="M13 14 Q15 10 18 9" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+const gmCoin = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="21.5" r="16" fill="#c27c0e" stroke="${GO}" stroke-width="2.2"/><circle cx="20" cy="19.5" r="16" fill="#f5b301" stroke="${GO}" stroke-width="2.2"/><circle cx="20" cy="19.5" r="11.5" fill="#ffd23f" stroke="#c27c0e" stroke-width="1.6"/><path d="${gmStarPath(20, 20, 7.2, 3.1)}" fill="#f5b301" stroke="#c27c0e" stroke-width="1.2" stroke-linejoin="round"/><path d="M9.5 14 Q12.5 8.5 19 7.2" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"/></svg>`;
+const gmRock = `<svg viewBox="0 0 60 54" aria-hidden="true"><ellipse cx="31" cy="49" rx="25" ry="4.5" fill="rgba(0,0,0,.28)"/><path d="M6 45 L4 30 L12 14 L26 6 L42 8 L54 19 L57 36 L50 46Z" fill="#8f94a0" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M42 8 L54 19 L57 36 L50 46 L35 47 L40 30Z" fill="#6c717d"/><path d="M12 14 L26 6 L31 16 L17 24Z" fill="#b8bdc8"/><path d="M26 6 L42 8 L40 30 L31 16Z" fill="#a0a5b0"/><path d="M20 30 l7 4 l3 8 M44 22 l-4 6" stroke="${GO}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".6"/><path d="M6 45 Q14 38 25 42 Q18 47 6 45Z M44 46.5 Q49 42 55 40 Q54 45 50 46Z" fill="#65a30d" stroke="${GO}" stroke-width="1.4" stroke-linejoin="round"/></svg>`;
+const gmLog = `<svg viewBox="0 0 120 52" aria-hidden="true"><ellipse cx="60" cy="46" rx="54" ry="5" fill="rgba(0,0,0,.28)"/><rect x="8" y="10" width="100" height="32" rx="16" fill="#8a4b1c" stroke="${GO}" stroke-width="2.4"/><path d="M14 33 Q60 40 100 33 V38 Q60 46 14 38Z" fill="rgba(0,0,0,.2)"/><path d="M22 18 H62 M30 26 H80 M18 33 H44 M70 18 H88" stroke="#5b2e0e" stroke-width="2.4" stroke-linecap="round"/><path d="M20 15 H50" stroke="rgba(255,255,255,.28)" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="102" cy="26" rx="10" ry="16" fill="#e4b47a" stroke="${GO}" stroke-width="2.4"/><ellipse cx="102" cy="26" rx="6" ry="10" fill="none" stroke="#b07a3e" stroke-width="1.8"/><ellipse cx="102" cy="26" rx="2.4" ry="4.2" fill="#b07a3e"/><path d="M48 10 Q44 2 52 0 Q54 7 48 10Z" fill="#22c55e" stroke="${GO}" stroke-width="1.6"/></svg>`;
+const gmMeteor = `<svg viewBox="0 0 60 84" aria-hidden="true"><path d="M30 2 Q50 36 44 60 L16 60 Q10 36 30 2Z" fill="#f97316" opacity=".88"/><path d="M30 18 Q42 42 38 60 L22 60 Q18 42 30 18Z" fill="#fde047" opacity=".95"/><g class="mt-rock"><circle cx="30" cy="62" r="17" fill="#8b6f5c" stroke="${GO}" stroke-width="2.4"/><path d="M41 51 Q49 62 42 73 Q35 79 25 78 Q40 71 41 51Z" fill="rgba(0,0,0,.22)"/><circle cx="24" cy="58" r="4.4" fill="#6b5444" stroke="${GO}" stroke-width="1.4"/><circle cx="35" cy="68" r="3.2" fill="#6b5444" stroke="${GO}" stroke-width="1.2"/><circle cx="35" cy="55" r="2" fill="#6b5444"/><path d="M19 54 Q22 49 27 48" stroke="rgba(255,255,255,.5)" stroke-width="2" fill="none" stroke-linecap="round"/></g></svg>`;
+const gmRocket = (c1, c2) => `<svg viewBox="0 0 100 60" aria-hidden="true"><g class="fl"><path d="M17 22 Q-8 30 17 38 Q6 30 17 22Z" fill="#fb923c"/><path d="M17 25 Q2 30 17 35Z" fill="#fef08a"/></g><rect x="11" y="23" width="9" height="14" rx="2.5" fill="#475569" stroke="${GO}" stroke-width="2.2"/>
+<path d="M38 22 L27 4 Q26 1 30 1 H45 Q49 1.5 51 5.5 L60 22Z M38 38 L27 56 Q26 59 30 59 H45 Q49 58.5 51 54.5 L60 38Z" fill="${c2}" stroke="${GO}" stroke-width="2.2" stroke-linejoin="round"/><circle cx="34" cy="6" r="2.4" fill="#f87171" stroke="${GO}" stroke-width="1.2"/><circle cx="34" cy="54" r="2.4" fill="#4ade80" stroke="${GO}" stroke-width="1.2"/>
+<path d="M17 21.5 H62 Q90 23.5 98.5 30 Q90 36.5 62 38.5 H17 Q13 30 17 21.5Z" fill="${c1}" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M15.5 31 H98.5 Q90 36.5 62 38.5 H17 Q14 35 15.5 31Z" fill="rgba(0,0,0,.18)"/><path d="M22 25 H58" stroke="rgba(255,255,255,.5)" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M85 25.6 Q94 27.6 98.5 30 Q94 32.4 85 34.4Z" fill="#ef4444" stroke="${GO}" stroke-width="1.8" stroke-linejoin="round"/><path d="M38 22 V38 M44 22 V38" stroke="${c2}" stroke-width="3"/>
+<ellipse cx="67" cy="29.5" rx="11" ry="5.6" fill="#7dd3fc" stroke="${GO}" stroke-width="2.2"/><path d="M60.5 28 Q64 25.6 70 25.6" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+const gmUfo = c => `<svg viewBox="0 0 100 62" aria-hidden="true"><ellipse cx="50" cy="23" rx="9.5" ry="10.5" fill="#86efac" stroke="${GO}" stroke-width="1.8"/><path d="M45 13.5 L42 7 M55 13.5 L58 7" stroke="${GO}" stroke-width="1.6"/><circle cx="42" cy="6.5" r="2.2" fill="#fde047" stroke="${GO}" stroke-width="1.2"/><circle cx="58" cy="6.5" r="2.2" fill="#fde047" stroke="${GO}" stroke-width="1.2"/><ellipse cx="46" cy="22" rx="2.8" ry="3.6" fill="#111827"/><ellipse cx="54" cy="22" rx="2.8" ry="3.6" fill="#111827"/><circle cx="46.8" cy="20.8" r=".9" fill="#fff"/><circle cx="54.8" cy="20.8" r=".9" fill="#fff"/><path d="M47 28 Q50 30 53 28" stroke="${GO}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<path d="M29 32 Q29 6 50 6 Q71 6 71 32Z" fill="#bae6fd" fill-opacity=".45" stroke="${GO}" stroke-width="2.2"/><path d="M35 22 Q37 12 45 9.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".85"/>
+<ellipse cx="50" cy="38" rx="46" ry="12.5" fill="${c}" stroke="${GO}" stroke-width="2.4"/><path d="M4.4 39.5 Q50 62 95.6 39.5 Q90 49 50 51 Q10 49 4.4 39.5Z" fill="rgba(0,0,0,.25)"/><ellipse cx="50" cy="32.5" rx="30" ry="5.5" fill="rgba(255,255,255,.3)"/><ellipse cx="50" cy="31.5" rx="21" ry="3.4" fill="#64748b" stroke="${GO}" stroke-width="1.6"/>
+<g class="uf-l" fill="#fde047" stroke="${GO}" stroke-width="1.2"><circle cx="16" cy="40" r="3"/><circle cx="32" cy="44" r="3"/><circle cx="50" cy="45.5" r="3"/><circle cx="68" cy="44" r="3"/><circle cx="84" cy="40" r="3"/></g></svg>`;
+const gmGhost = `<svg viewBox="0 0 60 66" aria-hidden="true"><path d="M8 60 V28 Q8 6 30 6 Q52 6 52 28 V60 L45 53.5 L37.5 61 L30 54 L22.5 61 L15 53.5Z" fill="#f8fafc" stroke="${GO}" stroke-width="2.4" stroke-linejoin="round"/><path d="M39 8.5 Q52 13 52 28 V60 L45 53.5 L43.5 29 Q43.5 15 39 8.5Z" fill="#c7d2fe" opacity=".6"/><path d="M8 34 Q1 35 1.5 43 M52 34 Q59 33 60 26" stroke="${GO}" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M15 17 Q18 11 24 10" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/><ellipse cx="22.5" cy="27" rx="4.4" ry="5.6" fill="#1b1230"/><ellipse cx="37.5" cy="27" rx="4.4" ry="5.6" fill="#1b1230"/><circle cx="24" cy="25" r="1.5" fill="#fff"/><circle cx="39" cy="25" r="1.5" fill="#fff"/><ellipse cx="30" cy="39" rx="4.4" ry="5" fill="#1b1230"/><ellipse cx="30" cy="41" rx="2.4" ry="2" fill="#f472b6"/><circle cx="16.5" cy="35" r="3" fill="#f9a8d4" opacity=".6"/><circle cx="43.5" cy="35" r="3" fill="#f9a8d4" opacity=".6"/></svg>`;
+const gmMonster = c => `<svg viewBox="0 0 60 66" aria-hidden="true"><g class="mo-legs"><rect class="lg1" x="17" y="47" width="10" height="16" rx="5" fill="${c}" stroke="${GO}" stroke-width="2.2"/><rect class="lg2" x="33" y="47" width="10" height="16" rx="5" fill="${c}" stroke="${GO}" stroke-width="2.2"/></g><g class="mo-body"><path d="M16 15 L10 1.5 L25 10.5Z M44 15 L50 1.5 L35 10.5Z" fill="#fef3c7" stroke="${GO}" stroke-width="2" stroke-linejoin="round"/><path d="M7 37 Q5 9 30 8.5 Q55 9 53 37 Q53 54 30 54 Q7 54 7 37Z" fill="${c}" stroke="${GO}" stroke-width="2.4"/><path d="M42 11.5 Q54 18 53 37 Q53 51 38 53.5 Q48 44 42 11.5Z" fill="rgba(0,0,0,.16)"/><path d="M14 22 Q16 14 23 12" stroke="rgba(255,255,255,.5)" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="21.5" cy="27" r="7.6" fill="#fff" stroke="${GO}" stroke-width="1.6"/><circle cx="38.5" cy="27" r="7.6" fill="#fff" stroke="${GO}" stroke-width="1.6"/><circle class="mo-eye" cx="22.5" cy="28" r="3.7" fill="#1b1230"/><circle class="mo-eye" cx="37.5" cy="28" r="3.7" fill="#1b1230"/><circle cx="23.6" cy="26.6" r="1.3" fill="#fff"/><circle cx="38.6" cy="26.6" r="1.3" fill="#fff"/><path d="M19 39 Q30 48 41 39 Q30 43 19 39Z" fill="#7f1d1d" stroke="${GO}" stroke-width="2" stroke-linejoin="round"/><path d="M23.5 40.6 l2.2 3.2 l2.2 -2.6 M32.3 41.2 l2.2 2.6 l2.2 -3.2" fill="#fff"/></g></svg>`;
+const gmCastle = `<svg viewBox="0 0 70 200" preserveAspectRatio="none" aria-hidden="true"><defs><pattern id="gmBrick" width="22" height="14" patternUnits="userSpaceOnUse"><rect width="22" height="14" fill="#bdb2a6"/><path d="M0 .7H22M0 7.7H22M11 .7V7.7M.7 7.7V14M21.3 7.7V14" stroke="#857a6e" stroke-width="1.4"/><path d="M2 2.4H9M13 9.4H20" stroke="#d9d0c6" stroke-width="1.2"/></pattern></defs><rect x="0" y="16" width="70" height="184" fill="url(#gmBrick)"/><path d="M0 16 V1 H12 V8 H24 V1 H36 V8 H48 V1 H60 V8 H70 V16Z" fill="#cfc6bb" stroke="${GO}" stroke-width="2"/><rect x="0" y="16" width="70" height="5" fill="#9b9084"/><rect x="58" y="16" width="12" height="184" fill="rgba(43,29,58,.28)"/><path d="M26 64 Q32 54 38 64 V84 H26Z M26 134 Q32 124 38 134 V154 H26Z" fill="#2b1d3a" stroke="#6b5f54" stroke-width="2"/></svg>`;
+const gmCannon = `<span class="cs-barrel"><i></i></span><svg class="cs-base" viewBox="0 0 40 30" aria-hidden="true"><path d="M6 20 L14 9 H28 L34 20Z" fill="#8a4b1c" stroke="${GO}" stroke-width="2"/><circle cx="20" cy="20" r="9" fill="#5b2e0e" stroke="${GO}" stroke-width="2"/><circle cx="20" cy="20" r="6" fill="none" stroke="#c08a3e" stroke-width="1.6"/><path d="M14 20 H26 M20 14 V26" stroke="#c08a3e" stroke-width="1.6"/><circle cx="20" cy="20" r="2.2" fill="#fbbf24" stroke="${GO}" stroke-width="1"/></svg>`;
+const gmChest = `<svg viewBox="0 0 60 48" aria-hidden="true"><path d="M6 20 Q6 4 30 4 Q54 4 54 20Z" fill="#b45309" stroke="${GO}" stroke-width="2.2"/><rect x="6" y="20" width="48" height="24" rx="3" fill="#92400e" stroke="${GO}" stroke-width="2.2"/><path d="M6 20 H54" stroke="#fbbf24" stroke-width="4"/><path d="M14 5.5 V44 M46 5.5 V44" stroke="#fbbf24" stroke-width="4"/><rect x="25" y="16" width="10" height="12" rx="2" fill="#fde047" stroke="${GO}" stroke-width="1.8"/><circle cx="30" cy="22" r="1.8" fill="${GO}"/><path d="M12 10 Q20 6 28 6" stroke="rgba(255,255,255,.4)" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+
+/* ---- picker art (scenes built from the same sprites) ---- */
+const gmSky = (a, b) => `<defs><linearGradient id="sk${a.slice(1)}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="300" height="128" fill="url(#sk${a.slice(1)})"/>`;
 const GM_GAMES = [
-  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#16a34a"/><g fill="#15803d"><rect x="0" y="0" width="50" height="128"/><rect x="100" y="0" width="50" height="128"/><rect x="200" y="0" width="50" height="128"/></g><g fill="rgba(255,255,255,.18)" stroke="#fff" stroke-width="4"><rect x="16" y="4" width="78" height="34" rx="3"/><rect x="111" y="4" width="78" height="34" rx="3"/><rect x="206" y="4" width="78" height="34" rx="3"/></g><g font-size="18" font-weight="900" fill="#fff" text-anchor="middle"><text x="55" y="28">أ</text><text x="150" y="28">ب</text><text x="245" y="28">ج</text></g><circle cx="150" cy="80" r="26" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="3"/><g transform="translate(70 54) scale(.95)">${gmIn(gmKid("#dc2626", "#111827"))}</g><g transform="translate(196 62) scale(1.1)">${gmIn(gmKid("#2563eb", "#1e3a8a"))}</g><text x="232" y="122" font-size="20" text-anchor="middle">⚽</text><path d="M226 104 Q220 70 245 42" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
-  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#14532d"/><path d="M60 0 L0 128 H300 L240 0Z" fill="#a16207"/><path d="M120 0 L100 128 M180 0 L200 128" stroke="#fde68a" stroke-width="3" stroke-dasharray="10 8"/><g stroke-width="4"><rect x="66" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#ef4444"/><rect x="124" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#f59e0b"/><rect x="182" y="4" width="52" height="30" rx="5" fill="#fff" stroke="#22c55e"/></g><g font-size="17" font-weight="900" text-anchor="middle"><text x="92" y="25" fill="#ef4444">أ</text><text x="150" y="25" fill="#f59e0b">ب</text><text x="208" y="25" fill="#22c55e">ج</text></g><g transform="translate(118 52) scale(.7)">${gmIn(gmLog)}</g><g transform="translate(184 64) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(184 86) scale(.6)">${gmIn(gmCoin)}</g><g transform="translate(130 76) scale(1.05)">${gmIn(gmKid("#f59e0b", "#7c2d12"))}</g><text x="20" y="60" font-size="34">🌴</text><text x="252" y="80" font-size="34">🌴</text></svg>` },
-  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#141844"/><g fill="#fff" opacity=".8"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="90" r="1"/><circle cx="60" cy="110" r="1.2"/><circle cx="250" cy="40" r="1"/></g><g transform="translate(30 8) scale(.9)">${gmIn(gmUfo("#ef4444"))}</g><g transform="translate(114 16) scale(.9)">${gmIn(gmUfo("#22c55e"))}</g><g transform="translate(198 6) scale(.9)">${gmIn(gmUfo("#8b5cf6"))}</g><g font-size="15" font-weight="900" fill="#fff" text-anchor="middle"><text x="66" y="56">أ</text><text x="150" y="64">ب</text><text x="234" y="54">ج</text></g><rect x="148" y="72" width="4" height="24" rx="2" fill="#f472b6"/><g transform="translate(166 98) rotate(-90) scale(1.1)">${gmIn(gmRocket("#fde047", "#f59e0b"))}</g><g transform="translate(232 76) scale(.5)">${gmIn(gmRock)}</g></svg>` },
-  { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#7dd3fc"/><rect y="96" width="300" height="32" fill="#65a30d"/><g transform="translate(236 0) scale(.9 .64)">${gmIn(gmCastle)}</g><circle cx="226" cy="70" r="8" fill="#7c2d12"/><rect x="190" y="66" width="34" height="8" rx="3" fill="#292524"/><circle cx="160" cy="58" r="5" fill="#111"/><g transform="translate(30 52) scale(.8)">${gmIn(gmMonster("#a855f7"))}</g><g transform="translate(90 40) scale(.9)">${gmIn(gmMonster("#22c55e"))}</g><text x="120" y="54" font-size="22" text-anchor="middle">💥</text></svg>` },
-  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#1e1b4b"/><g stroke="#a78bfa" stroke-width="5" stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116"/></g><rect x="24" y="16" width="32" height="24" rx="4" fill="#ef4444" opacity=".7"/><rect x="244" y="16" width="32" height="24" rx="4" fill="#22c55e" opacity=".7"/><rect x="24" y="88" width="32" height="24" rx="4" fill="#f59e0b" opacity=".7"/><rect x="244" y="88" width="32" height="24" rx="4" fill="#8b5cf6" opacity=".7"/><g transform="translate(124 50) scale(.75)">${gmIn(gmExplorer)}</g><g transform="translate(206 66) scale(.6)">${gmIn(gmGhost)}</g><g transform="translate(84 92) scale(.6)">${gmIn(gmCoin)}</g><text x="260" y="34" font-size="16" text-anchor="middle">💰</text></svg>` }
+  { id: "dribble", c1: "#16a34a", c2: "#14532d", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#22c55e", "#15803d")}<g fill="rgba(0,0,0,.08)"><rect y="16" width="300" height="16"/><rect y="48" width="300" height="16"/><rect y="80" width="300" height="16"/><rect y="112" width="300" height="16"/></g><g fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2.5"><rect x="70" y="-2" width="160" height="40"/><path d="M120 38 Q150 56 180 38"/><circle cx="150" cy="140" r="34"/></g><g stroke="#fff" stroke-width="4" fill="rgba(255,255,255,.14)"><path d="M110 22 V2 H190 V22"/></g><path d="M120 2 V20 M130 2 V20 M140 2 V20 M150 2 V20 M160 2 V20 M170 2 V20 M180 2 V20 M110 8 H190 M110 14 H190" stroke="rgba(255,255,255,.45)" stroke-width="1"/>${gmAt(gmKid("#dc2626", "#111827", "angry", { num: 4 }), 168, 40, 42, 55)}${gmAt(gmKid("#dc2626", "#111827", "angry", { num: 5 }), 60, 52, 40, 52)}${gmAt(gmKid("#2563eb", "#f8fafc", "happy", { num: 10 }), 112, 62, 48, 62)}${gmAt(gmBall, 150, 106, 18, 18)}${gmAt(gmStar, 236, 70, 22, 22)}${gmAt(gmStar, 30, 92, 18, 18)}<path d="M160 104 Q172 60 150 24" stroke="#fde047" stroke-width="3" stroke-dasharray="6 5" fill="none"/></svg>` },
+  { id: "runner", c1: "#ca8a04", c2: "#3f6212", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#86efac", "#166534")}<g fill="#14532d"><circle cx="20" cy="30" r="34"/><circle cx="70" cy="10" r="30"/><circle cx="240" cy="14" r="32"/><circle cx="290" cy="40" r="36"/></g><g fill="#166534"><circle cx="40" cy="60" r="26"/><circle cx="270" cy="70" r="28"/></g><path d="M100 0 L60 128 H240 L200 0Z" fill="#b7791f"/><path d="M100 0 L60 128 H74 L108 0Z M200 0 L240 128 H226 L192 0Z" fill="#8a5a14"/><path d="M134 0 L126 128 M166 0 L174 128" stroke="#e8c27a" stroke-width="2.5" stroke-dasharray="10 8"/><g stroke="${GO}" stroke-width="2.4"><path d="M106 4 Q118 -6 130 4 V26 H106Z" fill="#7c2d12"/><path d="M138 4 Q150 -6 162 4 V26 H138Z" fill="#7c2d12"/><path d="M170 4 Q182 -6 194 4 V26 H170Z" fill="#7c2d12"/></g><g font-size="13" font-weight="900" text-anchor="middle" fill="#fde047"><text x="118" y="21">أ</text><text x="150" y="21">ب</text><text x="182" y="21">ج</text></g>${gmAt(gmLog, 92, 46, 56, 24)}${gmAt(gmCoin, 172, 50, 16, 16)}${gmAt(gmCoin, 176, 68, 18, 18)}${gmAt(gmRock, 196, 84, 30, 27)}${gmAt(gmKid("#f59e0b", "#7c2d12", "happy", { num: 7 }), 126, 64, 48, 62)}</svg>` },
+  { id: "shooter", c1: "#4f46e5", c2: "#1e1b4b", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#1e1b4b", "#0b1030")}<circle cx="250" cy="96" r="40" fill="#7c3aed" opacity=".35"/><circle cx="40" cy="30" r="60" fill="#db2777" opacity=".18"/><g fill="#fff"><circle cx="30" cy="20" r="1.4"/><circle cx="120" cy="64" r="1"/><circle cx="270" cy="20" r="1.2"/><circle cx="60" cy="110" r="1.2"/><circle cx="200" cy="40" r="1"/><circle cx="160" cy="100" r="1"/></g><g transform="translate(262 92)"><circle r="16" fill="#f59e0b" stroke="${GO}" stroke-width="2"/><ellipse rx="27" ry="6" fill="none" stroke="#fde68a" stroke-width="3" transform="rotate(-18)"/></g>${gmAt(gmUfo("#ef4444"), 22, 4, 76, 47)}${gmAt(gmUfo("#22c55e"), 112, 12, 76, 47)}${gmAt(gmUfo("#8b5cf6"), 202, 2, 76, 47)}<rect x="148" y="64" width="4" height="22" rx="2" fill="#f472b6"/><g transform="translate(150 110) rotate(-90)">${gmAt(gmRocket("#fde047", "#f59e0b"), -24, -15, 50, 30)}</g>${gmAt(gmMeteor, 228, 52, 22, 31)}</svg>` },
+  { id: "castle", c1: "#b45309", c2: "#431407", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice">${gmSky("#7dd3fc", "#e0f2fe")}<circle cx="40" cy="26" r="14" fill="#fde047" stroke="#f59e0b" stroke-width="3"/><path d="M0 100 Q60 70 130 96 Q200 74 300 98 V128 H0Z" fill="#86efac"/><path d="M0 112 Q90 94 170 110 Q240 98 300 110 V128 H0Z" fill="#4ade80"/><g transform="translate(246 2) scale(.78 .62)">${gmIn(gmCastle)}</g><path d="M262 6 V-8 M262 -8 L276 -4 L262 0" stroke="${GO}" stroke-width="2" fill="#ef4444"/>${gmAt(gmMonster("#a855f7"), 26, 60, 44, 48)}${gmAt(gmMonster("#22c55e"), 96, 46, 50, 55)}${gmAt(gmMonster("#f97316"), 162, 66, 40, 44)}<circle cx="214" cy="62" r="5" fill="#1c1917"/><path d="M222 60 Q230 56 236 62" stroke="#fde047" stroke-width="2" fill="none" stroke-dasharray="3 3"/></svg>` },
+  { id: "maze", c1: "#7c3aed", c2: "#2e1065", art: `<svg viewBox="0 0 300 128" preserveAspectRatio="xMidYMid slice"><rect width="300" height="128" fill="#2a2440"/><g fill="#352e52"><rect x="0" y="0" width="30" height="30" rx="4"/><rect x="60" y="30" width="30" height="30" rx="4"/><rect x="120" y="60" width="30" height="30" rx="4"/><rect x="180" y="0" width="30" height="30" rx="4"/><rect x="240" y="60" width="30" height="30" rx="4"/><rect x="30" y="90" width="30" height="30" rx="4"/><rect x="210" y="90" width="30" height="30" rx="4"/></g><g stroke-linecap="round" fill="none"><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116" stroke="#4c3f63" stroke-width="10" transform="translate(0 3)"/><path d="M20 12 H280 V116 H20Z M60 12 V60 H110 M150 40 V116 M110 84 H200 M200 12 V60 H250 M240 84 V116 M60 84 V116" stroke="#a89bc2" stroke-width="8"/></g><rect x="26" y="18" width="30" height="22" rx="4" fill="#ef4444" opacity=".55"/><rect x="246" y="18" width="30" height="22" rx="4" fill="#22c55e" opacity=".55"/><rect x="26" y="90" width="30" height="22" rx="4" fill="#f59e0b" opacity=".55"/><rect x="246" y="90" width="30" height="22" rx="4" fill="#8b5cf6" opacity=".55"/>${gmAt(gmChest, 250, 20, 24, 19)}${gmAt(gmExplorer, 112, 40, 36, 47)}${gmAt(gmGhost, 196, 62, 30, 33)}${gmAt(gmCoin, 82, 92, 16, 16)}${gmAt(gmCoin, 170, 22, 16, 16)}</svg>` }
 ];
+/* ---- Lottie + GSAP kit (same character pack as BoardPlus, served from kid/) ---- */
+const GMK = { p: null, j: {} };
+function gmKit() {
+  if (GMK.p) return GMK.p;
+  const ld = f => new Promise(r => { const s = document.createElement("script"); s.src = "kid/" + f; s.onload = r; s.onerror = r; document.head.appendChild(s); });
+  GMK.p = Promise.all([window.lottie ? 1 : ld("lottie_light.min.js"), window.gsap ? 1 : ld("gsap.min.js")]);
+  return GMK.p;
+}
+const gmJson = n => GMK.j[n] || (GMK.j[n] = fetch("kid/" + n + ".json").then(r => r.ok ? r.json() : null).catch(() => null));
+function gmLot(el, name, o = {}) {
+  return gmKit().then(() => gmJson(name)).then(d => {
+    if (!d || !window.lottie || !el.isConnected) return null;
+    el.innerHTML = "";
+    const a = lottie.loadAnimation({ container: el, renderer: "svg", loop: o.loop !== false, autoplay: true, animationData: JSON.parse(JSON.stringify(d)), rendererSettings: { preserveAspectRatio: o.par || "xMidYMid meet" } });
+    if (o.speed) a.setSpeed(o.speed);
+    a.__el = el; GM.lots.push(a); el.classList.add("on"); return a;
+  }).catch(() => null);
+}
+function gmLots(root) {
+  if (!root) return;
+  root.querySelectorAll(".gm-lot[data-lot]:not(.on):not(.ld)").forEach(el => {
+    el.classList.add("ld");
+    gmLot(el, el.dataset.lot, { loop: el.dataset.loop !== "0", speed: +el.dataset.sp || 0 }).then(a => { if (a && el.dataset.rnd) a.goToAndPlay(Math.random() * a.totalFrames, true); });
+  });
+}
+function gmLotKill(scope) { GM.lots = GM.lots.filter(a => { if (scope && a.__el.isConnected && !scope.contains(a.__el)) return true; try { a.destroy(); } catch (e) { } return false; }); }
+function gmCheer(ok) {
+  const w = gm$("#gmWorld"), owl = gm$(".gm-owl"), G = window.gsap;
+  if (owl && G) { G.killTweensOf(owl); ok ? G.fromTo(owl, { y: 0 }, { y: -12, duration: .2, yoyo: true, repeat: 3, ease: "power2.out" }) : G.fromTo(owl, { rotation: -16 }, { rotation: 0, duration: .8, ease: "elastic.out(1,.3)" }); }
+  if (!ok) { if (w) gmShake(w); return; }
+  if (!w) return; const c = document.createElement("div"); c.className = "gm-conf"; w.appendChild(c);
+  gmLot(c, "confetti", { loop: false, par: "xMidYMid slice" }).then(a => { if (a) a.addEventListener("complete", () => { gmLotKill(c); c.remove(); }); else c.remove(); });
+  GM.timers.push(setTimeout(() => { if (c.isConnected) { gmLotKill(c); c.remove(); } }, 3200));
+}
+const GM_HUE = [0, 38, 115, 255, 318];
 /* ---- shell ---- */
 function openGame(ideaId) {
   GM.idea = ideaId; gmClose(true);
@@ -9869,7 +10145,7 @@ function openGame(ideaId) {
 }
 function gmClose(silent) {
   GM.timers.forEach(clearTimeout); GM.timers = []; cancelAnimationFrame(GM.raf); GM.raf = 0; if (GM.conf) { cancelAnimationFrame(GM.conf); GM.conf = 0; }
-  if (GM.el) { GM.el.remove(); GM.el = null; } GM.st = null; document.documentElement.classList.remove("gm-open");
+  gmLotKill(); if (GM.el) { GM.el.remove(); GM.el = null; } GM.st = null; document.documentElement.classList.remove("gm-open");
   if (!silent && VIEW === "learn") window.scrollTo({ top: 0 });
 }
 function gmTop(mid) {
@@ -9886,11 +10162,11 @@ function gmAsk() {
   m.querySelector("[data-y]").onclick = () => gmClose(); m.querySelector("[data-n]").onclick = () => m.remove();
 }
 function gmPicker() {
-  const I = ideaById(GM.idea); GM.st = null; cancelAnimationFrame(GM.raf);
+  const I = ideaById(GM.idea); GM.st = null; cancelAnimationFrame(GM.raf); gmLotKill();
   GM.el.innerHTML = gmTop(`<div class="gm-ttl"><small>${esc(I.t)}</small><b>${gt("pick")}</b></div>`) +
-    `<div class="gm-pick"><h2>${gt("pick")}</h2><p class="sub">${gt("sub")}</p><div class="gm-cards">${GM_GAMES.map(g => `<button type="button" class="gm-card" data-g="${g.id}" style="--c1:${g.c1};--c2:${g.c2}"><span class="art">${g.art}</span><span class="tag">${gt("games." + g.id + ".tag")}</span><span class="txt"><b>${gt("games." + g.id + ".n")}</b><span>${gt("games." + g.id + ".d")}</span></span></button>`).join("")}</div>
+    `<div class="gm-pick"><span class="gm-lot gm-owlpick" data-lot="owl"></span><h2>${gt("pick")}</h2><p class="sub">${gt("sub")}</p><div class="gm-cards">${GM_GAMES.map(g => `<button type="button" class="gm-card" data-g="${g.id}" style="--c1:${g.c1};--c2:${g.c2}"><span class="art">${g.art}</span><span class="tag">${gt("games." + g.id + ".tag")}</span><span class="txt"><b>${gt("games." + g.id + ".n")}</b><span>${gt("games." + g.id + ".d")}</span></span></button>`).join("")}</div>
     <div class="gm-len"><span>${gt("len")}</span>${[6, 10, 15].map(n => `<button type="button" data-len="${n}" aria-pressed="${GM.n === n}">${n}</button>`).join("")}</div></div>`;
-  gmBindTop(); arabize(GM.el);
+  gmBindTop(); arabize(GM.el); gmLots(GM.el);
   GM.el.querySelectorAll("[data-len]").forEach(b => b.onclick = () => { GM.n = +b.dataset.len; store.set("gm-len", GM.n); GM.el.querySelectorAll("[data-len]").forEach(x => x.setAttribute("aria-pressed", x === b)); gmSnd("tap"); });
   GM.el.querySelectorAll("[data-g]").forEach(b => b.onclick = () => { gmSnd("tap"); gmStart(b.dataset.g); });
   const f = gm$(".gm-card"); if (f) f.focus({ preventScroll: true });
@@ -9926,11 +10202,11 @@ function gmStart(gid) {
   const I = ideaById(GM.idea); let qs = [];
   try { qs = draw(I, GM.n); } catch (e) { qs = []; }
   if (!qs.length) { alert(gt("noQs")); return; }
-  const G = GMG[gid];
+  const G = GMG[gid]; gmLotKill();
   GM.st = { gid, G, qs, i: 0, ans: [], score: 0, streak: 0, best: 0, gain: 0, t0: Date.now(), qT: Date.now(), over: false, busy: false, ready: false, d: {} };
-  GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
+  GM.el.innerHTML = gmTop(`<div class="gm-hud"><span class="gm-lot gm-owl" data-lot="owl"></span><span class="gm-chip" id="gmQn"></span><span class="gm-chip">⭐ <b id="gmSc">0</b></span><span class="gm-chip" id="gmStk">🔥 <b>0</b></span></div>`) +
     `<div class="gm-world g-${gid}" id="gmWorld"><div class="gm-bg">${G.bg ? G.bg() : ""}</div><div class="gm-mission" id="gmMis"></div><div class="gm-arena" id="gmArena"></div><div class="gm-sheet" id="gmSheet" hidden></div></div>`;
-  gmBindTop(); gmRound();
+  gmBindTop(); gmLots(GM.el); gmRound();
 }
 function gmHud(bump) {
   const s = GM.st; if (!s || !gm$("#gmQn")) return;
@@ -9943,8 +10219,8 @@ function gmRound() {
   const s = GM.st, q = s.qs[s.i], mis = gm$("#gmMis"), ar = gm$("#gmArena"), sh = gm$("#gmSheet");
   cancelAnimationFrame(GM.raf); s.busy = false; s.ready = false; sh.hidden = true; sh.innerHTML = "";
   mis.innerHTML = `<span class="gm-task">${gt("games." + s.gid + ".task")}</span>${s.gid === "maze" ? `<span class="gm-how">${gt("games.maze.tip")}</span>` : ""}<div class="qtext">${q.q}</div>${q.f ? `<div class="qfig">${q.f}</div>` : ""}<div id="gmTr">${trHTML(q, null)}</div>`;
-  mis.scrollTop = 0; ar.innerHTML = ""; ar.onclick = ar.onpointermove = ar.onpointerdown = ar.onpointerup = ar.onpointercancel = null;
-  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmHud(); s.qT = Date.now();
+  mis.scrollTop = 0; gmLotKill(ar); ar.innerHTML = ""; ar.onclick = ar.onpointermove = ar.onpointerdown = ar.onpointerup = ar.onpointercancel = null;
+  s.G.round(ar, s, q); arabize(mis); arabize(ar); gmFit(ar); gmLots(ar); gmHud(); s.qT = Date.now();
 }
 async function gmChoose(k) {
   const s = GM.st; if (!s || s.busy || s.ans[s.i] != null) return;
@@ -9953,14 +10229,14 @@ async function gmChoose(k) {
   ar.querySelectorAll(".gx-opt").forEach(b => b.disabled = true); const tip = ar.querySelector(".gm-tip"); if (tip) tip.remove();
   if (ok) { s.streak++; s.best = Math.max(s.best, s.streak); s.gain = Math.round(100 * gmStreakMul(s) + Math.max(0, 50 - secs * 1.5)); s.score += s.gain; } else { s.streak = 0; s.gain = 0; }
   try { await s.G.resolve(ar, s, k, ok, q); } catch (e) { console.warn(e); }
-  if (GM.st !== s) return;
+  if (GM.st !== s) return; gmCheer(ok);
   ar.querySelectorAll(".gx-opt").forEach(b => { const i = +b.dataset.opt; b.classList.add(i === q.a ? "ok" : i === k ? "no" : "dim"); });
   gmHud(true);
   const sh = gm$("#gmSheet"), last = s.i + 1 >= s.qs.length, tr = gm$("#gmTr"); if (tr) { tr.innerHTML = trHTML(q, q.a); arabize(tr); }
   sh.innerHTML = `${q.s && q.s.length ? `<details class="gm-sol explain ${ok ? "ok" : "no"}" ${ok ? "" : "open"}><summary>${gt("sol")}</summary>${q.s.map(x => `<p>${x}</p>`).join("")}</details>` : ""}
-  <div class="gm-row">${ok ? `<span class="msg ok">${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
+  <div class="gm-row">${ok ? `<span class="msg ok"><span class="gm-lot gm-ck" data-lot="check" data-loop="0"></span>${pick(gt("praise"))} +${s.gain}<small>${s.streak >= 3 ? gt("streak", s.streak) : ""}</small></span>` : `<span class="msg no">${gt("rightIs", LETS()[q.a])}<small>${gt("wrongSub")}</small></span>`}
   <button type="button" class="gm-next" id="gmNext">${last ? gt("finish") : gt("next")} ${LANGUI === "en" ? "→" : "←"}</button></div>`;
-  sh.hidden = false; arabize(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
+  sh.hidden = false; arabize(sh); gmLots(sh); gm$("#gmNext").onclick = gmNext; gm$("#gmNext").focus({ preventScroll: true });
   s.busy = false; s.ready = true;
 }
 function gmNext() {
@@ -10004,23 +10280,23 @@ const gmPt = (e, ar) => { const R = ar.getBoundingClientRect(); return { x: e.cl
 const GMG = {
   /* ⚽ dribble past the defenders and score in the answer's goal */
   dribble: {
-    bg: () => `<div class="db-stripes"></div>`,
+    bg: () => `<div class="db-stripes"></div><div class="db-vig"></div>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
-      ar.innerHTML = `<div class="db-mark"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
+      ar.innerHTML = `<div class="db-mark"></div><div class="db-box"></div><div class="db-goals" style="--n:${n}">${q.o.map((o, i) => `<div class="db-goal" data-goal="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "db-card")}</div>`).join("")}</div><div class="gm-tip">${gt("games.dribble.tip")}</div>`;
       const W = ar.clientWidth, H = ar.clientHeight, gr = gmPos(ar.querySelector(".db-goals"), ar);
       d.line = gr.y + gr.h / 2;
       d.goals = [...ar.querySelectorAll(".db-goal")].map(g => { const p = gmPos(g, ar); return { k: +g.dataset.goal, x0: p.x - p.w / 2, x1: p.x + p.w / 2, x: p.x, y: p.y }; });
       d.home = { x: W / 2, y: H - 34 }; d.p = { ...d.home }; d.t = null; d.face = 1; d.inv = 1; d.kx = d.ky = 0;
-      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#1e3a8a"), d.p.x, d.p.y);
-      d.ball = gmActor(ar, "db-ball", "⚽", d.p.x + 12, d.p.y + 16);
+      d.kid = gmActor(ar, "db-kid kd", gmKid("#2563eb", "#f8fafc", "happy", { num: 10 }), d.p.x, d.p.y);
+      d.ball = gmActor(ar, "db-ball", gmBall, d.p.x + 12, d.p.y + 16);
       const span = H - 110 - (d.line + 46), rows = span > 300 ? 3 : 2; d.def = [];
       for (let r = 0; r < rows; r++) {
         const y = d.line + 46 + span * (rows > 1 ? r / (rows - 1) : .5), x = 40 + Math.random() * (W - 80), v = (Math.min(W, 900) / 900 * 40 + 34 + Math.random() * 36 + s.i * 3) * (Math.random() < .5 ? -1 : 1);
-        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827"), x, y) });
+        d.def.push({ x, y, v, el: gmActor(ar, "db-def kd", gmKid("#dc2626", "#111827", "angry", { num: 2 + r * 3 }), x, y) });
       }
       d.stars = [];
-      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", "⭐", x, y) }); }
+      for (let k = 0; k < 2; k++) { const x = 30 + Math.random() * (W - 60), y = d.line + 34 + Math.random() * Math.max(20, H - d.line - 110); d.stars.push({ x, y, el: gmActor(ar, "db-star", gmStar, x, y) }); }
       const clampP = p => ({ x: Math.max(16, Math.min(W - 16, p.x)), y: Math.max(d.line - 14, Math.min(H - 22, p.y)) });
       let held = false;
       ar.onpointerdown = e => {
@@ -10078,7 +10354,7 @@ const GMG = {
 
   /* 🏃 run down the jungle track, jump logs, dodge rocks, enter the answer's door */
   runner: {
-    bg: () => `<div class="rn-trees"></div>`,
+    bg: () => `<div class="rn-trees"></div><svg class="rn-canopy" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H400 V40 Q380 70 350 52 Q330 86 296 60 Q270 92 240 64 Q214 96 186 62 Q160 94 130 60 Q104 90 76 56 Q50 84 26 52 Q12 66 0 56Z" fill="#0b3b1e"/><path d="M0 0 H400 V22 Q372 46 340 30 Q310 56 280 34 Q250 58 218 34 Q190 56 160 32 Q130 56 100 30 Q70 52 40 28 Q18 44 0 30Z" fill="#14532d"/></svg>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
       ar.innerHTML = `<div class="rn-doors" style="--n:${n}">${q.o.map((o, i) => `<div class="rn-door" data-door="${i}" style="--bc:${GM_COLS[i]}">${gmOpt(q, i, "rn-card")}</div>`).join("")}</div>
@@ -10088,7 +10364,7 @@ const GMG = {
       const lanes = [...ar.querySelectorAll(".rn-lane")].map(l => gmPos(l, ar).x), order = lanes.map((x, i) => i).sort((a, b) => lanes[a] - lanes[b]);
       const lw = gmPos(ar.querySelector(".rn-lane"), ar).w; d.lanes = lanes; d.order = order; d.top = tp.y - tp.h / 2; d.ky0 = H - (W < 600 ? 104 : 74); d.lane = order[Math.floor(n / 2)];
       d.x = lanes[d.lane]; d.p = 0; d.jump = 0; d.dash = false; d.inv = 0; d.obs = []; d.spawn = 1.4; d.off = 0;
-      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12"), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
+      d.kid = gmActor(ar, "rn-kid kd go", gmKid("#f59e0b", "#7c2d12", "happy", { num: 7 }), d.x, d.ky0); const ks = Math.max(44, Math.min(70, lw * .55)); d.kid.style.width = ks + "px"; d.kid.style.height = ks * 1.3 + "px";
       const osz = { log: [Math.min(lw * .7, 110), Math.min(lw * .7, 110) * .43], rock: [Math.min(lw * .45, 64), Math.min(lw * .45, 64)], coin: [26, 26] };
       const mk = (kind, ln, y) => { const el = gmActor(ar, "rn-ob " + kind, kind === "log" ? gmLog : kind === "rock" ? gmRock : gmCoin, lanes[ln], y); el.style.width = osz[kind][0] + "px"; el.style.height = osz[kind][1] + "px"; return el; };
       const T = gmReadT(q), prog = ar.querySelector(".rn-prog i"), doors = ar.querySelector(".rn-doors");
@@ -10153,6 +10429,7 @@ const GMG = {
 
   /* 🛸 move the ship, laser the saucer that carries the answer, blast meteors */
   shooter: {
+    bg: () => `<div class="sh-neb"></div><svg class="sh-pl" viewBox="0 0 120 80" aria-hidden="true"><ellipse cx="60" cy="40" rx="56" ry="13" fill="none" stroke="#fde68a" stroke-width="5" transform="rotate(-16 60 40)" opacity=".8"/><circle cx="60" cy="40" r="26" fill="#f59e0b" stroke="#2b1d3a" stroke-width="2.4"/><path d="M38 34 Q60 28 82 36 M36 46 Q60 40 84 48" stroke="#c2410c" stroke-width="4" fill="none" opacity=".6"/><path d="M8 46 Q60 62 112 34" stroke="#fde68a" stroke-width="5" fill="none" transform="rotate(-6 60 40)"/></svg><svg class="sh-moon" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="17" fill="#cbd5e1" stroke="#2b1d3a" stroke-width="2"/><circle cx="14" cy="15" r="4" fill="#94a3b8"/><circle cx="25" cy="25" r="5" fill="#94a3b8"/></svg>`,
     round(ar, s, q) {
       const d = s.d; d.n = d.n || 0; const n = q.o.length;
       ar.innerHTML = `<div class="sh-ufos" style="--n:${n}">${q.o.map((o, i) => `<div class="sh-ufo" data-ufo="${i}" style="--bc:${GM_COLS[i]}"><span class="sh-saucer">${gmUfo(GM_COLS[i])}</span>${gmOpt(q, i, "sh-card")}</div>`).join("")}</div>
@@ -10180,9 +10457,9 @@ const GMG = {
         d.x = Math.max(24, Math.min(W - 24, d.x)); gmPut(d.ship, d.x, d.y, 1, -90 + (d.tx != null ? Math.max(-12, Math.min(12, (d.tx - d.x) * .2)) : 0));
         if (d.auto >= 0 && Math.abs(d.tx - d.x) < 4) { d.cool = 0; d.fire(); d.auto = -1; }
         d.spawn -= dt;
-        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmRock, x, y0) }); }
+        if (d.spawn <= 0) { d.spawn = 2.4 + Math.random() * 1.8; const x = 30 + Math.random() * (W - 60), y0 = rb.y + rb.h / 2 + d.dy + 10; d.met.push({ x, y: y0, vy: 70 + Math.random() * 50, r: 0, el: gmActor(ar, "sh-met", gmMeteor, x, y0) }); }
         for (let i = d.met.length - 1; i >= 0; i--) {
-          const m = d.met[i]; m.y += m.vy * dt; m.r += 120 * dt; gmPut(m.el, m.x, m.y, 1, m.r);
+          const m = d.met[i]; m.y += m.vy * dt; gmPut(m.el, m.x, m.y, 1, 0);
           if (d.inv <= 0 && Math.hypot(m.x - d.x, m.y - d.y) < 28) { d.inv = 1; s.score = Math.max(0, s.score - 10); gmSnd("hit"); gmShake(d.ship); gmFloat(ar, d.x, d.y - 40, gt("shooter.crash"), "#fecaca"); gmHud(true); m.el.remove(); d.met.splice(i, 1); continue; }
           if (m.y > H + 30) { m.el.remove(); d.met.splice(i, 1); }
         }
@@ -10221,11 +10498,11 @@ const GMG = {
 
   /* 🏰 monsters march on the castle carrying the answers — blast the right one */
   castle: {
-    bg: () => `<div class="cs-cloud" style="top:8%;animation-delay:-6s"></div><div class="cs-cloud" style="top:30%;animation-delay:-22s;transform:scale(.7)"></div>`,
+    bg: () => `<div class="cs-sun"></div><svg class="cs-hills" viewBox="0 0 400 160" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L50 30 L90 62 L140 14 L196 66 L250 26 L300 60 L350 22 L400 56 V160 H0Z" fill="#a5b4fc" opacity=".55"/><path d="M140 14 L156 29 L146 27 L140 34 L132 26 L126 27Z M250 26 L264 39 L256 37 L250 42 L243 36 L237 37Z" fill="#fff" opacity=".85"/><path d="M0 104 Q70 68 150 98 Q230 70 310 94 Q360 82 400 92 V160 H0Z" fill="#86efac"/><path d="M0 126 Q90 104 190 124 Q280 106 400 120 V160 H0Z" fill="#4ade80"/></svg><div class="cs-cloud" style="top:8%;animation-delay:-6s"></div><div class="cs-cloud" style="top:30%;animation-delay:-22s;transform:scale(.7)"></div>`,
     round(ar, s, q) {
       const d = s.d; if (d.hp == null) d.hp = 100; d.n = d.n || 0; d.banged = false;
       ar.innerHTML = `<div class="cs-wall">${gmCastle}</div><div class="cs-hp"><span>🏰</span><b><i style="width:${d.hp}%"></i></b></div>
-      <div class="cs-field">${q.o.map((o, i) => `<div class="cs-lane"><div class="cs-mob" data-mob="${i}">${gmOpt(q, i, "cs-card")}<span class="cs-mon">${gmMonster(GM_COLS[i])}</span></div></div>`).join("")}</div><div class="gm-tip">${gt("games.castle.tip")}</div>`;
+      <div class="cs-field">${q.o.map((o, i) => `<div class="cs-lane"><div class="cs-mob" data-mob="${i}">${gmOpt(q, i, "cs-card")}<span class="cs-mon"><span class="gm-lot" data-lot="monster" data-rnd="1" style="--hue:${GM_HUE[i]}deg">${gmMonster(GM_COLS[i])}</span></span></div></div>`).join("")}</div><div class="gm-tip">${gt("games.castle.tip")}</div>`;
       ar.querySelectorAll(".cs-mob").forEach(m => m.onclick = () => gmChoose(+m.dataset.mob));
       const wall = gmPos(ar.querySelector(".cs-wall"), ar);
       d.cx = gmRTL() ? wall.x - wall.w / 2 + 8 : wall.x + wall.w / 2 - 8; d.cy = ar.clientHeight / 2;
@@ -10303,8 +10580,8 @@ const GMG = {
         if (y < R - 1 && !M.open[i].has(i + C)) walls += `M${x0} ${y0 + ch}H${x0 + cw}`;
       }
       walls += `M${P} ${P}H${W - P}V${H - P}H${P}Z`;
-      ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path d="${walls}" stroke-linecap="round"/></svg>
-      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}">${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
+      ar.innerHTML = `<svg class="mz-walls" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true">${rooms.map((r, k) => `<rect x="${P + r.x * cw + 2}" y="${P + r.y * ch + 2}" width="${r.w * cw - 4}" height="${r.h * ch - 4}" rx="10" fill="${GM_COLS[k]}" opacity=".28"/>`).join("")}<path class="mz-sh" d="${walls}" transform="translate(0 3)"/><path d="${walls}"/></svg>
+      ${rooms.map((r, k) => `<div class="mz-room" style="left:${P + r.x * cw + 5}px;top:${P + r.y * ch + 5}px;width:${r.w * cw - 10}px;height:${r.h * ch - 10}px;--bc:${GM_COLS[k]}"><span class="mz-chest">${gmChest}</span>${gmOpt(q, k, "mz-card")}</div>`).join("")}<div class="gm-tip">${gt("games.maze.tip")}</div>`;
       d.coins = [];
       const free = [...Array(C * R).keys()].filter(i => M.roomOf[i] < 0 && i !== start && M.open[i].size);
       for (let k = 0; k < 5 && free.length; k++) { const i = free.splice((Math.random() * free.length) | 0, 1)[0]; d.coins.push({ i, el: gmActor(ar, "mz-coin", gmCoin, X(i), Y(i)) }); }
@@ -10390,7 +10667,7 @@ const GMG = {
 };
 /* ---- end ---- */
 function gmEnd() {
-  const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf);
+  const s = GM.st; if (!s) return; s.over = true; cancelAnimationFrame(GM.raf); gmLotKill();
   const n = s.ans.length, c = s.ans.filter((a, k) => a === s.qs[k].a).length, pct = Math.round(100 * c / s.qs.length);
   const stars = pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 40 ? 1 : 0;
   const F = s.G.final(s); const used = Math.floor((Date.now() - s.t0) / 1000);
@@ -10398,13 +10675,14 @@ function gmEnd() {
   if (rec) store.set(key, s.score);
   const msg = pct >= 90 ? gt("end.great") : pct >= 70 ? gt("end.good") : pct >= 40 ? gt("end.ok") : gt("end.try");
   GM.el.innerHTML = gmTop(`<div class="gm-ttl"><small>${esc(ideaById(GM.idea).t)}</small><b>${gt("games." + s.gid + ".n")}</b></div>`) +
-    `<div class="gm-end" style="position:relative"><canvas id="gmConf"></canvas><div class="gm-endc"><div class="gm-medal">${F.medal}</div><h2>${F.title}</h2><p>${msg}</p>
+    `<div class="gm-end" style="position:relative"><canvas id="gmConf"></canvas><div class="gm-endc"><div class="gm-medal">${F.win || stars >= 2 ? `<span class="gm-lot gm-big" data-lot="trophy" data-loop="0">${F.medal}</span>` : stars >= 1 ? `<span class="gm-lot gm-big" data-lot="thumbs" data-loop="0">${F.medal}</span>` : F.medal}</div><h2>${F.title}</h2><p>${msg}</p>
     <div class="gm-stars">${[0, 1, 2].map(k => `<span class="${k < stars ? "on" : ""}">⭐</span>`).join("")}</div>
     ${rec && s.score > 0 ? `<div class="gm-rec">${gt("rec")}</div>` : prev != null ? `<p>${gt("recOld", prev)}</p>` : ""}
     <div class="gm-stats"><div><b>${s.score}</b><small>${gt("pts")}</small></div><div><b>${c}/${n}</b><small>${gt("acc")} ${pc(pct)}</small></div><div><b>${s.best}</b><small>${gt("best")}</small></div><div><b class="keepdig">${arN(fmtClock(used))}</b><small>${gt("time")}</small></div></div>
     <div class="gm-btns"><button type="button" class="pri" data-e="again">${gt("again")}</button><button type="button" data-e="other">${gt("other")}</button><button type="button" data-e="back">${gt("back")}</button></div>
     ${USER && USER.role === "student" && n ? `<div class="gm-save" id="gmSave">…</div>` : ""}</div></div>`;
-  gmBindTop(); arabize(GM.el);
+  gmBindTop(); arabize(GM.el); gmLots(GM.el);
+  try { if (window.gsap) gsap.from(GM.el.querySelectorAll(".gm-stats div,.gm-btns button"), { y: 24, opacity: 0, duration: .45, stagger: .07, delay: .25, ease: "back.out(2)" }); } catch (e) { }
   const gid = s.gid;
   GM.el.querySelector('[data-e="again"]').onclick = () => gmStart(gid);
   GM.el.querySelector('[data-e="other"]').onclick = () => gmPicker();
