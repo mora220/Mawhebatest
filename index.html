@@ -4694,6 +4694,7 @@ function renderHub(){
       ${C('hubTrain','⚡','#7b4bb7',par?'تدرب حسب الأفكار · المتابعة':'تدرب حسب الأفكار','Practice by idea','تعلّم الحل السريع لكل فكرة وتدرّب عليها','Learn the quick solution for each idea and practise it')}
       ${C('hubTP','⚡','#c0782a',par?'تدريب بلس · المتابعة':'تدريب بلس','Training Plus','أسئلة الكتب نفسها مقسّمة حسب الأفكار','The book questions themselves, sorted by idea')}
       ${`<button type="button" class="hub-card hub-fx" id="hubFX" style="--hc:#e0a01b"><span class="hub-ico">🎓</span><span><b>${en?'Final simulated test':'الاختبار المحاكي النهائي'}</b><small>${en?'Same number of questions and time as the real scale, new questions every attempt, and a score certificate out of 2000':'بعدد أسئلة ووقت المقياس الحقيقي، أسئلة جديدة في كل محاولة، وشهادة بالدرجة من 2000'}</small></span><span class="fx-tagl">${({1:'64 · 103',2:'96 · 120',3:'120 · 168'})[st.level]} ${en?'min':'د'}</span></button>`}
+      ${C('hubXO','🎮','#db2777','استراحة: إكس أو','Break: Tic-Tac-Toe','العب جولة ضد البومة الذكية أو مع صديقك، ثم ارجع للتدريب بنشاط','Play a round against the clever owl or a friend, then get back to practice')}
     </div>
     <div class="row"><button class="btn line" id="chLv"${lvLocked()?' hidden':''}>${T.changeLevel}</button>${st.user&&st.user.role==='admin'&&window.RG?`<button class="btn line" id="accBtn">${en?'Manage test accounts':'إدارة حسابات الاختبارات'}</button>`:''}</div>
   </section>`;
@@ -4701,6 +4702,7 @@ function renderHub(){
   document.getElementById('hubTrain').onclick=()=>openTraining(false);
   document.getElementById('hubTP').onclick=()=>openTraining(true);
   {const fxb=document.getElementById('hubFX');if(fxb)fxb.onclick=()=>window.FX.open();}
+  {const xob=document.getElementById('hubXO');if(xob)xob.onclick=()=>window.XO.open();}
   app.querySelectorAll('[data-kid]').forEach(b=>b.onclick=()=>{selectKid(b.dataset.kid);renderHub()});
   const ab=document.getElementById('accBtn');if(ab)ab.onclick=()=>{renderAccounts();window.scrollTo(0,0)};
   document.getElementById('chLv').onclick=()=>{renderLevel();window.scrollTo(0,0)};
@@ -11091,6 +11093,142 @@ else try { BE.init(onAuth); } catch (e) { $("#app").innerHTML = `<p class="empty
 
 </body>
 </html>
+</script>
+<script>
+window.XO=(function(){
+  const CSS=`#xo{position:fixed;inset:0;z-index:950;display:flex;flex-direction:column;background:radial-gradient(900px 500px at 50% -10%,#6d28d9 0,transparent 70%),linear-gradient(180deg,#1e1b4b,#0b1026);color:#fff;font-family:inherit;overflow:auto;-webkit-tap-highlight-color:transparent}
+#xo *{box-sizing:border-box}#xo button{font:inherit;cursor:pointer}
+.xo-top{display:flex;align-items:center;gap:10px;padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+.xo-top h2{flex:1;margin:0;font-size:19px;font-weight:900;text-align:center}
+.xo-ib{width:40px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:18px}
+.xo-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:14px;padding:6px 16px 28px;max-width:560px;width:100%;margin:0 auto}
+.xo-owl{width:110px;height:110px;margin-bottom:-12px}
+.xo-sub{margin:0;color:#c7c9ea;text-align:center;font-size:15px;line-height:1.7}
+.xo-seg{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:rgba(255,255,255,.06);padding:5px;border-radius:16px;border:1px solid rgba(255,255,255,.1)}
+.xo-seg button{border:0;border-radius:12px;padding:9px 14px;background:transparent;color:#dfe1ff;font-weight:800;font-size:14px}
+.xo-seg button[aria-pressed="true"]{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.3)}
+.xo-score{display:flex;gap:10px;width:100%}
+.xo-sc{flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:16px;background:rgba(255,255,255,.07);border:2px solid transparent;transition:.25s}
+.xo-sc.on{border-color:#fde047;background:rgba(253,224,71,.12);transform:translateY(-2px)}
+.xo-sc i{font-style:normal;width:34px;height:34px;flex:none}
+.xo-sc span{flex:1;font-weight:800;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xo-sc b{font-size:24px;font-weight:900}
+.xo-sc.d{flex:.6;justify-content:center;flex-direction:column;gap:0}.xo-sc.d span{flex:none;font-size:12px;color:#c7c9ea}
+.xo-msg{min-height:30px;font-size:18px;font-weight:900;text-align:center}
+.xo-board{position:relative;width:min(100%,400px);aspect-ratio:1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:10px;border-radius:26px;background:linear-gradient(180deg,#312e81,#1e1b4b);box-shadow:0 10px 0 #0f0c33,0 26px 40px -16px #000,inset 0 2px 0 rgba(255,255,255,.12)}
+.xo-cell{position:relative;border:0;border-radius:18px;background:linear-gradient(180deg,#f8fafc,#e2e8f0);box-shadow:inset 0 -5px 0 rgba(43,29,58,.18),0 4px 0 rgba(0,0,0,.25);transition:transform .12s,background .2s;padding:12%}
+.xo-cell:not(:disabled):hover{transform:translateY(-2px);background:linear-gradient(180deg,#fff,#eef2ff)}
+.xo-cell:disabled{cursor:default}
+.xo-cell svg{display:block;width:100%;height:100%;overflow:visible}
+.xo-cell .dr{stroke-dasharray:1;stroke-dashoffset:1;animation:xoDraw .35s ease-out forwards}
+.xo-cell .dr2{animation-delay:.18s}
+@keyframes xoDraw{to{stroke-dashoffset:0}}
+.xo-cell.pop{animation:xoPop .35s cubic-bezier(.3,1.7,.5,1)}
+@keyframes xoPop{0%{transform:scale(.8)}}
+.xo-cell.win{background:linear-gradient(180deg,#fef9c3,#fde68a);animation:xoWin .6s ease-in-out 2}
+@keyframes xoWin{50%{transform:scale(1.07)}}
+.xo-line{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+.xo-line path{stroke:#fde047;stroke-width:3.2;stroke-linecap:round;fill:none;stroke-dasharray:1;stroke-dashoffset:1;animation:xoDraw .45s .15s ease-out forwards;filter:drop-shadow(0 0 2px rgba(0,0,0,.6))}
+.xo-btns{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.xo-btns button{border:0;border-radius:14px;padding:11px 18px;font-weight:900;font-size:15px;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15)}
+.xo-btns button.pri{background:linear-gradient(135deg,#22c55e,#16a34a);border:0;box-shadow:0 5px 0 #14532d}
+.xo-conf{position:fixed;inset:0;pointer-events:none;z-index:960}
+.xo-think i{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:#fde047;animation:xoDot .9s infinite}.xo-think i:nth-child(2){animation-delay:.15s}.xo-think i:nth-child(3){animation-delay:.3s}
+@keyframes xoDot{50%{transform:translateY(-6px);opacity:.4}}
+html.xo-open #penBtn,html.xo-open #penPanel{display:none!important}
+@media (prefers-reduced-motion:reduce){#xo *{animation:none!important}.xo-cell .dr,.xo-line path{stroke-dashoffset:0}}`;
+  const XS=`<svg viewBox="0 0 100 100"><path class="dr" pathLength="1" d="M20 20 L80 80" stroke="#2b1d3a" stroke-width="22" stroke-linecap="round" transform="translate(0 4)" opacity=".25"/><path class="dr" pathLength="1" d="M20 20 L80 80" stroke="#ef4444" stroke-width="18" stroke-linecap="round"/><path class="dr dr2" pathLength="1" d="M80 20 L20 80" stroke="#2b1d3a" stroke-width="22" stroke-linecap="round" transform="translate(0 4)" opacity=".25"/><path class="dr dr2" pathLength="1" d="M80 20 L20 80" stroke="#ef4444" stroke-width="18" stroke-linecap="round"/><path d="M26 22 L40 36" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".5"/></svg>`;
+  const OS=`<svg viewBox="0 0 100 100"><circle class="dr" pathLength="1" cx="50" cy="54" r="30" stroke="#2b1d3a" stroke-width="20" fill="none" opacity=".25" transform="rotate(-90 50 54)"/><circle class="dr" pathLength="1" cx="50" cy="50" r="30" stroke="#3b82f6" stroke-width="17" fill="none" transform="rotate(-90 50 50)"/><path d="M30 34 Q36 26 46 23" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" opacity=".55"/></svg>`;
+  const LINES=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const LS={get:(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+  let el=null,S=null,ac=null,lot=[],tms=[];
+  const en=()=>typeof lang!=='undefined'&&lang==='en',X_=(a,b)=>en()?b:a;
+  const nm=()=>{try{return (st.kid&&st.kid.name)||(st.user&&st.user.name)||'';}catch(e){return '';}};
+  function snd(f,d=.12,type='triangle',v=.15){if(S&&S.mute)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d);}catch(e){}}
+  const tune=a=>a.forEach((f,i)=>tms.push(setTimeout(()=>snd(f,.18),i*120)));
+  /* lottie from kid/ (same pack as the games) */
+  let kitP=null;const kit=()=>kitP||(kitP=window.lottie?Promise.resolve():new Promise(r=>{const s=document.createElement('script');s.src='kid/lottie_light.min.js';s.onload=r;s.onerror=r;document.head.appendChild(s);}));
+  const J={};const json=n=>J[n]||(J[n]=fetch('kid/'+n+'.json').then(r=>r.ok?r.json():null).catch(()=>null));
+  function play(box,n,loop=true,par){return kit().then(()=>json(n)).then(d=>{if(!d||!window.lottie||!box.isConnected)return null;box.innerHTML='';const a=lottie.loadAnimation({container:box,renderer:'svg',loop,autoplay:true,animationData:JSON.parse(JSON.stringify(d)),rendererSettings:{preserveAspectRatio:par||'xMidYMid meet'}});lot.push(a);return a;}).catch(()=>null);}
+  const killLot=()=>{lot.forEach(a=>{try{a.destroy();}catch(e){}});lot=[];};
+  function winner(b){for(const L of LINES){const[a,c,d]=L;if(b[a]&&b[a]===b[c]&&b[a]===b[d])return{p:b[a],L};}return b.every(Boolean)?{p:'draw'}:null;}
+  function minimax(b,me,turn,depth){const w=winner(b);if(w)return w.p==='draw'?0:(w.p===me?10-depth:depth-10);let best=turn===me?-99:99;for(let i=0;i<9;i++)if(!b[i]){b[i]=turn;const v=minimax(b,me,turn==='X'?'O':'X',depth+1);b[i]=null;best=turn===me?Math.max(best,v):Math.min(best,v);}return best;}
+  function aiMove(b){
+    const free=b.map((v,i)=>v?null:i).filter(i=>i!=null),rnd=()=>free[(Math.random()*free.length)|0];
+    const lvl=S.lvl;if(lvl==='easy'&&Math.random()<.75)return rnd();if(lvl==='mid'&&Math.random()<.35)return rnd();
+    let best=-99,mv=[];for(const i of free){b[i]='O';const v=minimax(b,'O','X',0);b[i]=null;if(v>best){best=v;mv=[i];}else if(v===best)mv.push(i);}
+    return mv[(Math.random()*mv.length)|0];
+  }
+  function shell(){
+    el.innerHTML=`<div class="xo-top"><button type="button" class="xo-ib" data-x="close" aria-label="${X_('رجوع','Back')}">✕</button><h2>${X_('☕ استراحة: إكس أو','☕ Break: Tic-Tac-Toe')}</h2><button type="button" class="xo-ib" data-x="mute" aria-label="${X_('الصوت','Sound')}">${S.mute?'🔇':'🔊'}</button></div><div class="xo-wrap" id="xoW"></div>`;
+  }
+  function menu(){
+    S.view='menu';const W=el.querySelector('#xoW');
+    W.innerHTML=`<div class="xo-owl" id="xoOwl"></div><p class="xo-sub">${X_('خذ استراحة قصيرة ثم ارجع للتدريب بنشاط! العب ضد البومة الذكية أو مع صديقك على نفس الجهاز.','Take a short break, then get back to practising! Play the clever owl or a friend on the same device.')}</p>
+    <div class="xo-seg" role="group">${[['ai',X_('🦉 ضد البومة','🦉 vs the owl')],['two',X_('👫 لاعبان','👫 Two players')]].map(([k,t])=>`<button type="button" data-mode="${k}" aria-pressed="${S.mode===k}">${t}</button>`).join('')}</div>
+    <div class="xo-seg" role="group" id="xoLv"${S.mode==='two'?' hidden':''}>${[['easy',X_('سهل','Easy')],['mid',X_('متوسط','Medium')],['hard',X_('صعب جدًا','Very hard')]].map(([k,t])=>`<button type="button" data-lvl="${k}" aria-pressed="${S.lvl===k}">${t}</button>`).join('')}</div>
+    <div class="xo-btns"><button type="button" class="pri" data-x="go">${X_('▶ ابدأ اللعب','▶ Play')}</button><button type="button" data-x="close">${X_('رجوع للتدريب','Back to practice')}</button></div>`;
+    play(W.querySelector('#xoOwl'),'owl');
+  }
+  const pName=p=>p==='X'?(S.mode==='ai'?(nm()||X_('أنت','You')):X_('اللاعب ✕','Player ✕')):(S.mode==='ai'?X_('البومة','The owl'):X_('اللاعب ◯','Player ◯'));
+  function game(){
+    S.view='game';const W=el.querySelector('#xoW'),sc=S.score[S.mode+(S.mode==='ai'?S.lvl:'')]||(S.score[S.mode+(S.mode==='ai'?S.lvl:'')]={X:0,O:0,D:0});S.sc=sc;
+    W.innerHTML=`<div class="xo-score"><div class="xo-sc" id="xsX"><i>${XS}</i><span>${pName('X')}</span><b id="xbX">${sc.X}</b></div><div class="xo-sc d"><span>${X_('تعادل','Draw')}</span><b id="xbD">${sc.D}</b></div><div class="xo-sc" id="xsO"><i id="xoOwlS">${S.mode==='ai'?'':OS}</i><span>${pName('O')}</span><b id="xbO">${sc.O}</b></div></div>
+    <div class="xo-msg" id="xoMsg" aria-live="polite"></div>
+    <div class="xo-board" id="xoB">${Array.from({length:9},(_,i)=>`<button type="button" class="xo-cell" data-c="${i}" aria-label="${X_('خانة','Cell')} ${i+1}"></button>`).join('')}</div>
+    <div class="xo-btns"><button type="button" class="pri" data-x="again">${X_('🔁 جولة جديدة','🔁 New round')}</button><button type="button" data-x="menu">${X_('⚙️ تغيير الوضع','⚙️ Change mode')}</button><button type="button" data-x="close">${X_('رجوع للتدريب','Back to practice')}</button></div>`;
+    if(S.mode==='ai')play(W.querySelector('#xoOwlS'),'owl');
+    round();
+  }
+  function round(){
+    S.b=Array(9).fill(null);S.over=false;S.first=S.first==='X'?'O':'X';S.turn=S.first;
+    el.querySelectorAll('.xo-cell').forEach(c=>{c.innerHTML='';c.disabled=false;c.className='xo-cell';});
+    const ln=el.querySelector('.xo-line');if(ln)ln.remove();turnUi();
+    if(S.mode==='ai'&&S.turn==='O')aiTurn();
+  }
+  function turnUi(){
+    el.querySelector('#xsX').classList.toggle('on',S.turn==='X'&&!S.over);el.querySelector('#xsO').classList.toggle('on',S.turn==='O'&&!S.over);
+    const m=el.querySelector('#xoMsg');if(S.over)return;
+    m.innerHTML=S.mode==='ai'?(S.turn==='X'?X_('دورك! اختر خانة','Your turn! Pick a cell'):`${X_('البومة تفكر','The owl is thinking')} <span class="xo-think"><i></i><i></i><i></i></span>`):X_(`دور ${pName(S.turn)}`,`${pName(S.turn)}'s turn`);
+  }
+  function put(i){
+    if(S.over||S.b[i])return;S.b[i]=S.turn;const c=el.querySelector(`[data-c="${i}"]`);c.innerHTML=S.turn==='X'?XS:OS;c.disabled=true;c.classList.add('pop');snd(S.turn==='X'?520:390,.1);
+    const w=winner(S.b);if(w)return end(w);S.turn=S.turn==='X'?'O':'X';turnUi();if(S.mode==='ai'&&S.turn==='O')aiTurn();
+  }
+  function aiTurn(){el.querySelectorAll('.xo-cell').forEach(c=>c.style.pointerEvents='none');tms.push(setTimeout(()=>{if(!el||S.view!=='game'||S.over)return;el.querySelectorAll('.xo-cell').forEach(c=>c.style.pointerEvents='');put(aiMove(S.b.slice()));},520+Math.random()*380));}
+  function end(w){
+    S.over=true;el.querySelectorAll('.xo-cell').forEach(c=>{c.disabled=true;c.style.pointerEvents='';});turnUi();const m=el.querySelector('#xoMsg');
+    if(w.p==='draw'){S.sc.D++;m.textContent=X_('تعادل! 🤝 جولة رائعة','A draw! 🤝 Great round');tune([440,392,440]);}
+    else{S.sc[w.p]++;w.L.forEach(i=>el.querySelector(`[data-c="${i}"]`).classList.add('win'));
+      const P=k=>[16.7+(k%3)*33.3,16.7+((k/3)|0)*33.3],a=P(w.L[0]),b=P(w.L[2]),dx=(b[0]-a[0])*.18,dy=(b[1]-a[1])*.18;
+      el.querySelector('#xoB').insertAdjacentHTML('beforeend',`<svg class="xo-line" viewBox="0 0 100 100" preserveAspectRatio="none"><path pathLength="1" d="M${a[0]-dx} ${a[1]-dy} L${b[0]+dx} ${b[1]+dy}"/></svg>`);
+      const me=S.mode==='two'||w.p==='X';m.textContent=S.mode==='ai'?(w.p==='X'?X_('فزت على البومة! 🎉','You beat the owl! 🎉'):X_('البومة فازت هذه المرة 🦉 حاول مرة أخرى','The owl won this time 🦉 try again')):X_(`فاز ${pName(w.p)}! 🎉`,`${pName(w.p)} wins! 🎉`);
+      if(me){tune([523,659,784,1047]);const cf=document.createElement('div');cf.className='xo-conf';el.appendChild(cf);play(cf,'confetti',false,'xMidYMid slice').then(a=>{if(a)a.addEventListener('complete',()=>cf.remove());else cf.remove();});tms.push(setTimeout(()=>cf.remove(),3500));}
+      else tune([392,330,262]);}
+    ['X','O','D'].forEach(k=>el.querySelector('#xb'+k).textContent=S.sc[k]);LS.set('xo-score',S.score);
+  }
+  function open(){
+    if(el)return;S={mode:LS.get('xo-mode','ai'),lvl:LS.get('xo-lvl','mid'),mute:LS.get('xo-mute',false),score:LS.get('xo-score',{}),first:'O'};
+    if(!document.getElementById('xoCss')){const s=document.createElement('style');s.id='xoCss';s.textContent=CSS;document.head.appendChild(s);}
+    el=document.createElement('div');el.id='xo';el.setAttribute('role','dialog');el.dir=en()?'ltr':'rtl';document.body.appendChild(el);document.documentElement.style.overflow='hidden';document.documentElement.classList.add('xo-open');
+    shell();menu();
+    el.addEventListener('click',e=>{
+      const c=e.target.closest('.xo-cell');if(c&&!c.disabled){if(S.mode==='ai'&&S.turn!=='X')return;return put(+c.dataset.c);}
+      const md=e.target.closest('[data-mode]');if(md){S.mode=md.dataset.mode;LS.set('xo-mode',S.mode);killLot();return menu();}
+      const lv=e.target.closest('[data-lvl]');if(lv){S.lvl=lv.dataset.lvl;LS.set('xo-lvl',S.lvl);el.querySelectorAll('[data-lvl]').forEach(b=>b.setAttribute('aria-pressed',b===lv));return;}
+      const x=e.target.closest('[data-x]');if(!x)return;const a=x.dataset.x;
+      if(a==='close')return close();
+      if(a==='mute'){S.mute=!S.mute;LS.set('xo-mute',S.mute);x.textContent=S.mute?'🔇':'🔊';return;}
+      if(a==='go'){killLot();return game();}
+      if(a==='again')return round();
+      if(a==='menu'){killLot();return menu();}
+    });
+    el.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+    const f=el.querySelector('[data-x="go"]');if(f)f.focus({preventScroll:true});
+  }
+  function close(){tms.forEach(clearTimeout);tms=[];killLot();if(el){el.remove();el=null;}document.documentElement.style.overflow='';document.documentElement.classList.remove('xo-open');}
+  return {open,close,_dbg:()=>S};
+})();
 </script>
 </body>
 </html>
